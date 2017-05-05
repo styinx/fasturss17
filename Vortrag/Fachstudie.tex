@@ -1,0 +1,290 @@
+\documentclass[xcolor=dvipsnames]{beamer}
+\usetheme{Dresden}
+\usepackage{beamerthemeshadow}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{tabularx}
+\usepackage{graphicx}
+
+%%%
+%%% Frame Settings
+%%%
+
+\setbeamercolor{normal text}{fg=white,bg=black!90}
+\setbeamercolor{structure}{fg=white,bg=black}
+\setbeamercolor{alerted text}{fg=red!85!black}
+\setbeamercolor{item projected}{use=item,fg=black,bg=item.fg!35}
+\setbeamercolor*{palette primary}{use=structure,fg=structure.fg}
+\setbeamercolor*{palette secondary}{use=structure,fg=structure.fg!95!black}
+\setbeamercolor*{palette tertiary}{use=structure,fg=structure.fg!90!black}
+\setbeamercolor*{palette quaternary}{use=structure,fg=structure.fg!95!black,bg=black!80}
+\setbeamercolor*{title}{fg=white,bg=black}
+\setbeamercolor*{framesubtitle}{fg=white,bg=black}
+\setbeamercolor*{block title}{parent=structure,bg=black!60}
+\setbeamercolor*{block body}{fg=black,bg=black!10}
+\setbeamercolor*{block title alerted}{parent=alerted text,bg=black!15}
+\setbeamercolor*{block title example}{parent=example text,bg=black!15}
+
+%%%
+%%% lstlistin Settings
+%%%
+
+\makeatletter
+\patchcmd{\lsthk@SelectCharTable}{`)}{``}{}{} % patch listings
+%\patchcmd{\lsthk@SelectCharTable}{``}{`)}{}{} % undo patch if needed
+\makeatother
+
+\definecolor{codeGreen}{rgb}{0.05,0.7,0.05}
+\definecolor{codeOrange}{rgb}{0.8,0.5,0}
+\definecolor{codeBlue}{rgb}{0,0.2,1.0}
+\definecolor{codePurple}{rgb}{0.5,0,0.8}
+
+\lstdefinestyle{C++}{
+	backgroundcolor=\color{black},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	commentstyle=\color{codeOrange},
+	deletekeywords={...},
+	escapeinside={\%*}{*)},
+	extendedchars=true,
+	frame=single,
+	gobble=4,
+	keepspaces=true,
+	keywordstyle=\color{codeBlue},
+	language=C++,
+	morekeywords={NULL, nullptr,...},
+	numbers=left,
+	numbersep=6pt,
+	numberstyle=\tiny\color{white},
+	rulecolor=\color{gray},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	stepnumber=1,
+	stringstyle=\color{yellow},
+	tabsize=4,
+	emph={proc,retp,endp,local}, emphstyle={\color{blue}\textbf},
+	literate=	{->}{{{\color{codeGreen}-$>$}}}2
+				{=}{{{\color{codeGreen}=}}}1
+				{!}{{{\color{codeGreen}!}}}1
+				{;}{{{\color{codeGreen};}}}1
+				{(}{{{\color{codeGreen}(}}}1
+				{)}{{{\color{codeGreen})}}}1
+				{[}{{{\color{codeGreen}[}}}1
+				{]}{{{\color{codeGreen}]}}}1
+				{\{}{{{\color{codeGreen}\{}}}1
+				{\}}{{{\color{codeGreen}\}}}}1
+}
+
+\lstdefinestyle{Bash}{
+	backgroundcolor=\color{black},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	breakindent=0pt,
+	captionpos=b,
+	commentstyle=\color{codeOrange},
+	deletekeywords={...},
+	escapeinside={\%*}{*)},
+	extendedchars=true,
+	frame=single,
+	keepspaces=true,
+	keywordstyle=\color{codeBlue},
+	language=Bash,
+	morekeywords={NULL, nullptr,...},
+	rulecolor=\color{gray},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	stepnumber=1,
+	stringstyle=\color{yellow},
+	tabsize=4,
+	literate=	{\$}{{{\color{codePurple}\$}}}1
+}
+
+%%%
+%%% Übersicht
+%%%
+\title{Simulation of Microservices to improve Benchmarking}
+\subtitle{Fachstudie}
+\author{Samuel Beck, Johannes Günthör, Christoph Zorn}
+\institute{RSS}
+\date{18.05.2017}
+
+%%%
+%%% Inhalt
+%%%
+\begin{document}
+	
+%%%
+%%%	Folie 1
+%%%
+\begin{frame}
+	
+	\titlepage 
+	
+\end{frame}
+
+%%%
+%%%	Folie 2
+%%%
+\section{Overview}
+\subsection{Overview}
+\begin{frame}
+	\frametitle{Overview}
+	
+	\begin{itemize}
+		\item Who are we?
+		\item Where do we stand?
+		\begin{itemize}
+			\item Our preexisting know how
+			\item Paper research
+			\item Tool research
+		\end{itemize}
+		\item Schedule
+		\item Questions?
+	\end{itemize}
+	
+\end{frame}
+
+%%%
+%%%	Folie 3
+%%%
+\section{Who are we?}
+\subsection{Who are we?}
+\begin{frame}
+	\frametitle{Who are we?}
+	
+	\begin{itemize}
+		\item Samuel Beck (Bsc. Softwaretechnik)\newline\newline
+		\item Johannes Günthör (Bsc. Softwaretechnik)\newline\newline
+		\item Christoph Zorn (Bsc. Softwaretechnik)\newline\newline
+	\end{itemize}	
+	
+\end{frame}
+
+
+%%%
+%%%	Folie 4
+%%%
+\section{Where do we stand?}
+\begin{frame}
+	\frametitle{Where do we stand?}
+	
+\end{frame}
+
+
+%%%
+%%%	Folie 5
+%%%
+\subsection{Our preexisting know how}
+\begin{frame}
+	\frametitle{Our preexisiting know how}
+	
+	Coding knowledge:
+	\begin{itemize}
+		\item Java
+		\item C/C++
+		\item HTML5/JS/PHP/MySQL
+		\item Python
+	\end{itemize}
+	
+	Working experience:
+	\begin{itemize}
+		\item Moog since 04/16
+		\item Daimler since 05/16
+	\end{itemize}
+	
+	(completed projects: ie: Sopra/Stupro)
+	
+\end{frame}
+
+
+%%%
+%%%	Folie 6
+%%%
+\subsection{Paper research}
+\begin{frame}
+	\frametitle{Paper research}
+	
+	\begin{itemize}
+		\item CASPA
+		\item Model driven generation of...
+		\item performance simultion of runtime...
+		\item performance engineering for microservices ...\newline
+		\item Seminar: Resilience Assessment of Software ...
+	\end{itemize}
+	
+\end{frame}
+
+
+%%%
+%%%	Folie 6
+%%%
+\subsection{Tool research}
+\begin{frame}
+	\frametitle{Tool research}
+	
+	\begin{itemize}
+		\item spigo\newline
+	\end{itemize}
+	
+	Achievments:
+	\begin{itemize}
+		\item create a microservice architecture
+		\item create visualization of an architecture
+		\item inject chaosmonkey into architecture
+		\item generate 'Workflow' of the architecture
+	\end{itemize}
+	
+\end{frame}
+
+
+%%%
+%%%	Folie 7
+%%%
+\section{Schedule}
+\subsection{Schedule}
+\begin{frame}
+	\frametitle{Schedule}
+	
+	\begin{tabular}{l|l} 
+		May & Presentation, spigo, metric research \\
+		& \\
+		June & spigo enhancement/implementation \\
+		& \\
+		July & implementation \\
+		& \\
+		August & exam phase \\
+		& \\
+		September & exam phase, implementation \\
+		& \\
+		October & implementation \\
+		& \\
+		November & polishing, implementation \\
+	\end{tabular}
+\end{frame}
+
+%%%
+%%%	Folie 8
+%%%
+\section{Questions?}
+\subsection{Questions?}
+\begin{frame}
+	\frametitle{Questions?}
+	
+	\begin{LARGE}
+		\begin{center}
+			Any questions left?
+		
+			-
+		
+			Thanks for your patience!
+		\end{center}
+	\end{LARGE}
+	
+\end{frame}
+
+\end{document}
