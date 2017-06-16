@@ -1,0 +1,22 @@
+\begin{thebibliography}{2}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{Eclipse Foundation}(2007)]{AspectJ2007}
+{Eclipse Foundation}.
+\newblock {AspectJ} -- homepage, 2007.
+\newblock URL \url{http://www.eclipse.org/aspectj/}.
+\newblock Last visited November 14, 2007.
+
+\bibitem[Shaw(2003)]{Shaw2003WritingGoodSoftwareEngineeringResearchPapersMinitutorial}
+M.~Shaw.
+\newblock Writing good software engineering research papers: minitutorial.
+\newblock In \emph{Proceedings of the 25th International Conference on Software
+  Engineering (ICSE 2003)}, pages 726--736, Washington, DC, USA, 2003. IEEE
+  Computer Society.
+\newblock ISBN 0-7695-1877-X.
+
+\end{thebibliography}

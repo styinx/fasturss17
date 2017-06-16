@@ -1,0 +1,141 @@
+\documentclass[pdftex,english,oribibl]{llncs}
+
+%% Spracheinstellungen laden
+\usepackage[english]{babel}
+
+%% Schriftart in der Ausgabe/Eingabe
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[latin1]{inputenc}
+
+%% Zitate
+\usepackage[numbers]{natbib}
+\bibliographystyle{abbrvnat}
+%\bibliographystyle{dinat}
+%\bibliographystyle{plainnat}
+%\bibliographystyle{splncs}
+%% Similar to option "sectionbib" but \refname instead of \bibname
+\makeatletter
+\renewcommand\bibsection{\section*{\refname\@mkboth{\MakeUppercase{\refname}}{\MakeUppercase{\refname}}}}
+\makeatother
+
+%% Index
+%\usepackage{makeidx}
+%\makeindex
+
+%% PDF Einstellungen
+% muss nach natbib geladen werden!
+\usepackage{nameref}
+\usepackage{varioref}
+\usepackage[pdfusetitle,pdftex,colorlinks]{hyperref}
+\hypersetup{pdfborder={0 0 0}}
+\hypersetup{bookmarksdepth=3}
+\hypersetup{bookmarksopen=true}
+\hypersetup{bookmarksopenlevel=1}
+\hypersetup{bookmarksnumbered=true}
+\usepackage{color}
+\hypersetup{colorlinks=false}
+
+%\usepackage[section]{tocbibind}
+
+\makeatletter
+\gdef\@keywords{}
+\def\keywords#1{\gdef\@keywords{#1}}
+\gdef\@subtitle{}
+\def\subtitle#1{\gdef\@subtitle{#1}}
+
+%% modified from llncs
+\renewenvironment{abstract}{%
+  \list{}{\advance\topsep by0.35cm\relax\small%
+          \leftmargin=1cm%
+          \labelwidth=\z@%
+          \listparindent=\z@%
+          \itemindent\listparindent%
+          \rightmargin\leftmargin}%
+          \item[\hskip\labelsep\bfseries\abstractname]}{%
+  \if!\@keywords!\else{\item[~]\item[\hskip\labelsep\bfseries\keywordname]\@keywords}\fi%
+  \endlist}
+
+\AtBeginDocument{%
+  \if!\@subtitle!\else\hypersetup{pdfsubject={\@subtitle}}\fi
+  \if!\@keywords!\else\hypersetup{pdfkeywords={\@keywords}}\fi
+}
+\makeatother
+
+% llncs hyperref fix
+\makeatletter
+\providecommand*{\toclevel@author}{0}
+\providecommand*{\toclevel@title}{0}
+\makeatother
+
+%% Grafiken
+\usepackage[pdftex]{graphicx}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+\usepackage{subfigure}
+
+%% Mathe
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+%% Listings
+\usepackage{listings}
+\lstset{escapechar=\%, frame=tb, basicstyle=\footnotesize}
+
+%% Sonstiges
+\newcommand{\TODO}[1]{\par\textcolor{red}{#1}\marginpar{\textcolor{red}{TODO}}}
+\newcommand{\TODOX}[1]{\textcolor{red}{#1}\marginpar{\textcolor{red}{TODO}}}
+\pagestyle{plain}
+
+% Keine "Schusterjungen"
+\clubpenalty = 10000
+% Keine "Hurenkinder"
+\widowpenalty = 10000 \displaywidowpenalty = 10000
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% BEGIN DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Simulation-based resilience prediction of microservice architectures}
+% \subtitle{My (optional) Subtitle}
+\author{Samuel Beck, Johannes Günthör, Christoph Zorn}
+\institute{University of Stuttgart\\Reliable Software Systems (RSS)\\70569 Stuttgart, Germany}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	Current software simulators are tailored towards one specific purpose of conservative software simulation. Given the success of these tools it would be useful to run these tools on microservice architectures. This paper will focus on the development of a simulator that can be used for microservice architectures.
+\end{abstract}
+
+\section{Introduction}
+
+  %This is my introduction. %\citet{Shaw2003WritingGoodSoftwareEngineeringResearchPapersMinitutorial} wrote a paper with %hints on how to write good software engineering research papers. By the way, this was an %example for using the \textit{natbib} command \texttt{\textbackslash{}citet\{\}}.
+
+  %Section~\ref{sec:anotherSection} presents everything one must know. The conclusions follow %in Section~\ref{sec:conclusions}.
+
+\section{Another Section}\label{sec:anotherSection}
+
+  %\textit{AspectJ} can be used to weave cross-cutting concerns into Java programs %\citep{AspectJ2007}. By the way, this was an example for using the \textit{natbib} command %\texttt{\textbackslash{}citep\{\}}.
+
+  %We will now demonstrate how to use subfigures (see Figure~\ref{fig:subfig}). %Figure~\ref{fig:circle} shows a circle. A star is displayed in Figure~\ref{fig:star}.
+
+  %\begin{figure}
+   % \centering
+    %\subfigure[This is a circle.]{\label{fig:circle}
+     % \includegraphics[width=0.3\textwidth]{figures/template_circle.pdf}
+    %}
+    %\subfigure[This is a star.]{\label{fig:star}
+    %  \includegraphics[width=0.3\textwidth]{figures/template_star.pdf}
+    %}
+    %\caption{A circle (a) and a star (b). Note that any caption ends with a full stop %character.}
+   % \label{fig:subfig}
+  %\end{figure}
+
+\section{Conclusions}\label{sec:conclusions}
+
+  These are my conclusions.
+
+\bibliography{template}
+
+\end{document}
