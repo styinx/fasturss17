@@ -108,29 +108,61 @@
 	Current software simulators are tailored towards one specific purpose of conservative software simulation. Given the success of these tools it would be useful to run these tools on microservice architectures. This paper will focus on the development of a simulator that can be used for microservice architectures.
 \end{abstract}
 
-\section{Introduction}
+\section{Introduction}\label{sec:introduction}
 
-  %This is my introduction. %\citet{Shaw2003WritingGoodSoftwareEngineeringResearchPapersMinitutorial} wrote a paper with %hints on how to write good software engineering research papers. By the way, this was an %example for using the \textit{natbib} command \texttt{\textbackslash{}citet\{\}}.
-
-  %Section~\ref{sec:anotherSection} presents everything one must know. The conclusions follow %in Section~\ref{sec:conclusions}.
+	Hier werden wir beschreiben was wir erreicht haben und wie wir unser Projekt angegangen sind. Es wird außerdem erläutert wie wir in diesem Paper vorgehen und was für Themengebiete genauer betrachtet werden.
+	
+	%This is my introduction. %\citet{Shaw2003WritingGoodSoftwareEngineeringResearchPapersMinitutorial} wrote a paper with %hints on how to write good software engineering research papers. By the way, this was an %example for using the \textit{natbib} command \texttt{\textbackslash{}citet\{\}}.
+	
+	%Section~\ref{sec:anotherSection} presents everything one must know. The conclusions follow %in Section~\ref{sec:conclusions}.
 
 \section{Another Section}\label{sec:anotherSection}
+	
+	%\textit{AspectJ} can be used to weave cross-cutting concerns into Java programs %\citep{AspectJ2007}. By the way, this was an example for using the \textit{natbib} command %\texttt{\textbackslash{}citep\{\}}.
+	
+	%We will now demonstrate how to use subfigures (see Figure~\ref{fig:subfig}). %Figure~\ref{fig:circle} shows a circle. A star is displayed in Figure~\ref{fig:star}.
+	
+	%\begin{figure}
+		% \centering
+		%\subfigure[This is a circle.]{\label{fig:circle}
+		 % \includegraphics[width=0.3\textwidth]{figures/template_circle.pdf}
+		%}
+		%\subfigure[This is a star.]{\label{fig:star}
+		%  \includegraphics[width=0.3\textwidth]{figures/template_star.pdf}
+		%}
+		%\caption{A circle (a) and a star (b). Note that any caption ends with a full stop %character.}
+		% \label{fig:subfig}
+	%\end{figure}
+  
+\section{Existing Work and Tools/Research}
 
-  %\textit{AspectJ} can be used to weave cross-cutting concerns into Java programs %\citep{AspectJ2007}. By the way, this was an example for using the \textit{natbib} command %\texttt{\textbackslash{}citep\{\}}.
+\subsection{Tools in Comparison}\label{subsec:toolsInComparison}
+Spigo:\newline\newline
+\begin{itemize}
+	\item lightweight simulator for microservice architectures written in go
+	\item can simulate over half a dozen of microservice structures (i.e. monolith, storage)
+	\item can simulate a failure of a system during runtime (execution is fixed and static)
+	\item 
+\end{itemize}
+\begin{tabular}{l|l}
+	Advantages & disadvantages \\ \hline
+	easy input & hard to get overview on code\\
+	output metrics & metrics difficult to understand \\
+	& workflow not very obvious \\
+	chaos monkey & only 1 chaos monkey \\
+\end{tabular}
 
-  %We will now demonstrate how to use subfigures (see Figure~\ref{fig:subfig}). %Figure~\ref{fig:circle} shows a circle. A star is displayed in Figure~\ref{fig:star}.
+Palladio/Simulizar:\newline\newline
+\begin{itemize}
+	\item analyizing self-adaptive systems (cloud-computing)
+	\item 
+\end{itemize}
+\begin{tabular}{l|l}
+	advantages & disadvanteges \\ \hline
+\end{tabular}
 
-  %\begin{figure}
-   % \centering
-    %\subfigure[This is a circle.]{\label{fig:circle}
-     % \includegraphics[width=0.3\textwidth]{figures/template_circle.pdf}
-    %}
-    %\subfigure[This is a star.]{\label{fig:star}
-    %  \includegraphics[width=0.3\textwidth]{figures/template_star.pdf}
-    %}
-    %\caption{A circle (a) and a star (b). Note that any caption ends with a full stop %character.}
-   % \label{fig:subfig}
-  %\end{figure}
+\section{Simulator / Dokumentation}\label{sec:simulator}
+
 
 \section{Conclusions}\label{sec:conclusions}
 
