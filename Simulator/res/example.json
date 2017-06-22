@@ -1,0 +1,26 @@
+{
+	"microservices" :
+	{
+		"Frontend":
+		{
+			"name" : "frontend",
+			"instances": 4,
+			"dependencies": ["Database", "Server"],
+			"type": "GUI"
+		},
+		"Database":
+		{
+			"name" : "database",
+			"instances": 2,
+			"dependencies": ["Frontend"],
+			"type": "storage"
+		},
+		"Server":
+		{
+			"name" : "server",
+			"instances": 1,
+			"dependencies": ["Frontend"],
+			"type": "logic"
+		}
+	}
+}
