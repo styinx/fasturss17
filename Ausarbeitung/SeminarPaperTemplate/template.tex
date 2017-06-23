@@ -116,7 +116,7 @@
 	
 	%Section~\ref{sec:anotherSection} presents everything one must know. The conclusions follow %in Section~\ref{sec:conclusions}.
 
-\section{Another Section}\label{sec:anotherSection}
+%\section{Another Section}\label{sec:anotherSection}
 	
 	%\textit{AspectJ} can be used to weave cross-cutting concerns into Java programs %\citep{AspectJ2007}. By the way, this was an example for using the \textit{natbib} command %\texttt{\textbackslash{}citep\{\}}.
 	
@@ -134,36 +134,28 @@
 		% \label{fig:subfig}
 	%\end{figure}
   
-\section{Existing Work and Tools/Research}
+\section{Research}\label{sec:research}
 
 \subsection{Tools in Comparison}\label{subsec:toolsInComparison}
-Spigo:\newline
-\begin{itemize}
-	\item lightweight simulator for microservice architectures written in go
-	\item can simulate over half a dozen of microservice structures (i.e. monolith, storage)
-	\item can simulate a failure of a system during runtime (execution is fixed and static)
-	\item 
-\end{itemize}
-\begin{tabular}{l|l}
-	Advantages & disadvantages \\ \hline
-	easy input & hard to get overview on code\\
-	output metrics & metrics difficult to understand \\
-	& workflow not very obvious \\
-	chaos monkey & only 1 chaos monkey \\
-\end{tabular}\newline\newline
 
-Palladio/Simulizar:\newline
+\subsubsection{Spigo}
+	
+	During our research on existing tools for microservice simulation we discovered a tool called spigo. It was written by Adrian Cockcroft a Amazon Web Services employee in the programming language go. Therefore the name spigo comes from Simulate Protocol Interactions in Go. \newline On the first view the tool looked very promising. Spigo contains a fairly simple JSON input and the structure of the parameters is intuitive. Each microservice architecture consists of multiple microservices. Each microservice has a name, a package inheritance a counter of the instances and dependencies to other microservices. The reason we like this tool is because it can simulate the occourence of an error. Spigo uses the error monkeys from the simian army. But here lies already on of the biggest disadvanteges. One can only simulate the failure of a single microservice during the execution. 
+
+\subsubsection{Simulizar}
+	
+	Simulizar is an extension of the Palladio Component Model. The tool is able to adapt to changes that the software under simulation does at runtime. This helps i.e. at observing on load-balacing. 
+	
 \begin{itemize}
 	\item analyizing self-adaptive systems (cloud-computing)
 	\item non functional property prediction (performance/reliability/maintenance/cost)
 	\item modeldriven architecture
 	\item helps to find bottlenecks/load-/scalingproblems
 \end{itemize}
-\begin{tabular}{l|l}
-	advantages & disadvanteges \\ \hline
-\end{tabular}
 
-\section{Simulator / Dokumentation}\label{sec:simulator}
+\section{Simulatorspecification}\label{sec:specifictation}
+
+\section{Simulatordocumentation}\label{sec:documentation}
 
 
 \section{Conclusions}\label{sec:conclusions}
