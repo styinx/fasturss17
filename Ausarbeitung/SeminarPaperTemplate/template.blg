@@ -1,46 +1,46 @@
-This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+This is BibTeX, Version 0.99d (TeX Live 2015/dev/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: template.aux
 The style file: abbrvnat.bst
 Database file #1: template.bib
-You've used 2 entries,
+You've used 1 entry,
             2773 wiz_defined-function locations,
-            608 strings with 5021 characters,
-and the built_in function-call counts, 872 in all, are:
-= -- 87
-> -- 20
-< -- 3
-+ -- 8
-- -- 6
-* -- 47
-:= -- 129
-add.period$ -- 9
-call.type$ -- 2
-change.case$ -- 8
-chr.to.int$ -- 2
-cite$ -- 4
-duplicate$ -- 47
-empty$ -- 84
-format.name$ -- 8
-if$ -- 193
+            601 strings with 4810 characters,
+and the built_in function-call counts, 635 in all, are:
+= -- 51
+> -- 39
+< -- 1
++ -- 13
+- -- 12
+* -- 53
+:= -- 98
+add.period$ -- 4
+call.type$ -- 1
+change.case$ -- 7
+chr.to.int$ -- 1
+cite$ -- 2
+duplicate$ -- 29
+empty$ -- 49
+format.name$ -- 13
+if$ -- 134
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 1
-newline$ -- 20
-num.names$ -- 8
-pop$ -- 22
+newline$ -- 14
+num.names$ -- 4
+pop$ -- 16
 preamble$ -- 1
 purify$ -- 6
 quote$ -- 0
-skip$ -- 38
+skip$ -- 23
 stack$ -- 0
-substring$ -- 36
-swap$ -- 11
+substring$ -- 14
+swap$ -- 8
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 22
+type$ -- 11
 warning$ -- 0
-while$ -- 9
+while$ -- 5
 width$ -- 0
-write$ -- 38
+write$ -- 22
