@@ -163,9 +163,81 @@
 
 
 \section{Simulatorspecification}\label{sec:specifictation}
+\paragraph{Expected Input properties}
+We want our Simulator to execute the following tasks. In order to simulate a system we need to know how the actual system is build. Therefore we will get information form an input file. This file will contain information about the infrastructure of the system. Each microservice(MS) that is part of the system has the following properties. It has a unique name, the number of instances that are used in the simulation, dependencies on other MS's, throughput and anti-patterns that it implements.\newline
+During runtime we want to be able to modify the system by deleting some instances of microservices. We will achieve this by implementing a chaosmonkey which is inspired by netflix´s toolbox of cloud tools. There can be any number of chaosmonkey´s that need the following parameters to intercept the system. It has a Ms as a target, the number of instances it will delete and the time period in which the error will occur.
+Finally the input has a number of message objects that travel through the system. We expect the input to look like Figure 1(!!!Instert figzure 1!!!)  				
+\paragraph{Expected system runtime behavior}
+The basic idea of our system is that is runs on a clock. For each time period every MS will be able to send, receive and work on message objects. If a number of MS instances will go down it is expected to have larger message queues in front of a MS. As a result the system will probably slow down. To guarantee fail-safety the user will have the option to include anti-patterns in the input file. This will make a MS resilient against high workloads and failures of dependent MS. During simulation time we already gather information about performance in each timeframe to generate metrics. We also collect system failures in form of lost message objects if certain MS aren?t available anymore.
+ 
+\paragraph{Expected output metrics}
+We collect the following metrics for all MS´s. The workload, queue utilisation (size) and potential system failures due to missing instances of services. As a result there should be highlighting of eventual problematic data and an analyzation of bottlenecks and performance problems. This information will then be written into a user-friendly output file to deliver a big picture of the system.
+
+(!!TODO!! INSERT FIGURE2 SYSTEM)
+
+
+
+--------------------------------------\newline
+was muss das tool können?\newline
+was ist der input \newline
+was ist der output \newline
+grafik wie system ablaufen soll\newline
+welche metriken müssen gesammelt werden \newline
+
+ 
+\paragraph{Execution}
+Validate input\newline
+Executable system\newline
+With reliability patterns - circuit breaker\newline
+Without reliability patterns\newline
+Failure\newline
+Output\newline
+ 
+\paragraph{Input:} \newline
+JSON/XML/YAML\newline
+Graph?\newline
+ 
+Types of failures:\newline
+Failure of one service\newline
+Failure of multiple services\newline
+ 
+Failure modes:\newline
+Static \newline
+Dynamic \newline
+Event driven/Triggered \newline
+ 
+Types of reliability patterns: \newline
+Circuit breaker \newline
+Client-side load balancing \newline
+ 
+\paragraph{Metrics} 
+How does the failure propagate \newline
+Did the fail-safe measures (circuit breaker, etc.) work \newline
+Systemrun was successful \newline
+ 
+ 
+ 
+TODO - RESEARCH:
+Occurring failure types 
+Reliability patterns
+Metrics
+Input structure and file format
+ 
+Available simulators for cloud systems:
+Spigo
+Palladio/Simulizar
+cloudsim
+
+
+
 
 \section{Simulatordocumentation}\label{sec:documentation}
+\begin{itemize}
+\item struktur des programms
+\item probleme in der implementierung 
+\item 
 
+\end{itemize}
 
 \section{Conclusions}\label{sec:conclusions}
 
