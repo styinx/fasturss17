@@ -1,14 +1,18 @@
 \documentclass[pdftex,english,oribibl]{llncs}
 
-%% Spracheinstellungen laden
+%%% Spracheinstellungen laden
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[english]{babel}
 
-%% Schriftart in der Ausgabe/Eingabe
+
+%%% Schriftart in der Ausgabe/Eingabe
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
 \usepackage[latin1]{inputenc}
 
-%% Zitate
+%%% Zitate
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[numbers]{natbib}
 \bibliographystyle{abbrvnat}
 %\bibliographystyle{dinat}
@@ -19,7 +23,9 @@
 \renewcommand\bibsection{\section*{\refname\@mkboth{\MakeUppercase{\refname}}{\MakeUppercase{\refname}}}}
 \makeatother
 
-%% Index
+
+%%% Index
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\usepackage{makeidx}
 %\makeindex
 
@@ -68,20 +74,107 @@
 \providecommand*{\toclevel@title}{0}
 \makeatother
 
-%% Grafiken
+%%% Grafiken
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[pdftex]{graphicx}
 \DeclareGraphicsExtensions{.pdf,.jpg,.png}
 \usepackage{subfigure}
 
-%% Mathe
+%%% Mathe
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{amsmath}
 \usepackage{amssymb}
 
-%% Listings
+%%% Listings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{listings}
 \lstset{escapechar=\%, frame=tb, basicstyle=\footnotesize}
 
-%% Sonstiges
+%\definecolor{colorOperator}{rgb}{0.05,0.7,0.05}
+%\definecolor{colorComment}{rgb}{0.8,0.5,0}
+%\definecolor{colorKeyword}{rgb}{0,0.2,1.0}
+%\definecolor{colorConsole}{rgb}{0.5,0,0.8}
+
+\definecolor{colorOperator}{rgb}{0,0,0}
+\definecolor{colorComment}{rgb}{0,0,0}
+\definecolor{colorKeyword}{rgb}{0,0,0}
+\definecolor{colorConsole}{rgb}{0,0,0}
+\definecolor{colorString}{rgb}{0,0,0}
+
+\lstdefinestyle{Java}{
+	backgroundcolor=\color{white},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	commentstyle=\color{colorComment},
+	deletekeywords={...},
+	escapeinside={\%*}{*)},
+	extendedchars=true,
+	frame=single,
+	gobble=4,
+	keepspaces=true,
+	keywordstyle=\color{colorKeyword},
+	language=Java,
+	morekeywords={null,...},
+	numbers=left,
+	numbersep=6pt,
+	numberstyle=\tiny\color{white},
+	rulecolor=\color{black},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	stepnumber=1,
+	stringstyle=\color{colorString},
+	tabsize=4,
+	emph={proc,retp,endp,local}, emphstyle={\color{blue}\textbf},
+	literate=
+	{=}{{{\color{colorOperator}=}}}1
+	{!}{{{\color{colorOperator}!}}}1
+	{\&}{{{\color{colorOperator}\&}}}1
+	{*}{{{\color{colorOperator}*}}}1
+	{.}{{{\color{colorOperator}.}}}1
+	{,}{{{\color{colorOperator},}}}1
+	{:}{{{\color{colorOperator}:}}}1
+	{;}{{{\color{colorOperator};}}}1
+	{(}{{{\color{colorOperator}(}}}1
+	{)}{{{\color{colorOperator})}}}1
+	{<}{{{\color{colorOperator}$<$}}}1
+	{>}{{{\color{colorOperator}$>$}}}1
+	{[}{{{\color{colorOperator}[}}}1
+	{]}{{{\color{colorOperator}]}}}1
+	{\{}{{{\color{colorOperator}\{}}}1
+	{\}}{{{\color{colorOperator}\}}}}1
+}
+
+\lstdefinestyle{Bash}{
+	backgroundcolor=\color{white},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	breakindent=0pt,
+	captionpos=b,
+	commentstyle=\color{colorComment},
+	deletekeywords={...},
+	escapeinside={\%*}{*)},
+	extendedchars=true,
+	frame=single,
+	keepspaces=true,
+	keywordstyle=\color{colorKeyword},
+	language=Bash,
+	morekeywords={NULL, nullptr,...},
+	rulecolor=\color{black},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	stepnumber=1,
+	stringstyle=\color{colorString},
+	tabsize=4,
+	literate=	{\$}{{{\color{colorConsole}\$}}}1
+}
+
+%%% Sonstiges
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\TODO}[1]{\par\textcolor{red}{#1}\marginpar{\textcolor{red}{TODO}}}
 \newcommand{\TODOX}[1]{\textcolor{red}{#1}\marginpar{\textcolor{red}{TODO}}}
 \pagestyle{plain}
@@ -90,6 +183,7 @@
 \clubpenalty = 10000
 % Keine "Hurenkinder"
 \widowpenalty = 10000 \displaywidowpenalty = 10000
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% BEGIN DOCUMENT
@@ -144,11 +238,12 @@
 
 \subsubsection{Palladio}
 
-	Palladio is a software component model for business information systems to enable model-driven predictions on throughput, response time and resource utilization. \cite{Palladio2007} Our motivation to get information on the PCM was primarily to get knowledge from the inheritance of SimuLizar. A tool extended from the PCM and described later in this article. Component models provide many advanteages over object-oriented development approaches i.e. higher usability, quality and better test potential. \cite{Palladio2007}
+	Palladio is a software component model for business information systems to enable model-driven predictions on throughput, response time and resource utilization. \cite{Palladio2007} Our motivation to get familiar with Palladio was primarily initiated by Simulizar. A tool extended from Palladio which will be described later in this article. Component models provide many advantages over object-oriented development approaches i.e. higher usability, quality and better test potential. \cite{Palladio2007} This is one of the core strengths of Palladio and therefore a fact that makes it impossible for us to use it for microservices. Microservices are typically fine-grained and divided systems which means that a service knows hardly anything or nothing about the other services. A component based solution would lead our aim into the opposite direction. Every microservice would instantiated as a separate component and as a result the whole architecture would blow up in size.
 
 \subsubsection{Simulizar}
 	
-	Simulizar is an extension of the Palladio Component Model. This tool was especially developed for systems that change at runtime i.e. cloudcomputing and virtualized infrastructure environments. Such dynamic system adapt to the environment in order to meet the quality-of-service requirements. In the most cases software systems rely on static and fixed resource management so only steady states can be predicted.\cite{Simulizar2013} Simulizar uses the so called MAPE-K feedback loop (Monitor, Analyze, Plan, Execute, Knowledge) which is used to react to changes that are done during runtime. \newline Palladio and especially Simulizer seem to be to complex and big to get an understanding of the tool in depth. The sheer amount of code and resources that is used for collecting data and making prediction would be just an overhead on the problems that we currently face.
+	Simulizar is an extension of Palladio. This tool was especially developed for systems that change at runtime i.e. cloudcomputing and virtualized infrastructure environments. Such dynamic system adapt to the environment in order to meet the quality-of-service requirements. In the most cases software systems rely on static and fixed resource management so only steady states can be predicted.\cite{Simulizar2013} Simulizar uses the so called MAPE-K feedback loop (Monitor, Analyze, Plan, Execute, Knowledge) which is used to react to changes that are done during runtime. \newline During our research we came across a presentation on Palladio. One of the developer explained us how the project is built up and what dependent modules are needed to run a simulation. It was also mentioned that other attempts to generate an extension resulted in code duplications of functions that were already implemented but where not detected because of the huge code base. \newline
+	Palladio and especially Simulizer seem to be to complex and big to get an understanding of the tool in depth. The sheer amount of code and resources that is used for collecting data and making prediction would be just an overhead on the problems that we currently face.
 	
 
 \subsubsection{GreenCloud} 
@@ -164,15 +259,64 @@
 
 \section{Simulatorspecification}\label{sec:specifictation}
 \paragraph{Expected Input properties}
-We want our Simulator to execute the following tasks. In order to simulate a system we need to know how the actual system is build. Therefore we will get information form an input file. This file will contain information about the infrastructure of the system. Each microservice(MS) that is part of the system has the following properties. It has a unique name, the number of instances that are used in the simulation, dependencies on other MS's, throughput and anti-patterns that it implements.\newline
-During runtime we want to be able to modify the system by deleting some instances of microservices. We will achieve this by implementing a chaosmonkey which is inspired by netflix큦 toolbox of cloud tools. There can be any number of chaosmonkey큦 that need the following parameters to intercept the system. It has a Ms as a target, the number of instances it will delete and the time period in which the error will occur.
-Finally the input has a number of message objects that travel through the system. We expect the input to look like Figure 1(!!!Instert figzure 1!!!).
+	We want our Simulator to execute the following tasks. In order to simulate a system we need to know how the actual system is build. Therefore we will get information form an input file. This file will contain information about the infrastructure of the system. Each microservice(MS) that is part of the system has the following properties. It has a unique name, the number of instances that are used in the simulation, dependencies on other MS's, throughput and anti-patterns that it implements.\newline
+	During runtime we want to be able to modify the system by deleting some instances of microservices. We will achieve this by implementing a chaosmonkey which is inspired by netflix큦 toolbox of cloud tools. There can be any number of chaosmonkey큦 that need the following parameters to intercept the system. It has a Ms as a target, the number of instances it will delete and the time period in which the error will occur. Finally the input has a number of message objects that travel through the system. We expect the input to look like Figure 1(!!!Instert figzure 1!!!).
+	
+	\newpage
+\begin{figure}
+\begin{lstlisting}[style=Java]
+	{
+		"microservices" : {
+			"Frontend": {
+				"name" : "frontend",
+				"antipatterns" : ["Circuit Breaker"],
+				"instances": 4,
+				"dependencies": ["Database", "Server"],	
+				"throughput" : 3
+			},
+			"Database": {
+				"name" : "database",
+				"instances": 2,
+				"dependencies": ["Frontend"],
+				"throughput" : 3
+			},
+			"Server": {
+				"name" : "server",
+				"instances": 1,
+				"dependencies": ["Frontend"],
+				"throughput" : 3
+			}
+		},
+		"message_object" : {
+			"token" : {
+				"instances" : 4
+				"path" : ["frontend" : 5, "database" : 3]
+			}
+			"token: {
+				"server" : 5
+			}
+		},
+		"failures":	{
+			"chaosmonkey" :	{
+				"service" : "frontend",
+				"instances" : 3,
+				"time" : [1, 2, 3]	
+			}
+		},
+		"triggers" : {
+		
+		}
+	}\end{lstlisting}
+	\caption{Input structure}
+\end{figure}
+	
+	\newpage
   				
 \paragraph{Expected system runtime behavior}
-The basic idea of our system is that is runs on a clock. For each time period every MS will be able to send, receive and work on message objects. If a number of MS instances will go down it is expected to have larger message queues in front of a MS. As a result the system will probably slow down. To guarantee fail-safety the user will have the option to include anti-patterns in the input file. This will make a MS resilient against high workloads and failures of dependent MS. During simulation time we already gather information about performance in each timeframe to generate metrics. We also collect system failures in form of lost message objects if certain MS aren?t available anymore.
+	The basic idea of our system is that is runs on a clock. For each time period every MS will be able to send, receive and work on message objects. If a number of MS instances will go down it is expected to have larger message queues in front of a MS. As a result the system will probably slow down. To guarantee fail-safety the user will have the option to include anti-patterns in the input file. This will make a MS resilient against high workloads and failures of dependent MS. During simulation time we already gather information about performance in each timeframe to generate metrics. We also collect system failures in form of lost message objects if certain MS aren?t available anymore.
  
 \paragraph{Expected output metrics}
-We collect the following metrics for all MS큦. The workload, queue utilisation (size) and potential system failures due to missing instances of services. As a result there should be highlighting of eventual problematic data and an analyzation of bottlenecks and performance problems. This information will then be written into a user-friendly output file to deliver a big picture of the system.
+	We collect the following metrics for all MS큦. The workload, queue utilisation (size) and potential system failures due to missing instances of services. As a result there should be highlighting of eventual problematic data and an analyzation of bottlenecks and performance problems. This information will then be written into a user-friendly output file to deliver a big picture of the system.
 
 
 \begin{figure}
