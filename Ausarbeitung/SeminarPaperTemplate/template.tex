@@ -261,7 +261,7 @@ Before developing a new tool we looked around to see what software solutions are
 
 
 \section{Simulatorspecification}\label{sec:specifictation}
-\paragraph{Expected Input properties}
+\paragraph{Expected Input properties}\label{input}
 	We want our Simulator to execute the following tasks. In order to simulate a system we need to know how the actual system is build. Therefore we will get information form an input file. This file will contain information about the infrastructure of the system. Each microservice(MS) that is part of the system has the following properties. It has a unique name, the number of instances that are used in the simulation, dependencies on other MS's, throughput and anti-patterns that it implements.\newline
 	During runtime we want to be able to modify the system by deleting some instances of microservices. We will achieve this by implementing a chaosmonkey which is inspired by netflix´s toolbox of cloud tools. There can be any number of chaosmonkey´s that need the following parameters to intercept the system. It has a Ms as a target, the number of instances it will delete and the time period in which the error will occur. Finally the input has a number of message objects that travel through the system. We expect the input to look like Figure \ref{fig:output}. A visual representation of the coded input is shown in Figure \ref{fig:SystemVisualization} 
 	
@@ -321,6 +321,11 @@ Before developing a new tool we looked around to see what software solutions are
  
 \paragraph{Expected output metrics}
 	We collect the following metrics for all MS´s. The workload, queue utilisation (size) and potential system failures due to missing instances of services. As a result there should be highlighting of eventual problematic data and an analyzation of bottlenecks and performance problems. This information will then be written into a user-friendly output file to deliver a big picture of the system.
+
+\paragraph{Supported failiure modes}
+We expect our tool to be able to disable any number of MS instances to simulate the failure of instances in the production system. The user has to define which microservices should be affected and how many instances are killed at a specific clock time. This was also described in  section \ref{input}.    
+
+\paragraph{supported resilience patterns}
 
 
 \begin{figure}
