@@ -188,7 +188,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% BEGIN DOCUMENT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Simulation-based resilience prediction of microservice architectures}
+\title{Simulation-based Resilience Prediction of Microservice Architectures}
 % \subtitle{My (optional) Subtitle}
 \author{Samuel Beck, Johannes Günthör, Christoph Zorn}
 \institute{University of Stuttgart\\Reliable Software Systems (RSS)\\70569 Stuttgart, Germany}
@@ -205,6 +205,7 @@
 \section{Introduction}\label{sec:introduction}
 
 	Was rein muss: Was wir wollen (unser ziel), ...
+	in section 2 steht : the problem we are currently facing. Dieses problem muss hier oder vor section 2 erklärt werden  
 	
 	%This is my introduction. %\citet{Shaw2003WritingGoodSoftwareEngineeringResearchPapersMinitutorial} wrote a paper with %hints on how to write good software engineering research papers. By the way, this was an %example for using the \textit{natbib} command \texttt{\textbackslash{}citet\{\}}.
 	
@@ -230,7 +231,9 @@
   
 \section{Research}\label{sec:research}
 
-\subsection{Tools in Comparison}\label{subsec:toolsInComparison}
+Before developing a new tool we looked around to see what software solutions are currently available to simulate a MS architecture. To get a sense of the functionality of the tools, we analyzed multiple different simulators in depth to see if their functionality would solve the problem we are currently facing. This section gives a brief overview of the functionalities of the four simulators and the pros and cons on why to use them as an codebase for our future tool.
+
+\subsection{Tool Evaluation with Regard to Sutability for the Adaptation for Microservice Arcitectures}\label{subsec:toolsInComparison}
 
 \subsubsection{Spigo}
 	
@@ -260,7 +263,7 @@
 \section{Simulatorspecification}\label{sec:specifictation}
 \paragraph{Expected Input properties}
 	We want our Simulator to execute the following tasks. In order to simulate a system we need to know how the actual system is build. Therefore we will get information form an input file. This file will contain information about the infrastructure of the system. Each microservice(MS) that is part of the system has the following properties. It has a unique name, the number of instances that are used in the simulation, dependencies on other MS's, throughput and anti-patterns that it implements.\newline
-	During runtime we want to be able to modify the system by deleting some instances of microservices. We will achieve this by implementing a chaosmonkey which is inspired by netflix´s toolbox of cloud tools. There can be any number of chaosmonkey´s that need the following parameters to intercept the system. It has a Ms as a target, the number of instances it will delete and the time period in which the error will occur. Finally the input has a number of message objects that travel through the system. We expect the input to look like Figure 1(!!!Instert figzure 1!!!).
+	During runtime we want to be able to modify the system by deleting some instances of microservices. We will achieve this by implementing a chaosmonkey which is inspired by netflix´s toolbox of cloud tools. There can be any number of chaosmonkey´s that need the following parameters to intercept the system. It has a Ms as a target, the number of instances it will delete and the time period in which the error will occur. Finally the input has a number of message objects that travel through the system. We expect the input to look like Figure \ref{fig:output}. A visual representation of the coded input is shown in Figure \ref{fig:SystemVisualization} 
 	
 	\newpage
 \begin{figure}
@@ -308,6 +311,7 @@
 		}
 	}\end{lstlisting}
 	\caption{Input structure}
+	\label{fig:output}
 \end{figure}
 	
 	\newpage
@@ -320,11 +324,10 @@
 
 
 \begin{figure}
+		\label{fig:SystemVisualization}
 		\includegraphics[width=1\textwidth]{figures/MicroserviceSimulatorPicture.png}
 		\caption{Simulator System Visualization}
 \end{figure}
-
-
 
 --------------------------------------\newline
 was muss das tool können?\newline
