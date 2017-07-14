@@ -329,10 +329,16 @@
 	
 \subsubsection{CloudSim}
 
-	Developed by the CLOUDS Laboratory of the University of Melbourne, CloudSim is a framework for modeling and simulation of cloud computing infrastructures and services. It allows modeling and simulation of large scale cloud computing data centers aswell as modeling and simulation of application containers and virtualized server hosts.\cite{website_cloudsim} The platform is written in Java and extensible, in fact various extensions for the framework exist. Its architecture consists of multiple layers. The fundamental layer provides management of applications, hosts of virtual machines, etc. while the top layer represents the basic entities for hosts and enables the generation of requests in a variation of approaches, configurations and cloud scenarios.\cite{byrne2017review}
+	Developed by the CLOUDS Laboratory of the University of Melbourne, CloudSim is a framework for modeling and simulation of cloud computing infrastructures and services. It allows modeling and simulation of large scale cloud computing data centers as well as modeling and simulation of application containers and virtualized server hosts.\cite{website_cloudsim} The platform is written in Java and extensible, in fact various extensions for the framework exist. Its architecture consists of multiple layers. The fundamental layer provides management of applications, hosts of virtual machines, etc. while the top layer represents the basic entities for hosts and enables the generation of requests in a variation of approaches, configurations and cloud scenarios.\cite{byrne2017review}
+	
+	
 
 
 \section{Simulatorspecification}\label{sec:specifictation}
+Like every normal software product we also wrote a specification on how the finished product should look like. The specification helped the team to get some common ground on the project and clarify what should and what should not be done. Research also helped with the specification.
+We used the knowledge of simulators that we saw previously and took what we liked and included this into our own tool (e.g. Spigo input)\citep{Spigo}. 
+
+
 \paragraph{Expected Input properties}\label{input}
 	We want our Simulator to execute the following tasks. In order to simulate a system we need to know how the actual system is build. Therefore we will get information form an input file. This file will contain information about the infrastructure of the system. Each microservice(MS) that is part of the system has the following properties. It has a unique name, the number of instances that are used in the simulation, dependencies on other MS's, throughput and anti-patterns that it implements.\newline
 	During runtime we want to be able to modify the system by deleting some instances of microservices. We will achieve this by implementing a chaosmonkey which is inspired by netflix´s toolbox of cloud tools. There can be any number of chaosmonkey´s that need the following parameters to intercept the system. It has a Ms as a target, the number of instances it will delete and the time period in which the error will occur. Finally the input has a number of message objects that travel through the system. We expect the input to look like Figure \ref{fig:output}. A visual representation of the coded input is shown in Figure \ref{fig:SystemVisualization} 
