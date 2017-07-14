@@ -4,7 +4,7 @@
 		"Frontend":										// microservice
 		{
 			"name" : "frontend",						// name
-			"antipattern" : ["Circuit Breaker"],		// resilience pattern
+			"antipatterns" : ["Circuit Breaker"],		// resilience pattern
 			"instances": 4,								// instance counter
 			"dependencies": ["Database", "Server"],		// microservice dependency
 			"throughput" : 3							// data transmission rate
@@ -28,8 +28,12 @@
 	{
 		"token" :										// message object
 		{
-			"frontend" : 5,								// duration at a microservice
-			"database" : 3
+			"instances" : 4
+			"path" : ["frontend" : 5, "database" : 3] 	// duration at a microservice
+		}
+		"token:
+		{
+			"server" : 5
 		}
 	},
 	"failures":											// error modes
