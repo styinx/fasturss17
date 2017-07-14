@@ -1,4 +1,4 @@
-\begin{thebibliography}{3}
+\begin{thebibliography}{4}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -12,6 +12,11 @@ M.~Becker, S.~Becker, and J.~Meyer.
 \newblock URL
   \url{http://www.performance-symposium.org/fileadmin/user_upload/palladio-conference/2014/papers/paper12.pdf}.
 \newblock Last visited June 23, 2017.
+
+\bibitem[Cockcroft(2014)]{Spigo}
+A.~Cockcroft, 2014.
+\newblock URL \url{https://github.com/adrianco/spigo/tree/master/json_arch}.
+\newblock Last visited July 14, 2017.
 
 \bibitem[Kliazovich et~al.(2010)Kliazovich, Bouvry, Audzevich, and
   Khan]{GreenCloud}
