@@ -394,7 +394,15 @@
 \paragraph{Supported failiure modes}
 	We expect our tool to be able to disable any number of MS instances to simulate the failure of instances in the production system. The user has to define which microservices should be affected and how many instances are killed at a specific clock time. This was also described in  section \ref{input}.    
 
-\paragraph{supported resilience patterns}
+\subsection{Reliability Patterns}
+\paragraph{Circuit Breaker}
+	When one service invokes another there is always the chance that due to an unforeseen failure the other service is unavailable or that there is such a high latency between the two services that it is essentially unavailable. If the invocation is handled synchronously the calling service might be unable to handle other requests - therefore the failure of one service can potentially cascade through other services of the system.
+
+To handle this potential problem an approach similar to electrical circuit breakers is used. A service should invoke a remote service only via a proxy. When the number of consecutive connection failures crosses a set number all future connection attempts fail immediately for a timeout period. After the timeout the circuit breaker allows a limited number of requests to pass through to test if the other service is responding again. Otherwise the timeout period begins anew. Often circuit breakers also provide fallback options during the time that the remote service is unavailable.\cite{CircuitBreaker}
+
+One example for a circuit breaker implementation is Netflix?s Hystrix which increased uptime dramatically at Netflix.\cite{Hystrix}
+
+	
 
 
 \begin{figure}
