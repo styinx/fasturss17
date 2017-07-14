@@ -3,21 +3,21 @@
 **Table of contents:**
 
 - [Simulator](#Sim)
-	- [Description](#Sim:Des)
-	- [Usage](#Sim:Use)
-	- [Documentation](#Sim:Doc)
+	- [Description](#Sim-Des)
+	- [Usage](#Sim-Use)
+	- [Documentation](#Sim-Doc)
 
 ## <a name="Sim"></a>Simulator
 
-### <a name="Sim:Des"></a>Description
+### <a name="Sim-Des"></a>Description
 
 The tool is used for ...
 
-### <a name="Sim:Use"></a>Usage
+### <a name="Sim-Use"></a>Usage
 
 What do i need for use ...
 
-```json
+```javascript
 {
 	"microservices" :									// definition of all microservices
 	{
@@ -48,7 +48,7 @@ What do i need for use ...
 	{
 		"token" :										// message object
 		{
-			"instances" : 4
+			"instances" : 4,
 			"path" : ["frontend" : 5, "database" : 3] 	// duration at a microservice
 		},
 		"token:
@@ -72,6 +72,6 @@ What do i need for use ...
 }
 ```
 
-### <a name="Sim:Doc"></a>Documentation
+### <a name="Sim-Doc"></a>Documentation
 
 What does the tool ...
