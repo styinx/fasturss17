@@ -1,4 +1,4 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{6}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -12,6 +12,13 @@ M.~Becker, S.~Becker, and J.~Meyer.
 \newblock URL
   \url{http://www.performance-symposium.org/fileadmin/user_upload/palladio-conference/2014/papers/paper12.pdf}.
 \newblock Last visited June 23, 2017.
+
+\bibitem[Christensen(2012)]{Hystrix}
+B.~Christensen.
+\newblock Introducing hystrix for resilience engineering, 2012.
+\newblock URL
+  \url{https://medium.com/netflix-techblog/introducing-hystrix-for-resilience-engineering-13531c1ab362}.
+\newblock Last visited July 14, 2017.
 
 \bibitem[Cockcroft(2014)]{Spigo}
 A.~Cockcroft, 2014.
@@ -34,5 +41,12 @@ R.~Reussner, S.~Becker, J.~Happe, H.~Koziolek, K.~Krogmann, and M.~Kuperberg.
 \newblock URL
   \url{https://www.researchgate.net/profile/Jens_Happe/publication/36452772_The_Palladio_component_model/links/0912f50f66f5a02a5e000000.pdf}.
 \newblock Last visited June 23, 2017.
+
+\bibitem[Richardson(2017)]{CircuitBreaker}
+C.~Richardson.
+\newblock Pattern: Circuit breaker, 2017.
+\newblock URL
+  \url{http://microservices.io/patterns/reliability/circuit-breaker.html}.
+\newblock Lat visited July 14, 2017.
 
 \end{thebibliography}
