@@ -8,18 +8,10 @@ public class MicroserviceEntity extends Entity {
     private int throughput;
     private String name;
     private int numberOfInstances = 5;
-    private String nextMicroservice = "" ; // sting of next microservice map to integer
-
-
-    public int getIdFromNextMicroserviceByName(){
-
-
-        return 0;
-    }
+    private String nextMicroservice = null;
 
     public MicroserviceEntity (Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
-        this.name = name;
     }
 
     public String getNextMicroservice() {
