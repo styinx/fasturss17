@@ -1,0 +1,27 @@
+[
+  {
+    "name": "frontend",
+    "instances": 4,
+    "dependencies": [
+      "database",
+      "server"
+    ],
+    "throughput": 3
+  },
+  {
+    "name": "database",
+    "instances": 2,
+    "dependencies": [
+      "frontend"
+    ],
+    "throughput": 3
+  },
+  {
+    "name": "server",
+    "instances": 1,
+    "dependencies": [
+      "frontend"
+    ],
+    "throughput": 3
+  }
+]
