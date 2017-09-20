@@ -1,0 +1,59 @@
+[
+  {
+    "name": "Gateway",
+    "instances": 5,
+	"nextMicroservice": "Order Service",
+    "dependencies": [
+      "Authentication Service",
+      "Order Service"
+    ],
+    "throughput": 1
+  },
+  {
+    "name": "Authentication Service",
+    "instances": 1,
+	"nextMicroservice": "Backup Service",
+    "dependencies": [
+      ""
+    ],
+    "throughput": 2
+  },
+  {
+    "name": "Order Service",
+    "instances": 3,
+	"nextMicroservice": "Shipping Service",
+    "dependencies": [
+      "Shipping Service",
+	  "Backup Service",
+	  "Database"
+    ],
+    "throughput": 2
+  },
+  {
+    "name": "Shipping Service",
+    "instances": 1,
+	"nextMicroservice": "Database Service",
+    "dependencies": [
+      "Database Service"
+    ],
+    "throughput": 3
+  },
+  {
+    "name": "Backup Service",
+    "instances": 4,
+	"nextMicroservice": "Database Service",
+    "dependencies": [
+      "Database Service"
+    ],
+    "throughput": 2
+  },
+  {
+    "name": "Database Service",
+    "instances": 1,
+	"nextMicroservice": "",
+    "dependencies": [
+      ""
+    ],
+    "throughput": 2
+  }
+]

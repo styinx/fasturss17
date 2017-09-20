@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Gateway",
+    "instances": 1,
+	"nextMicroservice": "Order Service",
+    "dependencies": [
+      "database",
+      "server"
+    ],
+    "throughput": 1
+  },
+  {
+    "name": "Order Service",
+    "instances": 1,
+	"nextMicroservice": "Processing Service",
+    "dependencies": [
+      "frontend"
+    ],
+    "throughput": 2
+  },
+  {
+    "name": "Processing Service",
+    "instances": 3,
+	"nextMicroservice": "Shipping Service",
+    "dependencies": [
+      "frontend"
+    ],
+    "throughput": 2
+  },
+  {
+    "name": "Shipping Service",
+    "instances": 1,
+	"nextMicroservice": "",
+    "dependencies": [
+      "frontend"
+    ],
+    "throughput": 3
+  }
+]
