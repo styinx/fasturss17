@@ -5,7 +5,7 @@ import desmoj.core.simulator.Model;
 
 public class MessageObject extends Entity {
     private String name;
-    private int id;
+    //private int id; momentan nur ein message object
 
     public MessageObject(Model owner, String name, boolean showInTrace) {
         super(owner, name, showInTrace);
@@ -19,13 +19,5 @@ public class MessageObject extends Entity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }
