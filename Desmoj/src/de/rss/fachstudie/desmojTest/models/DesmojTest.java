@@ -1,19 +1,33 @@
 package de.rss.fachstudie.desmojTest.models;
 
 import de.rss.fachstudie.desmojTest.entities.*;
+import de.rss.fachstudie.desmojTest.events.MicroserviceEvent;
 import de.rss.fachstudie.desmojTest.events.RequestGeneratorEvent;
 import desmoj.core.simulator.*;
 import desmoj.core.dist.*;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class DesmojTest extends Model {
 
-    private static int NUM_ORDER = 1;
+    private static int NUM_ORDER = 1000;
     private static int NUM_PROCESSING = 3;
     private static int NUM_SHIPPING = 2;
 
     private ContDistExponential requestArrivalTime;
+
+
+    public HashMap<Integer,Queue<MicroserviceEntity>> idleQueues;
+    //public HashMap<Integer,Queue<MessageObject>> taskQueues;
+    public Queue<MessageObject> taskQueue;
+    public HashMap<Integer,MicroserviceEvent> event;
+
+
+
+
+
+
 
     private ContDistUniform orderTime;
     private ContDistUniform processingTime;
@@ -54,6 +68,38 @@ public class DesmojTest extends Model {
      */
     @Override
     public void init() {
+        String[] allServices = new String[2];
+        allServices[0] = "Micro1";
+        allServices[1] = "Micro2";
+
+
+        //bekommen json file
+
+
+
+        for(int i = 0; i < 2; i++){
+//
+            MicroserviceEntity msEntity = new MicroserviceEntity(this , allServices[i], true );
+
+            msEntity.setId(i);
+            Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, allServices[i], true, true);
+            //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, allServices[i], true , true) ;
+
+            for(int j = 0 ; j < msEntity.getNumberOfInstances() ; j++ ){
+                idleQueue.insert(msEntity);
+            }
+
+            idleQueues.put(i , idleQueue);
+            //taskQueue.insert(MessageObject);
+        }
+
+
+
+
+
+
+
+
 
         requestArrivalTime = new ContDistExponential(this, "requestArrivalTimeStream", 10, true, false);
         requestArrivalTime.setNonNegative(true);
@@ -106,6 +152,9 @@ public class DesmojTest extends Model {
     }
 
     public static void main(String[] args) {
+
+
+
         DesmojTest model = new DesmojTest(null, "Simple microservice model", true, true);
         Experiment exp = new Experiment("DesmojMicroserviceExperiment");
 
