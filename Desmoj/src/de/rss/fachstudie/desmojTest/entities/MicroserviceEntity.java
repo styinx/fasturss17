@@ -13,18 +13,24 @@ public class MicroserviceEntity extends Entity {
     private String nextMicroservice = "";
     private String[] dependencies;
 
-
-    public String[] getDependencies() {
-        return dependencies;
-    }
-
-    public void setDependencies(String[] dependencies) {
-        this.dependencies = dependencies;
-    }
-
-
     public MicroserviceEntity (Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getNextMicroservice() {
@@ -35,36 +41,27 @@ public class MicroserviceEntity extends Entity {
         this.nextMicroservice = nextMicroservice;
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getThroughput() {
-        return throughput;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setThroughput(int throughput) {
-        this.throughput = throughput;
-    }
-
     public int getInstances() {
         return instances;
     }
 
     public void setInstances(int numberOfInstances) {
         this.instances = numberOfInstances;
+    }
+
+    public String[] getDependencies() {
+        return dependencies;
+    }
+
+    public void setDependencies(String[] dependencies) {
+        this.dependencies = dependencies;
+    }
+
+    public int getThroughput() {
+        return throughput;
+    }
+
+    public void setThroughput(int throughput) {
+        this.throughput = throughput;
     }
 }

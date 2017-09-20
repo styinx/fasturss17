@@ -42,8 +42,6 @@ public class DesmojTest extends Model {
     public void doInitialSchedules() {
         InitialMicroserviceEvent initialEvent = new InitialMicroserviceEvent(this , allMicroservices.get(0).getName() , true );
         initialEvent.schedule(new TimeSpan(0));
-
-
     }
 
     public int getIdByName(String name){
@@ -61,56 +59,36 @@ public class DesmojTest extends Model {
      */
     @Override
     public void init() {
-        //String[] input[i].getName() = new String[5];
-        //input[i].getName()[0] = "Micro0";
-        //input[i].getName()[1] = "Micro1";
-        //input[i].getName()[2] = "Micro2";
-        //input[i].getName()[3] = "Micro3";
-        //input[i].getName()[4] = "Micro4";
-
-        //bekommen json file
         MicroserviceEntity[] input = InputParser.createMicroserviceEntities("input.json");
 
-        allMicroservices = new HashMap<Integer, MicroserviceEntity>();
-        event = new HashMap<Integer, StartMicroserviceEvent>();
-        taskQueues = new HashMap<Integer, Queue<MessageObject>>();
-        idleQueues = new HashMap<Integer, Queue<MicroserviceEntity>>();
+        allMicroservices    = new HashMap<Integer, MicroserviceEntity>();
+        event               = new HashMap<Integer, StartMicroserviceEvent>();
+        taskQueues          = new HashMap<Integer, Queue<MessageObject>>();
+        idleQueues          = new HashMap<Integer, Queue<MicroserviceEntity>>();
 
 
         for(int i = 0; i < input.length; i++){
-//
-            MicroserviceEntity msEntity = new MicroserviceEntity(this , input[i].getName(), true );
-
-            msEntity.setName(input[i].getName());
-            msEntity.setId(i);
-            msEntity.setInstances(input[i].getInstances());
-            //in case last Microservice does not have a next Microservice
-            if(i != input.length-1){
-                msEntity.setNextMicroservice(input[i].getNextMicroservice());
-            }
-            Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, input[i].getName() + "Idle", true, true);
-            Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, input[i].getName() + "Working", true , true) ;
-
-
-            StartMicroserviceEvent startEvent = new StartMicroserviceEvent(this, input[i].getName() + "Start", true, i);
+            Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + input[i].getName(), true, true);
+            Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + input[i].getName(), true , true) ;
+            StartMicroserviceEvent startEvent = new StartMicroserviceEvent(this, "Start Event: " + input[i].getName(), true, i);
 
             for(int y = 0; y < input[i].getInstances(); y ++ ){
+                MicroserviceEntity msEntity = new MicroserviceEntity(this , input[i].getName(), true );
+                msEntity.setName(input[i].getName());
+                msEntity.setId(i);
+                msEntity.setInstances(input[i].getInstances());
+                msEntity.setNextMicroservice(input[i].getNextMicroservice());
                 idleQueue.insert(msEntity);
+                allMicroservices.put(i, msEntity);
             }
 
-            allMicroservices.put(i, msEntity);
             event.put(i,startEvent);
             taskQueues.put(i, taskQueue);
             idleQueues.put(i , idleQueue);
         }
-
-
     }
 
     public static void main(String[] args) {
-
-
-
         DesmojTest model = new DesmojTest(null, "Simple microservice model", true, true);
         Experiment exp = new Experiment("DesmojMicroserviceExperiment");
 

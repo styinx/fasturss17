@@ -9,7 +9,6 @@ import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
 public class InitialMicroserviceEvent extends ExternalEvent {
-
     ContDistExponential timeToCreate;
 
     public InitialMicroserviceEvent(Model model, String s, boolean b) {
@@ -22,7 +21,7 @@ public class InitialMicroserviceEvent extends ExternalEvent {
         DesmojTest model = (DesmojTest) getModel();
         MessageObject initialMessageObject = new MessageObject(model, "Message" , true);
 
-        StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, model.allMicroservices.get(0).getName() + "StartInitialEvent", true, 0);
+        StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "Inital Event:" + model.allMicroservices.get(0).getName(), true, 0);
         startEvent.schedule(initialMessageObject, new TimeSpan(0));
 
         schedule(new TimeSpan(timeToCreate.sample()));

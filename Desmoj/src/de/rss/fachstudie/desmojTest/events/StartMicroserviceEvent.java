@@ -13,30 +13,16 @@ import javafx.scene.paint.Stop;
 import java.util.concurrent.TimeUnit;
 
 public class StartMicroserviceEvent extends Event<MessageObject> {
-
     private DesmojTest model;
     private ContDistUniform timeUntilFinished;
     private int id;
 
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    //
     public StartMicroserviceEvent(Model owner, String name, Boolean showInTrace, Integer id){
         super(owner, name, showInTrace);
+
         setId(id);
-
-
         model = (DesmojTest) owner;
-
         timeUntilFinished = new ContDistUniform(model , name, 4,4, true, false);
-
     }
 
     @Override
@@ -48,10 +34,17 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             model.idleQueues.get(id).remove(msEntity);
             model.taskQueues.get(id).remove(messageObject);
 
-            
-            StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model, msEntity.getNextMicroservice() + "Stopp" , true, id);
+            StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model, "StopEvent: " + msEntity.getNextMicroservice(), true, id);
             msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), TimeUnit.SECONDS));
 
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

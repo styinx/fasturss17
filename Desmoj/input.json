@@ -2,6 +2,7 @@
   {
     "name": "frontend",
     "instances": 4,
+	"nextMicroservice": "server",
     "dependencies": [
       "database",
       "server"
@@ -9,16 +10,18 @@
     "throughput": 3
   },
   {
-    "name": "database",
-    "instances": 2,
+    "name": "server",
+    "instances": 1,
+	"nextMicroservice": "database",
     "dependencies": [
       "frontend"
     ],
     "throughput": 3
   },
   {
-    "name": "server",
-    "instances": 1,
+    "name": "database",
+    "instances": 2,
+	"nextMicroservice": "",
     "dependencies": [
       "frontend"
     ],
