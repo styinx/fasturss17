@@ -9,6 +9,7 @@ public class MicroserviceEntity extends Entity {
     private String name;
     private int numberOfInstances = 5;
     private String nextMicroservice = null;
+    private String[] dependencies = null;
 
     public MicroserviceEntity (Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
@@ -53,5 +54,13 @@ public class MicroserviceEntity extends Entity {
 
     public void setNumberOfInstances(int numberOfInstances) {
         this.numberOfInstances = numberOfInstances;
+    }
+
+    public String[] getDependencies() {
+        return dependencies;
+    }
+
+    public void setDependencies(String[] dependencies) {
+        this.dependencies = dependencies;
     }
 }
