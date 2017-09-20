@@ -3,12 +3,25 @@ package de.rss.fachstudie.desmojTest.entities;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 
+import java.util.List;
+
 public class MicroserviceEntity extends Entity {
     private int id;
     private int throughput;
     private String name;
-    private int numberOfInstances = 5;
-    private String nextMicroservice = null;
+    private int instances = 0;
+    private String nextMicroservice = "";
+    private String[] dependencies;
+
+
+    public String[] getDependencies() {
+        return dependencies;
+    }
+
+    public void setDependencies(String[] dependencies) {
+        this.dependencies = dependencies;
+    }
+
 
     public MicroserviceEntity (Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
@@ -47,11 +60,11 @@ public class MicroserviceEntity extends Entity {
         this.throughput = throughput;
     }
 
-    public int getNumberOfInstances() {
-        return numberOfInstances;
+    public int getInstances() {
+        return instances;
     }
 
-    public void setNumberOfInstances(int numberOfInstances) {
-        this.numberOfInstances = numberOfInstances;
+    public void setInstances(int numberOfInstances) {
+        this.instances = numberOfInstances;
     }
 }
