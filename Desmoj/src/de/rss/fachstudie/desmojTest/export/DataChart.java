@@ -7,15 +7,15 @@ public class DataChart {
     public DataChart(String chartId) {
         this.chartId = chartId;
         this.options =
-                "title : { text : '" + chartId + "'}" +
+                "title : { text : '" + chartId + "'}," +
                 "series : " +
                 "[" +
                         "{" +
-                            "name : 'Test1'" +
+                            "name : 'Test1'," +
                             "data : [0, 1, 2, 3, 4, 5]" +
                         "}," +
                         "{" +
-                            "name : 'Test2'" +
+                            "name : 'Test2'," +
                             "data : [0, 2, 4, 0, 2, 1]" +
                         "}" +
                 "]";
@@ -23,6 +23,7 @@ public class DataChart {
 
     public String printChart() {
         return "<div id='" + chartId + "'></div>" +
-                "<script type='text/javascript'>Highcharts.chart('chart', {" + options + "});</script>";
+                "<script type='text/javascript' src='https://code.highcharts.com/highcharts.js'></script>" +
+                "<script type='text/javascript'>Highcharts.chart(" + chartId + ", {" + options + "});</script>";
     }
 }

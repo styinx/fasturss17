@@ -107,6 +107,6 @@ public class MSSimulator extends Model {
         exp.report();
         exp.finish();
 
-        /*ExportReport exportReport = new ExportReport(model);*/
+        ExportReport exportReport = new ExportReport(model);
     }
 }

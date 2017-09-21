@@ -31,17 +31,38 @@ public class DependecyGraph {
         for(String ms : microservices.get(id).getDependencies()) {
             Node child = new Node(ms);
             int childId = getIdByName(ms);
-            root.setChild(child);
+            parent.setChild(child);
             if(childId != -1)
                 fillGraph(child, childId);
         }
     }
 
-    //TODO make html output
-    public void printGraph(Node root) {
-        System.out.println(root.getValue());
-        for(Node child : root.getChildren()) {
-            printGraph(child);
+    public String printGraph() {
+        String nodes = printNodes("", root);
+        String links = printLinks("", root);
+        String html = "{nodes:[" + nodes.substring(0, nodes.length() - 1) + "],"
+                + "links:[" + links.substring(0, links.length() - 1) + "]}";
+        return html;
+    }
+
+    public String printNodes(String html, Node parent) {
+        String json = html;
+        json += "{ name : '" + parent.getValue() + "'},";
+
+        for(Node child : parent.getChildren()) {
+            json += printNodes("", child);
         }
+        return json;
+    }
+
+    public String printLinks(String html, Node parent) {
+        String json = html;
+
+        for(Node child : parent.getChildren()) {
+            json += "{ source : " + getIdByName(parent.getValue())
+                    + ", target : " + getIdByName(child.getValue()) + "},";
+            json += printLinks("", child);
+        }
+        return json;
     }
 }
