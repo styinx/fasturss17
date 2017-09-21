@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+        <title>colony</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=400, initial-scale=1">
+
+        <link href='./css/normalize.css' rel='stylesheet' type='text/css'>
+        <link href='./css/colony.css' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="main" role="main">
+                <div id="colony"></div>
+                <div id="readme">
+                    <div style="display: none;" id="readme-contents"></div>
+				</div>
+            </div>
+        </div>
+		<script type="text/javascript">
+			window.colony = 
+			{
+				"nodes": 
+				[    
+					{
+						"id": "Gateway",
+						"module": false,
+						"mgroup": false,
+						"root": true,
+						"index": 0
+					},   
+					{
+						"id": "Frontend",
+						"module": "1",
+						"mgroup": "1",
+						"index": 1
+					},        
+					{
+						"id": "Server",
+						"module": "1",
+						"mgroup": "1",
+						"index": 2
+					},        
+					{
+						"id": "Database",
+						"module": "1",
+						"mgroup": "1",
+						"index": 3
+					},
+					{
+						"id": "Service",
+						"module": "1",
+						"mgroup": "2",
+						"index": 4
+					},        
+					{
+						"id": "Backup",
+						"module": "1",
+						"mgroup": "2",
+						"filename": "",
+						"root": false,
+						"index": 5
+					},        
+					{
+						"id": "Order",
+						"module": "1",
+						"mgroup": "2",
+						"index": 6
+					}
+				],
+				"links": 
+				[         
+					{
+						"source": 0,
+						"target": 1
+					},
+					{
+						"source": 1,
+						"target": 2
+					},
+					{
+						"source": 2,
+						"target": 3
+					},
+					{
+						"source": 3,
+						"target": 4
+					}, 
+					{
+						"source": 3,
+						"target": 5
+					},
+					{
+						"source": 3,
+						"target": 6
+					},
+					{
+						"source": 5,
+						"target": 6
+					},
+					
+				],
+				"scale": 2
+			};
+		</script>
+		<script type="text/javascript" src="./js/colony.js"></script>
+    </body>
+</html>
