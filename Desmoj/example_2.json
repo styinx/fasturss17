@@ -4,17 +4,16 @@
     "instances": 1,
 	"nextMicroservice": "Order Service",
     "dependencies": [
-      "database",
-      "server"
+      "Order Service"
     ],
-    "throughput": 1
+    "throughput": 2
   },
   {
     "name": "Order Service",
     "instances": 1,
 	"nextMicroservice": "Processing Service",
     "dependencies": [
-      "frontend"
+      "Processing Service"
     ],
     "throughput": 2
   },
@@ -23,7 +22,7 @@
     "instances": 3,
 	"nextMicroservice": "Shipping Service",
     "dependencies": [
-      "frontend"
+      "Shipping Service"
     ],
     "throughput": 2
   },
@@ -31,9 +30,7 @@
     "name": "Shipping Service",
     "instances": 1,
 	"nextMicroservice": "",
-    "dependencies": [
-      "frontend"
-    ],
-    "throughput": 3
+    "dependencies": [],
+    "throughput": 2
   }
 ]

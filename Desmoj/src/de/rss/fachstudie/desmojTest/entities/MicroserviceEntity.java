@@ -7,8 +7,8 @@ import java.util.List;
 
 public class MicroserviceEntity extends Entity {
     private int id;
-    private int throughput;
-    private String name;
+    private double throughput = 0;
+    private String name = "";
     private int instances = 0;
     private String nextMicroservice = "";
     private String[] dependencies;
@@ -57,11 +57,11 @@ public class MicroserviceEntity extends Entity {
         this.dependencies = dependencies;
     }
 
-    public int getThroughput() {
+    public double getThroughput() {
         return throughput;
     }
 
-    public void setThroughput(int throughput) {
+    public void setThroughput(double throughput) {
         this.throughput = throughput;
     }
 }

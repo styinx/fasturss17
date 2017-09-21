@@ -3,26 +3,26 @@ package de.rss.fachstudie.desmojTest.events;
 import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
-import de.rss.fachstudie.desmojTest.models.DesmojTest;
+import de.rss.fachstudie.desmojTest.models.MSSimulator;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.Event;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
-import javafx.scene.paint.Stop;
 
 import java.util.concurrent.TimeUnit;
 
 public class StartMicroserviceEvent extends Event<MessageObject> {
-    private DesmojTest model;
+    private MSSimulator model;
     private ContDistUniform timeUntilFinished;
     private int id;
 
-    public StartMicroserviceEvent(Model owner, String name, Boolean showInTrace, Integer id){
+    public StartMicroserviceEvent(Model owner, String name, Boolean showInTrace, int id){
         super(owner, name, showInTrace);
 
         setId(id);
-        model = (DesmojTest) owner;
-        timeUntilFinished = new ContDistUniform(model , name, 4,4, true, false);
+        model = (MSSimulator) owner;
+        double msThroughput = model.allMicroservices.get(id).getThroughput();
+        timeUntilFinished = new ContDistUniform(model , name, msThroughput, msThroughput, true, false);
     }
 
     @Override

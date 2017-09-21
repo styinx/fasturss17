@@ -14,7 +14,7 @@
     "instances": 1,
 	"nextMicroservice": "Backup Service",
     "dependencies": [
-      ""
+		"Backup Service"
     ],
     "throughput": 2
   },
@@ -51,9 +51,7 @@
     "name": "Database Service",
     "instances": 1,
 	"nextMicroservice": "",
-    "dependencies": [
-      ""
-    ],
+    "dependencies": [],
     "throughput": 2
   }
 ]
