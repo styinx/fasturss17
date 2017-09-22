@@ -3,13 +3,17 @@ package de.rss.fachstudie.desmojTest.export;
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
 import de.rss.fachstudie.desmojTest.utils.Node;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DependecyGraph {
     private Node root;
+    private List<String> services;
     private HashMap<Integer, MicroserviceEntity> microservices;
     public DependecyGraph(HashMap<Integer, MicroserviceEntity> microservices, int id) {
         this.microservices = microservices;
+        this.services = new ArrayList<String>();
         this.root = new Node(microservices.get(id).getName());
         this.fillGraph(root, id);
     }
@@ -47,7 +51,10 @@ public class DependecyGraph {
 
     public String printNodes(String html, Node parent) {
         String json = html;
-        json += "{ name : '" + parent.getValue() + "'},";
+        if(!services.contains(parent.getValue())) {
+            services.add(parent.getValue());
+            json += "{ name : '" + parent.getValue() + "', id : " + getIdByName(parent.getValue()) + "},";
+        }
 
         for(Node child : parent.getChildren()) {
             json += printNodes("", child);
@@ -59,7 +66,7 @@ public class DependecyGraph {
         String json = html;
 
         for(Node child : parent.getChildren()) {
-            json += "{ source : " + getIdByName(parent.getValue())
+            json += "{ source : " + getIdByName(parent.getValue()) + ""
                     + ", target : " + getIdByName(child.getValue()) + "},";
             json += printLinks("", child);
         }

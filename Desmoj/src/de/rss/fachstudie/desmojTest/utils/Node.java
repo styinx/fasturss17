@@ -13,7 +13,7 @@ public class Node {
     }
 
     public void setChild(Node child) {
-        children.add(child);
+        children.add(children.size(), child);
     }
 
     public void setChildren(List<Node> children) {
