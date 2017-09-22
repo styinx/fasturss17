@@ -32,7 +32,7 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
                 StartMicroserviceEvent nextEvent = model.event.get(model.getIdByName(microserviceEntity.getDependencies()[i]));
                 nextEvent.schedule(messageObject, new TimeSpan(0, TimeUnit.SECONDS));
             } else {
-                System.out.println((microserviceEntity.getDependencies()[i]));
+               System.out.println("Input file is probably corrupted or dependencie name of a Service is not correctly written");
             }
         }
 
