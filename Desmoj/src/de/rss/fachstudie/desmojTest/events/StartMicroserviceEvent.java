@@ -18,7 +18,6 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
 
     public StartMicroserviceEvent(Model owner, String name, Boolean showInTrace, int id){
         super(owner, name, showInTrace);
-
         setId(id);
         model = (DesmojTest) owner;
         double msThroughput = model.allMicroservices.get(id).getThroughput();
@@ -28,6 +27,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
     @Override
     public void eventRoutine(MessageObject messageObject) throws SuspendExecution {
         model.taskQueues.get(id).insert(messageObject);
+
 
         if(!model.idleQueues.get(id).isEmpty()){
             MicroserviceEntity msEntity = model.idleQueues.get(id).first();

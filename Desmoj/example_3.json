@@ -20,18 +20,18 @@
   },
   {
     "name": "Order Service",
-    "instances": 3,
+    "instances": 30,
 	"nextMicroservice": "Shipping Service",
     "dependencies": [
       "Shipping Service",
 	  "Backup Service",
-	  "Database"
+	  "Database Service"
     ],
     "throughput": 2
   },
   {
     "name": "Shipping Service",
-    "instances": 1,
+    "instances": 10,
 	"nextMicroservice": "Database Service",
     "dependencies": [
       "Database Service"
@@ -40,7 +40,7 @@
   },
   {
     "name": "Backup Service",
-    "instances": 4,
+    "instances": 40,
 	"nextMicroservice": "Database Service",
     "dependencies": [
       "Database Service"
@@ -49,7 +49,7 @@
   },
   {
     "name": "Database Service",
-    "instances": 1,
+    "instances": 10,
 	"nextMicroservice": "",
     "dependencies": [],
     "throughput": 2

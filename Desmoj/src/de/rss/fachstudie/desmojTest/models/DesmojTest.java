@@ -34,7 +34,7 @@ public class DesmojTest extends Model {
      */
     @Override
     public void doInitialSchedules() {
-        InitialMicroserviceEvent initialEvent = new InitialMicroserviceEvent(this , allMicroservices.get(0).getName() , true, 2);
+        InitialMicroserviceEvent initialEvent = new InitialMicroserviceEvent(this , allMicroservices.get(0).getName() , true, 1);
         initialEvent.schedule(new TimeSpan(0, TimeUnit.SECONDS));
     }
 
@@ -57,7 +57,7 @@ public class DesmojTest extends Model {
      */
     @Override
     public void init() {
-        MicroserviceEntity[] input = InputParser.createMicroserviceEntities("example_2.json");
+        MicroserviceEntity[] input = InputParser.createMicroserviceEntities("example_3.json");
 
         allMicroservices    = new HashMap<Integer, MicroserviceEntity>();
         event               = new HashMap<Integer, StartMicroserviceEvent>();

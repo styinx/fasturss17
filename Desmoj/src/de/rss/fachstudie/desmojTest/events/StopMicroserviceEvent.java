@@ -26,9 +26,14 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
 
     @Override
     public void eventRoutine(MicroserviceEntity microserviceEntity, MessageObject messageObject) {
-        if(!microserviceEntity.getNextMicroservice().isEmpty()){
-            StartMicroserviceEvent nextEvent = model.event.get(model.getIdByName(microserviceEntity.getNextMicroservice()));
-            nextEvent.schedule(messageObject, new TimeSpan(0, TimeUnit.SECONDS));
+        for(int i = 0; i < microserviceEntity.getDependencies().length; i++) {
+            if(model.getIdByName(microserviceEntity.getDependencies()[i]) != -1){
+
+                StartMicroserviceEvent nextEvent = model.event.get(model.getIdByName(microserviceEntity.getDependencies()[i]));
+                nextEvent.schedule(messageObject, new TimeSpan(0, TimeUnit.SECONDS));
+            } else {
+                System.out.println((microserviceEntity.getDependencies()[i]));
+            }
         }
 
         if(!model.taskQueues.get(id).isEmpty()){
