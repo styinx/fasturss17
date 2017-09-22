@@ -2,7 +2,7 @@ package de.rss.fachstudie.desmojTest.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
-import de.rss.fachstudie.desmojTest.models.MSSimulator;
+import de.rss.fachstudie.desmojTest.models.DesmojTest;
 import desmoj.core.dist.ContDistExponential;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
@@ -11,7 +11,7 @@ import desmoj.core.simulator.TimeSpan;
 import java.util.concurrent.TimeUnit;
 
 public class InitialMicroserviceEvent extends ExternalEvent {
-    private MSSimulator model;
+    private DesmojTest model;
     ContDistExponential timeToCreate;
 
     /**
@@ -25,13 +25,13 @@ public class InitialMicroserviceEvent extends ExternalEvent {
     public InitialMicroserviceEvent(Model owner, String name, boolean showInTrace, double time) {
         super(owner, name, showInTrace);
 
-        model = (MSSimulator) owner;
+        model = (DesmojTest) owner;
         timeToCreate = new ContDistExponential(model, name, time, true, false);
     }
 
     @Override
     public void eventRoutine() throws SuspendExecution {
-        MSSimulator model = (MSSimulator) getModel();
+        DesmojTest model = (DesmojTest) getModel();
         MessageObject initialMessageObject = new MessageObject(model, "Message" , true);
 
         StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "Inital Event:" + model.allMicroservices.get(0).getName(), true, 0);
