@@ -3,23 +3,20 @@ package de.rss.fachstudie.desmojTest.models;
 import de.rss.fachstudie.desmojTest.entities.*;
 import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.events.StartMicroserviceEvent;
-import de.rss.fachstudie.desmojTest.export.DataChart;
-import de.rss.fachstudie.desmojTest.export.DependecyGraph;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
 import desmoj.core.simulator.*;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-public class MSSimulator extends Model {
+public class DesmojTest extends Model {
     public HashMap<Integer,Queue<MicroserviceEntity>>   idleQueues;
     public HashMap<Integer,Queue<MessageObject>>        taskQueues;
     public HashMap<Integer,StartMicroserviceEvent>      event;
     public HashMap<Integer, MicroserviceEntity>         allMicroservices ;
 
-    public MSSimulator(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
+    public DesmojTest(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
         super(owner, modelName, showInReport, showInTrace);
     }
 
@@ -92,7 +89,7 @@ public class MSSimulator extends Model {
     }
 
     public static void main(String[] args) {
-        MSSimulator model = new MSSimulator(null, "Simple microservice model", true, true);
+        DesmojTest model = new DesmojTest(null, "Simple microservice model", true, true);
         Experiment exp = new Experiment("Desmoj_Microservice_Experiment");
 
         model.connectToExperiment(exp);
