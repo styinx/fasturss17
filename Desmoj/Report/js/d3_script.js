@@ -1,18 +1,28 @@
 // Setup
 var color = d3.scale.category20();
 var width = window.innerWidth;
-var height = 400;
-var force = -120;
-var distance = 50;
+var height = 800;
+var power = -300;
+var distance = 100;
 var svg = d3.select("body").append("svg").attr("width", '100%').attr("height", height);
-var force = d3.layout.force().charge(force).linkDistance(distance).size([width, height]);
+var force = d3.layout.force().charge(power).linkDistance(distance).size([width, height]);
+
+if(!graph)
+{
+    graph = {nodes : [{name : "Graph is Empty (Some problems occurred)"}], links : []}
+}
+
+graph = renameLinks(graph);
+graph = groupLinks(graph);
+force.nodes(graph.nodes).links(graph.links).start();
 
 // Links
 var link = svg.selectAll(".link")
 	.data(graph.links)
 	.enter().append("line")
 	.attr("class", "link")
-	.style("stroke-width", function (d) { Math.sqrt(d.value);});
+	.style("stroke-width", function (d) { return 1});
+	//.style("stroke-width", function (d) { return Math.sqrt(d.value)});
 
 // Tooltip
 var tip = d3.tip()
@@ -35,7 +45,7 @@ var node = svg.selectAll(".node")
 	.on('mouseout', tip.hide);
 
 // Update
-force.on("tick", function () 
+force.on("tick", function ()
 {
 	link.attr("x1", function (d) {return d.source.x;})
 		.attr("y1", function (d) {return d.source.y;})
@@ -51,12 +61,45 @@ force.on("tick", function ()
 		.attr("y", function (d) {return d.y;});
 });
 
-//TODO check correct
+// Map links from indexes to ids
 function renameLinks(graph)
 {
-    for(var i in graph.links)
+    var links = [];
+    graph.links.forEach(function(l)
     {
-        graph.links[i].source = graph.nodes[graph.links[i].source].id;
-        graph.links[i].target = graph.nodes[graph.links[i].target].id;
+        var sourceNode = graph.nodes.filter(function(n) { return n.group === l.source; })[0];
+        var targetNode = graph.nodes.filter(function(n) { return n.group === l.target; })[0];
+
+        links.push({source: sourceNode.group, target: targetNode.group, value: l.value});
+    });
+    graph.links = links;
+    return graph;
+}
+
+// Create links between groups
+function groupLinks(graph)
+{
+    var links = [];
+    var groups = {};
+    graph.links.forEach(function(l)
+    {
+        groups[l.source] = l.target
+    });
+
+    for(var g in groups)
+    {
+        var sourceNodes = graph.nodes.filter(function(n) { return n.group == g});
+        var targetNodes = graph.nodes.filter(function(n) { return n.group == groups[g]});
+
+        sourceNodes.forEach(function(s)
+        {
+            targetNodes.forEach(function(t)
+            {
+                links.push({source : s, target : t});
+            });
+        });
     }
+
+    graph.links = links;
+    return graph;
 }

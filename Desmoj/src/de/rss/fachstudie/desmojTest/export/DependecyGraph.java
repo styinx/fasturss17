@@ -44,8 +44,8 @@ public class DependecyGraph {
     public String printGraph() {
         String nodes = printNodes("", root);
         String links = printLinks("", root);
-        String html = "{nodes:[" + nodes.substring(0, nodes.length() - 1) + "],"
-                + "links:[" + links.substring(0, links.length() - 1) + "]}";
+        String html = "var graph = {nodes:[" + nodes.substring(0, nodes.length() - 1) + "],"
+                + "links:[" + links.substring(0, links.length() - 1) + "]};";
         return html;
     }
 
@@ -53,7 +53,10 @@ public class DependecyGraph {
         String json = html;
         if(!services.contains(parent.getValue())) {
             services.add(parent.getValue());
-            json += "{ name : '" + parent.getValue() + "', id : '" + parent.getValue() + "'},";
+            int id = getIdByName(parent.getValue());
+            for(int i = 0; i < microservices.get(id).getInstances(); ++i) {
+                json += "{ name: '" + parent.getValue() + "', id: " + (id * microservices.keySet().size() + i) + ", group: " + id + "},";
+            }
         }
 
         for(Node child : parent.getChildren()) {
@@ -66,8 +69,10 @@ public class DependecyGraph {
         String json = html;
 
         for(Node child : parent.getChildren()) {
-            json += "{ source : '" + parent.getValue() + "'"
-                    + ", target : '" + getIdByName(child.getValue()) + "'},";
+            int parentId = getIdByName(parent.getValue());
+            json += "{ source : " + parentId
+                    + ", target : " + getIdByName(child.getValue())
+                    + ", value : " + microservices.get(parentId).getInstances() + "},";
             json += printLinks("", child);
         }
         return json;

@@ -1,29 +1,35 @@
 package de.rss.fachstudie.desmojTest.export;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class DataChart {
     private String chartId = "";
+    private HashMap<String, Integer[]> series;
     private String options = "";
 
-    public DataChart(String chartId) {
+    public DataChart(String chartId, HashMap<String, Integer[]> series) {
         this.chartId = chartId;
-        this.options =
+        this.series = series;
+        /*this.options =
                 "title : { text : '" + chartId + "'}," +
                 "series : " +
-                "[" +
-                        "{" +
-                            "name : 'Test1'," +
-                            "data : [0, 1, 2, 3, 4, 5]" +
-                        "}," +
-                        "{" +
-                            "name : 'Test2'," +
-                            "data : [0, 2, 4, 0, 2, 1]" +
-                        "}" +
-                "]";
+                "[";
+        for(String key : series.keySet()) {
+            options +=
+                    "{" +
+                        "name : " + key + "," +
+                        "data : [";
+            for(Integer value : series.get(key)) {
+                options += value + ", ";
+            }
+            options = options.substring(0, options.length() - 1) + "]}";
+        }
+        options += "]";*/
     }
 
     public String printChart() {
-        return "<div id='" + chartId + "'></div>" +
-                "<script type='text/javascript' src='https://code.highcharts.com/highcharts.js'></script>" +
-                "<script type='text/javascript'>Highcharts.chart(" + chartId + ", {" + options + "});</script>";
+        return "<script type='text/javascript'>Highcharts.chart(" + chartId + ", {" + options + "});</script>";
     }
 }
