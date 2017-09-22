@@ -14,7 +14,7 @@ public class DesmojTest extends Model {
     public HashMap<Integer,Queue<MicroserviceEntity>>   idleQueues;
     public HashMap<Integer,Queue<MessageObject>>        taskQueues;
     public HashMap<Integer,StartMicroserviceEvent>      event;
-    public HashMap<Integer, MicroserviceEntity>         allMicroservices ;
+    public HashMap<Integer, MicroserviceEntity>         allMicroservices;
 
     public DesmojTest(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
         super(owner, modelName, showInReport, showInTrace);
@@ -68,6 +68,9 @@ public class DesmojTest extends Model {
         for(int i = 0; i < input.length; i++){
             Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + input[i].getName(), true, true);
             Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + input[i].getName(), true , true) ;
+
+            //Queue for maxQueue returns refuse and should be used to turn Circuit breakers of with using a waiting queue 1 ( 0 for int max value)
+            //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + input[i].getName(), QueueBased.FIFO , 1, true , true);
 
             for(int y = 0; y < input[i].getInstances(); y ++ ){
                 MicroserviceEntity msEntity = new MicroserviceEntity(this , input[i].getName(), true );
