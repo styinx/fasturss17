@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Gateway",
+    "instances" : 5,
+	"power" : 3.5,
+	"operations" : 
+	[
+		"dostuff" :
+		{
+			"dependencies": 
+			[
+		  		{
+					"pattern" : "Circuit Breaker", 
+					"ms" : "Authentication", 
+					"""dienst", 
+					"ws" : 0.5 
+				},
+    			"throughput": 1
+			]
+		}
+	]
+  }
+]

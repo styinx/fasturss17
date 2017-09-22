@@ -53,7 +53,7 @@ public class DependecyGraph {
         String json = html;
         if(!services.contains(parent.getValue())) {
             services.add(parent.getValue());
-            json += "{ name : '" + parent.getValue() + "', id : " + getIdByName(parent.getValue()) + "},";
+            json += "{ name : '" + parent.getValue() + "', id : '" + parent.getValue() + "'},";
         }
 
         for(Node child : parent.getChildren()) {
@@ -66,8 +66,8 @@ public class DependecyGraph {
         String json = html;
 
         for(Node child : parent.getChildren()) {
-            json += "{ source : " + getIdByName(parent.getValue()) + ""
-                    + ", target : " + getIdByName(child.getValue()) + "},";
+            json += "{ source : '" + parent.getValue() + "'"
+                    + ", target : '" + getIdByName(child.getValue()) + "'},";
             json += printLinks("", child);
         }
         return json;
