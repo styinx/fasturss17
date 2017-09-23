@@ -19,6 +19,7 @@ public class ExportReport {
 
         try {
             Files.write(Paths.get("./Report/js/graph.js"), graph.printGraph().getBytes());
+            Files.write(Paths.get("./Report/js/chart.js"), chart.printChart().getBytes());
         } catch (IOException ex) {
             System.out.println("");
         }

@@ -1,7 +1,7 @@
 [
   {
     "name": "Gateway",
-    "instances": 5,
+    "instances": 3,
     "dependencies": [
       "Authentication Service",
       "Order Service"
@@ -10,7 +10,7 @@
   },
   {
     "name": "Authentication Service",
-    "instances": 1,
+    "instances": 2,
     "dependencies": [
 		"Backup Service"
     ],
@@ -18,7 +18,7 @@
   },
   {
     "name": "Order Service",
-    "instances": 30,
+    "instances": 5,
     "dependencies": [
       "Shipping Service",
 	  "Backup Service",
@@ -28,7 +28,7 @@
   },
   {
     "name": "Shipping Service",
-    "instances": 10,
+    "instances": 2,
     "dependencies": [
       "Database Service"
     ],
@@ -36,7 +36,7 @@
   },
   {
     "name": "Backup Service",
-    "instances": 40,
+    "instances": 2,
     "dependencies": [
       "Database Service"
     ],
@@ -44,7 +44,7 @@
   },
   {
     "name": "Database Service",
-    "instances": 10,
+    "instances": 3,
     "dependencies": [],
     "throughput": 2
   }

@@ -55,7 +55,7 @@ public class DependecyGraph {
             services.add(parent.getValue());
             int id = getIdByName(parent.getValue());
             for(int i = 0; i < microservices.get(id).getInstances(); ++i) {
-                json += "{ name: '" + parent.getValue() + "', id: " + (id * microservices.keySet().size() + i) + ", group: " + id + "},";
+                json += "{ name: '" + parent.getValue() + "', id: " + (id + microservices.keySet().size() * i) + ", group: " + id + "},";
             }
         }
 

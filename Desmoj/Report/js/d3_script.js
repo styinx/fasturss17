@@ -2,8 +2,8 @@
 var color = d3.scale.category20();
 var width = window.innerWidth;
 var height = window.innerHeight;
-var power = -300;
-var distance = 300;
+var power = -100;
+var distance = 100;
 var svg = d3.select("body").append("svg").attr("width", '100%').attr("height", height);
 var force = d3.layout.force().charge(power).linkDistance(distance).size([width, height]);
 
@@ -44,6 +44,7 @@ var node = svg.selectAll(".node")
 	.enter()
 	.append("g")
 	.attr("class", "node")
+	.attr("id", function(d){ return "group-" + d.group})
 	.call(force.drag)
 	.append("circle")
 	.attr("r", 8)
@@ -57,6 +58,10 @@ var node = svg.selectAll(".node")
     .on("mouseout", function(d) {
         tooltip.transition().duration(500).style("opacity", 0);
     });
+    /*
+    .on("click", function(d) {
+            svg.selectAll("#group-" + d.group).style("opacity", 0);
+        });*/
 
 // Update
 force.on("tick", function ()
@@ -97,13 +102,16 @@ function groupLinks(graph)
     var groups = {};
     graph.links.forEach(function(l)
     {
-        groups[l.source] = l.target;
+        if(!groups[l.source])
+            groups[l.source] = [];
+        if(groups[l.source].indexOf(l.target) == -1)
+            groups[l.source].push(l.target);
     });
 
     for(var g in groups)
     {
         var sourceNodes = graph.nodes.filter(function(n) { return n.group == g});
-        var targetNodes = graph.nodes.filter(function(n) { /*return groups[g].forEach(function(gr) {return n.group == gr}) */return n.group == groups[g]});
+        var targetNodes = graph.nodes.filter(function(n) { return groups[g].indexOf(n.group) >= 0});
 
         sourceNodes.forEach(function(s)
         {

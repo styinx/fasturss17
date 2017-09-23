@@ -27,10 +27,11 @@ public class DataChart {
             options = options.substring(0, options.length() - 1) + "]}";
         }
         options += "]";*/
+        this.options = "series: [{name: 'Test1', data: [0, 1, 2, 3]}]";
     }
 
     public String printChart() {
-        return "<div id='" + chartId + "'></div>" +
-                "<script type='text/javascript'>Highcharts.chart(" + chartId + ", {" + options + "});</script>";
+        return "setTimeout(function(){document.getElementsByTagName('body')[0].innerHTML += \"<div id='" + chartId + "'></div>\";" +
+                "Highcharts.chart(" + chartId + ", {" + options + "});}, 2000);";
     }
 }
