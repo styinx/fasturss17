@@ -2,7 +2,6 @@
   {
     "name": "Gateway",
     "instances": 5,
-	"nextMicroservice": "Order Service",
     "dependencies": [
       "Authentication Service",
       "Order Service"
@@ -12,7 +11,6 @@
   {
     "name": "Authentication Service",
     "instances": 1,
-	"nextMicroservice": "Backup Service",
     "dependencies": [
 		"Backup Service"
     ],
@@ -21,7 +19,6 @@
   {
     "name": "Order Service",
     "instances": 30,
-	"nextMicroservice": "Shipping Service",
     "dependencies": [
       "Shipping Service",
 	  "Backup Service",
@@ -32,7 +29,6 @@
   {
     "name": "Shipping Service",
     "instances": 10,
-	"nextMicroservice": "Database Service",
     "dependencies": [
       "Database Service"
     ],
@@ -41,7 +37,6 @@
   {
     "name": "Backup Service",
     "instances": 40,
-	"nextMicroservice": "Database Service",
     "dependencies": [
       "Database Service"
     ],
@@ -50,7 +45,6 @@
   {
     "name": "Database Service",
     "instances": 10,
-	"nextMicroservice": "",
     "dependencies": [],
     "throughput": 2
   }

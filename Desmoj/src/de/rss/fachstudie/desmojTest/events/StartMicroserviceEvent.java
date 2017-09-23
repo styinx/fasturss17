@@ -11,6 +11,12 @@ import desmoj.core.simulator.TimeSpan;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This event class gets a working object and schedules a timespan during a microservice is busy.
+ * @param model
+ * @param timeUntilFinished
+ * @param id id of the corresponding microservice
+ */
 public class StartMicroserviceEvent extends Event<MessageObject> {
     private DesmojTest model;
     private ContDistUniform timeUntilFinished;
@@ -34,7 +40,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             model.idleQueues.get(id).remove(msEntity);
             model.taskQueues.get(id).remove(messageObject);
 
-            StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model, "StopEvent: " + msEntity.getNextMicroservice(), true, id);
+            StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model, "StopEvent: " + msEntity.getName(), true, id);
             msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), TimeUnit.SECONDS));
 
         }

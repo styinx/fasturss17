@@ -1,6 +1,6 @@
 svg 
 { 
-	border: 1px solid black; 
+	border: 0px solid black;
 	background: lightgray; 
 } 
  
@@ -15,17 +15,18 @@ svg
 { 
 	stroke: #fff; 
 	stroke-width: 2px; 
-} 
- 
-d3-tip 
-{ 
-	color: black; 
-	font-size: 10px; 
-	font-family: Verdana; 
-} 
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 2px;
+    color: white;
+    background: rgba(50, 50, 50, 0.8);
+    pointer-events: none;
+}
  
 .link 
 { 
-	stroke: #777; 
-	/*stroke-width: 2px;*/
+	stroke: #777;
 }

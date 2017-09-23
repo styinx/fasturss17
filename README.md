@@ -19,15 +19,27 @@ What do i need for use ...
 
 ```javascript
 
-"microservices" :									// definition of all microservices
-{
-	"Frontend":										// microservice
+"microservices" :					// definition of all microservices
+[
 	{
-		"name" : "frontend",						// name
-		"antipatterns" : ["Circuit Breaker"],		// resilience pattern
-		"instances": 4,								// instance counter
-		"dependencies": ["Database", "Server"],		// microservice dependency
-		"throughput" : 3							// data transmission rate
+		"name" : "frontend",		// name
+		"instances" : 4,			// instance counter
+		"power" : 3.5,
+		"operations" : 
+		[
+			{
+				"name" : "doStuff",
+				"dependencies" : 
+				[
+					{
+						"service" : "Database", 
+						"operation" : "save",
+						"duration" : 4,
+						"propability" : 0.8
+					}
+				],							
+			}
+		]
 	},
 	"Database":
 	{
@@ -43,32 +55,31 @@ What do i need for use ...
 		"dependencies": ["Frontend"],
 		"throughput" : 3
 	}
-},
-"message_object" :									// transmission object
-{
-	"token" :										// message object
+],
+"message_object" :					// transmission object
+[
 	{
 		"instances" : 4,
-		"path" : ["frontend" : 5, "database" : 3] 	// duration at a microservice
+		"path" : 
+		[
+			"frontend", 
+			"database"
+		] 	
 	},
-	"token":
+],
+"failures":							// error modes
+[
 	{
-		"server" : 5
+		"type" : "errormonkey"
+		"service" : "frontend",		// shutdown target
+		"instances" : 3,			// number of instances that should be killed
+		"time" : [1, 2, 3]			// time period, at which the instances should be killed
 	}
-},
-"failures":											// error modes
-{
-	"chaosmonkey" :									// shutdown service
-	{
-		"service" : "frontend",						// shutdown target
-		"instances" : 3,							// number of instances that should be killed
-		"time" : [1, 2, 3]							// time period, at which the instances should be killed
-	}
-},
-"triggers" :										// special runtime events
-{
+],
+"triggers" :						// special runtime events
+[
 
-}
+]
 ```
 
 ### <a name="Sim-Doc"></a>Documentation

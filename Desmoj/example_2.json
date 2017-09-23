@@ -2,7 +2,6 @@
   {
     "name": "Gateway",
     "instances": 2,
-	"nextMicroservice": "Order Service",
     "dependencies": [
       "Order Service"
     ],
@@ -11,7 +10,6 @@
   {
     "name": "Order Service",
     "instances": 1,
-	"nextMicroservice": "Processing Service",
     "dependencies": [
       "Processing Service"
     ],
@@ -20,7 +18,6 @@
   {
     "name": "Processing Service",
     "instances": 3,
-	"nextMicroservice": "Shipping Service",
     "dependencies": [
       "Shipping Service"
     ],
@@ -29,7 +26,6 @@
   {
     "name": "Shipping Service",
     "instances": 1,
-	"nextMicroservice": "",
     "dependencies": [],
     "throughput": 2
   }

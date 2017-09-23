@@ -10,6 +10,11 @@ import desmoj.core.simulator.TimeSpan;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ *
+ * @param model
+ * @param timeToCreate
+ */
 public class InitialMicroserviceEvent extends ExternalEvent {
     private DesmojTest model;
     ContDistExponential timeToCreate;

@@ -5,12 +5,22 @@ import desmoj.core.simulator.Model;
 
 import java.util.List;
 
+/**
+ * A MicroserviceEntity represents a collection of services.
+ * Each instance is able to call operations to another service instance.
+ * @param id internal unique number to identify a service
+ * @param name the given name of the service in the input
+ * @param power the computing power a microservice has available
+ * @param instances number of instances a service can create
+ * @param operations ...
+ */
 public class MicroserviceEntity extends Entity {
     private int id;
-    private double throughput = 0;
     private String name = "";
+    private double power = 0;
     private int instances = 0;
-    private String nextMicroservice = "";
+    private Operation[] operations;
+    private double throughput = 0;
     private String[] dependencies;
 
     public MicroserviceEntity (Model owner, String name, boolean showInTrace){
@@ -33,12 +43,12 @@ public class MicroserviceEntity extends Entity {
         this.name = name;
     }
 
-    public String getNextMicroservice() {
-        return nextMicroservice;
+    public double getPower() {
+        return power;
     }
 
-    public void setNextMicroservice(String nextMicroservice) {
-        this.nextMicroservice = nextMicroservice;
+    public void setPower(double power) {
+        this.power = power;
     }
 
     public int getInstances() {
@@ -47,6 +57,14 @@ public class MicroserviceEntity extends Entity {
 
     public void setInstances(int numberOfInstances) {
         this.instances = numberOfInstances;
+    }
+
+    public Operation[] getOperations() {
+        return operations;
+    }
+
+    public void setOperations(Operation[] operations) {
+        this.operations = operations;
     }
 
     public String[] getDependencies() {

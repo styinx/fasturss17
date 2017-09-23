@@ -30,6 +30,7 @@ public class DataChart {
     }
 
     public String printChart() {
-        return "<script type='text/javascript'>Highcharts.chart(" + chartId + ", {" + options + "});</script>";
+        return "<div id='" + chartId + "'></div>" +
+                "<script type='text/javascript'>Highcharts.chart(" + chartId + ", {" + options + "});</script>";
     }
 }

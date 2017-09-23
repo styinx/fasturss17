@@ -1,9 +1,9 @@
 // Setup
 var color = d3.scale.category20();
 var width = window.innerWidth;
-var height = 800;
+var height = window.innerHeight;
 var power = -300;
-var distance = 100;
+var distance = 300;
 var svg = d3.select("body").append("svg").attr("width", '100%').attr("height", height);
 var force = d3.layout.force().charge(power).linkDistance(distance).size([width, height]);
 
@@ -16,6 +16,11 @@ graph = renameLinks(graph);
 graph = groupLinks(graph);
 force.nodes(graph.nodes).links(graph.links).start();
 
+// Tooltip
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 // Links
 var link = svg.selectAll(".link")
 	.data(graph.links)
@@ -23,13 +28,15 @@ var link = svg.selectAll(".link")
 	.attr("class", "link")
 	.style("stroke-width", function (d) { return 1});
 	//.style("stroke-width", function (d) { return Math.sqrt(d.value)});
-
-// Tooltip
-var tip = d3.tip()
-	.attr('class', 'd3-tip')
-	.offset([-10, 0])
-	.html(function (d) {return  d.name + "";})
-	svg.call(tip);
+	/*.on("mouseover", function(d,i) {
+            tooltip.transition().duration(200).style("opacity", .9);
+            tooltip.html("asdasdsd")
+            .style("left", (d3.event.pageX - d.value.length*3) + "px")
+            .style("top", (d3.event.pageY - 35) + "px");
+    })
+    .on("mouseout", function(d) {
+        tooltip.transition().duration(500).style("opacity", 0);
+    });*/
 
 // Nodes
 var node = svg.selectAll(".node")
@@ -41,8 +48,15 @@ var node = svg.selectAll(".node")
 	.append("circle")
 	.attr("r", 8)
 	.style("fill", function (d) {return color(d.group); })
-	.on('mouseover', tip.show)
-	.on('mouseout', tip.hide);
+	.on("mouseover", function(d,i) {
+        tooltip.transition().duration(200).style("opacity", .9);
+        tooltip.html(d.name)
+        .style("left", (d3.event.pageX - d.name.length*3) + "px")
+        .style("top", (d3.event.pageY - 35) + "px");
+    })
+    .on("mouseout", function(d) {
+        tooltip.transition().duration(500).style("opacity", 0);
+    });
 
 // Update
 force.on("tick", function ()
@@ -83,13 +97,13 @@ function groupLinks(graph)
     var groups = {};
     graph.links.forEach(function(l)
     {
-        groups[l.source] = l.target
+        groups[l.source] = l.target;
     });
 
     for(var g in groups)
     {
         var sourceNodes = graph.nodes.filter(function(n) { return n.group == g});
-        var targetNodes = graph.nodes.filter(function(n) { return n.group == groups[g]});
+        var targetNodes = graph.nodes.filter(function(n) { /*return groups[g].forEach(function(gr) {return n.group == gr}) */return n.group == groups[g]});
 
         sourceNodes.forEach(function(s)
         {
@@ -102,4 +116,9 @@ function groupLinks(graph)
 
     graph.links = links;
     return graph;
+}
+
+function toogleGroup()
+{
+
 }

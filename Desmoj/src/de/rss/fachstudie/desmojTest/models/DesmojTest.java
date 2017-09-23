@@ -57,7 +57,7 @@ public class DesmojTest extends Model {
      */
     @Override
     public void init() {
-        MicroserviceEntity[] input = InputParser.createMicroserviceEntities("example_2.json");
+        MicroserviceEntity[] input = InputParser.createMicroserviceEntities("example_3.json");
 
         allMicroservices    = new HashMap<>();
         event               = new HashMap<>();
@@ -78,7 +78,6 @@ public class DesmojTest extends Model {
                 msEntity.setId(i);
                 msEntity.setInstances(input[i].getInstances());
                 msEntity.setThroughput(input[i].getThroughput());
-                msEntity.setNextMicroservice(input[i].getNextMicroservice());
                 msEntity.setDependencies(input[i].getDependencies());
                 idleQueue.insert(msEntity);
                 allMicroservices.put(i, msEntity);

@@ -10,8 +10,8 @@
 			"dependencies" : 
 			[
 				{
-					"name" : "save",
 					"service" : "Database", 
+					"operation" : "save",
 					"pattern" : "Circuit Breaker",
 					"duration" : 4,
 					"propability" : 0.8
