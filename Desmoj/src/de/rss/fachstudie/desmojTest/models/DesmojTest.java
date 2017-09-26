@@ -1,6 +1,7 @@
 package de.rss.fachstudie.desmojTest.models;
 
 import de.rss.fachstudie.desmojTest.entities.*;
+import de.rss.fachstudie.desmojTest.events.ErrorMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.events.StartMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
@@ -10,10 +11,21 @@ import desmoj.core.simulator.*;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Main class to start the experiment. This class will load the input file and create a model out of it.
+ * doInitialSchedules Starts the inital event.
+ * init Gets called at the start of the experiment and loads all relevant experiment resources.
+ */
 public class DesmojTest extends Model {
+    public TimeUnit timeUnit = TimeUnit.SECONDS;
+    /* Define logging for each event, extend for queue events, maybe refactor TODO */
+    public boolean showInitEvent = true;
+    public boolean showStartEvent = true;
+    public boolean showStopEvent = true;
+
     public HashMap<Integer,Queue<MicroserviceEntity>>   idleQueues;
     public HashMap<Integer,Queue<MessageObject>>        taskQueues;
-    public HashMap<Integer,StartMicroserviceEvent>      event;
+    //public HashMap<Integer,StartMicroserviceEvent>      event;
     public HashMap<Integer, MicroserviceEntity>         allMicroservices;
 
     public DesmojTest(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
@@ -34,8 +46,12 @@ public class DesmojTest extends Model {
      */
     @Override
     public void doInitialSchedules() {
-        InitialMicroserviceEvent initialEvent = new InitialMicroserviceEvent(this , allMicroservices.get(0).getName() , true, 1);
-        initialEvent.schedule(new TimeSpan(0, TimeUnit.SECONDS));
+        InitialMicroserviceEvent initialEvent = new InitialMicroserviceEvent(this , allMicroservices.get(0).getName(), true, 1, "Microservice", true, 0);
+        initialEvent.schedule(new TimeSpan(0, timeUnit));
+
+        //TODO rename to something like InitalEvent
+        InitialMicroserviceEvent monkeyEvent = new InitialMicroserviceEvent(this, "ErrorMonkey", true, 1, "ErrorMonkey", false, 0);
+        monkeyEvent.schedule(new TimeSpan(0, timeUnit));
     }
 
     /**
@@ -60,7 +76,6 @@ public class DesmojTest extends Model {
         MicroserviceEntity[] input = InputParser.createMicroserviceEntities("example_3.json");
 
         allMicroservices    = new HashMap<>();
-        event               = new HashMap<>();
         taskQueues          = new HashMap<>();
         idleQueues          = new HashMap<>();
 
@@ -83,8 +98,6 @@ public class DesmojTest extends Model {
                 allMicroservices.put(i, msEntity);
             }
 
-            StartMicroserviceEvent startEvent = new StartMicroserviceEvent(this, "Start Event: " + input[i].getName(), true, i);
-            event.put(i,startEvent);
             taskQueues.put(i, taskQueue);
             idleQueues.put(i , idleQueue);
         }
@@ -98,8 +111,8 @@ public class DesmojTest extends Model {
 
         exp.setShowProgressBarAutoclose(true);
         exp.stop(new TimeInstant(1500, TimeUnit.SECONDS));
-        exp.tracePeriod(new TimeInstant(0, TimeUnit.SECONDS), new TimeInstant(100, TimeUnit.SECONDS));
-        exp.debugPeriod(new TimeInstant(0, TimeUnit.SECONDS), new TimeInstant(50, TimeUnit.SECONDS));
+        exp.tracePeriod(new TimeInstant(0, TimeUnit.SECONDS), new TimeInstant(100, model.timeUnit));
+        exp.debugPeriod(new TimeInstant(0, TimeUnit.SECONDS), new TimeInstant(50, model.timeUnit));
 
         exp.start();
 

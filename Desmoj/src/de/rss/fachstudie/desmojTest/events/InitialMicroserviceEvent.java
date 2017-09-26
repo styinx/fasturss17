@@ -12,12 +12,13 @@ import java.util.concurrent.TimeUnit;
 
 /**
  *
- * @param model
- * @param timeToCreate
  */
 public class InitialMicroserviceEvent extends ExternalEvent {
     private DesmojTest model;
-    ContDistExponential timeToCreate;
+    private ContDistExponential timeToCreate;
+    private boolean periodically = false;
+    private String type = "Microservice";
+    private int msId = 0;
 
     /**
      * Triggers the first event.
@@ -27,21 +28,31 @@ public class InitialMicroserviceEvent extends ExternalEvent {
      * @param showInTrace
      * @param time          Time period to create first event
      */
-    public InitialMicroserviceEvent(Model owner, String name, boolean showInTrace, double time) {
+    public InitialMicroserviceEvent(Model owner, String name, boolean showInTrace, double time, String type, boolean periodically, int msId) {
         super(owner, name, showInTrace);
 
         model = (DesmojTest) owner;
         timeToCreate = new ContDistExponential(model, name, time, true, false);
+        this.periodically = periodically;
+        this.type = type;
+        this.msId = msId;
     }
 
     @Override
     public void eventRoutine() throws SuspendExecution {
-        DesmojTest model = (DesmojTest) getModel();
-        MessageObject initialMessageObject = new MessageObject(model, "Message" , true);
+        if(type.equals("Microservice")) {
+            DesmojTest model = (DesmojTest) getModel();
+            MessageObject initialMessageObject = new MessageObject(model, "MessageObject", true);
 
-        StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "Inital Event:" + model.allMicroservices.get(0).getName(), true, 0);
-        startEvent.schedule(initialMessageObject, new TimeSpan(0, TimeUnit.SECONDS));
+            StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "<b><u>Inital Event:</u></b> " + model.allMicroservices.get(0).getName(), true, 0);
+            startEvent.schedule(initialMessageObject, new TimeSpan(0, TimeUnit.SECONDS));
+        } else if(type.equals("ErrorMonkey")) {
+            ErrorMonkeyEvent monkeyEvent = new ErrorMonkeyEvent(model, "<b><u>ErrorMonkey Event:</u></b>", true, msId);
+            monkeyEvent.schedule(new TimeSpan(timeToCreate.sample(), TimeUnit.SECONDS));
+        }
 
-        schedule(new TimeSpan(timeToCreate.sample()));
+        if(periodically) {
+            schedule(new TimeSpan(timeToCreate.sample(), TimeUnit.SECONDS));
+        }
     }
 }
