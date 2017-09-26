@@ -42,17 +42,17 @@ public class InitialMicroserviceEvent extends ExternalEvent {
     public void eventRoutine() throws SuspendExecution {
         if(type.equals("Microservice")) {
             DesmojTest model = (DesmojTest) getModel();
-            MessageObject initialMessageObject = new MessageObject(model, "MessageObject", true);
+            MessageObject initialMessageObject = new MessageObject(model, "MessageObject", model.getShowStartEvent());
 
-            StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "<b><u>Inital Event:</u></b> " + model.allMicroservices.get(0).getName(), true, 0);
-            startEvent.schedule(initialMessageObject, new TimeSpan(0, TimeUnit.SECONDS));
+            StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "<b><u>Inital Event:</u></b> " + model.allMicroservices.get(0).getName(), model.getShowStartEvent(), 0);
+            startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
         } else if(type.equals("ErrorMonkey")) {
-            ErrorMonkeyEvent monkeyEvent = new ErrorMonkeyEvent(model, "<b><u>ErrorMonkey Event:</u></b>", true, msId);
-            monkeyEvent.schedule(new TimeSpan(timeToCreate.sample(), TimeUnit.SECONDS));
+            ErrorMonkeyEvent monkeyEvent = new ErrorMonkeyEvent(model, "<b><u>ErrorMonkey Event:</u></b>", model.getShowMonkeyEvent(), msId, model.allMicroservices.get(msId).getInstances());
+            monkeyEvent.schedule(new TimeSpan(timeToCreate.sample(), model.getTimeUnit()));
         }
 
         if(periodically) {
-            schedule(new TimeSpan(timeToCreate.sample(), TimeUnit.SECONDS));
+            schedule(new TimeSpan(timeToCreate.sample(), model.getTimeUnit()));
         }
     }
 }

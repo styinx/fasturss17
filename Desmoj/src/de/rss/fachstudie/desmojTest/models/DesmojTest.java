@@ -17,17 +17,64 @@ import java.util.concurrent.TimeUnit;
  * init Gets called at the start of the experiment and loads all relevant experiment resources.
  */
 public class DesmojTest extends Model {
-    public TimeUnit timeUnit = TimeUnit.SECONDS;
-    /* Define logging for each event, extend for queue events, maybe refactor TODO */
-    public boolean showInitEvent = true;
-    public boolean showStartEvent = true;
-    public boolean showStopEvent = true;
+    private TimeUnit timeUnit = TimeUnit.SECONDS;
+    private boolean showInitEvent   = false;
+    private boolean showStartEvent  = false;
+    private boolean showStopEvent   = false;
+    private boolean showMonkeyEvent = false;
 
     public HashMap<Integer,Queue<MicroserviceEntity>>   idleQueues;
     public HashMap<Integer,Queue<MessageObject>>        taskQueues;
-    //public HashMap<Integer,StartMicroserviceEvent>      event;
     public HashMap<Integer, MicroserviceEntity>         allMicroservices;
 
+    public TimeUnit getTimeUnit() {
+        return timeUnit;
+    }
+
+    public void setTimeUnit(TimeUnit timeUnit) {
+        this.timeUnit = timeUnit;
+    }
+
+    public boolean getShowInitEvent() {
+        return showInitEvent;
+    }
+
+    public void setShowInitEvent(boolean showInitEvent) {
+        this.showInitEvent = showInitEvent;
+    }
+
+    public boolean getShowStartEvent() {
+        return showStartEvent;
+    }
+
+    public void setShowStartEvent(boolean showStartEvent) {
+        this.showStartEvent = showStartEvent;
+    }
+
+    public boolean getShowStopEvent() {
+        return showStopEvent;
+    }
+
+    public void setShowStopEvent(boolean showStopEvent) {
+        this.showStopEvent = showStopEvent;
+    }
+
+    public boolean getShowMonkeyEvent() {
+        return showMonkeyEvent;
+    }
+
+    public void setShowMonkeyEvent(boolean showMonkeyEvent) {
+        this.showMonkeyEvent = showMonkeyEvent;
+    }
+
+
+    /**
+     *
+     * @param owner
+     * @param modelName
+     * @param showInReport
+     * @param showInTrace
+     */
     public DesmojTest(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
         super(owner, modelName, showInReport, showInTrace);
     }
@@ -46,11 +93,11 @@ public class DesmojTest extends Model {
      */
     @Override
     public void doInitialSchedules() {
-        InitialMicroserviceEvent initialEvent = new InitialMicroserviceEvent(this , allMicroservices.get(0).getName(), true, 1, "Microservice", true, 0);
+        InitialMicroserviceEvent initialEvent = new InitialMicroserviceEvent(this , "Generator for: " + allMicroservices.get(0).getName(), showInitEvent, 1, "Microservice", true, 0);
         initialEvent.schedule(new TimeSpan(0, timeUnit));
 
         //TODO rename to something like InitalEvent
-        InitialMicroserviceEvent monkeyEvent = new InitialMicroserviceEvent(this, "ErrorMonkey", true, 1, "ErrorMonkey", false, 0);
+        InitialMicroserviceEvent monkeyEvent = new InitialMicroserviceEvent(this, "ErrorMonkey", showInitEvent, 10, "ErrorMonkey", false, 0);
         monkeyEvent.schedule(new TimeSpan(0, timeUnit));
     }
 
@@ -110,9 +157,9 @@ public class DesmojTest extends Model {
         model.connectToExperiment(exp);
 
         exp.setShowProgressBarAutoclose(true);
-        exp.stop(new TimeInstant(1500, TimeUnit.SECONDS));
-        exp.tracePeriod(new TimeInstant(0, TimeUnit.SECONDS), new TimeInstant(100, model.timeUnit));
-        exp.debugPeriod(new TimeInstant(0, TimeUnit.SECONDS), new TimeInstant(50, model.timeUnit));
+        exp.stop(new TimeInstant(1500, model.getTimeUnit()));
+        exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(100, model.getTimeUnit()));
+        exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
 
         exp.start();
 

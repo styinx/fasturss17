@@ -29,8 +29,8 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
         for(int i = 0; i < microserviceEntity.getDependencies().length; i++) {
             if(model.getIdByName(microserviceEntity.getDependencies()[i]) != -1){
                 int nextMsId = model.getIdByName(microserviceEntity.getDependencies()[i]);
-                StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model, "Start Event: " + microserviceEntity.getName(), true, nextMsId);
-                nextEvent.schedule(messageObject, new TimeSpan(0, TimeUnit.SECONDS));
+                StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model, "Start Event: " + microserviceEntity.getName(), model.getShowStartEvent(), nextMsId);
+                nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
             } else {
                System.out.println("Input file is probably corrupted or dependencie name of a Service is not correctly written");
             }
@@ -40,8 +40,8 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
             MessageObject nextMessage =  model.taskQueues.get(id).first();
             model.taskQueues.get(id).remove(nextMessage);
 
-            StopMicroserviceEvent repeat = new StopMicroserviceEvent(model, "Stop Event: " + model.allMicroservices.get(id).getName() ,true, id );
-            repeat.schedule(microserviceEntity , messageObject , new TimeSpan(timeUntilFinished.sample(), TimeUnit.SECONDS));
+            StopMicroserviceEvent repeat = new StopMicroserviceEvent(model, "Stop Event: " + model.allMicroservices.get(id).getName() ,model.getShowStopEvent(), id );
+            repeat.schedule(microserviceEntity , messageObject , new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
         } else {
             model.idleQueues.get(id).insert(microserviceEntity);
         }
