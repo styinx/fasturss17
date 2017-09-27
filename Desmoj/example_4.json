@@ -14,7 +14,10 @@
           "propability" : 0.8,
           "dependencies" : 
           [
-            {"Database" : "save"}
+            {
+              "name" : "save",
+              "service" : "Gateway"
+            }
           ]						
         }
       ]
