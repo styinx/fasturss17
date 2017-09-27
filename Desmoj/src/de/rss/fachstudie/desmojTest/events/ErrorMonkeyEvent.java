@@ -10,6 +10,7 @@ public class ErrorMonkeyEvent extends ExternalEvent {
     private DesmojTest model;
     private int instances = 0;
     private int msId = 0;
+    private double nextReschedule = 1;
 
     public ErrorMonkeyEvent(Model owner, String name, boolean showInTrace, int msId, int instances) {
         super(owner, name, showInTrace);
@@ -29,8 +30,7 @@ public class ErrorMonkeyEvent extends ExternalEvent {
         }
 
         if(this.instances > 0) {
-            // TODO adjust schedule interval, depends on simulation performance
-            schedule(new TimeSpan(1, model.getTimeUnit()));
+            schedule(new TimeSpan(nextReschedule, model.getTimeUnit()));
         }
     }
 }

@@ -16,8 +16,6 @@ import java.util.concurrent.TimeUnit;
 public class InitialMicroserviceEvent extends ExternalEvent {
     private DesmojTest model;
     private ContDistExponential timeToCreate;
-    private boolean periodically = false;
-    private String type = "Microservice";
     private int msId = 0;
 
     /**
@@ -28,31 +26,22 @@ public class InitialMicroserviceEvent extends ExternalEvent {
      * @param showInTrace
      * @param time          Time period to create first event
      */
-    public InitialMicroserviceEvent(Model owner, String name, boolean showInTrace, double time, String type, boolean periodically, int msId) {
+    public InitialMicroserviceEvent(Model owner, String name, boolean showInTrace, double time, int msId) {
         super(owner, name, showInTrace);
 
         model = (DesmojTest) owner;
         timeToCreate = new ContDistExponential(model, name, time, true, false);
-        this.periodically = periodically;
-        this.type = type;
         this.msId = msId;
     }
 
     @Override
     public void eventRoutine() throws SuspendExecution {
-        if(type.equals("Microservice")) {
-            DesmojTest model = (DesmojTest) getModel();
-            MessageObject initialMessageObject = new MessageObject(model, "MessageObject", model.getShowStartEvent());
+        DesmojTest model = (DesmojTest) getModel();
+        MessageObject initialMessageObject = new MessageObject(model, "MessageObject", model.getShowStartEvent());
 
-            StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "<b><u>Inital Event:</u></b> " + model.allMicroservices.get(0).getName(), model.getShowStartEvent(), 0);
-            startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
-        } else if(type.equals("ErrorMonkey")) {
-            ErrorMonkeyEvent monkeyEvent = new ErrorMonkeyEvent(model, "<b><u>ErrorMonkey Event:</u></b>", model.getShowMonkeyEvent(), msId, model.allMicroservices.get(msId).getInstances());
-            monkeyEvent.schedule(new TimeSpan(timeToCreate.sample(), model.getTimeUnit()));
-        }
+        StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "<b><u>Inital Event:</u></b> " + model.allMicroservices.get(0).getName(), model.getShowStartEvent(), 0);
+        startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
 
-        if(periodically) {
-            schedule(new TimeSpan(timeToCreate.sample(), model.getTimeUnit()));
-        }
+        schedule(new TimeSpan(timeToCreate.sample(), model.getTimeUnit()));
     }
 }

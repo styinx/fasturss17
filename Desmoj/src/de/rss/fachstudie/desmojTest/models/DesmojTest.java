@@ -2,6 +2,7 @@ package de.rss.fachstudie.desmojTest.models;
 
 import de.rss.fachstudie.desmojTest.entities.*;
 import de.rss.fachstudie.desmojTest.events.ErrorMonkeyEvent;
+import de.rss.fachstudie.desmojTest.events.InitalErrorMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.events.StartMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
@@ -18,10 +19,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class DesmojTest extends Model {
     private TimeUnit timeUnit = TimeUnit.SECONDS;
-    private boolean showInitEvent   = false;
+    private boolean showInitEvent   = true;
     private boolean showStartEvent  = false;
     private boolean showStopEvent   = false;
-    private boolean showMonkeyEvent = false;
+    private boolean showMonkeyEvent = true;
 
     public HashMap<Integer,Queue<MicroserviceEntity>>   idleQueues;
     public HashMap<Integer,Queue<MessageObject>>        taskQueues;
@@ -93,12 +94,11 @@ public class DesmojTest extends Model {
      */
     @Override
     public void doInitialSchedules() {
-        InitialMicroserviceEvent initialEvent = new InitialMicroserviceEvent(this , "Generator for: " + allMicroservices.get(0).getName(), showInitEvent, 1, "Microservice", true, 0);
-        initialEvent.schedule(new TimeSpan(0, timeUnit));
+        InitialMicroserviceEvent initialMicroserviceEvent = new InitialMicroserviceEvent(this , "Initial Event: " + allMicroservices.get(0).getName(), showInitEvent, 1, 0);
+        initialMicroserviceEvent.schedule(new TimeSpan(0, timeUnit));
 
-        //TODO rename to something like InitalEvent
-        InitialMicroserviceEvent monkeyEvent = new InitialMicroserviceEvent(this, "ErrorMonkey", showInitEvent, 10, "ErrorMonkey", false, 0);
-        monkeyEvent.schedule(new TimeSpan(0, timeUnit));
+        InitalErrorMonkeyEvent initalErrorMonkeyEvent = new InitalErrorMonkeyEvent(this, "ErrorMonkey Event: " + allMicroservices.get(0).getName(), showInitEvent, 10, 0, allMicroservices.get(0).getInstances());
+        initalErrorMonkeyEvent.schedule(new TimeSpan(0, timeUnit));
     }
 
     /**

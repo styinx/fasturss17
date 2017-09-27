@@ -25,7 +25,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
         setId(id);
         model = (DesmojTest) owner;
         double msThroughput = model.allMicroservices.get(id).getThroughput();
-        timeUntilFinished = new ContDistUniform(model , name, msThroughput, msThroughput, true, false);
+        timeUntilFinished = new ContDistUniform(model, name, msThroughput, msThroughput, true, false);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             model.idleQueues.get(id).remove(msEntity);
             model.taskQueues.get(id).remove(messageObject);
 
-            StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model, "StopEvent: " + msEntity.getName(), model.getShowStopEvent(), id);
+            StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model, "Stop Event: " + msEntity.getName(), model.getShowStopEvent(), id);
             msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
 
         }
