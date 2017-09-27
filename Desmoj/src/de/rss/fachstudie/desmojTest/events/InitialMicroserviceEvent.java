@@ -15,8 +15,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class InitialMicroserviceEvent extends ExternalEvent {
     private DesmojTest model;
+    private double time;
     private ContDistExponential timeToCreate;
-    private int msId = 0;
+    private int microservice = 0;
 
     /**
      * Triggers the first event.
@@ -31,7 +32,7 @@ public class InitialMicroserviceEvent extends ExternalEvent {
 
         model = (DesmojTest) owner;
         timeToCreate = new ContDistExponential(model, name, time, true, false);
-        this.msId = msId;
+        this.microservice = msId;
     }
 
     @Override
@@ -39,7 +40,7 @@ public class InitialMicroserviceEvent extends ExternalEvent {
         DesmojTest model = (DesmojTest) getModel();
         MessageObject initialMessageObject = new MessageObject(model, "MessageObject", model.getShowStartEvent());
 
-        StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "<b><u>Inital Event:</u></b> " + model.allMicroservices.get(0).getName(), model.getShowStartEvent(), 0);
+        StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "<b><u>Inital Event:</u></b> " + model.allMicroservices.get(microservice).getName(), model.getShowStartEvent(), microservice);
         startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
 
         schedule(new TimeSpan(timeToCreate.sample(), model.getTimeUnit()));

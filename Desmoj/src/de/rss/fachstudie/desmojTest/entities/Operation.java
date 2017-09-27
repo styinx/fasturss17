@@ -1,5 +1,8 @@
 package de.rss.fachstudie.desmojTest.entities;
 
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * An operation connects two microservice instances. During a specified time interval the service
  * performs operations and uses a part of the microservice power.
@@ -7,14 +10,15 @@ package de.rss.fachstudie.desmojTest.entities;
  */
 public class Operation {
     private String name = "";
-    private String pattern = "";
     private String service = "";
-    private String operation = "";
+    private String pattern = "";
     private double duration = 0;
     private double propability = 0;
+    private Operation[] dependencies;
+    //private HashMap<String, String> dependencies;
 
     public Operation() {
-
+        //dependencies = new HashMap<>();
     }
 
     public String getName() {
@@ -25,14 +29,6 @@ public class Operation {
         this.name = name;
     }
 
-    public String getPattern() {
-        return pattern;
-    }
-
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
-    }
-
     public String getService() {
         return service;
     }
@@ -41,13 +37,37 @@ public class Operation {
         this.service = service;
     }
 
-    public String getOperation() {
-        return operation;
+    public String getPattern() {
+        return pattern;
     }
 
-    public void setOperation(String operation) {
-        this.operation = operation;
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
+
+    public Operation[] getDependencies() {
+        return dependencies;
+    }
+
+    public void setDependencies(Operation[] operations) {
+        this.dependencies = operations;
+    }
+
+    /*public HashMap<String, String> getDependencies() {
+        return dependencies;
+    }
+
+    public void setDependencies(HashMap<String, String> operation) {
+        this.dependencies = operation;
+    }
+
+    public HashMap<String, List<String>> getDependencies() {
+        return dependencies;
+    }
+
+    public void setDependencies(HashMap<String, List<String>> operation) {
+        this.dependencies = operation;
+    }*/
 
     public double getDuration() {
         return duration;

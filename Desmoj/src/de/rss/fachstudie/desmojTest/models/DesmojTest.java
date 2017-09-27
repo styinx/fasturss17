@@ -1,10 +1,8 @@
 package de.rss.fachstudie.desmojTest.models;
 
 import de.rss.fachstudie.desmojTest.entities.*;
-import de.rss.fachstudie.desmojTest.events.ErrorMonkeyEvent;
-import de.rss.fachstudie.desmojTest.events.InitalErrorMonkeyEvent;
+import de.rss.fachstudie.desmojTest.events.InitialErrorMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
-import de.rss.fachstudie.desmojTest.events.StartMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
 import desmoj.core.simulator.*;
@@ -97,8 +95,8 @@ public class DesmojTest extends Model {
         InitialMicroserviceEvent initialMicroserviceEvent = new InitialMicroserviceEvent(this , "Initial Event: " + allMicroservices.get(0).getName(), showInitEvent, 1, 0);
         initialMicroserviceEvent.schedule(new TimeSpan(0, timeUnit));
 
-        InitalErrorMonkeyEvent initalErrorMonkeyEvent = new InitalErrorMonkeyEvent(this, "ErrorMonkey Event: " + allMicroservices.get(0).getName(), showInitEvent, 10, 0, allMicroservices.get(0).getInstances());
-        initalErrorMonkeyEvent.schedule(new TimeSpan(0, timeUnit));
+        InitialErrorMonkeyEvent initialErrorMonkeyEvent = new InitialErrorMonkeyEvent(this, "ErrorMonkey Event: " + allMicroservices.get(0).getName(), showInitEvent, 10, 0, allMicroservices.get(0).getInstances());
+        initialErrorMonkeyEvent.schedule(new TimeSpan(0, timeUnit));
     }
 
     /**
@@ -120,6 +118,7 @@ public class DesmojTest extends Model {
      */
     @Override
     public void init() {
+        InputParser.read("example_4.json");
         MicroserviceEntity[] input = InputParser.createMicroserviceEntities("example_3.json");
 
         allMicroservices    = new HashMap<>();
