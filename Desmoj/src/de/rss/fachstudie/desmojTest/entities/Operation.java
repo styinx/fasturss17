@@ -14,12 +14,10 @@ public class Operation {
     private String pattern = "";
     private double duration = 0;
     private double propability = 0;
-    private Operation[] dependencies;
+    private HashMap<String, String>[] dependencies;
     //private HashMap<String, String> dependencies;
 
-    public Operation() {
-        //dependencies = new HashMap<>();
-    }
+    public Operation() {}
 
     public String getName() {
         return name;
@@ -45,29 +43,13 @@ public class Operation {
         this.pattern = pattern;
     }
 
-    public Operation[] getDependencies() {
+    public HashMap<String, String>[] getDependencies() {
         return dependencies;
     }
 
-    public void setDependencies(Operation[] operations) {
+    public void setDependencies(HashMap<String, String>[] operations) {
         this.dependencies = operations;
     }
-
-    /*public HashMap<String, String> getDependencies() {
-        return dependencies;
-    }
-
-    public void setDependencies(HashMap<String, String> operation) {
-        this.dependencies = operation;
-    }
-
-    public HashMap<String, List<String>> getDependencies() {
-        return dependencies;
-    }
-
-    public void setDependencies(HashMap<String, List<String>> operation) {
-        this.dependencies = operation;
-    }*/
 
     public double getDuration() {
         return duration;

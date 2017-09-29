@@ -2,6 +2,7 @@ package de.rss.fachstudie.desmojTest.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
+import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.models.DesmojTest;
 import desmoj.core.dist.ContDistExponential;
 import desmoj.core.simulator.ExternalEvent;
@@ -17,7 +18,8 @@ public class InitialMicroserviceEvent extends ExternalEvent {
     private DesmojTest model;
     private double time;
     private ContDistExponential timeToCreate;
-    private int microservice = 0;
+    private String microservice = "";
+    private int msId = -1;
 
     /**
      * Triggers the first event.
@@ -32,17 +34,38 @@ public class InitialMicroserviceEvent extends ExternalEvent {
 
         model = (DesmojTest) owner;
         timeToCreate = new ContDistExponential(model, name, time, true, false);
-        this.microservice = msId;
+        this.msId = msId;
+        this.microservice = model.allMicroservices.get(msId).getName();
+    }
+
+    public double getTime() {
+        return this.time;
+    }
+
+    public String getMicroservice() {
+        return this.microservice;
+    }
+
+    public int getId() {
+        return this.msId;
     }
 
     @Override
     public void eventRoutine() throws SuspendExecution {
+        if(msId == -1) {
+            msId = model.getIdByName(microservice);
+        }
         DesmojTest model = (DesmojTest) getModel();
-        MessageObject initialMessageObject = new MessageObject(model, "MessageObject", model.getShowStartEvent());
-
-        StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model, "<b><u>Inital Event:</u></b> " + model.allMicroservices.get(microservice).getName(), model.getShowStartEvent(), microservice);
-        startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
-
+        for(Operation operation : model.allMicroservices.get(msId).getOperations()) {
+            double prop = Math.random();
+            if(prop <= operation.getPropability()) {
+                MessageObject initialMessageObject = new MessageObject(model, "MessageObject", model.getShowStartEvent());
+                StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,
+                        "<b><u>Inital Event:</u></b> " + microservice + " (" + operation.getName() + ")",
+                        model.getShowInitEvent(), msId, operation.getName());
+                startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
+            }
+        }
         schedule(new TimeSpan(timeToCreate.sample(), model.getTimeUnit()));
     }
 }

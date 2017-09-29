@@ -8,11 +8,11 @@ import java.util.List;
 /**
  * A MicroserviceEntity represents a collection of services.
  * Each instance is able to call operations to another service instance.
- * @param id internal unique number to identify a service
- * @param name the given name of the service in the input
- * @param power the computing power a microservice has available
- * @param instances number of instances a service can create
- * @param operations ...
+ * id: internal unique number to identify a service
+ * name: the given name of the service in the input
+ * power: the computing power a microservice has available
+ * instances: number of instances a service can create
+ * operations: ...
  */
 public class MicroserviceEntity extends Entity {
     private int id;

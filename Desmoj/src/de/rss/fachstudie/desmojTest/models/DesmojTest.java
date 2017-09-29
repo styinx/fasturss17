@@ -1,7 +1,7 @@
 package de.rss.fachstudie.desmojTest.models;
 
 import de.rss.fachstudie.desmojTest.entities.*;
-import de.rss.fachstudie.desmojTest.events.InitialErrorMonkeyEvent;
+import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
@@ -92,11 +92,21 @@ public class DesmojTest extends Model {
      */
     @Override
     public void doInitialSchedules() {
-        InitialMicroserviceEvent initialMicroserviceEvent = new InitialMicroserviceEvent(this , "Initial Event: " + allMicroservices.get(0).getName(), showInitEvent, 1, 0);
-        initialMicroserviceEvent.schedule(new TimeSpan(0, timeUnit));
+        InitialMicroserviceEvent generators[] = InputParser.generators;
+        for(InitialMicroserviceEvent generator : generators) {
+            InitialMicroserviceEvent initEvent = new InitialMicroserviceEvent(this,
+                    "Inital Event: " + generator.getMicroservice(), showInitEvent, generator.getTime(),
+                    getIdByName(generator.getMicroservice()));
+            initEvent.schedule(new TimeSpan(0, timeUnit));
+        }
 
-        InitialErrorMonkeyEvent initialErrorMonkeyEvent = new InitialErrorMonkeyEvent(this, "ErrorMonkey Event: " + allMicroservices.get(0).getName(), showInitEvent, 10, 0, allMicroservices.get(0).getInstances());
-        initialErrorMonkeyEvent.schedule(new TimeSpan(0, timeUnit));
+        InitialChaosMonkeyEvent monkeys[] = InputParser.monkeys;
+        for(InitialChaosMonkeyEvent monkey : monkeys) {
+            InitialChaosMonkeyEvent initMonkey = new InitialChaosMonkeyEvent(this,
+                    "ChaosMonkey Event: " + monkey.getMicroservice(), showMonkeyEvent, monkey.getTime(),
+                    getIdByName(monkey.getMicroservice()), monkey.getInstances());
+            initMonkey.schedule(new TimeSpan(0, timeUnit));
+        }
     }
 
     /**
@@ -118,28 +128,26 @@ public class DesmojTest extends Model {
      */
     @Override
     public void init() {
-        InputParser.read("example_4.json");
-        MicroserviceEntity[] input = InputParser.createMicroserviceEntities("example_3.json");
-
         allMicroservices    = new HashMap<>();
         taskQueues          = new HashMap<>();
         idleQueues          = new HashMap<>();
 
-
-        for(int i = 0; i < input.length; i++){
-            Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + input[i].getName(), true, true);
-            Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + input[i].getName(), true , true) ;
+        MicroserviceEntity[] microservices = InputParser.microservices;
+        for(int i = 0; i < microservices.length; i++){
+            Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + microservices[i].getName(), true, true);
+            Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[i].getName(), true , true) ;
 
             //Queue for maxQueue returns refuse and should be used to turn Circuit breakers of with using a waiting queue 1 ( 0 for int max value)
-            //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + input[i].getName(), QueueBased.FIFO , 1, true , true);
+            //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[i].getName(), QueueBased.FIFO , 1, true , true);
 
-            for(int y = 0; y < input[i].getInstances(); y ++ ){
-                MicroserviceEntity msEntity = new MicroserviceEntity(this , input[i].getName(), true );
-                msEntity.setName(input[i].getName());
+            for(int y = 0; y < microservices[i].getInstances(); y ++ ){
+                MicroserviceEntity msEntity = new MicroserviceEntity(this , microservices[i].getName(), true );
+                msEntity.setName(microservices[i].getName());
                 msEntity.setId(i);
-                msEntity.setInstances(input[i].getInstances());
-                msEntity.setThroughput(input[i].getThroughput());
-                msEntity.setDependencies(input[i].getDependencies());
+                msEntity.setInstances(microservices[i].getInstances());
+                msEntity.setOperations(microservices[i].getOperations());
+                msEntity.setThroughput(microservices[i].getThroughput());
+                msEntity.setDependencies(microservices[i].getDependencies());
                 idleQueue.insert(msEntity);
                 allMicroservices.put(i, msEntity);
             }
@@ -150,6 +158,7 @@ public class DesmojTest extends Model {
     }
 
     public static void main(String[] args) {
+        InputParser parser = new InputParser("example_4.json");
         DesmojTest model = new DesmojTest(null, "Simple microservice model", true, true);
         Experiment exp = new Experiment("Desmoj_Microservice_Experiment");
 

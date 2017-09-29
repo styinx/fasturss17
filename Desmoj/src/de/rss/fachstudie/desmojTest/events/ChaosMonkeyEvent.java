@@ -6,13 +6,13 @@ import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
-public class ErrorMonkeyEvent extends ExternalEvent {
+public class ChaosMonkeyEvent extends ExternalEvent {
     private DesmojTest model;
     private int instances = 0;
     private int msId = 0;
     private double nextReschedule = 1;
 
-    public ErrorMonkeyEvent(Model owner, String name, boolean showInTrace, int msId, int instances) {
+    public ChaosMonkeyEvent(Model owner, String name, boolean showInTrace, int msId, int instances) {
         super(owner, name, showInTrace);
 
         model = (DesmojTest) getModel();

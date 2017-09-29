@@ -3,6 +3,7 @@ package de.rss.fachstudie.desmojTest.events;
 import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
+import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.models.DesmojTest;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.Event;
@@ -18,11 +19,13 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
     private DesmojTest model;
     private ContDistUniform timeUntilFinished;
     private int id;
+    private String operation;
 
-    public StartMicroserviceEvent(Model owner, String name, boolean showInTrace, int id){
+    public StartMicroserviceEvent(Model owner, String name, boolean showInTrace, int id, String operation){
         super(owner, name, showInTrace);
 
-        setId(id);
+        this.id = id;
+        this.operation = operation;
         model = (DesmojTest) owner;
         double msThroughput = model.allMicroservices.get(id).getThroughput();
         timeUntilFinished = new ContDistUniform(model, name, msThroughput, msThroughput, true, false);
@@ -37,17 +40,11 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             model.idleQueues.get(id).remove(msEntity);
             model.taskQueues.get(id).remove(messageObject);
 
-            StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model, "Stop Event: " + msEntity.getName(), model.getShowStopEvent(), id);
+            StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model,
+                    "Stop Event: " + msEntity.getName() + " (" + operation + ")",
+                    model.getShowStopEvent(), id, operation);
             msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
 
         }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }

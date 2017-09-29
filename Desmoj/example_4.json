@@ -1,46 +1,76 @@
 {
   "microservices" :
-	[
-	  {
+  [
+    {
       "name" : "Gateway",
-      "instances" : 5,
+      "instances" : 3,
       "power" : 3.5,
-      "operations" : 
+      "dependencies" : ["Database"],
+      "operations" :
       [
         {
-          "name" : "doStuff",
+          "name" : "register",
           "pattern" : "Circuit Breaker",
           "duration" : 4,
           "propability" : 0.8,
-          "dependencies" : 
+          "dependencies" :
           [
             {
               "name" : "save",
               "service" : "Gateway"
             }
-          ]						
+          ]
+        },
+        {
+          "name" : "update",
+          "pattern" : "Circuit Breaker",
+          "duration" : 1,
+          "propability" : 0.2,
+          "dependencies" : []
         }
       ]
-	  }
-	],
+    },
+    {
+      "name" : "Database",
+      "instances" : 5,
+      "power" : 3.5,
+      "dependencies" : [],
+      "operations" :
+      [
+        {
+          "name" : "register",
+          "pattern" : "",
+          "duration" : 2,
+          "propability" : 0.6,
+          "dependencies" :
+          [
+            {
+              "name" : "update",
+              "service" : "Gateway"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "generators" :
-	[
-	  {
+  [
+    {
       "time" : 1,
-      "microservice" : 0
-	  }
-	],
-  "errormonkeys" :
-	[
-	  {
+      "microservice" : "Gateway"
+    }
+  ],
+  "chaosmonkeys" :
+  [
+    {
       "time" : 10,
-      "microservice" : 0,
+      "microservice" : "Database",
       "instances" : 5
-	  },
-	  {
+    },
+    {
       "time" : 100,
-      "microservice" : 2,
+      "microservice" : "Gateway",
       "instances" : 1
-	  }
-	]
+    }
+  ]
 }
