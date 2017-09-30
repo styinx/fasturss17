@@ -30,3 +30,24 @@ div.tooltip {
 { 
 	stroke: #777;
 }
+
+.link:hover
+{
+    stroke: #f00;
+}
+
+.label
+{
+    fill: #444;
+    stroke: #444;
+    font-family: helvetica;
+    font-size: 8pt;
+    opacity: 1.0;
+    display: block;
+    top: 100px;
+    left: 100px;
+    position: absolute;
+    background: red;
+    width: 100px;
+    height: 200px;
+}

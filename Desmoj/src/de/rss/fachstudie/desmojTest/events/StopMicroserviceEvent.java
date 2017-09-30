@@ -39,6 +39,19 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
                             "Start Event: " + nextService + "(" + nextOperation + ")",
                             model.getShowStartEvent(), nextServiceId, nextOperation);
                     nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
+                } else {
+                    // TODO go back to the start of the recursive call and insert all services in the idle queue/continue working
+                    /*
+                    if(!model.taskQueues.get(id).isEmpty()){
+                        MessageObject nextMessage =  model.taskQueues.get(id).first();
+                        model.taskQueues.get(id).remove(nextMessage);
+
+                        StopMicroserviceEvent repeat = new StopMicroserviceEvent(model,
+                                "Stop Event: " + model.allMicroservices.get(id).getName() ,model.getShowStopEvent(), id, operation);
+                        repeat.schedule(microserviceEntity , messageObject , new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                    } else {
+                        model.idleQueues.get(id).insert(microserviceEntity);
+                    }*/
                 }
             }
         }

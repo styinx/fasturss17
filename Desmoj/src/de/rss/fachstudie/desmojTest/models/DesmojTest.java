@@ -66,6 +66,29 @@ public class DesmojTest extends Model {
         this.showMonkeyEvent = showMonkeyEvent;
     }
 
+    /**
+     * Helper Function to get the id of a microservice instance by the name.
+     * @param name
+     * @return id of the corresponding microservice if successful, otherwise -1
+     */
+    public int getIdByName(String name){
+        for(int i = 0; i < allMicroservices.size() ; i ++){
+            if(name.equals(allMicroservices.get(i).getName())){
+                return allMicroservices.get(i).getId();
+            }
+        }
+        return -1;
+    }
+/*
+    public Operation getPredecessor(String name) {
+        for(int i = 0; i < allMicroservices.size(); ++i) {
+            for(int j = 0; j < allMicroservices.get(i).getOperations().length; ++j) {
+                if(allMicroservices.get(i).getOperations()[j].getName().equals(name)) {
+
+                }
+            }
+        }
+    }*/
 
     /**
      *
@@ -107,20 +130,6 @@ public class DesmojTest extends Model {
                     getIdByName(monkey.getMicroservice()), monkey.getInstances());
             initMonkey.schedule(new TimeSpan(0, timeUnit));
         }
-    }
-
-    /**
-     * Helper Function to get the id of a microservice instance by the name.
-     * @param name
-     * @return id of the corresponding microservice if successful, otherwise -1
-     */
-    public int getIdByName(String name){
-        for(int i = 0; i < allMicroservices.size() ; i ++){
-            if(name.equals(allMicroservices.get(i).getName())){
-                return allMicroservices.get(i).getId();
-            }
-        }
-        return -1;
     }
 
     /**

@@ -1,6 +1,7 @@
 package de.rss.fachstudie.desmojTest.export;
 
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
+import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.utils.Node;
 
 import java.util.ArrayList;
@@ -51,11 +52,18 @@ public class DependecyGraph {
 
     public String printNodes(String html, Node parent) {
         String json = html;
+        int id = getIdByName(parent.getValue());
+        String labels = "";
+        for(Operation op : microservices.get(id).getOperations()) {
+            labels += "'" + op.getName() + "', ";
+        }
         if(!services.contains(parent.getValue())) {
             services.add(parent.getValue());
-            int id = getIdByName(parent.getValue());
             for(int i = 0; i < microservices.get(id).getInstances(); ++i) {
-                json += "{ name: '" + parent.getValue() + "', id: " + (id + microservices.keySet().size() * i) + ", group: " + id + "},";
+                json += "{ name: '" + parent.getValue() +
+                        "', id: " + (id + microservices.keySet().size() * i) +
+                        ", labels : [" + labels.substring(0, labels.length() - 2) + "]" +
+                        ", group: " + id + "},";
             }
         }
 
@@ -67,9 +75,9 @@ public class DependecyGraph {
 
     public String printLinks(String html, Node parent) {
         String json = html;
+        int parentId = getIdByName(parent.getValue());
 
         for(Node child : parent.getChildren()) {
-            int parentId = getIdByName(parent.getValue());
             json += "{ source : " + parentId
                     + ", target : " + getIdByName(child.getValue())
                     + ", value : " + microservices.get(parentId).getInstances() + "},";

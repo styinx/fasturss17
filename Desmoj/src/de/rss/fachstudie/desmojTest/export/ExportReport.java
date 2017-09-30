@@ -19,7 +19,7 @@ public class ExportReport {
 
     }
 
-    public void graphReport() {
+    private void graphReport() {
         graph = new DependecyGraph(model.allMicroservices, 0);;
 
         try {
@@ -29,7 +29,7 @@ public class ExportReport {
         }
     }
 
-    public void chartReport() {
+    private void chartReport() {
         HashMap<String, Integer[]> testData = new HashMap<>();
         testData.put("Test1", new Integer[]{0, 1, 2, 3});
         chart = new DataChart("dummy", testData);

@@ -26,17 +26,17 @@ var link = svg.selectAll(".link")
 	.data(graph.links)
 	.enter().append("line")
 	.attr("class", "link")
-	.style("stroke-width", function (d) { return 1});
-	//.style("stroke-width", function (d) { return Math.sqrt(d.value)});
-	/*.on("mouseover", function(d,i) {
-            tooltip.transition().duration(200).style("opacity", .9);
-            tooltip.html("asdasdsd")
-            .style("left", (d3.event.pageX - d.value.length*3) + "px")
-            .style("top", (d3.event.pageY - 35) + "px");
+	.style("stroke-width", function (d) { return 2})
+	//.style("stroke-width", function (d) { return Math.sqrt(d.value)})
+	.on("mouseover", function(d,i) {
+            tooltip.transition().duration(50).style("opacity", .9);
+            tooltip.html(d.label)
+            .style("left", (d3.event.pageX - d.label.length*3) + "px")
+            .style("top", (d3.event.pageY - 25) + "px");
     })
     .on("mouseout", function(d) {
-        tooltip.transition().duration(500).style("opacity", 0);
-    });*/
+        tooltip.transition().duration(50).style("opacity", 0);
+    });
 
 // Nodes
 var node = svg.selectAll(".node")
@@ -78,6 +78,10 @@ force.on("tick", function ()
 	d3.selectAll("text")
 		.attr("x", function (d) {return d.x;})
 		.attr("y", function (d) {return d.y;});
+
+	d3.selectAll('text.label')
+        .attr('x', function(d) { return d.x; })
+        .attr('y', function(d) { return d.y; });
 });
 
 // Map links from indexes to ids
@@ -89,7 +93,7 @@ function renameLinks(graph)
         var sourceNode = graph.nodes.filter(function(n) { return n.group === l.source; })[0];
         var targetNode = graph.nodes.filter(function(n) { return n.group === l.target; })[0];
 
-        links.push({source: sourceNode.group, target: targetNode.group, value: l.value});
+        links.push({source: sourceNode.group, target: targetNode.group, value: l.value, label : l.label});
     });
     graph.links = links;
     return graph;
@@ -115,9 +119,18 @@ function groupLinks(graph)
 
         sourceNodes.forEach(function(s)
         {
+            var linkCounter = targetNodes.length;
+            var index = 0;
+            var label_name = "";
             targetNodes.forEach(function(t)
             {
-                links.push({source : s, target : t});
+                if(s.labels[index]) {
+                    label_name = s.labels[index++];
+                } else {
+                    index = 0
+                    label_name = s.labels[index++];
+                }
+                links.push({source : s, target : t, label : label_name});
             });
         });
     }
