@@ -33,12 +33,14 @@ public class DependecyGraph {
     }
 
     private void fillGraph(Node parent, int id) {
-        for(String ms : microservices.get(id).getDependencies()) {
-            Node child = new Node(ms);
-            int childId = getIdByName(ms);
-            parent.setChild(child);
-            if(childId != -1)
-                fillGraph(child, childId);
+        for(Operation op : microservices.get(id).getOperations()) {
+            for(HashMap<String, String> s : op.getDependencies()) {
+                Node child = new Node(s.get("service"));
+                int childId = getIdByName(s.get("service"));
+                parent.setChild(child);
+                if (childId != -1)
+                    fillGraph(child, childId);
+            }
         }
     }
 

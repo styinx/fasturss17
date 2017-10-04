@@ -9,6 +9,7 @@ import desmoj.core.simulator.EventOf2Entities;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, MessageObject>{
@@ -32,13 +33,16 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
         for(Operation operation : microserviceEntity.getOperations()) {
             if(operation.getName().equals(this.operation)) {
                 if(operation.getDependencies().length > 0) {
-                    String nextOperation = operation.getDependencies()[0].get("name");
-                    String nextService = operation.getDependencies()[0].get("service");
-                    int nextServiceId = model.getIdByName(nextService);
-                    StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
-                            "Start Event: " + nextService + "(" + nextOperation + ")",
-                            model.getShowStartEvent(), nextServiceId, nextOperation);
-                    nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
+                    for(HashMap<String, String> dependantOperation : operation.getDependencies()) {
+                        //TODO only one instance gets started ???, needs some research
+                        String nextOperation = dependantOperation.get("name");
+                        String nextService = dependantOperation.get("service");
+                        int nextServiceId = model.getIdByName(nextService);
+                        StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
+                                "Start Event: " + nextService + "(" + nextOperation + ")",
+                                model.getShowStartEvent(), nextServiceId, nextOperation);
+                        nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
+                    }
                 } else {
                     // TODO go back to the start of the recursive call and insert all services in the idle queue/continue working
                     /*

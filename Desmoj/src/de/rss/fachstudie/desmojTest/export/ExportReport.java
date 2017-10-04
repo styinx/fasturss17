@@ -19,7 +19,7 @@ public class ExportReport {
     }
 
     private void graphReport() {
-        DependecyGraph graph = new DependecyGraph(model.allMicroservices, 0);;
+        DependecyGraph graph = new DependecyGraph(model.allMicroservices, 0);
 
         try {
             Files.write(Paths.get("./Report/js/graph.js"), graph.printGraph().getBytes());

@@ -167,7 +167,7 @@ public class DesmojTest extends Model {
     }
 
     public static void main(String[] args) {
-        InputParser parser = new InputParser("example_4.json");
+        InputParser parser = new InputParser("example_3.json");
         DesmojTest model = new DesmojTest(null, "Simple microservice model", true, true);
         Experiment exp = new Experiment("Desmoj_Microservice_Experiment");
 

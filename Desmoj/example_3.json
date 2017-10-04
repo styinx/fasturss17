@@ -1,51 +1,201 @@
-[
-  {
-    "name": "Gateway",
-    "instances": 3,
-    "dependencies": [
-      "Authentication Service",
-      "Order Service"
-    ],
-    "throughput": 1
-  },
-  {
-    "name": "Authentication Service",
-    "instances": 2,
-    "dependencies": [
-		"Backup Service"
-    ],
-    "throughput": 2
-  },
-  {
-    "name": "Order Service",
-    "instances": 5,
-    "dependencies": [
-      "Shipping Service",
-	  "Backup Service",
-	  "Database Service"
-    ],
-    "throughput": 2
-  },
-  {
-    "name": "Shipping Service",
-    "instances": 2,
-    "dependencies": [
-      "Database Service"
-    ],
-    "throughput": 3
-  },
-  {
-    "name": "Backup Service",
-    "instances": 2,
-    "dependencies": [
-      "Database Service"
-    ],
-    "throughput": 2
-  },
-  {
-    "name": "Database Service",
-    "instances": 3,
-    "dependencies": [],
-    "throughput": 2
-  }
-]
+{
+  "microservices" :
+  [
+    {
+      "name" : "Gateway",
+      "instances" : 3,
+      "power" : 3.5,
+      "dependencies" : ["Database"],
+      "operations" :
+      [
+        {
+          "name" : "register",
+          "pattern" : "Circuit Breaker",
+          "duration" : 4,
+          "propability" : 0.8,
+          "dependencies" :
+          [
+            {
+              "name" : "save",
+              "service" : "Authentication"
+            }
+          ]
+        },
+        {
+          "name" : "update",
+          "pattern" : "Circuit Breaker",
+          "duration" : 1,
+          "propability" : 0.2,
+          "dependencies" : 
+          [
+            {
+              "name" : "save",
+              "service" : "Order"
+            },
+            {
+              "name" : "update",
+              "service" : "Order"
+            },
+            {
+              "name" : "register",
+              "service" : "Order"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Authentication",
+      "instances" : 2,
+      "power" : 3.5,
+      "dependencies" : [],
+      "operations" :
+      [
+        {
+          "name" : "save",
+          "pattern" : "",
+          "duration" : 2,
+          "propability" : 0.6,
+          "dependencies" :
+          [
+            {
+              "name" : "update",
+              "service" : "Backup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Order",
+      "instances" : 5,
+      "power" : 3.5,
+      "dependencies" : [],
+      "operations" :
+      [
+        {
+          "name" : "save",
+          "pattern" : "",
+          "duration" : 2,
+          "propability" : 0.6,
+          "dependencies" :
+          [
+            {
+              "name" : "update",
+              "service" : "Backup"
+            }
+          ]
+        },
+        {
+          "name" : "update",
+          "pattern" : "",
+          "duration" : 2,
+          "propability" : 0.6,
+          "dependencies" :
+          [
+            {
+              "name" : "register",
+              "service" : "Shipping"
+            }
+          ]
+        },
+        {
+          "name" : "register",
+          "pattern" : "",
+          "duration" : 2,
+          "propability" : 0.6,
+          "dependencies" :
+          [
+            {
+              "name" : "update",
+              "service" : "Database"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Backup",
+      "instances" : 2,
+      "power" : 3.5,
+      "dependencies" : [],
+      "operations" :
+      [
+        {
+          "name" : "update",
+          "pattern" : "",
+          "duration" : 2,
+          "propability" : 0.6,
+          "dependencies" :
+          [
+            {
+              "name" : "update",
+              "service" : "Database"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Shipping",
+      "instances" : 2,
+      "power" : 3.5,
+      "dependencies" : [],
+      "operations" :
+      [
+        {
+          "name" : "register",
+          "pattern" : "",
+          "duration" : 2,
+          "propability" : 0.6,
+          "dependencies" :
+          [
+            {
+              "name" : "update",
+              "service" : "Database"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Database",
+      "instances" : 3,
+      "power" : 3.5,
+      "dependencies" : [],
+      "operations" :
+      [
+        {
+          "name" : "update",
+          "pattern" : "",
+          "duration" : 2,
+          "propability" : 0.6,
+          "dependencies" :
+          [
+          
+          ]
+        }
+      ]
+    }
+  ],
+  "generators" :
+  [
+    {
+      "time" : 1,
+      "microservice" : "Gateway"
+    }
+  ],
+  "chaosmonkeys" :
+  [
+    {
+      "time" : 100,
+      "microservice" : "Database",
+      "instances" : 1
+    },
+    {
+      "time" : 100,
+      "microservice" : "Gateway",
+      "instances" : 1
+    }
+  ]
+}
