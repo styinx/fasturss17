@@ -4,14 +4,14 @@
     {
       "name" : "Gateway",
       "instances" : 3,
-      "power" : 3.5,
-      "dependencies" : ["Database"],
+      "CPU" : 3500,
       "operations" :
       [
         {
           "name" : "register",
           "pattern" : "Circuit Breaker",
           "duration" : 4,
+          "CPU" : 500,
           "propability" : 0.8,
           "dependencies" :
           [
@@ -25,6 +25,7 @@
           "name" : "update",
           "pattern" : "Circuit Breaker",
           "duration" : 1,
+          "CPU" : 500,
           "propability" : 0.2,
           "dependencies" : []
         }
@@ -33,14 +34,14 @@
     {
       "name" : "Database",
       "instances" : 5,
-      "power" : 3.5,
-      "dependencies" : [],
+      "CPU" : 3500,
       "operations" :
       [
         {
           "name" : "register",
           "pattern" : "",
           "duration" : 2,
+          "CPU" : 500,
           "propability" : 0.6,
           "dependencies" :
           [

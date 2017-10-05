@@ -9,14 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DependecyGraph {
-    private Node root;
-    private List<String> services;
+    private List<Integer> nodes;
     private HashMap<Integer, MicroserviceEntity> microservices;
     public DependecyGraph(HashMap<Integer, MicroserviceEntity> microservices, int id) {
         this.microservices = microservices;
-        this.services = new ArrayList<String>();
-        this.root = new Node(microservices.get(id).getName());
-        this.fillGraph(root, id);
+        this.nodes = new ArrayList<>();
     }
 
     public int getIdByName(String name){
@@ -28,64 +25,53 @@ public class DependecyGraph {
         return -1;
     }
 
-    public Node getRoot() {
-        return this.root;
-    }
-
-    private void fillGraph(Node parent, int id) {
-        for(Operation op : microservices.get(id).getOperations()) {
-            for(HashMap<String, String> s : op.getDependencies()) {
-                if(!services.contains(s.get("service"))) {
-                    Node child = new Node(s.get("service"));
-                    int childId = getIdByName(s.get("service"));
-                    parent.setChild(child);
-                    if (childId != -1)
-                        fillGraph(child, childId);
-                }
-            }
-        }
-    }
 
     public String printGraph() {
-        String nodes = printNodes("", root);
-        String links = printLinks("", root);
-        String html = "var graph = {nodes:[" + nodes.substring(0, nodes.length() - 1) + "],"
-                + "links:[" + links.substring(0, links.length() - 1) + "]};";
+        String nodes = printNodes();
+        String links = printLinks();
+        String html = "var graph = {nodes:[" + nodes.substring(0, nodes.length() - 2) + "],"
+                + "links:[" + links.substring(0, links.length() - 2) + "]};";
         return html;
     }
 
-    public String printNodes(String html, Node parent) {
-        String json = html;
-        int id = getIdByName(parent.getValue());
-        String labels = "";
-        for(Operation op : microservices.get(id).getOperations()) {
-            labels += "'" + op.getName() + "', ";
-        }
-        if(!services.contains(parent.getValue())) {
-            services.add(parent.getValue());
-            for(int i = 0; i < microservices.get(id).getInstances(); ++i) {
-                json += "{ name: '" + parent.getValue() +
-                        "', id: " + (id + microservices.keySet().size() * i) +
+    private String printNodes() {
+        String json = "";
+        nodes = new ArrayList<>();
+        for(Integer id : microservices.keySet()) {
+            if(!nodes.contains(id)) {
+                String labels = "";
+                for (Operation op : microservices.get(id).getOperations()) {
+                    labels += "'" + op.getName() + "', ";
+                }
+                nodes.add(id);
+                for(int i = 0; i < microservices.get(id).getInstances(); ++i) {
+                    json += "{ name: '" + microservices.get(id).getName() +
+                        "', id: " + (id + microservices.get(i).getInstances() + microservices.keySet().size() * i) +
                         ", labels : [" + labels.substring(0, labels.length() - 2) + "]" +
-                        ", group: " + id + "},";
+                        ", group: " + id + "}, ";
+                }
             }
-        }
-
-        for(Node child : parent.getChildren()) {
-            json += printNodes("", child);
         }
         return json;
     }
 
-    public String printLinks(String html, Node parent) {
-        String json = html;
-        int parentId = getIdByName(parent.getValue());
-
-        for(Node child : parent.getChildren()) {
-            json += "{ source : " + parentId
-                    + ", target : " + getIdByName(child.getValue())
-                    + ", value : " + microservices.get(parentId).getInstances() + "},";
-            json += printLinks("", child);
+    private String printLinks() {
+        String json = "";
+        nodes = new ArrayList<>();
+        for(Integer id : microservices.keySet()) {
+            if(!nodes.contains(id)) {
+                nodes.add(id);
+                String labels = "";
+                for (Operation op : microservices.get(id).getOperations()) {
+                    labels += "'" + op.getName() + "', ";
+                    for(HashMap<String, String> depService : op.getDependencies()) {
+                        int depId = getIdByName(depService.get("service"));
+                        json += "{ source: " + id
+                                + ", target : " + depId
+                                + ", value : " + microservices.get(id).getInstances() + "}, ";
+                    }
+                }
+            }
         }
         return json;
     }

@@ -14,7 +14,7 @@ import java.util.List;
  * instances: number of instances a service can create
  * operations: ...
  */
-public class MicroserviceEntity extends Entity {
+public class MicroserviceEntity extends Entity{
     private int id;
     private String name = "";
     private int CPU = 0;

@@ -26,7 +26,8 @@ setTimeout(function(){
     // Links
     var link = svg.selectAll(".link")
         .data(graph.links)
-        .enter().append("line")
+        .enter()
+        .append("line")
         .attr("class", "link")
         .style("stroke-width", function (d) { return 2})
         //.style("stroke-width", function (d) { return Math.sqrt(d.value)})

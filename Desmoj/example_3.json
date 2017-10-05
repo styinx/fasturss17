@@ -4,7 +4,7 @@
     {
       "name" : "Gateway",
       "instances" : 3,
-      "power" : 3.5,
+      "power" : 3500,
       "dependencies" : ["Database"],
       "operations" :
       [
@@ -12,6 +12,7 @@
           "name" : "register",
           "pattern" : "Circuit Breaker",
           "duration" : 4,
+          "CPU" : 300,
           "propability" : 0.8,
           "dependencies" :
           [
@@ -25,6 +26,7 @@
           "name" : "update",
           "pattern" : "Circuit Breaker",
           "duration" : 1,
+          "CPU" : 800,
           "propability" : 0.2,
           "dependencies" : 
           [
@@ -47,7 +49,7 @@
     {
       "name" : "Authentication",
       "instances" : 2,
-      "power" : 3.5,
+      "power" : 3500,
       "dependencies" : [],
       "operations" :
       [
@@ -55,6 +57,7 @@
           "name" : "save",
           "pattern" : "",
           "duration" : 2,
+          "CPU" : 500,
           "propability" : 0.6,
           "dependencies" :
           [
@@ -69,7 +72,7 @@
     {
       "name" : "Order",
       "instances" : 5,
-      "power" : 3.5,
+      "power" : 3500,
       "dependencies" : [],
       "operations" :
       [
@@ -90,6 +93,7 @@
           "name" : "update",
           "pattern" : "",
           "duration" : 2,
+          "CPU" : 500,
           "propability" : 0.6,
           "dependencies" :
           [
@@ -103,6 +107,7 @@
           "name" : "register",
           "pattern" : "",
           "duration" : 2,
+          "CPU" : 900,
           "propability" : 0.6,
           "dependencies" :
           [
@@ -117,7 +122,7 @@
     {
       "name" : "Backup",
       "instances" : 2,
-      "power" : 3.5,
+      "power" : 3500,
       "dependencies" : [],
       "operations" :
       [
@@ -125,6 +130,7 @@
           "name" : "update",
           "pattern" : "",
           "duration" : 2,
+          "CPU" : 500,
           "propability" : 0.6,
           "dependencies" :
           [
@@ -139,7 +145,7 @@
     {
       "name" : "Shipping",
       "instances" : 2,
-      "power" : 3.5,
+      "power" : 3500,
       "dependencies" : [],
       "operations" :
       [
@@ -147,6 +153,7 @@
           "name" : "register",
           "pattern" : "",
           "duration" : 2,
+          "CPU" : 1200,
           "propability" : 0.6,
           "dependencies" :
           [
@@ -161,7 +168,7 @@
     {
       "name" : "Database",
       "instances" : 3,
-      "power" : 3.5,
+      "power" : 3500,
       "dependencies" : [],
       "operations" :
       [
@@ -169,6 +176,7 @@
           "name" : "update",
           "pattern" : "",
           "duration" : 2,
+          "CPU" : 500,
           "propability" : 0.6,
           "dependencies" :
           [
@@ -183,6 +191,10 @@
     {
       "time" : 1,
       "microservice" : "Gateway"
+    },
+    {
+      "time" : 50,
+      "microservice" : "Backup"
     }
   ],
   "chaosmonkeys" :
