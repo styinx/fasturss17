@@ -32,9 +32,12 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
     public void eventRoutine(MicroserviceEntity microserviceEntity, MessageObject messageObject) {
         for(Operation operation : microserviceEntity.getOperations()) {
             if(operation.getName().equals(this.operation)) {
+                // Free the cpu resources the operation has
+                model.serviceCPU.get(microserviceEntity.getId()).takeBack(operation.getCPU());
+
+                // If there is following operation, then start
                 if(operation.getDependencies().length > 0) {
                     for(HashMap<String, String> dependantOperation : operation.getDependencies()) {
-                        //TODO only one instance gets started ???, needs some research
                         String nextOperation = dependantOperation.get("name");
                         String nextService = dependantOperation.get("service");
                         int nextServiceId = model.getIdByName(nextService);

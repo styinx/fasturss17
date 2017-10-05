@@ -57,13 +57,19 @@ public class InitialMicroserviceEvent extends ExternalEvent {
         }
         DesmojTest model = (DesmojTest) getModel();
         for(Operation operation : model.allMicroservices.get(msId).getOperations()) {
+
+            // Create a random propability, if the operation propability is within this value it gets started
             double prop = Math.random();
             if(prop <= operation.getPropability()) {
                 MessageObject initialMessageObject = new MessageObject(model, "MessageObject", model.getShowStartEvent());
                 StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,
                         "<b><u>Inital Event:</u></b> " + microservice + " (" + operation.getName() + ")",
                         model.getShowInitEvent(), msId, operation.getName());
+
+                // Aquire CPU resources
+                model.serviceCPU.get(msId).provide(operation.getCPU());
                 startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
+
             }
         }
         schedule(new TimeSpan(timeToCreate.sample(), model.getTimeUnit()));

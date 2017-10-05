@@ -13,6 +13,7 @@ public class Operation {
     private String service = "";
     private String pattern = "";
     private double duration = 0;
+    private int CPU = 0;
     private double propability = 0;
     private HashMap<String, String>[] dependencies;
     //private HashMap<String, String> dependencies;
@@ -57,6 +58,14 @@ public class Operation {
 
     public void setDuration(double duration) {
         this.duration = duration;
+    }
+
+    public int getCPU() {
+        return CPU;
+    }
+
+    public void setCPU(int CPU) {
+        this.CPU = CPU;
     }
 
     public double getPropability() {

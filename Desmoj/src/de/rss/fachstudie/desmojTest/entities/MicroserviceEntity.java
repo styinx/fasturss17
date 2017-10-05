@@ -10,14 +10,14 @@ import java.util.List;
  * Each instance is able to call operations to another service instance.
  * id: internal unique number to identify a service
  * name: the given name of the service in the input
- * power: the computing power a microservice has available
+ * CPU: the computing CPU a microservice has available
  * instances: number of instances a service can create
  * operations: ...
  */
 public class MicroserviceEntity extends Entity {
     private int id;
     private String name = "";
-    private double power = 0;
+    private int CPU = 0;
     private int instances = 0;
     private Operation[] operations;
     private double throughput = 0;
@@ -43,12 +43,12 @@ public class MicroserviceEntity extends Entity {
         this.name = name;
     }
 
-    public double getPower() {
-        return power;
+    public int getCPU() {
+        return CPU;
     }
 
-    public void setPower(double power) {
-        this.power = power;
+    public void setCPU(int CPU) {
+        this.CPU = CPU;
     }
 
     public int getInstances() {

@@ -5,6 +5,7 @@ import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
+import desmoj.core.advancedModellingFeatures.Res;
 import desmoj.core.simulator.*;
 
 import java.util.HashMap;
@@ -22,9 +23,11 @@ public class DesmojTest extends Model {
     private boolean showStopEvent   = false;
     private boolean showMonkeyEvent = true;
 
-    public HashMap<Integer,Queue<MicroserviceEntity>>   idleQueues;
-    public HashMap<Integer,Queue<MessageObject>>        taskQueues;
-    public HashMap<Integer, MicroserviceEntity>         allMicroservices;
+    public HashMap<Integer, Queue<MicroserviceEntity>>   idleQueues;
+    public HashMap<Integer, Queue<MessageObject>>        taskQueues;
+    public HashMap<Integer, MicroserviceEntity>          allMicroservices;
+
+    public HashMap<Integer, Res> serviceCPU;
 
     public TimeUnit getTimeUnit() {
         return timeUnit;
@@ -141,10 +144,16 @@ public class DesmojTest extends Model {
         taskQueues          = new HashMap<>();
         idleQueues          = new HashMap<>();
 
+        serviceCPU          = new HashMap<>();
+
+
         MicroserviceEntity[] microservices = InputParser.microservices;
         for(int i = 0; i < microservices.length; i++){
             Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + microservices[i].getName(), true, true);
             Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[i].getName(), true , true) ;
+            Res microserviceCPU = new Res(this, microservices[i].getName() + " CPU", microservices[i].getCPU(), true, true);
+
+            serviceCPU.put(i, microserviceCPU);
 
             //Queue for maxQueue returns refuse and should be used to turn Circuit breakers of with using a waiting queue 1 ( 0 for int max value)
             //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[i].getName(), QueueBased.FIFO , 1, true , true);
@@ -167,7 +176,7 @@ public class DesmojTest extends Model {
     }
 
     public static void main(String[] args) {
-        InputParser parser = new InputParser("example_3.json");
+        InputParser parser = new InputParser("example_4.json");
         DesmojTest model = new DesmojTest(null, "Simple microservice model", true, true);
         Experiment exp = new Experiment("Desmoj_Microservice_Experiment");
 

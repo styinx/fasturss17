@@ -43,6 +43,11 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model,
                     "Stop Event: " + msEntity.getName() + " (" + operation + ")",
                     model.getShowStopEvent(), id, operation);
+            for(Operation op : msEntity.getOperations()) {
+                if(op.getName().equals(operation)) {
+                    model.serviceCPU.get(id).provide(op.getCPU());
+                }
+            }
             msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
 
         }
