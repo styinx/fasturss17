@@ -24,8 +24,6 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
         this.id = id;
         this.operation = operation;
         model = (DesmojTest) owner;
-        double msThroughput = model.allMicroservices.get(id).getThroughput();
-        timeUntilFinished = new ContDistUniform(model , name, msThroughput, msThroughput, true, false);
     }
 
     @Override
@@ -33,7 +31,8 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
         for(Operation operation : microserviceEntity.getOperations()) {
             if(operation.getName().equals(this.operation)) {
                 // Free the cpu resources the operation has
-                model.serviceCPU.get(microserviceEntity.getId()).takeBack(operation.getCPU());
+                model.serviceCPU.get(id).takeBack(operation.getCPU());
+                microserviceEntity.setStopTime(presentTime().getTimeAsDouble());
 
                 // If there is following operation, then start
                 if(operation.getDependencies().length > 0) {
@@ -41,6 +40,8 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
                         String nextOperation = dependantOperation.get("name");
                         String nextService = dependantOperation.get("service");
                         int nextServiceId = model.getIdByName(nextService);
+
+                        // Immediately start next instance
                         StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
                                 "Start Event: " + nextService + "(" + nextOperation + ")",
                                 model.getShowStartEvent(), nextServiceId, nextOperation);
@@ -67,8 +68,16 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
             MessageObject nextMessage =  model.taskQueues.get(id).first();
             model.taskQueues.get(id).remove(nextMessage);
 
-            StopMicroserviceEvent repeat = new StopMicroserviceEvent(model,
-                    "Stop Event: " + model.allMicroservices.get(id).getName() ,model.getShowStopEvent(), id, operation);
+            StopMicroserviceEvent repeat = new StopMicroserviceEvent(model,"" ,model.getShowStopEvent(), id, operation);
+
+            for(Operation op : model.allMicroservices.get(id).getOperations()) {
+                if(op.getName().equals(operation)) {
+                    timeUntilFinished = new ContDistUniform(model ,
+                            "Stop Event: " + model.allMicroservices.get(id).getName() + "(" + op.getName() + ")",
+                            op.getDuration(), op.getDuration(), true, false);
+                }
+            }
+
             repeat.schedule(microserviceEntity , messageObject , new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
         } else {
             model.idleQueues.get(id).insert(microserviceEntity);

@@ -1,7 +1,11 @@
 package de.rss.fachstudie.desmojTest.entities;
 
+import co.paralleluniverse.fibers.SuspendExecution;
+import de.rss.fachstudie.desmojTest.models.DesmojTest;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
+import desmoj.core.simulator.SimProcess;
+import desmoj.core.simulator.TimeSpan;
 
 import java.util.List;
 
@@ -14,17 +18,29 @@ import java.util.List;
  * instances: number of instances a service can create
  * operations: ...
  */
-public class MicroserviceEntity extends Entity{
+public class MicroserviceEntity extends SimProcess{
+    private DesmojTest model;
     private int id;
     private String name = "";
     private int CPU = 0;
     private int instances = 0;
     private Operation[] operations;
-    private double throughput = 0;
-    private String[] dependencies;
+    private double startTime = 0;
+    private double stopTime = 0;
 
     public MicroserviceEntity (Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
+
+        this.model = (DesmojTest) owner;
+    }
+
+    @Override
+    public void lifeCycle() throws SuspendExecution {
+//        startTime = presentTime().getTimeAsDouble();
+//
+//        hold(new TimeSpan(10, model.getTimeUnit()));
+//
+//        stopTime = presentTime().getTimeAsDouble() - arrivalTime;
     }
 
     public int getId() {
@@ -67,19 +83,19 @@ public class MicroserviceEntity extends Entity{
         this.operations = operations;
     }
 
-    public String[] getDependencies() {
-        return dependencies;
+    public double getStartTime() {
+        return startTime;
     }
 
-    public void setDependencies(String[] dependencies) {
-        this.dependencies = dependencies;
+    public void setStartTime(double startTime) {
+        this.startTime = startTime;
     }
 
-    public double getThroughput() {
-        return throughput;
+    public double getStopTime() {
+        return stopTime;
     }
 
-    public void setThroughput(double throughput) {
-        this.throughput = throughput;
+    public void setStopTime(double stopTime) {
+        this.stopTime = stopTime;
     }
 }

@@ -1,7 +1,6 @@
 svg 
 { 
-	border: 0px solid black;
-	background: lightgray; 
+	border: none;
 } 
  
 .node 

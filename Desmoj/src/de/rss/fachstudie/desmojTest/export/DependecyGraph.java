@@ -2,7 +2,6 @@ package de.rss.fachstudie.desmojTest.export;
 
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
 import de.rss.fachstudie.desmojTest.entities.Operation;
-import de.rss.fachstudie.desmojTest.utils.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +45,7 @@ public class DependecyGraph {
                 nodes.add(id);
                 for(int i = 0; i < microservices.get(id).getInstances(); ++i) {
                     json += "{ name: '" + microservices.get(id).getName() +
-                        "', id: " + (id + microservices.get(i).getInstances() + microservices.keySet().size() * i) +
+                        "', id: " + (id + microservices.get(id).getInstances() + microservices.keySet().size() * i) +
                         ", labels : [" + labels.substring(0, labels.length() - 2) + "]" +
                         ", group: " + id + "}, ";
                 }

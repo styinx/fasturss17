@@ -6,10 +6,10 @@ import java.util.Map;
 
 public class DataChart {
     private String chartId = "";
-    private HashMap<String, Integer[]> series;
+    private HashMap<String, Double[]> series;
     private String options = "";
 
-    public DataChart(String chartId, HashMap<String, Integer[]> series) {
+    public DataChart(String chartId, HashMap<String, Double[]> series) {
         this.chartId = chartId;
         this.series = series;
         this.options =
@@ -22,8 +22,8 @@ public class DataChart {
                     "{" +
                         "name : '" + key + "'," +
                         "data : [";
-            for(Integer value : series.get(key)) {
-                options += value + ", ";
+            for(Double value : series.get(key)) {
+                options += value.toString() + ", ";
             }
             options = options.substring(0, options.length() - 1) + "]},";
         }

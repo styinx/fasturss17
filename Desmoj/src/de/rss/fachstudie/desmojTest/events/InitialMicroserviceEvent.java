@@ -62,9 +62,8 @@ public class InitialMicroserviceEvent extends ExternalEvent {
             double prop = Math.random();
             if(prop <= operation.getPropability()) {
                 MessageObject initialMessageObject = new MessageObject(model, "MessageObject", model.getShowStartEvent());
-                StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,
-                        "<b><u>Inital Event:</u></b> " + microservice + " (" + operation.getName() + ")",
-                        model.getShowInitEvent(), msId, operation.getName());
+                StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,"", model.getShowInitEvent(),
+                        msId, operation.getName());
 
                 // Aquire CPU resources
                 model.serviceCPU.get(msId).provide(operation.getCPU());

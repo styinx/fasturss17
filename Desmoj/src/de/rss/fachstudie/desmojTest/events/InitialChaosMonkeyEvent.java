@@ -40,7 +40,7 @@ public class InitialChaosMonkeyEvent extends ExternalEvent {
         if(msId == -1) {
             msId = model.getIdByName(microservice);
         }
-        ChaosMonkeyEvent monkeyEvent = new ChaosMonkeyEvent(model, "<b><u>Monkey Event:</u></b> " + microservice, model.getShowMonkeyEvent(), msId, instances);
+        ChaosMonkeyEvent monkeyEvent = new ChaosMonkeyEvent(model, "", model.getShowMonkeyEvent(), msId, instances);
         monkeyEvent.schedule(new TimeSpan(time, model.getTimeUnit()));
     }
 }

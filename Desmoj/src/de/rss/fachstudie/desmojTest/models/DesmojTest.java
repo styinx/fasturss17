@@ -3,10 +3,12 @@ package de.rss.fachstudie.desmojTest.models;
 import de.rss.fachstudie.desmojTest.entities.*;
 import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
+import de.rss.fachstudie.desmojTest.events.StatisticCollectorEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
 import desmoj.core.advancedModellingFeatures.Res;
 import desmoj.core.simulator.*;
+import desmoj.core.statistic.*;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -23,11 +25,21 @@ public class DesmojTest extends Model {
     private boolean showStopEvent   = false;
     private boolean showMonkeyEvent = true;
 
+    // Queues
     public HashMap<Integer, Queue<MicroserviceEntity>>   idleQueues;
     public HashMap<Integer, Queue<MessageObject>>        taskQueues;
     public HashMap<Integer, MicroserviceEntity>          allMicroservices;
 
+    // Resources
     public HashMap<Integer, Res> serviceCPU;
+
+    // Statistics
+    public HashMap<Integer, Count> serviceCounter;
+    public HashMap<Integer, Tally> serviceTally;
+    public HashMap<Integer, Accumulate> serviceAccumulate;
+    public HashMap<Integer, Histogram> serviceHistogram;
+    public HashMap<Integer, Regression> serviceRegression;
+    public HashMap<Integer, TimeSeries> serviceTimeseries;
 
     public TimeUnit getTimeUnit() {
         return timeUnit;
@@ -83,6 +95,7 @@ public class DesmojTest extends Model {
         return -1;
     }
 /*
+    // May be needed for synchronous operations
     public Operation getPredecessor(String name) {
         for(int i = 0; i < allMicroservices.size(); ++i) {
             for(int j = 0; j < allMicroservices.get(i).getOperations().length; ++j) {
@@ -121,7 +134,7 @@ public class DesmojTest extends Model {
         InitialMicroserviceEvent generators[] = InputParser.generators;
         for(InitialMicroserviceEvent generator : generators) {
             InitialMicroserviceEvent initEvent = new InitialMicroserviceEvent(this,
-                    "Inital Event: " + generator.getMicroservice(), showInitEvent, generator.getTime(),
+                    "<b><u>Inital Event:</u></b> " + generator.getName(), showInitEvent, generator.getTime(),
                     getIdByName(generator.getMicroservice()));
             initEvent.schedule(new TimeSpan(0, timeUnit));
         }
@@ -129,10 +142,13 @@ public class DesmojTest extends Model {
         InitialChaosMonkeyEvent monkeys[] = InputParser.monkeys;
         for(InitialChaosMonkeyEvent monkey : monkeys) {
             InitialChaosMonkeyEvent initMonkey = new InitialChaosMonkeyEvent(this,
-                    "ChaosMonkey Event: Kill" + monkey.getMicroservice(), showMonkeyEvent, monkey.getTime(),
+                    "<b><u>Monkey Event:</u></b> Kill " + monkey.getMicroservice(), showMonkeyEvent, monkey.getTime(),
                     getIdByName(monkey.getMicroservice()), monkey.getInstances());
             initMonkey.schedule(new TimeSpan(0, timeUnit));
         }
+
+        StatisticCollectorEvent collectorEvent = new StatisticCollectorEvent(this, "", false);
+        collectorEvent.schedule(new TimeSpan(0, timeUnit));
     }
 
     /**
@@ -140,20 +156,36 @@ public class DesmojTest extends Model {
      */
     @Override
     public void init() {
+        // Queues
         allMicroservices    = new HashMap<>();
         taskQueues          = new HashMap<>();
         idleQueues          = new HashMap<>();
 
+        // Resources
         serviceCPU          = new HashMap<>();
 
+        // Statistics
+        serviceCounter      = new HashMap<>();
+        serviceTally        = new HashMap<>();
+        serviceAccumulate   = new HashMap<>();
+        serviceHistogram    = new HashMap<>();
+        serviceRegression   = new HashMap<>();
+        serviceTimeseries   = new HashMap<>();
 
+        // Load JSON
         MicroserviceEntity[] microservices = InputParser.microservices;
         for(int i = 0; i < microservices.length; i++){
+            // Queues
             Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + microservices[i].getName(), true, true);
             Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[i].getName(), true , true) ;
+
+            // Resources
             Res microserviceCPU = new Res(this, microservices[i].getName() + " CPU", microservices[i].getCPU(), true, true);
 
-            serviceCPU.put(i, microserviceCPU);
+            // Statistics
+            TimeSeries microserviceActive = new TimeSeries(this, "Active Instances: " + microservices[i].getName(),
+                    "Report/resources/" + microservices[i].getName() + ".txt",
+                    new TimeInstant(0.0, timeUnit), new TimeInstant(1500.0, timeUnit), true, false);
 
             //Queue for maxQueue returns refuse and should be used to turn Circuit breakers of with using a waiting queue 1 ( 0 for int max value)
             //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[i].getName(), QueueBased.FIFO , 1, true , true);
@@ -162,16 +194,22 @@ public class DesmojTest extends Model {
                 MicroserviceEntity msEntity = new MicroserviceEntity(this , microservices[i].getName(), true );
                 msEntity.setName(microservices[i].getName());
                 msEntity.setId(i);
+                msEntity.setCPU(microservices[i].getCPU());
                 msEntity.setInstances(microservices[i].getInstances());
                 msEntity.setOperations(microservices[i].getOperations());
-                msEntity.setThroughput(microservices[i].getThroughput());
-                msEntity.setDependencies(microservices[i].getDependencies());
                 idleQueue.insert(msEntity);
                 allMicroservices.put(i, msEntity);
             }
 
+            // Queues
             taskQueues.put(i, taskQueue);
             idleQueues.put(i , idleQueue);
+
+            // Resources
+            serviceCPU.put(i, microserviceCPU);
+
+            // Statistics
+            serviceTimeseries.put(i, microserviceActive);
         }
     }
 

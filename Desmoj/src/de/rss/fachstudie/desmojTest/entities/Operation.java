@@ -1,5 +1,11 @@
 package de.rss.fachstudie.desmojTest.entities;
 
+import co.paralleluniverse.fibers.SuspendExecution;
+import de.rss.fachstudie.desmojTest.models.DesmojTest;
+import desmoj.core.simulator.Model;
+import desmoj.core.simulator.SimProcess;
+import desmoj.core.simulator.TimeSpan;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,7 +14,8 @@ import java.util.List;
  * performs operations and uses a part of the microservice power.
  *
  */
-public class Operation {
+public class Operation extends SimProcess{
+    private DesmojTest model;
     private String name = "";
     private String service = "";
     private String pattern = "";
@@ -16,9 +23,19 @@ public class Operation {
     private int CPU = 0;
     private double propability = 0;
     private HashMap<String, String>[] dependencies;
-    //private HashMap<String, String> dependencies;
 
-    public Operation() {}
+    public Operation(Model model, String s, boolean b, boolean b1) {
+        super(model, s, b, b1);
+
+        this.model = (DesmojTest) model;
+    }
+
+    @Override
+    public void lifeCycle() throws SuspendExecution {
+//        model.serviceCPU.get(0).provide(500);
+//        hold(new TimeSpan(100, model.getTimeUnit()));
+//        model.serviceCPU.get(0).takeBack(500);
+    }
 
     public String getName() {
         return name;

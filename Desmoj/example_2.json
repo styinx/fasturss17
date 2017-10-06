@@ -1,32 +1,127 @@
-[
-  {
-    "name": "Gateway",
-    "instances": 2,
-    "dependencies": [
-      "Order Service"
-    ],
-    "throughput": 2
-  },
-  {
-    "name": "Order Service",
-    "instances": 1,
-    "dependencies": [
-      "Processing Service"
-    ],
-    "throughput": 2
-  },
-  {
-    "name": "Processing Service",
-    "instances": 3,
-    "dependencies": [
-      "Shipping Service"
-    ],
-    "throughput": 2
-  },
-  {
-    "name": "Shipping Service",
-    "instances": 1,
-    "dependencies": [],
-    "throughput": 2
-  }
-]
+{
+  "microservices" :
+  [
+    {
+      "name" : "Login",
+      "instances" : 3,
+      "power" : 3.5,
+      "operations" :
+      [
+        {
+          "name" : "validate",
+          "pattern" : "Circuit Breaker",
+          "duration" : 1,
+          "propability" : 1.0,
+          "dependencies" :
+          [
+            {
+              "name" : "updateRequest",
+              "service" : "Account"
+            },
+            {
+              "name" : "update",
+              "service" : "Session"
+            }
+          ]
+        },
+        {
+          "name" : "confirm",
+          "pattern" : "Circuit Breaker",
+          "duration" : 1,
+          "propability" : 1.0,
+          "dependencies" : 
+          [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Message",
+      "instances" : 1,
+      "power" : 1.0,
+      "operations" :
+      [
+        {
+          "name" : "updateRequest",
+          "pattern" : "Circuit Breaker",
+          "duration" : 1,
+          "propability" : 0.5,
+          "dependencies" :
+          [
+            {
+              "name" : "update",
+              "service" : "Login"
+            }
+          ]
+        },
+        {
+          "name" : "pullMessage",
+          "pattern" : "Circuit Breaker",
+          "duration" : 1,
+          "propability" : 0.5,
+          "dependencies" : 
+          [
+            {
+              "name" : "sendMessage",
+              "service" : "Processing"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Processing",
+      "instances" : 1,
+      "power" : 1.0,
+      "operations" :
+      [
+        {
+          "name" : "save",
+          "pattern" : "Circuit Breaker",
+          "duration" : 1,
+          "propability" : 0.5,
+          "dependencies" :
+          [
+            {
+              "name" : "update",
+              "service" : "Login"
+            }
+          ]
+        },
+        {
+          "name" : "pullMessage",
+          "pattern" : "Circuit Breaker",
+          "duration" : 1,
+          "propability" : 0.5,
+          "dependencies" : 
+          [
+            {
+              "name" : "sendMessage",
+              "service" : "Processing"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generators" :
+  [
+    {
+      "time" : 1,
+      "microservice" : "Login"
+    },
+    {
+      "time" : 10,
+      "microservice" : "Message"
+    }
+  ],
+  "chaosmonkeys" :
+  [
+    {
+      "time" : 10,
+      "microservice" : "Database",
+      "instances" : 2
+    }
+  ]
+}

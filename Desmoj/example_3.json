@@ -3,9 +3,8 @@
   [
     {
       "name" : "Gateway",
-      "instances" : 3,
-      "power" : 3500,
-      "dependencies" : ["Database"],
+      "instances" : 10,
+      "CPU" : 3500,
       "operations" :
       [
         {
@@ -48,9 +47,8 @@
     },
     {
       "name" : "Authentication",
-      "instances" : 2,
-      "power" : 3500,
-      "dependencies" : [],
+      "instances" : 8,
+      "CPU" : 3500,
       "operations" :
       [
         {
@@ -72,8 +70,7 @@
     {
       "name" : "Order",
       "instances" : 5,
-      "power" : 3500,
-      "dependencies" : [],
+      "CPU" : 3500,
       "operations" :
       [
         {
@@ -121,9 +118,8 @@
     },
     {
       "name" : "Backup",
-      "instances" : 2,
-      "power" : 3500,
-      "dependencies" : [],
+      "instances" : 9,
+      "CPU" : 3500,
       "operations" :
       [
         {
@@ -145,8 +141,7 @@
     {
       "name" : "Shipping",
       "instances" : 2,
-      "power" : 3500,
-      "dependencies" : [],
+      "CPU" : 3500,
       "operations" :
       [
         {
@@ -167,9 +162,8 @@
     },
     {
       "name" : "Database",
-      "instances" : 3,
-      "power" : 3500,
-      "dependencies" : [],
+      "instances" : 6,
+      "CPU" : 3500,
       "operations" :
       [
         {
@@ -200,12 +194,12 @@
   "chaosmonkeys" :
   [
     {
-      "time" : 100,
+      "time" : 1000,
       "microservice" : "Database",
       "instances" : 1
     },
     {
-      "time" : 100,
+      "time" : 1000,
       "microservice" : "Gateway",
       "instances" : 1
     }
