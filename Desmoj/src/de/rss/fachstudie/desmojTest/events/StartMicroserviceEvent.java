@@ -43,14 +43,17 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             for(Operation op : msEntity.getOperations()) {
                 if(op.getName().equals(operation)) {
                     // Provide CPU resources for the operation
-                    model.serviceCPU.get(id).provide(op.getCPU());
+                    if(model.serviceCPU.get(id) > 0) {
+                        model.serviceCPU.put(id, model.serviceCPU.get(id) - op.getCPU());
+                    } else {
+                        //Service has no more CPU
+                    }
                     // Set time to stop
                     timeUntilFinished = new ContDistUniform(model,
                             "Stop Event: " + msEntity.getName() + " (" + operation + ")",
                             op.getDuration(), op.getDuration(), true, false);
                 }
             }
-            msEntity.setStartTime(presentTime().getTimeAsDouble());
             msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
         }
     }

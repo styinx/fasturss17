@@ -6,10 +6,13 @@ import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.events.StatisticCollectorEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
+import desmoj.core.advancedModellingFeatures.Bin;
 import desmoj.core.advancedModellingFeatures.Res;
+import desmoj.core.advancedModellingFeatures.Stock;
 import desmoj.core.simulator.*;
 import desmoj.core.statistic.*;
 
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +34,7 @@ public class DesmojTest extends Model {
     public HashMap<Integer, MicroserviceEntity>          allMicroservices;
 
     // Resources
-    public HashMap<Integer, Res> serviceCPU;
+    public HashMap<Integer, Integer> serviceCPU;
 
     // Statistics
     public HashMap<Integer, Count> serviceCounter;
@@ -39,7 +42,7 @@ public class DesmojTest extends Model {
     public HashMap<Integer, Accumulate> serviceAccumulate;
     public HashMap<Integer, Histogram> serviceHistogram;
     public HashMap<Integer, Regression> serviceRegression;
-    public HashMap<Integer, TimeSeries> serviceTimeseries;
+    public HashMap<Integer, HashMap<String, TimeSeries>> serviceTimeseries;
 
     public TimeUnit getTimeUnit() {
         return timeUnit;
@@ -175,17 +178,28 @@ public class DesmojTest extends Model {
         // Load JSON
         MicroserviceEntity[] microservices = InputParser.microservices;
         for(int i = 0; i < microservices.length; i++){
+            String serviceName = microservices[i].getName();
+
             // Queues
-            Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + microservices[i].getName(), true, true);
-            Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[i].getName(), true , true) ;
+            Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + serviceName, true, true);
+            Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + serviceName, true , true) ;
 
             // Resources
-            Res microserviceCPU = new Res(this, microservices[i].getName() + " CPU", microservices[i].getCPU(), true, true);
+            //Res microserviceCPU = new Res(this, serviceName + " CPU", microservices[i].getCPU(), true, true);
 
             // Statistics
-            TimeSeries microserviceActive = new TimeSeries(this, "Active Instances: " + microservices[i].getName(),
-                    "Report/resources/" + microservices[i].getName() + ".txt",
-                    new TimeInstant(0.0, timeUnit), new TimeInstant(1500.0, timeUnit), true, false);
+            HashMap<String, TimeSeries> timeSeries = new HashMap<>();
+
+            // Collect active instances
+            TimeSeries activeInstances = new TimeSeries(this, "Active Instances: " + serviceName,
+                    "Report/resources/Instances_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
+                    new TimeInstant(1500.0, timeUnit), true, false);
+            // Collect active CPU
+            TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + serviceName,
+                    "Report/resources/CPU_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
+                    new TimeInstant(1500.0, timeUnit), true, false);
+            timeSeries.put("Active Instances", activeInstances);
+            timeSeries.put("Used CPU", activeCPU);
 
             //Queue for maxQueue returns refuse and should be used to turn Circuit breakers of with using a waiting queue 1 ( 0 for int max value)
             //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[i].getName(), QueueBased.FIFO , 1, true , true);
@@ -206,10 +220,10 @@ public class DesmojTest extends Model {
             idleQueues.put(i , idleQueue);
 
             // Resources
-            serviceCPU.put(i, microserviceCPU);
+            serviceCPU.put(i, microservices[i].getCPU());
 
             // Statistics
-            serviceTimeseries.put(i, microserviceActive);
+            serviceTimeseries.put(i, timeSeries);
         }
     }
 

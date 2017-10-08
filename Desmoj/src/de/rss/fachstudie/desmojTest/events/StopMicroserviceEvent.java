@@ -1,5 +1,6 @@
 package de.rss.fachstudie.desmojTest.events;
 
+import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
 import de.rss.fachstudie.desmojTest.entities.Operation;
@@ -31,8 +32,7 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
         for(Operation operation : microserviceEntity.getOperations()) {
             if(operation.getName().equals(this.operation)) {
                 // Free the cpu resources the operation has
-                model.serviceCPU.get(id).takeBack(operation.getCPU());
-                microserviceEntity.setStopTime(presentTime().getTimeAsDouble());
+                model.serviceCPU.put(id, model.serviceCPU.get(id) + operation.getCPU());
 
                 // If there is following operation, then start
                 if(operation.getDependencies().length > 0) {

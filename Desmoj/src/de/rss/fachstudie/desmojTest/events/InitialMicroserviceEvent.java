@@ -65,8 +65,6 @@ public class InitialMicroserviceEvent extends ExternalEvent {
                 StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,"", model.getShowInitEvent(),
                         msId, operation.getName());
 
-                // Aquire CPU resources
-                model.serviceCPU.get(msId).provide(operation.getCPU());
                 startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
 
             }

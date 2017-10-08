@@ -40,18 +40,21 @@ public class ExportReport {
 
         for(int i = 0; i < model.allMicroservices.size(); i++) {
             MicroserviceEntity ms = model.allMicroservices.get(i);
-            testData1.put("Active Instances: " + ms.getName(), this.getTimeSeries("Report/resources/" + ms.getName() + ".txt"));
+            testData1.put("Active Instances " + ms.getName(),
+                    this.getTimeSeries("Report/resources/Instances_" + ms.getName() + ".txt"));
         }
-        testData2.put("Task", new Double[]{1.0, 2.0, 4.0, 8.0});
-        testData3.put("CPU 1", new Double[]{1.0, 3.0, 9.0, 27.0});
-        testData3.put("CPU 2", new Double[]{8.0, 16.0, 24.0, 20.0});
+
+        for(int i = 0; i < model.allMicroservices.size(); i++) {
+            MicroserviceEntity ms = model.allMicroservices.get(i);
+            testData2.put("Used CPU " + ms.getName(),
+                    this.getTimeSeries("Report/resources/CPU_" + ms.getName() + ".txt"));
+        }
 
         DataChart chart1 = new DataChart("Active Microservice Instances", testData1);
-        DataChart chart2 = new DataChart("Throughput", testData2);
-        DataChart chart3 = new DataChart("Performance", testData3);
+        DataChart chart2 = new DataChart("Used CPU", testData2);
 
-        String divs = chart1.printDiv() + chart2.printDiv() + chart3.printDiv();
-        String charts = chart1.printChart() + chart2.printChart() + chart3.printChart();
+        String divs = chart1.printDiv() + chart2.printDiv();
+        String charts = chart1.printChart() + chart2.printChart();
         String contents = divs + charts;
 
         try {

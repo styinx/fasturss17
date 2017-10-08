@@ -21,7 +21,8 @@ public class StatisticCollectorEvent extends ExternalEvent {
         // Collect statisitcs from each service
         for(int i = 0; i < model.allMicroservices.size(); ++i) {
             MicroserviceEntity ms = model.allMicroservices.get(i);
-            model.serviceTimeseries.get(i).update(ms.getInstances() - model.idleQueues.get(i).size());
+            model.serviceTimeseries.get(i).get("Active Instances").update(ms.getInstances() - model.idleQueues.get(i).size());
+            model.serviceTimeseries.get(i).get("Used CPU").update(ms.getCPU() - model.serviceCPU.get(i));
         }
         schedule(new TimeSpan(1, model.getTimeUnit()));
     }
