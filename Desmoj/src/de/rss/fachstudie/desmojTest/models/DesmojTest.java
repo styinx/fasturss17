@@ -23,6 +23,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class DesmojTest extends Model {
     private TimeUnit timeUnit = TimeUnit.SECONDS;
+    private double simulationTime = 0;
+    private int datapoints = 0;
     private boolean showInitEvent   = true;
     private boolean showStartEvent  = false;
     private boolean showStopEvent   = false;
@@ -43,6 +45,14 @@ public class DesmojTest extends Model {
     public HashMap<Integer, Histogram> serviceHistogram;
     public HashMap<Integer, Regression> serviceRegression;
     public HashMap<Integer, HashMap<String, TimeSeries>> serviceTimeseries;
+
+    public double getSimulationTime() {
+        return simulationTime;
+    }
+
+    public double getDatapoints() {
+        return datapoints;
+    }
 
     public TimeUnit getTimeUnit() {
         return timeUnit;
@@ -159,6 +169,10 @@ public class DesmojTest extends Model {
      */
     @Override
     public void init() {
+        // Globals
+        simulationTime = Double.parseDouble(InputParser.simulation.get("duration"));
+        datapoints = Integer.parseInt(InputParser.simulation.get("datapoints"));
+
         // Queues
         allMicroservices    = new HashMap<>();
         taskQueues          = new HashMap<>();
@@ -193,11 +207,11 @@ public class DesmojTest extends Model {
             // Collect active instances
             TimeSeries activeInstances = new TimeSeries(this, "Active Instances: " + serviceName,
                     "Report/resources/Instances_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
-                    new TimeInstant(1500.0, timeUnit), true, false);
+                    new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), timeUnit), true, false);
             // Collect active CPU
             TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + serviceName,
                     "Report/resources/CPU_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
-                    new TimeInstant(1500.0, timeUnit), true, false);
+                    new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), timeUnit), true, false);
             timeSeries.put("Active Instances", activeInstances);
             timeSeries.put("Used CPU", activeCPU);
 
@@ -228,14 +242,14 @@ public class DesmojTest extends Model {
     }
 
     public static void main(String[] args) {
-        InputParser parser = new InputParser("example_3.json");
-        DesmojTest model = new DesmojTest(null, "Simple microservice model", true, true);
-        Experiment exp = new Experiment("Desmoj_Microservice_Experiment");
+        InputParser parser = new InputParser("example_basic.json");
+        DesmojTest model = new DesmojTest(null, InputParser.simulation.get("model"), true, true);
+        Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
 
         model.connectToExperiment(exp);
 
         exp.setShowProgressBarAutoclose(true);
-        exp.stop(new TimeInstant(1500, model.getTimeUnit()));
+        exp.stop(new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), model.getTimeUnit()));
         exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(100, model.getTimeUnit()));
         exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
 

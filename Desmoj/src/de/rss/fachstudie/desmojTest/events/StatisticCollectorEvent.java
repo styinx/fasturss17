@@ -24,6 +24,6 @@ public class StatisticCollectorEvent extends ExternalEvent {
             model.serviceTimeseries.get(i).get("Active Instances").update(ms.getInstances() - model.idleQueues.get(i).size());
             model.serviceTimeseries.get(i).get("Used CPU").update(ms.getCPU() - model.serviceCPU.get(i));
         }
-        schedule(new TimeSpan(1, model.getTimeUnit()));
+        schedule(new TimeSpan(model.getSimulationTime() / model.getDatapoints(), model.getTimeUnit()));
     }
 }

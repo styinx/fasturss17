@@ -32,7 +32,11 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
         for(Operation operation : microserviceEntity.getOperations()) {
             if(operation.getName().equals(this.operation)) {
                 // Free the cpu resources the operation has
-                model.serviceCPU.put(id, model.serviceCPU.get(id) + operation.getCPU());
+                if(model.serviceCPU.get(id) < microserviceEntity.getCPU() - operation.getCPU()) {
+                    model.serviceCPU.put(id, model.serviceCPU.get(id) + operation.getCPU());
+                } else {
+                    // CPU has max resources
+                }
 
                 // If there is following operation, then start
                 if(operation.getDependencies().length > 0) {
