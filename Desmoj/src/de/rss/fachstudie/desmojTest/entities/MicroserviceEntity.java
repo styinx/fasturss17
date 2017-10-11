@@ -25,8 +25,6 @@ public class MicroserviceEntity extends SimProcess{
     private int CPU = 0;
     private int instances = 0;
     private Operation[] operations;
-    private double startTime = 0;
-    private double stopTime = 0;
 
     public MicroserviceEntity (Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
@@ -36,11 +34,7 @@ public class MicroserviceEntity extends SimProcess{
 
     @Override
     public void lifeCycle() throws SuspendExecution {
-//        startTime = presentTime().getTimeAsDouble();
-//
 //        hold(new TimeSpan(10, model.getTimeUnit()));
-//
-//        stopTime = presentTime().getTimeAsDouble() - arrivalTime;
     }
 
     public int getId() {
@@ -81,21 +75,5 @@ public class MicroserviceEntity extends SimProcess{
 
     public void setOperations(Operation[] operations) {
         this.operations = operations;
-    }
-
-    public double getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(double startTime) {
-        this.startTime = startTime;
-    }
-
-    public double getStopTime() {
-        return stopTime;
-    }
-
-    public void setStopTime(double stopTime) {
-        this.stopTime = stopTime;
     }
 }

@@ -36,18 +36,15 @@ public class ExportReport {
     private void chartReport() {
         HashMap<String, Double[]> testData1 = new HashMap<>();
         HashMap<String, Double[]> testData2 = new HashMap<>();
-        HashMap<String, Double[]> testData3 = new HashMap<>();
 
         for(int i = 0; i < model.allMicroservices.size(); i++) {
             MicroserviceEntity ms = model.allMicroservices.get(i);
-            testData1.put("Active Instances " + ms.getName(),
-                    this.getTimeSeries("Report/resources/Instances_" + ms.getName() + ".txt"));
+            testData1.put( ms.getName(), this.getTimeSeries("Report/resources/Instances_" + ms.getName() + ".txt"));
         }
 
         for(int i = 0; i < model.allMicroservices.size(); i++) {
             MicroserviceEntity ms = model.allMicroservices.get(i);
-            testData2.put("Used CPU " + ms.getName(),
-                    this.getTimeSeries("Report/resources/CPU_" + ms.getName() + ".txt"));
+            testData2.put(ms.getName(), this.getTimeSeries("Report/resources/CPU_" + ms.getName() + ".txt"));
         }
 
         DataChart chart1 = new DataChart("Active Microservice Instances", testData1);

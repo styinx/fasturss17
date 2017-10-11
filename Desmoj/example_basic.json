@@ -4,7 +4,7 @@
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
     "duration" : 1500,
-    "datapoints" : 500
+    "datapoints" : 250
   },
   "microservices" :
   [

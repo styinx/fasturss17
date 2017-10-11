@@ -9,8 +9,8 @@
     (function(Highcharts) {
 
         Highcharts.theme = {
-            colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
-                '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'
+            colors: ['#0077CC', '#DDDD00', '#CC00CC', '#009900', '#AA0000', '#00CCCC', '#DDDDDD',
+                '#FF0000', '#00FF00', '#0000FF', '#FFFFFF'
             ],
             chart: {
                 backgroundColor: null,
@@ -21,7 +21,9 @@
             title: {
                 style: {
                     fontSize: '16px',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    color: '#000000',
+                    textDecoration: 'underline'
                 }
             },
             tooltip: {
@@ -36,7 +38,11 @@
             legend: {
                 itemStyle: {
                     fontWeight: 'bold',
-                    fontSize: '13px'
+                    fontSize: '13px',
+                    color: 'rgba(50,50,50,0.8)'
+                },
+                itemHoverStyle: {
+                    color: 'rgba(250,250,250,0.8)'
                 },
                 layout: 'vertical',
                 align: 'right',
@@ -44,14 +50,22 @@
             },
             xAxis: {
                 gridLineWidth: 1,
+                /*alternateGridColor: 'rgba(50,50,50,0.8)',*/
+                minorGridLineColor: 'rgba(50,50,50,0.2)',
+                gridLineColor: 'rgba(50,50,50,0.8)',
                 labels: {
                     style: {
-                        fontSize: '12px'
+                        fontSize: '12px',
+                        color: 'rgba(50,50,50,0.8)'
                     }
                 }
             },
             yAxis: {
                 minorTickInterval: 'auto',
+                gridLineWidth: 1,
+                /*alternateGridColor: 'rgba(50,50,50,0.8)',*/
+                minorGridLineColor: 'rgba(50,50,50,0.2)',
+                gridLineColor: 'rgba(50,50,50,0.8)',
                 title: {
                     style: {
                         textTransform: 'uppercase'
@@ -59,17 +73,16 @@
                 },
                 labels: {
                     style: {
-                        fontSize: '12px'
+                        fontSize: '12px',
+                        color: 'rgba(50,50,50,0.8)'
                     }
                 }
             },
             plotOptions: {
                 candlestick: {
-                    lineColor: '#404048'
+                    lineColor: 'rgba(50,50,50,0.8)'
                 }
             },
-
-            background2: '#F0F0EA'
 
         };
         Highcharts.setOptions(Highcharts.theme);

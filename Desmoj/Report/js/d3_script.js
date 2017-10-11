@@ -1,18 +1,17 @@
 // Setup
 setTimeout(function(){
+    if(!graph)
+    {
+        graph = {nodes : [{name : "Graph is Empty (Some problems occurred)"}], links : []}
+    }
     document.getElementById('info').style.display = "none";
     var color = d3.scale.category20();
     var width = window.innerWidth;
     var height = window.innerHeight;
     var power = -100;
-    var distance = 100;
+    var distance = graph.nodes.length * 3;
     var svg = d3.select("#svg");//d3.select("body").append("svg").attr("width", '100%').attr("height", height - 1);
     var force = d3.layout.force().charge(power).linkDistance(distance).size([width, height]);
-
-    if(!graph)
-    {
-        graph = {nodes : [{name : "Graph is Empty (Some problems occurred)"}], links : []}
-    }
 
     graph = renameLinks(graph);
     graph = groupLinks(graph);

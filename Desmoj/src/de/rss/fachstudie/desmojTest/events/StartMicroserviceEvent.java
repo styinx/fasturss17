@@ -43,7 +43,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             for(Operation op : msEntity.getOperations()) {
                 if(op.getName().equals(operation)) {
                     // Provide CPU resources for the operation
-                    if(model.serviceCPU.get(id) > 0) {
+                    if(model.serviceCPU.get(id) >= op.getCPU()) {
                         model.serviceCPU.put(id, model.serviceCPU.get(id) - op.getCPU());
                     } else {
                         //Service has no more CPU

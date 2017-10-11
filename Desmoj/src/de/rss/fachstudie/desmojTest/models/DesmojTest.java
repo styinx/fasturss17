@@ -22,9 +22,9 @@ import java.util.concurrent.TimeUnit;
  * init Gets called at the start of the experiment and loads all relevant experiment resources.
  */
 public class DesmojTest extends Model {
-    private TimeUnit timeUnit = TimeUnit.SECONDS;
-    private double simulationTime = 0;
-    private int datapoints = 0;
+    private TimeUnit timeUnit       = TimeUnit.SECONDS;
+    private double simulationTime   = 0;
+    private int datapoints          = 0;
     private boolean showInitEvent   = true;
     private boolean showStartEvent  = false;
     private boolean showStopEvent   = false;
@@ -207,11 +207,11 @@ public class DesmojTest extends Model {
             // Collect active instances
             TimeSeries activeInstances = new TimeSeries(this, "Active Instances: " + serviceName,
                     "Report/resources/Instances_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
-                    new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), timeUnit), true, false);
+                    new TimeInstant(simulationTime, timeUnit), true, false);
             // Collect active CPU
             TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + serviceName,
                     "Report/resources/CPU_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
-                    new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), timeUnit), true, false);
+                    new TimeInstant(simulationTime, timeUnit), true, false);
             timeSeries.put("Active Instances", activeInstances);
             timeSeries.put("Used CPU", activeCPU);
 
@@ -231,7 +231,7 @@ public class DesmojTest extends Model {
 
             // Queues
             taskQueues.put(i, taskQueue);
-            idleQueues.put(i , idleQueue);
+            idleQueues.put(i, idleQueue);
 
             // Resources
             serviceCPU.put(i, microservices[i].getCPU());
