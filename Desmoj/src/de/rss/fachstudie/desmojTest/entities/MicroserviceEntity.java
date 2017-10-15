@@ -12,11 +12,13 @@ import java.util.List;
 /**
  * A MicroserviceEntity represents a collection of services.
  * Each instance is able to call operations to another service instance.
- * id: internal unique number to identify a service
- * name: the given name of the service in the input
- * CPU: the computing CPU a microservice has available
- * instances: number of instances a service can create
- * operations: ...
+ *
+ * model:       reference to the experiment model
+ * id:          internal unique number to identify a service
+ * name:        the given name of the service, defined by the input
+ * CPU:         the computing power a microservice has available
+ * instances:   number of instances a service can create
+ * operations:  an array of dependent operations
  */
 public class MicroserviceEntity extends SimProcess{
     private DesmojTest model;

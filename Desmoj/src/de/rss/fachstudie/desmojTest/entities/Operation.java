@@ -11,8 +11,16 @@ import java.util.List;
 
 /**
  * An operation connects two microservice instances. During a specified time interval the service
- * performs operations and uses a part of the microservice power.
+ * performs operations and uses a portion of the microservice's computing power.
  *
+ * model:           reference to the experiment model
+ * name:            the given name of the operation, defined by the input
+ * service:         name of the the owning microservice
+ * pattern:         resilience pattern
+ * duration:        time interval the operation needs to finish
+ * CPU:             the needed computing power
+ * probability:     the operation is only executed if a certain probability is reached
+ * dependencies:    an array containing dependant operations of other services
  */
 public class Operation extends SimProcess{
     private DesmojTest model;
@@ -21,7 +29,7 @@ public class Operation extends SimProcess{
     private String pattern = "";
     private double duration = 0;
     private int CPU = 0;
-    private double propability = 0;
+    private double probability = 0;
     private HashMap<String, String>[] dependencies;
 
     public Operation(Model model, String s, boolean b, boolean b1) {
@@ -85,11 +93,11 @@ public class Operation extends SimProcess{
         this.CPU = CPU;
     }
 
-    public double getPropability() {
-        return propability;
+    public double getProbability() {
+        return probability;
     }
 
-    public void setPropability(double propability) {
-        this.propability = propability;
+    public void setProbability(double probability) {
+        this.probability = probability;
     }
 }

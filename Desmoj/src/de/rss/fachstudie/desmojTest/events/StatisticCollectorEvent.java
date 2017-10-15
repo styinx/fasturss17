@@ -7,6 +7,9 @@ import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
+/**
+ *
+ */
 public class StatisticCollectorEvent extends ExternalEvent {
     private DesmojTest model;
 

@@ -19,7 +19,7 @@
           "pattern" : "Circuit Breaker",
           "duration" : 4,
           "CPU" : 300,
-          "propability" : 0.8,
+          "probability" : 0.8,
           "dependencies" :
           [
             {
@@ -33,7 +33,7 @@
           "pattern" : "Circuit Breaker",
           "duration" : 1,
           "CPU" : 800,
-          "propability" : 0.2,
+          "probability" : 0.2,
           "dependencies" : 
           [
             {
@@ -63,7 +63,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 500,
-          "propability" : 0.6,
+          "probability" : 0.6,
           "dependencies" :
           [
             {
@@ -84,7 +84,7 @@
           "name" : "save",
           "pattern" : "",
           "duration" : 2,
-          "propability" : 0.6,
+          "probability" : 0.6,
           "dependencies" :
           [
             {
@@ -98,7 +98,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 500,
-          "propability" : 0.6,
+          "probability" : 0.6,
           "dependencies" :
           [
             {
@@ -112,7 +112,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 900,
-          "propability" : 0.6,
+          "probability" : 0.6,
           "dependencies" :
           [
             {
@@ -134,7 +134,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 500,
-          "propability" : 0.6,
+          "probability" : 0.6,
           "dependencies" :
           [
             {
@@ -156,7 +156,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 1200,
-          "propability" : 0.6,
+          "probability" : 0.6,
           "dependencies" :
           [
             {
@@ -178,7 +178,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 500,
-          "propability" : 0.6,
+          "probability" : 0.6,
           "dependencies" :
           [
           

@@ -13,6 +13,9 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
+/**
+ * The InputParser reads a valid json file and converts the contents into microservices and operations.
+ */
 public class InputParser {
     public static MicroserviceEntity[] microservices;
     public static InitialMicroserviceEvent[] generators;
