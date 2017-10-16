@@ -51,7 +51,7 @@ public class ExportReport {
         DataChart chart2 = new DataChart("Used CPU", testData2);
 
         String divs = chart1.printDiv() + chart2.printDiv();
-        String charts = chart1.printChart() + chart2.printChart();
+        String charts = chart1.printStockChart() + chart2.printStockChart();
         String contents = divs + charts;
 
         try {

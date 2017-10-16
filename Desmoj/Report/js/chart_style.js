@@ -27,12 +27,30 @@
                 }
             },
             tooltip: {
+                formatter: function () {
+                    var s = '<b>' + this.x + '</b>';
+                    for(var p in this.points) {
+                        s += '<br/><span style="color:' + this.points[p].color + '">\u25CF</span> ' + this.points[p].series.name + ': ' + this.y;
+                    }
+                    return s;
+                },
+                shared: true,
                 borderWidth: 1,
                 shadow: false,
                 backgroundColor: 'rgba(50,50,50,0.8)',
                 style : {
                     border: '1px solid white',
                     color: '#FFFFFF'
+                }
+            },
+            rangeSelector: {
+                selected: 4,
+                inputEnabled: false,
+                buttonTheme: {
+                    visibility: 'hidden'
+                },
+                labelStyle: {
+                    visibility: 'hidden'
                 }
             },
             legend: {
@@ -57,10 +75,14 @@
                     style: {
                         fontSize: '12px',
                         color: 'rgba(50,50,50,0.8)'
+                    },
+                    formatter: function () {
+                        return this.value;
                     }
                 }
             },
             yAxis: {
+                opposite: false,
                 minorTickInterval: 'auto',
                 gridLineWidth: 1,
                 /*alternateGridColor: 'rgba(50,50,50,0.8)',*/
@@ -83,7 +105,9 @@
                     lineColor: 'rgba(50,50,50,0.8)'
                 }
             },
-
+            credits: {
+                enabled: false
+            }
         };
         Highcharts.setOptions(Highcharts.theme);
 

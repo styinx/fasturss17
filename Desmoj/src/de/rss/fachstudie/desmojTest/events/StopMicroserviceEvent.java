@@ -47,7 +47,7 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
                         String nextService = dependantOperation.get("service");
                         int nextServiceId = model.getIdByName(nextService);
 
-                        ContDistUniform prop = new ContDistUniform(this.model, "",0.0, 1.0,false, false);
+                        ContDistUniform prop = new ContDistUniform(this.model,"",0.0, 1.0,false, false);
                         if(prop.sample() <= operation.getProbability()) {
                             // Immediately start next instance
                             StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
@@ -83,7 +83,7 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
                 if(op.getName().equals(operation)) {
                     timeUntilFinished = new ContDistUniform(model ,
                             "Stop Event: " + model.allMicroservices.get(id).getName() + "(" + op.getName() + ")",
-                            op.getDuration(), op.getDuration(), true, false);
+                            op.getDuration(), op.getDuration(), model.getShowStopEvent(), true);
                 }
             }
 

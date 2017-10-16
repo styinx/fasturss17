@@ -48,7 +48,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
 
                         timeUntilFinished = new ContDistUniform(model,
                                 "Stop Event: " + msEntity.getName() + " (" + operation + ")",
-                                op.getDuration(), op.getDuration(), true, false);
+                                op.getDuration(), op.getDuration(), model.getShowStartEvent(), true);
 
                         msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                     } else {

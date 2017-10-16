@@ -14,7 +14,7 @@ public class DataChart {
         this.series = series;
         this.options =
                 "title : { text : '" + chartId + "'}," +
-                "credits : {enabled: false}," +
+                "legend : {enabled: true}," +
                 "series : " +
                 "[";
         for(String key : series.keySet()) {
@@ -35,6 +35,10 @@ public class DataChart {
     }
 
     public String printChart() {
-        return "Highcharts.chart('" + chartId + "', {" + options + "});\n";
+        return "Highcharts.stockChart('" + chartId + "', {" + options + "});\n";
+    }
+
+    public String printStockChart() {
+        return "Highcharts.stockChart('" + chartId + "', {" + options + "});\n";
     }
 }

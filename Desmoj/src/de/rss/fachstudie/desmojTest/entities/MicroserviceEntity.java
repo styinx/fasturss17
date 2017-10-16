@@ -8,6 +8,7 @@ import desmoj.core.simulator.SimProcess;
 import desmoj.core.simulator.TimeSpan;
 
 import java.util.List;
+import java.util.Stack;
 
 /**
  * A MicroserviceEntity represents a collection of services.
@@ -27,6 +28,7 @@ public class MicroserviceEntity extends SimProcess{
     private int CPU = 0;
     private int instances = 0;
     private Operation[] operations;
+    private Stack<MicroserviceEntity> dependency;
 
     public MicroserviceEntity (Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);

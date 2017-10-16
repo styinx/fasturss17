@@ -22,10 +22,10 @@ public class DesmojTest extends Model {
     private TimeUnit timeUnit       = TimeUnit.SECONDS;
     private double simulationTime   = 0;
     private int datapoints          = 0;
-    private boolean showInitEvent   = true;
+    private boolean showInitEvent   = false;
     private boolean showStartEvent  = false;
     private boolean showStopEvent   = false;
-    private boolean showMonkeyEvent = true;
+    private boolean showMonkeyEvent = false;
 
     // Queues
     public HashMap<Integer, Queue<MicroserviceEntity>>   idleQueues;

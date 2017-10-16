@@ -35,7 +35,7 @@ public class InitialMicroserviceEvent extends ExternalEvent {
         super(owner, name, showInTrace);
 
         model = (DesmojTest) owner;
-        timeToCreate = new ContDistExponential(model, name, time, true, false);
+        timeToCreate = new ContDistExponential(model, name, time, model.getShowInitEvent(), true);
         this.msId = msId;
         this.microservice = model.allMicroservices.get(msId).getName();
     }
@@ -57,9 +57,7 @@ public class InitialMicroserviceEvent extends ExternalEvent {
         if(msId == -1) {
             msId = model.getIdByName(microservice);
         }
-        DesmojTest model = (DesmojTest) getModel();
         for(Operation operation : model.allMicroservices.get(msId).getOperations()) {
-
             // Create a random propability, if the operation propability is within this value it gets started
             ContDistUniform prop = new ContDistUniform(this.model, "",0.0, 1.0,false, false);
             if(prop.sample() <= operation.getProbability()) {
