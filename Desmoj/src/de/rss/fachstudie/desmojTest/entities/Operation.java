@@ -8,6 +8,8 @@ import desmoj.core.simulator.TimeSpan;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.SortedSet;
 
 /**
  * An operation connects two microservice instances. During a specified time interval the service
@@ -30,7 +32,7 @@ public class Operation extends SimProcess{
     private double duration = 0;
     private int CPU = 0;
     private double probability = 0;
-    private HashMap<String, String>[] dependencies;
+    private SortedMap<String, String>[] dependencies;
 
     public Operation(Model model, String s, boolean b, boolean b1) {
         super(model, s, b, b1);
@@ -69,11 +71,11 @@ public class Operation extends SimProcess{
         this.pattern = pattern;
     }
 
-    public HashMap<String, String>[] getDependencies() {
+    public SortedMap<String, String>[] getDependencies() {
         return dependencies;
     }
 
-    public void setDependencies(HashMap<String, String>[] operations) {
+    public void setDependencies(SortedMap<String, String>[] operations) {
         this.dependencies = operations;
     }
 

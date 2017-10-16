@@ -246,7 +246,14 @@ public class DesmojTest extends Model {
         DesmojTest model = new DesmojTest(null, InputParser.simulation.get("model"), true, true);
         Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
 
+
         model.connectToExperiment(exp);
+
+
+
+        exp.setSeedGenerator(Integer.parseInt(InputParser.simulation.get("seed")));
+
+
 
         exp.setShowProgressBarAutoclose(true);
         exp.stop(new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), model.getTimeUnit()));

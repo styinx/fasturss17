@@ -6,6 +6,7 @@ import de.rss.fachstudie.desmojTest.entities.Operation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.SortedMap;
 
 public class DependecyGraph {
     private List<Integer> nodes;
@@ -63,7 +64,7 @@ public class DependecyGraph {
                 String labels = "";
                 for (Operation op : microservices.get(id).getOperations()) {
                     labels += "'" + op.getName() + "', ";
-                    for(HashMap<String, String> depService : op.getDependencies()) {
+                    for(SortedMap<String, String> depService : op.getDependencies()) {
                         int depId = getIdByName(depService.get("service"));
                         json += "{ source: " + id
                                 + ", target : " + depId
