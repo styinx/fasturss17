@@ -55,7 +55,7 @@
           "name" : "save",
           "pattern" : "",
           "duration" : 2,
-          "CPU" : 500,
+          "CPU" : 600,
           "probability" : 0.2,
           "dependencies" :
           [
@@ -127,7 +127,7 @@
           "name" : "update",
           "pattern" : "",
           "duration" : 2,
-          "CPU" : 500,
+          "CPU" : 700,
           "probability" : 0.5,
           "dependencies" :
           [
@@ -163,7 +163,7 @@
     },
     {
       "name" : "Database",
-      "instances" : 50,
+      "instances" : 10,
       "CPU" : 3500,
       "operations" :
       [

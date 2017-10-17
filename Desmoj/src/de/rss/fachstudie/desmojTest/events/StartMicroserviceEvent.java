@@ -10,6 +10,7 @@ import desmoj.core.simulator.Event;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
+import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
@@ -45,43 +46,44 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
 
             for(Operation op : msEntity.getOperations()) {
                 if(op.getName().equals(operation)) {
-                    // Provide CPU resources for the operation
-                    if(model.serviceCPU.get(id) >= op.getCPU()) {
-                        model.serviceCPU.put(id, model.serviceCPU.get(id) - op.getCPU());
+                    ContDistUniform timeUntilFinished = new ContDistUniform(model,
+                            "Start Event: " + msEntity.getName() + " (" + operation + ")",
+                            op.getDuration(), op.getDuration(), model.getShowStartEvent(), true);
 
-                        ContDistUniform timeUntilFinished = new ContDistUniform(model,
-                                "Start Event: " + msEntity.getName() + " (" + operation + ")",
-                                op.getDuration(), op.getDuration(), model.getShowStartEvent(), true);
+                    // Are there dependant operations
+                    if(op.getDependencies().length > 0) {
+                        for(SortedMap<String, String> dependantOperation : op.getDependencies()) {
+                            String nextOperation = dependantOperation.get("name");
+                            String nextService = dependantOperation.get("service");
+                            int nextServiceId = model.getIdByName(nextService);
 
-                        // Are there dependant operations
-                        if(op.getDependencies().length > 0) {
-                            for(SortedMap<String, String> dependantOperation : op.getDependencies()) {
-                                String nextOperation = dependantOperation.get("name");
-                                String nextService = dependantOperation.get("service");
-                                int nextServiceId = model.getIdByName(nextService);
+                            ContDistUniform prop = new ContDistUniform(this.model,"",0.0, 1.0,false, false);
+                            // Next dependant operation gets executed
+                            if(prop.sample() <= op.getProbability()) {
+                                // Add Stacked operation info to message object
+                                HashMap<MicroserviceEntity, StopMicroserviceEvent> stackedOperation = new HashMap<>();
+                                stackedOperation.put(msEntity, msEndEvent);
+                                messageObject.addDependency(stackedOperation);
 
-                                ContDistUniform prop = new ContDistUniform(this.model,"",0.0, 1.0,false, false);
-                                // Next dependant operation gets executed
-                                if(prop.sample() <= op.getProbability()) {
-                                    // Add Stacked operation info to message object
-                                    messageObject.addDependency(msEndEvent);
-
-                                    // Immediately start next instance
-                                    StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
-                                            "Start Event: " + nextService + "(" + nextOperation + ")",
-                                            model.getShowStartEvent(), nextServiceId, nextOperation);
-                                    nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
-                                } else {
-                                    msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
-                                }
+                                // Immediately start next instance
+                                StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
+                                        "Start Event: " + nextService + "(" + nextOperation + ")",
+                                        model.getShowStartEvent(), nextServiceId, nextOperation);
+                                nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
+                            } else {
+                                msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                             }
-                        } else {
-                            msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                         }
                     } else {
-                        schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
+                        // No Dependencies are need, so the service can work
+                        // Provide CPU resources for the operation
+                        if(model.serviceCPU.get(id) >= op.getCPU()) {
+                            model.serviceCPU.put(id, model.serviceCPU.get(id) - op.getCPU());
+                        } else {
+                            schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
+                        }
+                        msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                     }
-
                 }
             }
         }

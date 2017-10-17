@@ -12,6 +12,8 @@ import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
@@ -42,19 +44,38 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
 
                 // Free stacked and waiting operations
                 if(messageObject.getDependency().size() > 0) {
+
+
+                    HashMap<MicroserviceEntity, StopMicroserviceEvent> stopStackedService = messageObject.removeDependency();
+                    Map.Entry<MicroserviceEntity, StopMicroserviceEvent> entry = stopStackedService.entrySet().iterator().next();
+                    MicroserviceEntity previousMs = entry.getKey();
+                    Operation stopOperation = null;
+                    StopMicroserviceEvent previousStopEvent = entry.getValue();
+                    int previousId = previousMs.getId();
+
+                    for(Operation op : previousMs.getOperations()) {
+                        if(op.getName().equals(previousStopEvent.getOperation())) {
+                            stopOperation = op;
+                        }
+                    }
+
                     timeUntilFinished = new ContDistUniform(model,
-                            "Stop Event: " + microserviceEntity.getName() + "(" + this.operation + ")",
-                            operation.getDuration(), operation.getDuration(), model.getShowStopEvent(), true);
-                    StopMicroserviceEvent stopStackedService = messageObject.removeDependency();
-                    stopStackedService.schedule(microserviceEntity, messageObject,
-                            new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
-                    System.out.println("STOP" + microserviceEntity.getName());
-                    model.idleQueues.get(id).insert(microserviceEntity);
+                            "Stop Event: " + previousMs.getName() + "(" + stopOperation.getName() + ")",
+                            stopOperation.getDuration(), stopOperation.getDuration(), model.getShowStopEvent(), true);
+
+                    // Check if the previous service has enough resources
+                    if(model.serviceCPU.get(previousId) >= stopOperation.getCPU()) {
+                        model.serviceCPU.put(previousId, model.serviceCPU.get(previousId) - stopOperation.getCPU());
+                        previousStopEvent.schedule(previousMs, messageObject,
+                                new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                    } else {
+                        // If not reschedule to another time
+                        schedule(previousMs, messageObject, new TimeSpan(1.0, model.getTimeUnit()));
+                    }
                 }
+                model.idleQueues.get(id).insert(microserviceEntity);
             }
         }
-
-
 
         /*
 
