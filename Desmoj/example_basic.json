@@ -3,15 +3,15 @@
   {
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
-    "duration" : 1500,
-    "datapoints" : 250,
+    "duration" : 500,
+    "datapoints" : 500,
     "seed" : 2298
   },
   "microservices" :
   [
     {
       "name" : "Gateway",
-      "instances" : 8,
+      "instances" : 10,
       "CPU" : 3500,
       "operations" :
       [
@@ -20,7 +20,7 @@
           "pattern" : "Circuit Breaker",
           "duration" : 4,
           "CPU" : 300,
-          "probability" : 0.8,
+          "probability" : 0.7,
           "dependencies" :
           [
             {
@@ -34,19 +34,11 @@
           "pattern" : "Circuit Breaker",
           "duration" : 1,
           "CPU" : 800,
-          "probability" : 0.2,
+          "probability" : 0.8,
           "dependencies" : 
           [
             {
               "name" : "save",
-              "service" : "Order"
-            },
-            {
-              "name" : "update",
-              "service" : "Order"
-            },
-            {
-              "name" : "register",
               "service" : "Order"
             }
           ]
@@ -64,7 +56,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 500,
-          "probability" : 0.6,
+          "probability" : 0.2,
           "dependencies" :
           [
             {
@@ -85,7 +77,8 @@
           "name" : "save",
           "pattern" : "",
           "duration" : 2,
-          "probability" : 0.6,
+          "CPU" : 300,
+          "probability" : 0.1,
           "dependencies" :
           [
             {
@@ -99,7 +92,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 500,
-          "probability" : 0.6,
+          "probability" : 0.4,
           "dependencies" :
           [
             {
@@ -113,7 +106,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 900,
-          "probability" : 0.6,
+          "probability" : 0.8,
           "dependencies" :
           [
             {
@@ -135,7 +128,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 500,
-          "probability" : 0.6,
+          "probability" : 0.5,
           "dependencies" :
           [
             {
@@ -157,7 +150,7 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 1200,
-          "probability" : 0.6,
+          "probability" : 0.3,
           "dependencies" :
           [
             {
@@ -170,7 +163,7 @@
     },
     {
       "name" : "Database",
-      "instances" : 10,
+      "instances" : 50,
       "CPU" : 3500,
       "operations" :
       [

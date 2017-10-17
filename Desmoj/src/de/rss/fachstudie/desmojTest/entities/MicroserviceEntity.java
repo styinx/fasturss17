@@ -28,7 +28,6 @@ public class MicroserviceEntity extends SimProcess{
     private int CPU = 0;
     private int instances = 0;
     private Operation[] operations;
-    private Stack<MicroserviceEntity> dependency;
 
     public MicroserviceEntity (Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);

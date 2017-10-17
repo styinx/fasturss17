@@ -62,8 +62,9 @@ public class InitialMicroserviceEvent extends ExternalEvent {
             ContDistUniform prop = new ContDistUniform(this.model, "",0.0, 1.0,false, false);
             if(prop.sample() <= operation.getProbability()) {
                 MessageObject initialMessageObject = new MessageObject(model, "MessageObject", model.getShowStartEvent());
-                StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,"", model.getShowInitEvent(),
-                        msId, operation.getName());
+                StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,
+                        "Start Event: " + microservice + "(" + operation.getName() + ")",
+                        model.getShowStartEvent(), msId, operation.getName());
 
                 startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
 

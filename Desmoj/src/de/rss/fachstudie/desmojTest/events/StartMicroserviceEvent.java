@@ -10,6 +10,7 @@ import desmoj.core.simulator.Event;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
+import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,7 +39,9 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             model.idleQueues.get(id).remove(msEntity);
             model.taskQueues.get(id).remove(messageObject);
 
-            StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model,"", model.getShowStopEvent(), id, operation);
+            StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model,
+                    "Stop Event: " + msEntity.getName() + "(" + operation + ")",
+                    model.getShowStopEvent(), id, operation);
 
             for(Operation op : msEntity.getOperations()) {
                 if(op.getName().equals(operation)) {
@@ -46,11 +49,35 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                     if(model.serviceCPU.get(id) >= op.getCPU()) {
                         model.serviceCPU.put(id, model.serviceCPU.get(id) - op.getCPU());
 
-                        timeUntilFinished = new ContDistUniform(model,
-                                "Stop Event: " + msEntity.getName() + " (" + operation + ")",
+                        ContDistUniform timeUntilFinished = new ContDistUniform(model,
+                                "Start Event: " + msEntity.getName() + " (" + operation + ")",
                                 op.getDuration(), op.getDuration(), model.getShowStartEvent(), true);
 
-                        msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                        // Are there dependant operations
+                        if(op.getDependencies().length > 0) {
+                            for(SortedMap<String, String> dependantOperation : op.getDependencies()) {
+                                String nextOperation = dependantOperation.get("name");
+                                String nextService = dependantOperation.get("service");
+                                int nextServiceId = model.getIdByName(nextService);
+
+                                ContDistUniform prop = new ContDistUniform(this.model,"",0.0, 1.0,false, false);
+                                // Next dependant operation gets executed
+                                if(prop.sample() <= op.getProbability()) {
+                                    // Add Stacked operation info to message object
+                                    messageObject.addDependency(msEndEvent);
+
+                                    // Immediately start next instance
+                                    StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
+                                            "Start Event: " + nextService + "(" + nextOperation + ")",
+                                            model.getShowStartEvent(), nextServiceId, nextOperation);
+                                    nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
+                                } else {
+                                    msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                                }
+                            }
+                        } else {
+                            msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                        }
                     } else {
                         schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
                     }
@@ -59,4 +86,35 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             }
         }
     }
+    /*
+
+    Old operations, non stacked
+
+    model.taskQueues.get(id).insert(messageObject);
+
+    if(!model.idleQueues.get(id).isEmpty()){
+        MicroserviceEntity msEntity = model.idleQueues.get(id).first();
+        model.idleQueues.get(id).remove(msEntity);
+        model.taskQueues.get(id).remove(messageObject);
+
+        StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model,"", model.getShowStopEvent(), id, operation);
+
+        for(Operation op : msEntity.getOperations()) {
+            if(op.getName().equals(operation)) {
+                // Provide CPU resources for the operation
+                if(model.serviceCPU.get(id) >= op.getCPU()) {
+                    model.serviceCPU.put(id, model.serviceCPU.get(id) - op.getCPU());
+
+                    ContDistUniform timeUntilFinished = new ContDistUniform(model,
+                            "Start Event: " + msEntity.getName() + " (" + operation + ")",
+                            op.getDuration(), op.getDuration(), model.getShowStartEvent(), true);
+
+                    msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                } else {
+                    schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
+                }
+
+            }
+        }
+    }*/
 }

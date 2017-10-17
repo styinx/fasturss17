@@ -141,10 +141,11 @@ public class DesmojTest extends Model {
      */
     @Override
     public void doInitialSchedules() {
+        // Fire all generators
         InitialMicroserviceEvent generators[] = InputParser.generators;
         for(InitialMicroserviceEvent generator : generators) {
             InitialMicroserviceEvent initEvent = new InitialMicroserviceEvent(this,
-                    "<b><u>Inital Event:</u></b> " + generator.getName(), showInitEvent, generator.getTime(),
+                    "<b><u>Inital Event:</u></b> " + generator.getMicroservice(), showInitEvent, generator.getTime(),
                     getIdByName(generator.getMicroservice()));
             initEvent.schedule(new TimeSpan(0, timeUnit));
         }
@@ -254,7 +255,7 @@ public class DesmojTest extends Model {
 
         exp.setShowProgressBarAutoclose(true);
         exp.stop(new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), model.getTimeUnit()));
-        exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(100, model.getTimeUnit()));
+        exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(250, model.getTimeUnit()));
         exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
 
         exp.start();

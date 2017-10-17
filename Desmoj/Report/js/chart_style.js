@@ -30,7 +30,7 @@
                 formatter: function () {
                     var s = '<b>' + this.x + '</b>';
                     for(var p in this.points) {
-                        s += '<br/><span style="color:' + this.points[p].color + '">\u25CF</span> ' + this.points[p].series.name + ': ' + this.y;
+                        s += '<br/><span style="color:' + this.points[p].color + '">\u25CF</span> ' + this.points[p].series.name + ': ' + this.points[p].y;
                     }
                     return s;
                 },

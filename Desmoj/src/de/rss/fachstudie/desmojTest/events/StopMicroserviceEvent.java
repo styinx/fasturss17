@@ -32,6 +32,35 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
     @Override
     public void eventRoutine(MicroserviceEntity microserviceEntity, MessageObject messageObject) {
         for(Operation operation : microserviceEntity.getOperations()) {
+            if (operation.getName().equals(this.operation)) {
+                // Free the cpu resources the operation has
+                if (model.serviceCPU.get(id) + operation.getCPU() <= microserviceEntity.getCPU()) {
+                    model.serviceCPU.put(id, model.serviceCPU.get(id) + operation.getCPU());
+                } else {
+                    // CPU has max resources
+                }
+
+                // Free stacked and waiting operations
+                if(messageObject.getDependency().size() > 0) {
+                    timeUntilFinished = new ContDistUniform(model,
+                            "Stop Event: " + microserviceEntity.getName() + "(" + this.operation + ")",
+                            operation.getDuration(), operation.getDuration(), model.getShowStopEvent(), true);
+                    StopMicroserviceEvent stopStackedService = messageObject.removeDependency();
+                    stopStackedService.schedule(microserviceEntity, messageObject,
+                            new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                    System.out.println("STOP" + microserviceEntity.getName());
+                    model.idleQueues.get(id).insert(microserviceEntity);
+                }
+            }
+        }
+
+
+
+        /*
+
+        Old Operations, non stacked
+
+        for(Operation operation : microserviceEntity.getOperations()) {
             if(operation.getName().equals(this.operation)) {
                 // Free the cpu resources the operation has
                 if(model.serviceCPU.get(id) + operation.getCPU() <= microserviceEntity.getCPU()) {
@@ -50,25 +79,14 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
                         ContDistUniform prop = new ContDistUniform(this.model,"",0.0, 1.0,false, false);
                         if(prop.sample() <= operation.getProbability()) {
                             // Immediately start next instance
-                            StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
-                                    "Start Event: " + nextService + "(" + nextOperation + ")",
+                            StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model, "",
                                     model.getShowStartEvent(), nextServiceId, nextOperation);
+                            messageObject.addDependency();
                             nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
                         }
                     }
                 } else {
-                    // TODO go back to the start of the recursive call and insert all services in the idle queue/continue working
-                    /*
-                    if(!model.taskQueues.get(id).isEmpty()){
-                        MessageObject nextMessage =  model.taskQueues.get(id).first();
-                        model.taskQueues.get(id).remove(nextMessage);
 
-                        StopMicroserviceEvent repeat = new StopMicroserviceEvent(model,
-                                "Stop Event: " + model.allMicroservices.get(id).getName() ,model.getShowStopEvent(), id, operation);
-                        repeat.schedule(microserviceEntity , messageObject , new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
-                    } else {
-                        model.idleQueues.get(id).insert(microserviceEntity);
-                    }*/
                 }
             }
         }
@@ -90,7 +108,7 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
             repeat.schedule(microserviceEntity , messageObject , new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
         } else {
             model.idleQueues.get(id).insert(microserviceEntity);
-        }
+        }*/
     }
 
     public int getId() {
@@ -99,5 +117,13 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 }
