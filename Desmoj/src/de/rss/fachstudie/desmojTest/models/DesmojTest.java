@@ -240,7 +240,7 @@ public class DesmojTest extends Model {
     }
 
     public static void main(String[] args) {
-        InputParser parser = new InputParser("example_basic.json");
+        InputParser parser = new InputParser("example_advanced.json");
         DesmojTest model = new DesmojTest(null, InputParser.simulation.get("model"), true, true);
         Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
 

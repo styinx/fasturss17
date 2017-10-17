@@ -8,14 +8,14 @@ setTimeout(function(){
     var color = d3.scale.category20();
     var width = window.innerWidth;
     var height = window.innerHeight;
-    var power = -100;
+    var power =  graph.nodes.length * -10;
     var distance = graph.nodes.length * 3;
     var svg = d3.select("#svg");//d3.select("body").append("svg").attr("width", '100%').attr("height", height - 1);
     var force = d3.layout.force().charge(power).linkDistance(distance).size([width, height]);
 
     graph = renameLinks(graph);
     graph = groupLinks(graph);
-    force.nodes(graph.nodes).links(graph.links).start();
+    force.nodes(graph.nodes).links(graph.links).on("tick", tick).start();
 
     //// Tooltip
     var tooltip = d3.select("body").append("div")
@@ -70,8 +70,17 @@ setTimeout(function(){
 
 
     // Update
-    force.on("tick", function ()
+    function tick(e)
     {
+        var k = 6 * e.alpha;
+        node.forEach(function(o, i) {
+
+            if(o.group == 0) {
+                o.x += i;
+                o.y += i;
+            }
+        });
+
         link.attr("x1", function (d) {return d.source.x;})
             .attr("y1", function (d) {return d.source.y;})
             .attr("x2", function (d) {return d.target.x;})
@@ -85,7 +94,7 @@ setTimeout(function(){
 
         label.attr('x', function(d) {return d.x;})
              .attr('y', function(d) {return d.y;});
-    });
+    }
 }, 2000);
 // Map links from indexes to ids
 function renameLinks(graph)

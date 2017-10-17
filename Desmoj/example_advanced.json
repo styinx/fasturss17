@@ -1,0 +1,202 @@
+{
+  "simulation":
+  {
+    "experiment" : "Desmoj_Microservice_Experiment",
+    "model" : "Simple microservice model",
+    "duration" : 500,
+    "datapoints" : 500,
+    "seed" : 2298
+  },
+  "microservices" :
+  [
+    {
+      "name" : "Login",
+      "instances" : 10,
+      "CPU" : 3500,
+      "operations" :
+      [
+        {
+          "name" : "validate",
+          "pattern" : "",
+          "duration" : 1,
+          "CPU" : 300,
+          "probability" : 1.0,
+          "dependencies" :
+          [
+            {
+              "name" : "updateRequest",
+              "service" : "Account"
+            },
+            {
+              "name" : "update",
+              "service" : "Session"
+            }
+          ]
+        },
+        {
+          "name" : "confirm",
+          "pattern" : "",
+          "duration" : 1,
+          "CPU" : 100,
+          "probability" : 1.0,
+          "dependencies" : 
+          [
+            {
+              "name" : "reload",
+              "service" : "Session"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Message",
+      "instances" : 10,
+      "CPU" : 1000,
+      "operations" :
+      [
+        {
+          "name" : "updateRequest",
+          "pattern" : "Circuit Breaker",
+          "duration" : 2,
+          "CPU" : 350,
+          "probability" : 0.5,
+          "dependencies" :
+          [
+            {
+              "name" : "update",
+              "service" : "Login"
+            }
+          ]
+        },
+        {
+          "name" : "pullMessage",
+          "pattern" : "Circuit Breaker",
+          "duration" : 3,
+          "CPU" : 200,
+          "probability" : 0.5,
+          "dependencies" : 
+          [
+            {
+              "name" : "sendMessage",
+              "service" : "Processing"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Processing",
+      "instances" : 3,
+      "CPU" : 1000,
+      "operations" :
+      [
+        {
+          "name" : "save",
+          "pattern" : "Circuit Breaker",
+          "duration" : 2,
+          "CPU" : 400,
+          "probability" : 0.5,
+          "dependencies" :
+          [
+            {
+              "name" : "update",
+              "service" : "Database"
+            }
+          ]
+        },
+        {
+          "name" : "sendMessage",
+          "pattern" : "Circuit Breaker",
+          "duration" : 1,
+          "CPU" : 300,
+          "probability" : 0.5,
+          "dependencies" : 
+          [
+
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Session",
+      "instances" : 2,
+      "CPU" : 1500,
+      "operations" :
+      [
+        {
+          "name" : "reload",
+          "pattern" : "Circuit Breaker",
+          "duration" : 2,
+          "CPU" : 800,
+          "probability" : 0.8,
+          "dependencies" :
+          [
+
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Account",
+      "instances" : 1,
+      "CPU" : 1500,
+      "operations" :
+      [
+        {
+          "name" : "updateRequest",
+          "pattern" : "",
+          "duration" : 3,
+          "CPU" : 700,
+          "probability" : 0.5,
+          "dependencies" :
+          [
+
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Database",
+      "instances" : 3,
+      "CPU" : 800,
+      "operations" :
+      [
+        {
+          "name" : "update",
+          "pattern" : "",
+          "duration" : 3,
+          "CPU" : 400,
+          "probability" : 0.3,
+          "dependencies" :
+          [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "generators" :
+  [
+    {
+      "time" : 1,
+      "microservice" : "Login"
+    },
+    {
+      "time" : 10,
+      "microservice" : "Message"
+    },
+    {
+      "time" : 5,
+      "microservice" : "Processing"
+    }
+  ],
+  "chaosmonkeys" :
+  [
+    {
+      "time" : 10,
+      "microservice" : "Database",
+      "instances" : 2
+    }
+  ]
+}
