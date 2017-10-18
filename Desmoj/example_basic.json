@@ -47,7 +47,7 @@
     },
     {
       "name" : "Authentication",
-      "instances" : 10,
+      "instances" : 5,
       "CPU" : 3500,
       "operations" :
       [
@@ -69,7 +69,7 @@
     },
     {
       "name" : "Order",
-      "instances" : 10,
+      "instances" : 5,
       "CPU" : 3500,
       "operations" :
       [
@@ -119,7 +119,7 @@
     },
     {
       "name" : "Backup",
-      "instances" : 10,
+      "instances" : 5,
       "CPU" : 3500,
       "operations" :
       [
@@ -141,7 +141,7 @@
     },
     {
       "name" : "Shipping",
-      "instances" : 10,
+      "instances" : 5,
       "CPU" : 3500,
       "operations" :
       [
@@ -163,7 +163,7 @@
     },
     {
       "name" : "Database",
-      "instances" : 10,
+      "instances" : 5,
       "CPU" : 3500,
       "operations" :
       [
