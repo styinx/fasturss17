@@ -20,12 +20,12 @@
           "pattern" : "Circuit Breaker",
           "duration" : 4,
           "CPU" : 300,
-          "probability" : 0.7,
           "dependencies" :
           [
             {
               "name" : "save",
-              "service" : "Authentication"
+              "service" : "Authentication",
+              "probability" : 0.7
             }
           ]
         },
@@ -34,12 +34,12 @@
           "pattern" : "Circuit Breaker",
           "duration" : 1,
           "CPU" : 800,
-          "probability" : 0.8,
           "dependencies" : 
           [
             {
               "name" : "save",
-              "service" : "Order"
+              "service" : "Order",
+              "probability" : 0.8
             }
           ]
         }
@@ -56,12 +56,12 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 600,
-          "probability" : 0.2,
           "dependencies" :
           [
             {
               "name" : "update",
-              "service" : "Backup"
+              "service" : "Backup",
+              "probability" : 0.2
             }
           ]
         }
@@ -78,12 +78,12 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 300,
-          "probability" : 0.1,
           "dependencies" :
           [
             {
               "name" : "update",
-              "service" : "Backup"
+              "service" : "Backup",
+              "probability" : 0.1
             }
           ]
         },
@@ -92,12 +92,12 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 500,
-          "probability" : 0.4,
           "dependencies" :
           [
             {
               "name" : "register",
-              "service" : "Shipping"
+              "service" : "Shipping",
+              "probability" : 0.4
             }
           ]
         },
@@ -106,12 +106,12 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 900,
-          "probability" : 0.8,
           "dependencies" :
           [
             {
               "name" : "update",
-              "service" : "Database"
+              "service" : "Database",
+              "probability" : 0.8
             }
           ]
         }
@@ -128,12 +128,12 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 700,
-          "probability" : 0.5,
           "dependencies" :
           [
             {
               "name" : "update",
-              "service" : "Database"
+              "service" : "Database",
+              "probability" : 0.5
             }
           ]
         }
@@ -150,12 +150,12 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 1200,
-          "probability" : 0.3,
           "dependencies" :
           [
             {
               "name" : "update",
-              "service" : "Database"
+              "service" : "Database",
+              "probability" : 0.3
             }
           ]
         }
@@ -172,7 +172,6 @@
           "pattern" : "",
           "duration" : 2,
           "CPU" : 500,
-          "probability" : 0.6,
           "dependencies" :
           [
           
@@ -185,11 +184,13 @@
   [
     {
       "time" : 1,
-      "microservice" : "Gateway"
+      "microservice" : "Gateway",
+      "operation" : "update"
     },
     {
       "time" : 50,
-      "microservice" : "Backup"
+      "microservice" : "Backup",
+      "operation" : "register"
     }
   ],
   "chaosmonkeys" :

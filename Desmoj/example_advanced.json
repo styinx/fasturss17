@@ -125,7 +125,7 @@
       "operations" :
       [
         {
-          "name" : "reload",
+          "name" : "update",
           "pattern" : "Circuit Breaker",
           "duration" : 2,
           "CPU" : 800,
@@ -151,7 +151,14 @@
           "probability" : 0.5,
           "dependencies" :
           [
-
+            {
+              "name" : "update",
+              "service" : "Database"
+            },
+            {
+              "name" : "update",
+              "service" : "Session"
+            }
           ]
         }
       ]
