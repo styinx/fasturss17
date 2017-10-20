@@ -1,14 +1,7 @@
 package de.rss.fachstudie.desmojTest.entities;
 
-import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.models.DesmojTest;
-import desmoj.core.simulator.Entity;
-import desmoj.core.simulator.Model;
-import desmoj.core.simulator.SimProcess;
-import desmoj.core.simulator.TimeSpan;
-
-import java.util.List;
-import java.util.Stack;
+import desmoj.core.simulator.*;
 
 /**
  * A MicroserviceEntity represents a collection of services.
@@ -16,28 +9,27 @@ import java.util.Stack;
  *
  * model:       reference to the experiment model
  * id:          internal unique number to identify a service
+ * sid:         service id (maps to the number of existing instances)
  * name:        the given name of the service, defined by the input
  * CPU:         the computing power a microservice has available
  * instances:   number of instances a service can create
  * operations:  an array of dependent operations
  */
-public class MicroserviceEntity extends SimProcess{
+public class MicroserviceEntity extends Entity{
     private DesmojTest model;
     private int id;
+    private int sid;
     private String name = "";
     private int CPU = 0;
     private int instances = 0;
+    private Queue<MicroserviceThread> threads;
     private Operation[] operations;
 
-    public MicroserviceEntity (Model owner, String name, boolean showInTrace){
+    public MicroserviceEntity(Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
 
         this.model = (DesmojTest) owner;
-    }
-
-    @Override
-    public void lifeCycle() throws SuspendExecution {
-//        hold(new TimeSpan(10, model.getTimeUnit()));
+        threads = new Queue<>(model, "Thread Queue " + name + " #" + sid, true, true);
     }
 
     public int getId() {
@@ -46,6 +38,14 @@ public class MicroserviceEntity extends SimProcess{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getSid() {
+        return sid;
+    }
+
+    public void setSid(int sid) {
+        this.sid = sid;
     }
 
     public String getName() {
@@ -70,6 +70,14 @@ public class MicroserviceEntity extends SimProcess{
 
     public void setInstances(int numberOfInstances) {
         this.instances = numberOfInstances;
+    }
+
+    public Queue<MicroserviceThread> getThreads() {
+        return threads;
+    }
+
+    public void setThreads(Queue<MicroserviceThread> threads) {
+        this.threads = threads;
     }
 
     public Operation[] getOperations() {

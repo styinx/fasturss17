@@ -4,14 +4,11 @@ import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.models.DesmojTest;
-import desmoj.core.dist.ContDist;
 import desmoj.core.dist.ContDistExponential;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -61,7 +58,7 @@ public class InitialMicroserviceEvent extends ExternalEvent {
             // Create a random propability, if the operation propability is within this value it gets started
             ContDistUniform prop = new ContDistUniform(this.model, "",0.0, 1.0,false, false);
             if(prop.sample() <= operation.getProbability()) {
-                MessageObject initialMessageObject = new MessageObject(model, "MessageObject", model.getShowStartEvent());
+                MessageObject initialMessageObject = new MessageObject(model, this.getClass().getName(), model.getShowStartEvent());
                 StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,
                         "Start Event: " + microservice + "(" + operation.getName() + ")",
                         model.getShowStartEvent(), msId, operation.getName());

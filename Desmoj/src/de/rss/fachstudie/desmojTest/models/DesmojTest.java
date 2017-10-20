@@ -34,13 +34,9 @@ public class DesmojTest extends Model {
 
     // Resources
     public HashMap<Integer, Integer> serviceCPU;
+    //public HashMap<Integer, HashMap<Integer, Res>> serviceCPU;
 
     // Statistics
-    public HashMap<Integer, Count> serviceCounter;
-    public HashMap<Integer, Tally> serviceTally;
-    public HashMap<Integer, Accumulate> serviceAccumulate;
-    public HashMap<Integer, Histogram> serviceHistogram;
-    public HashMap<Integer, Regression> serviceRegression;
     public HashMap<Integer, HashMap<String, TimeSeries>> serviceTimeseries;
 
     public double getSimulationTime() {
@@ -104,17 +100,6 @@ public class DesmojTest extends Model {
         }
         return -1;
     }
-/*
-    // May be needed for synchronous operations
-    public Operation getPredecessor(String name) {
-        for(int i = 0; i < allMicroservices.size(); ++i) {
-            for(int j = 0; j < allMicroservices.get(i).getOperations().length; ++j) {
-                if(allMicroservices.get(i).getOperations()[j].getName().equals(name)) {
-
-                }
-            }
-        }
-    }*/
 
     /**
      *
@@ -141,7 +126,7 @@ public class DesmojTest extends Model {
      */
     @Override
     public void doInitialSchedules() {
-        // Fire all generators
+        // Fire off all generators for scheduling
         InitialMicroserviceEvent generators[] = InputParser.generators;
         for(InitialMicroserviceEvent generator : generators) {
             InitialMicroserviceEvent initEvent = new InitialMicroserviceEvent(this,
@@ -150,6 +135,7 @@ public class DesmojTest extends Model {
             initEvent.schedule(new TimeSpan(0, timeUnit));
         }
 
+        // Fire off all monkeys for scheduling
         InitialChaosMonkeyEvent monkeys[] = InputParser.monkeys;
         for(InitialChaosMonkeyEvent monkey : monkeys) {
             InitialChaosMonkeyEvent initMonkey = new InitialChaosMonkeyEvent(this,
@@ -158,6 +144,7 @@ public class DesmojTest extends Model {
             initMonkey.schedule(new TimeSpan(0, timeUnit));
         }
 
+        // Fire off statistics collection
         StatisticCollectorEvent collectorEvent = new StatisticCollectorEvent(this, "", false);
         collectorEvent.schedule(new TimeSpan(0, timeUnit));
     }
@@ -180,11 +167,6 @@ public class DesmojTest extends Model {
         serviceCPU          = new HashMap<>();
 
         // Statistics
-        serviceCounter      = new HashMap<>();
-        serviceTally        = new HashMap<>();
-        serviceAccumulate   = new HashMap<>();
-        serviceHistogram    = new HashMap<>();
-        serviceRegression   = new HashMap<>();
         serviceTimeseries   = new HashMap<>();
 
         // Load JSON
@@ -220,6 +202,7 @@ public class DesmojTest extends Model {
                 MicroserviceEntity msEntity = new MicroserviceEntity(this , microservices[i].getName(), true );
                 msEntity.setName(microservices[i].getName());
                 msEntity.setId(i);
+                msEntity.setSid(y);
                 msEntity.setCPU(microservices[i].getCPU());
                 msEntity.setInstances(microservices[i].getInstances());
                 msEntity.setOperations(microservices[i].getOperations());
