@@ -2,17 +2,18 @@ package de.rss.fachstudie.desmojTest.events;
 
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
+import de.rss.fachstudie.desmojTest.entities.MicroserviceThread;
 import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.models.DesmojTest;
 import desmoj.core.dist.ContDistUniform;
-import desmoj.core.simulator.EventOf2Entities;
+import desmoj.core.simulator.EventOf3Entities;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, MessageObject>{
+public class StopMicroserviceEvent extends EventOf3Entities<MicroserviceEntity, MicroserviceThread, MessageObject> {
     private DesmojTest model;
     private int id;
     private String operation;
@@ -26,7 +27,7 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
     }
 
     @Override
-    public void eventRoutine(MicroserviceEntity microserviceEntity, MessageObject messageObject) {
+    public void eventRoutine(MicroserviceEntity microserviceEntity, MicroserviceThread thread, MessageObject messageObject) {
         for(Operation operation : microserviceEntity.getOperations()) {
             if (operation.getName().equals(this.operation)) {
                 // Free the cpu resources the operation has
@@ -36,12 +37,16 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
                     // CPU has max resources
                 }
 
+                // remove thread from microservice
+                microserviceEntity.getThreads().remove(thread);
+
                 // Free stacked and waiting operations
                 if(messageObject.getDependency().size() > 0) {
 
                     HashMap<MicroserviceEntity, StopMicroserviceEvent> stopStackedService = messageObject.removeDependency();
                     Map.Entry<MicroserviceEntity, StopMicroserviceEvent> entry = stopStackedService.entrySet().iterator().next();
                     MicroserviceEntity previousMs = entry.getKey();
+                    MicroserviceThread previousThread = new MicroserviceThread(model, "", false);
                     Operation stopOperation = new Operation(model, "", false, false);
                     StopMicroserviceEvent previousStopEvent = entry.getValue();
                     int previousId = previousMs.getId();
@@ -59,11 +64,11 @@ public class StopMicroserviceEvent extends EventOf2Entities<MicroserviceEntity, 
                     // Check if the previous service has enough resources
                     if(model.serviceCPU.get(previousId) >= stopOperation.getCPU()) {
                         model.serviceCPU.put(previousId, model.serviceCPU.get(previousId) - stopOperation.getCPU());
-                        previousStopEvent.schedule(previousMs, messageObject,
+                        previousStopEvent.schedule(previousMs, previousThread, messageObject,
                                 new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                     } else {
-                        // If not reschedule to another time
-                        schedule(previousMs, messageObject, new TimeSpan(1.0, model.getTimeUnit()));
+                        // Not enough resources, not reschedule to another time
+                        schedule(previousMs, previousThread, messageObject, new TimeSpan(1.0, model.getTimeUnit()));
                     }
                 }
                 model.idleQueues.get(id).insert(microserviceEntity);

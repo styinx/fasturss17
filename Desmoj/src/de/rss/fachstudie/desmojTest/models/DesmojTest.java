@@ -185,13 +185,14 @@ public class DesmojTest extends Model {
             HashMap<String, TimeSeries> timeSeries = new HashMap<>();
 
             // Collect active instances
-            TimeSeries activeInstances = new TimeSeries(this, "Active Instances: " + serviceName,
-                    "Report/resources/Instances_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
+            TimeSeries activeInstances = new TimeSeries(this, "Active Threads: " + serviceName,
+                    "Report/resources/Threads_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
                     new TimeInstant(simulationTime, timeUnit), true, false);
             // Collect active CPU
             TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + serviceName,
                     "Report/resources/CPU_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
                     new TimeInstant(simulationTime, timeUnit), true, false);
+
             timeSeries.put("Active Instances", activeInstances);
             timeSeries.put("Used CPU", activeCPU);
 

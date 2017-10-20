@@ -18,6 +18,7 @@ public class InitialMicroserviceEvent extends ExternalEvent {
     private double time;
     private ContDistExponential timeToCreate;
     private String microservice = "";
+    private String operation = "";
     private int msId = -1;
 
     /**
@@ -51,22 +52,27 @@ public class InitialMicroserviceEvent extends ExternalEvent {
 
     @Override
     public void eventRoutine() throws SuspendExecution {
+        // When default constructor is called the id is initialized
         if(msId == -1) {
             msId = model.getIdByName(microservice);
         }
-        for(Operation operation : model.allMicroservices.get(msId).getOperations()) {
-            // Create a random propability, if the operation propability is within this value it gets started
-            ContDistUniform prop = new ContDistUniform(this.model, "",0.0, 1.0,false, false);
-            if(prop.sample() <= operation.getProbability()) {
-                MessageObject initialMessageObject = new MessageObject(model, this.getClass().getName(), model.getShowStartEvent());
-                StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,
-                        "Start Event: " + microservice + "(" + operation.getName() + ")",
-                        model.getShowStartEvent(), msId, operation.getName());
 
-                startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
-
+        // Get the first operation to start firing
+        Operation op = new Operation(model, "", false, false);
+        for(Operation o : model.allMicroservices.get(msId).getOperations()) {
+            if(operation.equals(o.getName())) {
+                op = o;
             }
         }
+
+        // Create a message object and begin event
+        MessageObject initialMessageObject = new MessageObject(model, this.getClass().getName(), model.getShowStartEvent());
+        StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,
+                "Start Event: " + microservice + "(" + op.getName() + ")",
+                model.getShowStartEvent(), msId, op.getName());
+
+        startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
+
         schedule(new TimeSpan(timeToCreate.sample(), model.getTimeUnit()));
     }
 }

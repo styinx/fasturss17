@@ -3,6 +3,7 @@ package de.rss.fachstudie.desmojTest.events;
 import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
+import de.rss.fachstudie.desmojTest.entities.MicroserviceThread;
 import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.models.DesmojTest;
 import desmoj.core.dist.ContDistUniform;
@@ -52,34 +53,49 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                         for(SortedMap<String, String> dependantOperation : op.getDependencies()) {
                             String nextOperation = dependantOperation.get("name");
                             String nextService = dependantOperation.get("service");
+                            double probability = Double.parseDouble(dependantOperation.get("probability"));
                             int nextServiceId = model.getIdByName(nextService);
 
-                            ContDistUniform prop = new ContDistUniform(model,"",0.0, 1.0,false, false);
+                            ContDistUniform prob = new ContDistUniform(model,"",0.0, 1.0,false, false);
                             // Next dependant operation gets executed
-                            if(prop.sample() <= op.getProbability()) {
+                            if(prob.sample() <= probability) {
                                 // Add Stacked operation info to message object
                                 HashMap<MicroserviceEntity, StopMicroserviceEvent> stackedOperation = new HashMap<>();
                                 stackedOperation.put(msEntity, msEndEvent);
                                 messageObject.addDependency(stackedOperation);
 
-                                // Immediately start next instance
+                                // Immediately start dependant operation
                                 StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
                                         "Start Event: " + nextService + "(" + nextOperation + ")",
                                         model.getShowStartEvent(), nextServiceId, nextOperation);
                                 nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
                             } else {
-                                msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                                // Provide CPU resources for the operation
+                                if(model.serviceCPU.get(id) >= op.getCPU()) {
+                                    model.serviceCPU.put(id, model.serviceCPU.get(id) - op.getCPU());
+                                } else {
+                                    // Not enough resources, try it later
+                                    // TODO: try it later or kick out???
+                                    schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
+                                }
+                                MicroserviceThread thread = new MicroserviceThread(model, "", false);
+                                msEntity.getThreads().insert(thread);
+                                msEndEvent.schedule(msEntity, thread, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                             }
                         }
                     } else {
-                        // No Dependencies are need, so the service can work
+                        // No dependent operations, so the service can work
                         // Provide CPU resources for the operation
                         if(model.serviceCPU.get(id) >= op.getCPU()) {
                             model.serviceCPU.put(id, model.serviceCPU.get(id) - op.getCPU());
                         } else {
+                            // Not enough resources, try it later
+                            // TODO: try it later or kick out???
                             schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
                         }
-                        msEndEvent.schedule(msEntity, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                        MicroserviceThread thread = new MicroserviceThread(model, "", false);
+                        msEntity.getThreads().insert(thread);
+                        msEndEvent.schedule(msEntity, thread, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                     }
                 }
             }
