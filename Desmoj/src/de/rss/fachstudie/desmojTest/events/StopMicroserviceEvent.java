@@ -31,8 +31,8 @@ public class StopMicroserviceEvent extends EventOf3Entities<MicroserviceEntity, 
         for(Operation operation : microserviceEntity.getOperations()) {
             if (operation.getName().equals(this.operation)) {
                 // Free the cpu resources the operation has
-                if (model.serviceCPU.get(id) + operation.getCPU() <= microserviceEntity.getCPU()) {
-                    model.serviceCPU.put(id, model.serviceCPU.get(id) + operation.getCPU());
+                if (model.serviceCPU.get(id).get(microserviceEntity.getSid()) + operation.getCPU() <= microserviceEntity.getCPU()) {
+                    model.serviceCPU.get(id).put(microserviceEntity.getSid(), model.serviceCPU.get(id).get(microserviceEntity.getSid()) + operation.getCPU());
                 } else {
                     // CPU has max resources
                 }
@@ -62,8 +62,8 @@ public class StopMicroserviceEvent extends EventOf3Entities<MicroserviceEntity, 
                             stopOperation.getDuration(), stopOperation.getDuration(), model.getShowStopEvent(), true);
 
                     // Check if the previous service has enough resources
-                    if(model.serviceCPU.get(previousId) >= stopOperation.getCPU()) {
-                        model.serviceCPU.put(previousId, model.serviceCPU.get(previousId) - stopOperation.getCPU());
+                    if(model.serviceCPU.get(previousId).get(previousMs.getSid()) >= stopOperation.getCPU()) {
+                        model.serviceCPU.get(previousId).put(previousMs.getSid(), model.serviceCPU.get(previousId).get(previousMs.getSid()) - stopOperation.getCPU());
                         previousStopEvent.schedule(previousMs, previousThread, messageObject,
                                 new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                     } else {

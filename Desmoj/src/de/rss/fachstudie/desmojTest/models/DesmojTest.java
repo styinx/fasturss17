@@ -11,6 +11,7 @@ import desmoj.core.simulator.*;
 import desmoj.core.statistic.*;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,11 +34,12 @@ public class DesmojTest extends Model {
     public HashMap<Integer, MicroserviceEntity>          allMicroservices;
 
     // Resources
-    public HashMap<Integer, Integer> serviceCPU;
+    public HashMap<Integer, HashMap<Integer, Integer>> serviceCPU;
     //public HashMap<Integer, HashMap<Integer, Res>> serviceCPU;
 
     // Statistics
-    public HashMap<Integer, HashMap<String, TimeSeries>> serviceTimeseries;
+    public HashMap<Integer, HashMap<Integer, TimeSeries>> cpuStatistics;
+    public HashMap<Integer, HashMap<Integer, TimeSeries>> threadStatistics;
 
     public double getSimulationTime() {
         return simulationTime;
@@ -99,6 +101,23 @@ public class DesmojTest extends Model {
             }
         }
         return -1;
+    }
+
+    /**
+     * Chooses the service with most resources and space available
+     * @param id
+     * @return
+     */
+    public MicroserviceEntity getServiceEntity(int id) {
+        double min = Double.POSITIVE_INFINITY;
+        int instance = 0;
+        for(Map.Entry<Integer, Integer> cpu: serviceCPU.get(id).entrySet()) {
+            if(cpu.getValue() <= min) {
+                min = cpu.getValue();
+                instance = cpu.getKey();
+            }
+        }
+        return idleQueues.get(id).get(instance);
     }
 
     /**
@@ -167,7 +186,8 @@ public class DesmojTest extends Model {
         serviceCPU          = new HashMap<>();
 
         // Statistics
-        serviceTimeseries   = new HashMap<>();
+        threadStatistics    = new HashMap<>();
+        cpuStatistics       = new HashMap<>();
 
         // Load JSON
         MicroserviceEntity[] microservices = InputParser.microservices;
@@ -179,22 +199,12 @@ public class DesmojTest extends Model {
             Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + serviceName, true , true) ;
 
             // Resources
+            HashMap<Integer, Integer> cpu = new HashMap<>();
             //Res microserviceCPU = new Res(this, serviceName + " CPU", microservices[i].getCPU(), true, true);
 
             // Statistics
-            HashMap<String, TimeSeries> timeSeries = new HashMap<>();
-
-            // Collect active instances
-            TimeSeries activeInstances = new TimeSeries(this, "Active Threads: " + serviceName,
-                    "Report/resources/Threads_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
-                    new TimeInstant(simulationTime, timeUnit), true, false);
-            // Collect active CPU
-            TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + serviceName,
-                    "Report/resources/CPU_" + serviceName + ".txt", new TimeInstant(0.0, timeUnit),
-                    new TimeInstant(simulationTime, timeUnit), true, false);
-
-            timeSeries.put("Active Instances", activeInstances);
-            timeSeries.put("Used CPU", activeCPU);
+            HashMap<Integer, TimeSeries> threadStats = new HashMap<>();
+            HashMap<Integer, TimeSeries> cpuStats = new HashMap<>();
 
             //Queue for maxQueue returns refuse and should be used to turn Circuit breakers of with using a waiting queue 1 ( 0 for int max value)
             //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[i].getName(), QueueBased.FIFO , 1, true , true);
@@ -209,17 +219,32 @@ public class DesmojTest extends Model {
                 msEntity.setOperations(microservices[i].getOperations());
                 idleQueue.insert(msEntity);
                 allMicroservices.put(i, msEntity);
-            }
 
+                // Resources
+                cpu.put(y, msEntity.getCPU());
+
+                // Statistics
+                TimeSeries activeInstances = new TimeSeries(this, "Active Threads: " + serviceName,
+                        "Report/resources/Threads_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                        new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), true, false);
+
+                TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + serviceName,
+                        "Report/resources/CPU_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                        new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), true, false);
+
+                threadStats.put(y, activeInstances);
+                cpuStats.put(y, activeCPU);
+            }
             // Queues
             taskQueues.put(i, taskQueue);
             idleQueues.put(i, idleQueue);
 
             // Resources
-            serviceCPU.put(i, microservices[i].getCPU());
+            serviceCPU.put(i, cpu);
 
             // Statistics
-            serviceTimeseries.put(i, timeSeries);
+            threadStatistics.put(i, threadStats);
+            cpuStatistics.put(i, cpuStats);
         }
     }
 
@@ -228,15 +253,8 @@ public class DesmojTest extends Model {
         DesmojTest model = new DesmojTest(null, InputParser.simulation.get("model"), true, true);
         Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
 
-
         model.connectToExperiment(exp);
-
-
-
         exp.setSeedGenerator(Integer.parseInt(InputParser.simulation.get("seed")));
-
-
-
         exp.setShowProgressBarAutoclose(true);
         exp.stop(new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), model.getTimeUnit()));
         exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(250, model.getTimeUnit()));

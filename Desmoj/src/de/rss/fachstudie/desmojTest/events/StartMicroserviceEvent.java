@@ -34,9 +34,8 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
         model.taskQueues.get(id).insert(messageObject);
 
         if(!model.idleQueues.get(id).isEmpty()){
-            MicroserviceEntity msEntity = model.idleQueues.get(id).first();
-            model.idleQueues.get(id).remove(msEntity);
             model.taskQueues.get(id).remove(messageObject);
+            MicroserviceEntity msEntity = model.getServiceEntity(id);
 
             StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model,
                     "Stop Event: " + msEntity.getName() + "(" + operation + ")",
@@ -71,8 +70,8 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                                 nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
                             } else {
                                 // Provide CPU resources for the operation
-                                if(model.serviceCPU.get(id) >= op.getCPU()) {
-                                    model.serviceCPU.put(id, model.serviceCPU.get(id) - op.getCPU());
+                                if(model.serviceCPU.get(id).get(msEntity.getSid()) >= op.getCPU()) {
+                                    model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) - op.getCPU());
                                 } else {
                                     // Not enough resources, try it later
                                     // TODO: try it later or kick out???
@@ -86,8 +85,8 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                     } else {
                         // No dependent operations, so the service can work
                         // Provide CPU resources for the operation
-                        if(model.serviceCPU.get(id) >= op.getCPU()) {
-                            model.serviceCPU.put(id, model.serviceCPU.get(id) - op.getCPU());
+                        if(model.serviceCPU.get(id).get(msEntity.getSid()) >= op.getCPU()) {
+                            model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) - op.getCPU());
                         } else {
                             // Not enough resources, try it later
                             // TODO: try it later or kick out???
