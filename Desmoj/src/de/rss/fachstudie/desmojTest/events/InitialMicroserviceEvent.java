@@ -29,13 +29,14 @@ public class InitialMicroserviceEvent extends ExternalEvent {
      * @param showInTrace
      * @param time          Time period to create first event
      */
-    public InitialMicroserviceEvent(Model owner, String name, boolean showInTrace, double time, int msId) {
+    public InitialMicroserviceEvent(Model owner, String name, boolean showInTrace, double time, int msId, String op) {
         super(owner, name, showInTrace);
 
         model = (DesmojTest) owner;
         timeToCreate = new ContDistExponential(model, name, time, model.getShowInitEvent(), true);
         this.msId = msId;
         this.microservice = model.allMicroservices.get(msId).getName();
+        this.operation = op;
     }
 
     public double getTime() {
@@ -50,26 +51,18 @@ public class InitialMicroserviceEvent extends ExternalEvent {
         return this.msId;
     }
 
+    public String getOperation() {
+        return operation;
+    }
+
     @Override
     public void eventRoutine() throws SuspendExecution {
-        // When default constructor is called the id is initialized
-        if(msId == -1) {
-            msId = model.getIdByName(microservice);
-        }
-
-        // Get the first operation to start firing
-        Operation op = new Operation(model, "", false, false);
-        for(Operation o : model.allMicroservices.get(msId).getOperations()) {
-            if(operation.equals(o.getName())) {
-                op = o;
-            }
-        }
 
         // Create a message object and begin event
         MessageObject initialMessageObject = new MessageObject(model, this.getClass().getName(), model.getShowStartEvent());
         StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,
-                "Start Event: " + microservice + "(" + op.getName() + ")",
-                model.getShowStartEvent(), msId, op.getName());
+                "Start Event: " + microservice + "(" + operation + ")",
+                model.getShowStartEvent(), msId, operation);
 
         startEvent.schedule(initialMessageObject, new TimeSpan(0, model.getTimeUnit()));
 

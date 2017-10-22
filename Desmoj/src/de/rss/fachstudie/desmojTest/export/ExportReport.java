@@ -34,21 +34,25 @@ public class ExportReport {
     }
 
     private void chartReport() {
-        HashMap<String, Double[]> testData1 = new HashMap<>();
-        HashMap<String, Double[]> testData2 = new HashMap<>();
+        HashMap<String, Double[]> activeInstances = new HashMap<>();
+        HashMap<String, Double[]> usedCPU = new HashMap<>();
 
         for(int i = 0; i < model.allMicroservices.size(); i++) {
             MicroserviceEntity ms = model.allMicroservices.get(i);
-            testData1.put( ms.getName(), this.getTimeSeries("Report/resources/Instances_" + ms.getName() + ".txt"));
+            for(int j = 0; j < ms.getInstances(); j++) {
+                activeInstances.put(ms.getName() + " #" + j, this.getTimeSeries("Report/resources/Threads_" + ms.getName() + "_" + j + ".txt"));
+            }
         }
 
         for(int i = 0; i < model.allMicroservices.size(); i++) {
             MicroserviceEntity ms = model.allMicroservices.get(i);
-            testData2.put(ms.getName(), this.getTimeSeries("Report/resources/CPU_" + ms.getName() + ".txt"));
+            for(int j = 0; j < ms.getInstances(); j++) {
+                usedCPU.put(ms.getName() + " #" + j, this.getTimeSeries("Report/resources/CPU_" + ms.getName() + "_" + j + ".txt"));
+            }
         }
 
-        DataChart chart1 = new DataChart("Active Microservice Instances", testData1);
-        DataChart chart2 = new DataChart("Used CPU", testData2);
+        DataChart chart1 = new DataChart("Active Microservice Threads", activeInstances);
+        DataChart chart2 = new DataChart("Used CPU", usedCPU);
 
         String divs = chart1.printDiv() + chart2.printDiv();
         String charts = chart1.printStockChart() + chart2.printStockChart();

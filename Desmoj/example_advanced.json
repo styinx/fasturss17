@@ -3,8 +3,8 @@
   {
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
-    "duration" : 500,
-    "datapoints" : 500,
+    "duration" : 1000,
+    "datapoints" : 250,
     "seed" : 2298
   },
   "microservices" :
@@ -79,7 +79,8 @@
           [
             {
               "name" : "sendMessage",
-              "service" : "Processing"
+              "service" : "Processing",
+              "probability" : 0.5
             }
           ]
         }
@@ -100,7 +101,8 @@
           [
             {
               "name" : "update",
-              "service" : "Database"
+              "service" : "Database",
+              "probability" : 0.5
             }
           ]
         },

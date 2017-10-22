@@ -5,7 +5,10 @@ import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
 import de.rss.fachstudie.desmojTest.models.DesmojTest;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
+import desmoj.core.simulator.Queue;
 import desmoj.core.simulator.TimeSpan;
+
+import java.util.Map;
 
 /**
  *
@@ -22,11 +25,11 @@ public class StatisticCollectorEvent extends ExternalEvent {
     @Override
     public void eventRoutine() throws SuspendExecution {
         // Collect statisitcs from each service
-        for(int i = 0; i < model.allMicroservices.size(); ++i) {
-            MicroserviceEntity ms = model.allMicroservices.get(i);
-            for(int j = 0; j < ms.getInstances(); ++j) {
-                model.cpuStatistics.get(i).get(j).update(model.serviceCPU.get(i).get(j));
-                model.threadStatistics.get(i).get(j).update(ms.getThreads().size());
+        for(int id = 0; id < model.idleQueues.size(); ++id) {
+            for(int instance = 0; instance < model.idleQueues.get(id).size(); ++instance) {
+                MicroserviceEntity entity = model.idleQueues.get(id).get(instance);
+                model.cpuStatistics.get(id).get(instance).update(model.serviceCPU.get(id).get(instance));
+                model.threadStatistics.get(id).get(instance).update(entity.getThreads().size());
             }
         }
         schedule(new TimeSpan(model.getSimulationTime() / model.getDatapoints(), model.getTimeUnit()));

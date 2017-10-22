@@ -1,10 +1,7 @@
 package de.rss.fachstudie.desmojTest.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.entities.MessageObject;
-import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
-import de.rss.fachstudie.desmojTest.entities.MicroserviceThread;
-import de.rss.fachstudie.desmojTest.entities.Operation;
+import de.rss.fachstudie.desmojTest.entities.*;
 import de.rss.fachstudie.desmojTest.models.DesmojTest;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.Event;
@@ -34,6 +31,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
         model.taskQueues.get(id).insert(messageObject);
 
         if(!model.idleQueues.get(id).isEmpty()){
+
             model.taskQueues.get(id).remove(messageObject);
             MicroserviceEntity msEntity = model.getServiceEntity(id);
 
@@ -49,19 +47,23 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
 
                     // Are there dependant operations
                     if(op.getDependencies().length > 0) {
+
                         for(SortedMap<String, String> dependantOperation : op.getDependencies()) {
+
                             String nextOperation = dependantOperation.get("name");
                             String nextService = dependantOperation.get("service");
                             double probability = Double.parseDouble(dependantOperation.get("probability"));
                             int nextServiceId = model.getIdByName(nextService);
 
+                            // Roll probability
                             ContDistUniform prob = new ContDistUniform(model,"",0.0, 1.0,false, false);
-                            // Next dependant operation gets executed
                             if(prob.sample() <= probability) {
+
                                 // Add Stacked operation info to message object
-                                HashMap<MicroserviceEntity, StopMicroserviceEvent> stackedOperation = new HashMap<>();
-                                stackedOperation.put(msEntity, msEndEvent);
-                                messageObject.addDependency(stackedOperation);
+                                MicroserviceThread thread = new MicroserviceThread(model, "", false);
+                                msEntity.getThreads().insert(thread);
+                                Predecessor predecessor = new Predecessor(msEntity, thread, msEndEvent);
+                                messageObject.addDependency(predecessor);
 
                                 // Immediately start dependant operation
                                 StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
@@ -69,6 +71,8 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                                         model.getShowStartEvent(), nextServiceId, nextOperation);
                                 nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
                             } else {
+
+                                // The probability of the next operation wasn't achieved, the current operation can start to work
                                 // Provide CPU resources for the operation
                                 if(model.serviceCPU.get(id).get(msEntity.getSid()) >= op.getCPU()) {
                                     model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) - op.getCPU());
@@ -86,8 +90,10 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                         // No dependent operations, so the service can work
                         // Provide CPU resources for the operation
                         if(model.serviceCPU.get(id).get(msEntity.getSid()) >= op.getCPU()) {
+
                             model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) - op.getCPU());
                         } else {
+
                             // Not enough resources, try it later
                             // TODO: try it later or kick out???
                             schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));

@@ -40,6 +40,7 @@ public class DesmojTest extends Model {
     // Statistics
     public HashMap<Integer, HashMap<Integer, TimeSeries>> cpuStatistics;
     public HashMap<Integer, HashMap<Integer, TimeSeries>> threadStatistics;
+    //public HashMap<Integer, HashMap<Integer, TimeSeries>> threadTime;
 
     public double getSimulationTime() {
         return simulationTime;
@@ -95,6 +96,7 @@ public class DesmojTest extends Model {
      * @return id of the corresponding microservice if successful, otherwise -1
      */
     public int getIdByName(String name){
+
         for(int i = 0; i < allMicroservices.size() ; i ++){
             if(name.equals(allMicroservices.get(i).getName())){
                 return allMicroservices.get(i).getId();
@@ -111,10 +113,10 @@ public class DesmojTest extends Model {
     public MicroserviceEntity getServiceEntity(int id) {
         double min = Double.POSITIVE_INFINITY;
         int instance = 0;
-        for(Map.Entry<Integer, Integer> cpu: serviceCPU.get(id).entrySet()) {
-            if(cpu.getValue() <= min) {
-                min = cpu.getValue();
-                instance = cpu.getKey();
+        for(int i = 0; i < idleQueues.get(id).size(); ++i) {
+            if(serviceCPU.get(id).get(i) <= min) {
+                min = serviceCPU.get(id).get(i);
+                instance = i;
             }
         }
         return idleQueues.get(id).get(instance);
@@ -145,12 +147,13 @@ public class DesmojTest extends Model {
      */
     @Override
     public void doInitialSchedules() {
+
         // Fire off all generators for scheduling
         InitialMicroserviceEvent generators[] = InputParser.generators;
         for(InitialMicroserviceEvent generator : generators) {
             InitialMicroserviceEvent initEvent = new InitialMicroserviceEvent(this,
                     "<b><u>Inital Event:</u></b> " + generator.getMicroservice(), showInitEvent, generator.getTime(),
-                    getIdByName(generator.getMicroservice()));
+                    getIdByName(generator.getMicroservice()), generator.getOperation());
             initEvent.schedule(new TimeSpan(0, timeUnit));
         }
 
@@ -191,8 +194,9 @@ public class DesmojTest extends Model {
 
         // Load JSON
         MicroserviceEntity[] microservices = InputParser.microservices;
-        for(int i = 0; i < microservices.length; i++){
-            String serviceName = microservices[i].getName();
+        for(int id = 0; id < microservices.length; id++){
+
+            String serviceName = microservices[id].getName();
 
             // Queues
             Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + serviceName, true, true);
@@ -200,55 +204,57 @@ public class DesmojTest extends Model {
 
             // Resources
             HashMap<Integer, Integer> cpu = new HashMap<>();
-            //Res microserviceCPU = new Res(this, serviceName + " CPU", microservices[i].getCPU(), true, true);
+            //Res microserviceCPU = new Res(this, serviceName + " CPU", microservices[id].getCPU(), true, true);
 
             // Statistics
             HashMap<Integer, TimeSeries> threadStats = new HashMap<>();
             HashMap<Integer, TimeSeries> cpuStats = new HashMap<>();
 
             //Queue for maxQueue returns refuse and should be used to turn Circuit breakers of with using a waiting queue 1 ( 0 for int max value)
-            //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[i].getName(), QueueBased.FIFO , 1, true , true);
+            //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[id].getName(), QueueBased.FIFO , 1, true , true);
 
-            for(int y = 0; y < microservices[i].getInstances(); y ++ ){
-                MicroserviceEntity msEntity = new MicroserviceEntity(this , microservices[i].getName(), true );
-                msEntity.setName(microservices[i].getName());
-                msEntity.setId(i);
-                msEntity.setSid(y);
-                msEntity.setCPU(microservices[i].getCPU());
-                msEntity.setInstances(microservices[i].getInstances());
-                msEntity.setOperations(microservices[i].getOperations());
+            for(int instance = 0; instance < microservices[id].getInstances(); instance++){
+
+                MicroserviceEntity msEntity = new MicroserviceEntity(this , microservices[id].getName(), true );
+                msEntity.setName(microservices[id].getName());
+                msEntity.setId(id);
+                msEntity.setSid(instance);
+                msEntity.setCPU(microservices[id].getCPU());
+                msEntity.setInstances(microservices[id].getInstances());
+                msEntity.setOperations(microservices[id].getOperations());
                 idleQueue.insert(msEntity);
-                allMicroservices.put(i, msEntity);
+                allMicroservices.put(id, msEntity);
 
                 // Resources
-                cpu.put(y, msEntity.getCPU());
+                cpu.put(instance, msEntity.getCPU());
 
                 // Statistics
-                TimeSeries activeInstances = new TimeSeries(this, "Active Threads: " + serviceName,
+                TimeSeries activeInstances = new TimeSeries(this, "Active Threads: " + serviceName + " #" + instance,
                         "Report/resources/Threads_" + serviceName + "_" + msEntity.getSid() + ".txt",
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), true, false);
 
-                TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + serviceName,
+                TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + serviceName + " #" + instance,
                         "Report/resources/CPU_" + serviceName + "_" + msEntity.getSid() + ".txt",
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), true, false);
 
-                threadStats.put(y, activeInstances);
-                cpuStats.put(y, activeCPU);
+                threadStats.put(instance, activeInstances);
+                cpuStats.put(instance, activeCPU);
             }
             // Queues
-            taskQueues.put(i, taskQueue);
-            idleQueues.put(i, idleQueue);
+            taskQueues.put(id, taskQueue);
+            idleQueues.put(id, idleQueue);
 
             // Resources
-            serviceCPU.put(i, cpu);
+            serviceCPU.put(id, cpu);
 
             // Statistics
-            threadStatistics.put(i, threadStats);
-            cpuStatistics.put(i, cpuStats);
+            threadStatistics.put(id, threadStats);
+            cpuStatistics.put(id, cpuStats);
         }
     }
 
     public static void main(String[] args) {
+
         InputParser parser = new InputParser("example_advanced.json");
         DesmojTest model = new DesmojTest(null, InputParser.simulation.get("model"), true, true);
         Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
