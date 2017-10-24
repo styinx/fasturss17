@@ -214,7 +214,6 @@ public class DesmojTest extends Model {
             //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[id].getName(), QueueBased.FIFO , 1, true , true);
 
             for(int instance = 0; instance < microservices[id].getInstances(); instance++){
-
                 MicroserviceEntity msEntity = new MicroserviceEntity(this , microservices[id].getName(), true );
                 msEntity.setName(microservices[id].getName());
                 msEntity.setId(id);
@@ -270,6 +269,7 @@ public class DesmojTest extends Model {
 
         exp.report();
         exp.finish();
+        System.out.println(InputParser.simulation);
 
         ExportReport exportReport = new ExportReport(model);
     }

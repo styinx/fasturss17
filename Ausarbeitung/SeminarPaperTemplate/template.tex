@@ -424,6 +424,26 @@ Based on the information we specified in Section \ref{input} we build a UML diag
 		\label{fig:SystemUML}
 \end{figure}
 
+
+
+
+
+\section{Simulator internal workflow}
+\subsection{MainModelClass}
+\subsubsection{Main Method}
+The simulator starts by reading all values from the JSON file. Afterwards it proceeds by inserting all metadata into the DesmoJ experiment ( Duration, Seed, Name , ...). Is this done then we continue to start the experiment. DesmoJ is internally calling the init method in which the workflow continues.
+\subsubsection{init Method}
+Now that the init method was called the simulator creates all data structures belonging to the a micro service(Idle queue, Task queue, ..).To identify a specific micro service the simulator assigns an internal id to each. After creating the general data structures each instance of a micro service is created. Instances also get their values assigned (Resources) and are also mapped to the internal micro service id. 
+\subsubsection{doInitialSchedules Method}
+Now that the dependence system with all according values is created in DesmoJ the actual experiment can start. Because the simulator uses an event based model this method is called by DesmoJ to start the system and create the initial events. Initial events are called generators in the JSON file. Generators permanently generate new input requests in the specific micro service. Chaos monkeys are also initial events that delete the number of instances specified in JSON file. Is an event generated and the scheduled time meets the actual time in simulation the event gets started and the "workflow" continuous in StartMicroserviceEvent.
+\subsection{StartMicroserviceEvent}
+Is a micro service event started the message object get placed in the idle queue for the relevant micro service. Is there still open capacity for the responsible micro service the message object gets removed from the idle queue and "work" can start. To know which operations of the micro service are executed a random seed based value is calculated and compared to the probability that the operation is executed. The same applies to dependencies that the service might have. To start "work" on the current task CPU gets removed from the maximal available CPU and a micro service stop event gets scheduled based on the time that a task needs to be finished in this specific micro service. The time between a start event is executed and a stop event is called is the time in which work is supposed to be done. Since this is a simulator the work is not actually done but a thread  and CPU are occupied for this time. 
+\subsection{StopMicroserviceEvent}
+A StopMicroserviceEvent is called after work has been done in a micro service. CPU gets freed for the micro service instance, the thread in which the current work task was done does no longer exist and the next operations get scheduled for the next available time period(instantly after the finishing of the current task: right now). 
+
+
+\subsection{Entities}
+The name already says it but for clarification all classes located in entities are only holding data and don't contain program logic. Message objects that are a entity represent "work". Message objects know the way they where traversing through the simulated system and therefore can be passed backwards after all operations are done on which they where used.
 \begin{center}
 --------------------------------------\newline
 
