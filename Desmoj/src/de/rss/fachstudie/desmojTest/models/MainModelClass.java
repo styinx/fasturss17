@@ -8,7 +8,7 @@ import de.rss.fachstudie.desmojTest.events.StatisticCollectorEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
 import desmoj.core.simulator.*;
-import desmoj.core.statistic.*;
+import desmoj.core.statistic.TimeSeries;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -130,6 +130,7 @@ public class MainModelClass extends Model {
      */
     public MainModelClass(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
         super(owner, modelName, showInReport, showInTrace);
+        // TODO: initiate customResourceDB to keep track of resources
     }
 
     /**
