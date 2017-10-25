@@ -1,6 +1,6 @@
 package de.rss.fachstudie.desmojTest.entities;
 
-import de.rss.fachstudie.desmojTest.models.DesmojTest;
+import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeInstant;
@@ -13,7 +13,7 @@ import desmoj.core.simulator.TimeInstant;
  * tid: the thread id (map to the number of existing threads in the service)
  */
 public class MicroserviceThread extends Entity {
-    DesmojTest model;
+    MainModelClass model;
     private int id;
     private int tid;
     private TimeInstant creationTime;
@@ -21,7 +21,7 @@ public class MicroserviceThread extends Entity {
     public MicroserviceThread(Model owner, String name, boolean b) {
         super(owner, name, b);
 
-        model = (DesmojTest) owner;
+        model = (MainModelClass) owner;
         creationTime = model.presentTime();
     }
 

@@ -1,6 +1,6 @@
 package de.rss.fachstudie.desmojTest.entities;
 
-import de.rss.fachstudie.desmojTest.models.DesmojTest;
+import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.*;
 
 /**
@@ -16,7 +16,7 @@ import desmoj.core.simulator.*;
  * operations:  an array of dependent operations
  */
 public class MicroserviceEntity extends Entity{
-    private DesmojTest model;
+    private MainModelClass model;
     private int id;
     private int sid;
     private String name = "";
@@ -28,7 +28,7 @@ public class MicroserviceEntity extends Entity{
     public MicroserviceEntity(Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
 
-        this.model = (DesmojTest) owner;
+        this.model = (MainModelClass) owner;
         threads = new Queue<>(model, "Thread Queue " + name + " #" + sid, true, true);
     }
 

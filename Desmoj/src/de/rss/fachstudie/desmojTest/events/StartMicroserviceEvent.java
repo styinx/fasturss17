@@ -2,19 +2,19 @@ package de.rss.fachstudie.desmojTest.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.*;
-import de.rss.fachstudie.desmojTest.models.DesmojTest;
+import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.Event;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
-import java.util.HashMap;
+
 import java.util.SortedMap;
 
 /**
  * This event class gets a working object and schedules a timespan during a microservice is busy.
  */
 public class StartMicroserviceEvent extends Event<MessageObject> {
-    private DesmojTest model;
+    private MainModelClass model;
     private int id;
     private String operation;
 
@@ -23,7 +23,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
 
         this.id = id;
         this.operation = operation;
-        model = (DesmojTest) owner;
+        model = (MainModelClass) owner;
     }
 
     @Override

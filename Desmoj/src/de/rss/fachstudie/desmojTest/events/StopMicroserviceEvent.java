@@ -1,17 +1,14 @@
 package de.rss.fachstudie.desmojTest.events;
 
 import de.rss.fachstudie.desmojTest.entities.*;
-import de.rss.fachstudie.desmojTest.models.DesmojTest;
+import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.EventOf3Entities;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class StopMicroserviceEvent extends EventOf3Entities<MicroserviceEntity, MicroserviceThread, MessageObject> {
-    private DesmojTest model;
+    private MainModelClass model;
     private int id;
     private String operation;
 
@@ -20,7 +17,7 @@ public class StopMicroserviceEvent extends EventOf3Entities<MicroserviceEntity, 
 
         this.id = id;
         this.operation = operation;
-        model = (DesmojTest) owner;
+        model = (MainModelClass) owner;
     }
 
     @Override

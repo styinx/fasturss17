@@ -1,15 +1,11 @@
 package de.rss.fachstudie.desmojTest.entities;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.models.DesmojTest;
+import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimProcess;
-import desmoj.core.simulator.TimeSpan;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.SortedMap;
-import java.util.SortedSet;
 
 /**
  * An operation connects two microservice instances. During a specified time interval the service
@@ -25,7 +21,7 @@ import java.util.SortedSet;
  * dependencies:    an array containing dependant operations of other services
  */
 public class Operation extends SimProcess{
-    private DesmojTest model;
+    private MainModelClass model;
     private String name = "";
     private String service = "";
     private String pattern = "";
@@ -37,7 +33,7 @@ public class Operation extends SimProcess{
     public Operation(Model model, String s, boolean b, boolean b1) {
         super(model, s, b, b1);
 
-        this.model = (DesmojTest) model;
+        this.model = (MainModelClass) model;
     }
 
     @Override

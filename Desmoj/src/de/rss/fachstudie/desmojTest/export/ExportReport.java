@@ -1,7 +1,7 @@
 package de.rss.fachstudie.desmojTest.export;
 
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
-import de.rss.fachstudie.desmojTest.models.DesmojTest;
+import de.rss.fachstudie.desmojTest.models.MainModelClass;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ExportReport {
-    private DesmojTest model;
+    private MainModelClass model;
 
-    public ExportReport(DesmojTest model) {
+    public ExportReport(MainModelClass model) {
         this.model = model;
         this.graphReport();
         this.chartReport();

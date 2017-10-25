@@ -1,13 +1,13 @@
 package de.rss.fachstudie.desmojTest.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.models.DesmojTest;
+import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
 public class InitialChaosMonkeyEvent extends ExternalEvent {
-    private DesmojTest model;
+    private MainModelClass model;
     private double time;
     private String microservice;
     private int msId = -1;
@@ -16,7 +16,7 @@ public class InitialChaosMonkeyEvent extends ExternalEvent {
     public InitialChaosMonkeyEvent(Model owner, String name, boolean showInTrace, double time, int msId, int instances) {
         super(owner, name, showInTrace);
 
-        this.model = (DesmojTest) owner;
+        this.model = (MainModelClass) owner;
         this.time = time;
         this.msId = msId;
         this.instances = instances;

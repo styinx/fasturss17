@@ -11,7 +11,6 @@ import desmoj.core.simulator.*;
 import desmoj.core.statistic.*;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * doInitialSchedules Starts the inital event.
  * init Gets called at the start of the experiment and loads all relevant experiment resources.
  */
-public class DesmojTest extends Model {
+public class MainModelClass extends Model {
     private TimeUnit timeUnit       = TimeUnit.SECONDS;
     private double simulationTime   = 0;
     private int datapoints          = 0;
@@ -129,7 +128,7 @@ public class DesmojTest extends Model {
      * @param showInReport
      * @param showInTrace
      */
-    public DesmojTest(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
+    public MainModelClass(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
         super(owner, modelName, showInReport, showInTrace);
     }
 
@@ -255,7 +254,7 @@ public class DesmojTest extends Model {
     public static void main(String[] args) {
 
         InputParser parser = new InputParser("example_advanced.json");
-        DesmojTest model = new DesmojTest(null, InputParser.simulation.get("model"), true, true);
+        MainModelClass model = new MainModelClass(null, InputParser.simulation.get("model"), true, true);
         Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
 
         model.connectToExperiment(exp);
