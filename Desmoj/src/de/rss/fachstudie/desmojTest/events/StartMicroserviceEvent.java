@@ -33,6 +33,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
         if(!model.idleQueues.get(id).isEmpty()){
 
             model.taskQueues.get(id).remove(messageObject);
+            // The service with most available resources gets returned
             MicroserviceEntity msEntity = model.getServiceEntity(id);
 
             StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model,
@@ -50,7 +51,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
 
                         for(SortedMap<String, String> dependantOperation : op.getDependencies()) {
 
-                            String nextOperation = dependantOperation.get("name");
+                            String nextOperation = dependantOperation.get("operation");
                             String nextService = dependantOperation.get("service");
                             double probability = Double.parseDouble(dependantOperation.get("probability"));
                             int nextServiceId = model.getIdByName(nextService);

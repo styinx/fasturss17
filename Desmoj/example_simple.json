@@ -1,0 +1,87 @@
+{
+  "simulation":
+  {
+    "experiment" : "Desmoj_Microservice_Experiment",
+    "model" : "Simple microservice model",
+    "duration" : 100,
+    "datapoints" : 100,
+    "seed" : 1234
+  },
+  "microservices" :
+  [
+    {
+      "name" : "Frontend",
+      "instances" : 2,
+      "CPU" : 1000,
+      "operations" :
+      [
+        {
+          "name" : "login",
+          "pattern" : "",
+          "duration" : 4,
+          "CPU" : 300,
+          "dependencies" :
+          [
+            {
+              "operation" : "save",
+              "service" : "Server",
+              "probability" : 1.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Server",
+      "instances" : 2,
+      "CPU" : 1000,
+      "operations" :
+      [
+        {
+          "name" : "save",
+          "pattern" : "",
+          "duration" : 2,
+          "CPU" : 600,
+          "dependencies" :
+          [
+            {
+              "operation" : "update",
+              "service" : "Database",
+              "probability" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Database",
+      "instances" : 2,
+      "CPU" : 1000,
+      "operations" :
+      [
+        {
+          "name" : "update",
+          "pattern" : "",
+          "duration" : 2,
+          "CPU" : 300,
+          "dependencies" :
+          [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "generators" :
+  [
+    {
+      "time" : 1,
+      "microservice" : "Frontend",
+      "operation" : "login"
+    }
+  ],
+  "chaosmonkeys" :
+  [
+
+  ]
+}

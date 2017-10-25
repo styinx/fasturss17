@@ -2,6 +2,7 @@ package de.rss.fachstudie.desmojTest.export;
 
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import desmoj.core.simulator.TimeInstant;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,6 +29,7 @@ public class ExportReport {
 
         try {
             Files.write(Paths.get("./Report/js/graph.js"), graph.printGraph().getBytes());
+            System.out.println("Created graph report.");
         } catch (IOException ex) {
             System.out.println("Could not create graph report.");
         }
@@ -36,30 +38,28 @@ public class ExportReport {
     private void chartReport() {
         HashMap<String, Double[]> activeInstances = new HashMap<>();
         HashMap<String, Double[]> usedCPU = new HashMap<>();
+        HashMap<String, Double[]> responseTime = new HashMap<>();
 
         for(int i = 0; i < model.allMicroservices.size(); i++) {
             MicroserviceEntity ms = model.allMicroservices.get(i);
             for(int j = 0; j < ms.getInstances(); j++) {
                 activeInstances.put(ms.getName() + " #" + j, this.getTimeSeries("Report/resources/Threads_" + ms.getName() + "_" + j + ".txt"));
-            }
-        }
-
-        for(int i = 0; i < model.allMicroservices.size(); i++) {
-            MicroserviceEntity ms = model.allMicroservices.get(i);
-            for(int j = 0; j < ms.getInstances(); j++) {
                 usedCPU.put(ms.getName() + " #" + j, this.getTimeSeries("Report/resources/CPU_" + ms.getName() + "_" + j + ".txt"));
+                responseTime.put(ms.getName() + " #" + j, this.getResponsTime(model.idleQueues.get(i).get(j).getResponseTime()));
             }
         }
 
         DataChart chart1 = new DataChart("Active Microservice Threads", activeInstances);
         DataChart chart2 = new DataChart("Used CPU", usedCPU);
+        DataChart chart3 = new DataChart("Response Time per Instance", responseTime);
 
-        String divs = chart1.printDiv() + chart2.printDiv();
-        String charts = chart1.printStockChart() + chart2.printStockChart();
+        String divs = chart1.printDiv() + chart2.printDiv() + chart3.printDiv();
+        String charts = chart1.printStockChart() + chart2.printStockChart() + chart3.printStockChart();
         String contents = divs + charts;
 
         try {
             Files.write(Paths.get("./Report/js/chart.js"), contents.getBytes());
+            System.out.println("Created chart report.");
         } catch (IOException ex) {
             System.out.println("Could not create chart report.");
         }
@@ -84,6 +84,12 @@ public class ExportReport {
         }
         Double[] result = new Double[values.size()];
         result = values.toArray(result);
+        return result;
+    }
+
+    private Double[] getResponsTime(HashMap<Integer, Double> data) {
+        Double[] result = new Double[data.size()];
+        result = data.values().toArray(result);
         return result;
     }
 }

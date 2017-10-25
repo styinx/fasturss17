@@ -32,6 +32,8 @@ public class StopMicroserviceEvent extends EventOf3Entities<MicroserviceEntity, 
                 } else {
                     // CPU has max resources
                 }
+                // Save response time
+                microserviceEntity.addResponseTime(thread.getCreationTime().getTimeAsDouble());
                 // remove thread from microservice
                 microserviceEntity.getThreads().remove(thread);
 
@@ -42,7 +44,7 @@ public class StopMicroserviceEvent extends EventOf3Entities<MicroserviceEntity, 
                     MicroserviceEntity previousMs = predecessor.getEntity();
                     MicroserviceThread previousThread = predecessor.getThread();
                     StopMicroserviceEvent previousStopEvent = predecessor.getStopEvent();
-                    Operation stopOperation = new Operation(model, "", false, false);
+                    Operation stopOperation = new Operation(model, "", false);
                     int previousId = previousMs.getId();
 
                     for(Operation op : previousMs.getOperations()) {

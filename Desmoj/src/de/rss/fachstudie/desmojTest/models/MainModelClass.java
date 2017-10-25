@@ -110,11 +110,11 @@ public class MainModelClass extends Model {
      * @return
      */
     public MicroserviceEntity getServiceEntity(int id) {
-        double min = Double.POSITIVE_INFINITY;
+        double avail = Double.NEGATIVE_INFINITY;
         int instance = 0;
         for(int i = 0; i < idleQueues.get(id).size(); ++i) {
-            if(serviceCPU.get(id).get(i) <= min) {
-                min = serviceCPU.get(id).get(i);
+            if(serviceCPU.get(id).get(i) > avail) {
+                avail = serviceCPU.get(id).get(i);
                 instance = i;
             }
         }
@@ -253,7 +253,7 @@ public class MainModelClass extends Model {
 
     public static void main(String[] args) {
 
-        InputParser parser = new InputParser("example_advanced.json");
+        InputParser parser = new InputParser("example_simple.json");
         MainModelClass model = new MainModelClass(null, InputParser.simulation.get("model"), true, true);
         Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
 
@@ -268,7 +268,6 @@ public class MainModelClass extends Model {
 
         exp.report();
         exp.finish();
-        System.out.println(InputParser.simulation);
 
         ExportReport exportReport = new ExportReport(model);
     }
