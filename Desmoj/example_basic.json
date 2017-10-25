@@ -53,7 +53,7 @@
       [
         {
           "name" : "save",
-          "pattern" : "",
+          "patterns" : [],
           "duration" : 2,
           "CPU" : 600,
           "dependencies" :
@@ -75,7 +75,7 @@
       [
         {
           "name" : "save",
-          "pattern" : "",
+          "patterns" : [],
           "duration" : 2,
           "CPU" : 300,
           "dependencies" :
@@ -89,7 +89,7 @@
         },
         {
           "name" : "update",
-          "pattern" : "",
+          "patterns" : [],
           "duration" : 2,
           "CPU" : 500,
           "dependencies" :
@@ -103,7 +103,7 @@
         },
         {
           "name" : "register",
-          "pattern" : "",
+          "patterns" : [],
           "duration" : 2,
           "CPU" : 900,
           "dependencies" :
@@ -125,7 +125,7 @@
       [
         {
           "name" : "update",
-          "pattern" : "",
+          "patterns" : [],
           "duration" : 2,
           "CPU" : 700,
           "dependencies" :
@@ -147,7 +147,7 @@
       [
         {
           "name" : "register",
-          "pattern" : "",
+          "patterns" : [],
           "duration" : 2,
           "CPU" : 1200,
           "dependencies" :
@@ -169,7 +169,7 @@
       [
         {
           "name" : "update",
-          "pattern" : "",
+          "patterns" : [],
           "duration" : 2,
           "CPU" : 500,
           "dependencies" :

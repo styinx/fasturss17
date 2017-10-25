@@ -17,7 +17,7 @@
       [
         {
           "name" : "login",
-          "pattern" : "",
+          "patterns" : ["Circuit Breaker"],
           "duration" : 4,
           "CPU" : 300,
           "dependencies" :
@@ -39,7 +39,7 @@
       [
         {
           "name" : "save",
-          "pattern" : "",
+          "patterns" : ["Circuit Breaker"],
           "duration" : 2,
           "CPU" : 600,
           "dependencies" :
@@ -61,7 +61,7 @@
       [
         {
           "name" : "update",
-          "pattern" : "",
+          "patterns" : ["Circuit Breaker"],
           "duration" : 2,
           "CPU" : 300,
           "dependencies" :

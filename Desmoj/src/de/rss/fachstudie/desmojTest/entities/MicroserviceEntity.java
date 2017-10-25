@@ -22,6 +22,7 @@ public class MicroserviceEntity extends Entity{
     private int id;
     private int sid;
     private String name = "";
+    private String[] patterns;
     private int CPU = 0;
     private int instances = 0;
     private Queue<MicroserviceThread> threads;
@@ -61,6 +62,14 @@ public class MicroserviceEntity extends Entity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String[] getPatterns() {
+        return patterns;
+    }
+
+    public void setPatterns(String[] patterns) {
+        this.patterns = patterns;
     }
 
     public int getCPU() {

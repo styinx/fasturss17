@@ -194,13 +194,13 @@ public class MainModelClass extends Model {
 
         // Load JSON
         MicroserviceEntity[] microservices = InputParser.microservices;
-        for(int id = 0; id < microservices.length; id++){
+        for(int id = 0; id < microservices.length; id++) {
 
             String serviceName = microservices[id].getName();
 
             // Queues
             Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + serviceName, true, true);
-            Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + serviceName, true , true) ;
+            Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + serviceName, true, true);
 
             // Resources
             HashMap<Integer, Integer> cpu = new HashMap<>();
@@ -210,8 +210,12 @@ public class MainModelClass extends Model {
             HashMap<Integer, TimeSeries> threadStats = new HashMap<>();
             HashMap<Integer, TimeSeries> cpuStats = new HashMap<>();
 
-            //Queue for maxQueue returns refuse and should be used to turn Circuit breakers of with using a waiting queue 1 ( 0 for int max value)
-            //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[id].getName(), QueueBased.FIFO , 1, true , true);
+//            System.out.println(microservices[id].getPatterns().length);
+//            for(int i = 0; i < microservices[id].getPatterns().length; ++i) {
+//                if (microservices[id].getPatterns()[i].equals("Circuit Breaker")) {
+//                    taskQueue = new Queue<MessageObject>(this, "Task Queue: " + serviceName, QueueBased.FIFO, 1, true, true);
+//                }
+//            }
 
             for(int instance = 0; instance < microservices[id].getInstances(); instance++){
                 MicroserviceEntity msEntity = new MicroserviceEntity(this , microservices[id].getName(), true );
@@ -221,6 +225,7 @@ public class MainModelClass extends Model {
                 msEntity.setCPU(microservices[id].getCPU());
                 msEntity.setInstances(microservices[id].getInstances());
                 msEntity.setOperations(microservices[id].getOperations());
+                msEntity.setPatterns(microservices[id].getPatterns());
                 idleQueue.insert(msEntity);
                 allMicroservices.put(id, msEntity);
 
