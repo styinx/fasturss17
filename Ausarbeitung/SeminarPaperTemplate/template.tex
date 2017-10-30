@@ -446,11 +446,49 @@ A StopMicroserviceEvent is called after work has been done in a micro service. C
 The name already says it but for clarification all classes located in entities are only holding data and don't contain program logic. Message objects that are a entity represent "work". Message objects know the way they where traversing through the simulated system and therefore can be passed backwards after all operations are done on which they where used.
 
 \section{Input - The JSON File}
+
 This section explains how an correct input file works. For this purpose one micro service of a micro service architecture  is shown in figure \ref{fig:FinalInputMicroServices} and explained. In figure \ref{fig:FinalInputSystemInformation} it is explained how other meta experiment information such as chaos monkeys or system simulation time are inserted into the simulator.
+
+\subsection{System Meta Data Input}
+All line references in this subsection reference figure \ref{fig:FinalInputSystemInformation}.
+
+\subsubsection{Simulation}
+The key "simulation" (line 2) requires an JSON object that has five values.
+\begin{itemize}
+\item "experiment" (line 4) name of the experiment no actual importance to the simulator. A String is required. 
+\item "model"  (line 5) name of the model no actual importance to the simulator. A String is required.
+\item "duration" (line 6) requires an Integer. This integer states how many time units the experiment is going to run. 
+\item "datapoints" (line 7) requires an Integer. The Integer states how many data points are taken during the experiment. This value is important since it represents the data points that are later on shown in the graphs to evaluate the experiment results
+\item "seed" (line 8) requires an Integer. The seed is there to be a base on random values. Experiments wiht the same input and the same seed will always result the same output. 
+\end{itemize}
+
+\subsubsection{Generators}
+The key "generators" (line 20) requires an array of objects. Each object is an entry point towards the system since all micro services and dependencies point towards an existing micro service. The entry point is usually just a head node (load balancer) but the simulator allows any number of generators. 
+\begin{itemize}
+\item
+"time" (line 23) requires an Integer. The values states the interval of time units in which new requests are beeing generated
+\item
+"microservice" (line 24) requires a String. The String is the "name" value of a micro service on which the entry point from the outside points.
+\item
+"operation" (lien 25) is the operation that is called in the referenced micro service.  
+\end{itemize} 
+
+\subsubsection{Chaos Monkeys}
+"chaosmonkeys" is an array that requires object with three values.
+\begin{itemize}
+\item 
+"time" requires an Integer. The values means that to the given time period the monkey starts to act.
+\item 
+"microservice" requires a String that is the name of a micro service in this existing architecture.
+\item 
+"instances" requires an Integer. The value means that the stated number is deleted at the given time unit. 
+\end{itemize}
+
 
 \subsection{Micro Service Input}
 All line references in this subsection reference figure \ref{fig:FinalInputMicroServices}.
 \subsubsection{Micro Service}
+
 All micro services are written into an array. The key value for this array is called "microservices" (Line 2-3). 
 Each micro service contains four fields. 
 \begin{itemize}
@@ -483,8 +521,7 @@ The field "instances" (line 6) displays how many instances of a the current micr
 \item 
 "service" (line 19) requires the name of an specified micro service. The String points towards an micro service that contains the operation named above. 
 \item "probability" (line 20) requires an Double value that between 0.0 and 1.0. The Double value states a percentage chance on which the named operation is called. The probability is rolled against an random value based on the "seed" given for this experiment. This means that the experiment is deterministic for the same set of values and seed.  
-
-\subsection{System Meta Data Input}
+\end{itemize} 
 
 
 \subsection{Exmaple} The operation "register" in micro service "Gateway" is called. For the next 4 time units a single thread of one instance of the micro service Gateway works on an "register" operation. This operation takes 300 Mhz of available CPU form the current instance. After the operation has finished the seed roles a value between 0 and 1 end evaluates whether the dependent operation "save" in micro service "Authentication" is going to be started. 
