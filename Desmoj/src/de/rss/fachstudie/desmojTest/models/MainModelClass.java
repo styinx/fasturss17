@@ -7,6 +7,7 @@ import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.events.StatisticCollectorEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
+import de.rss.fachstudie.desmojTest.utils.InputValidator;
 import desmoj.core.simulator.*;
 import desmoj.core.statistic.*;
 
@@ -254,22 +255,27 @@ public class MainModelClass extends Model {
     public static void main(String[] args) {
 
         InputParser parser = new InputParser("example_advanced.json");
-        MainModelClass model = new MainModelClass(null, InputParser.simulation.get("model"), true, true);
-        Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
+        InputValidator validator = new InputValidator();
+        if(validator.valideInput(parser)){
+            MainModelClass model = new MainModelClass(null, InputParser.simulation.get("model"), true, true);
+            Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
 
-        model.connectToExperiment(exp);
-        exp.setSeedGenerator(Integer.parseInt(InputParser.simulation.get("seed")));
-        exp.setShowProgressBarAutoclose(true);
-        exp.stop(new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), model.getTimeUnit()));
-        exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(250, model.getTimeUnit()));
-        exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
+            model.connectToExperiment(exp);
+            exp.setSeedGenerator(Integer.parseInt(InputParser.simulation.get("seed")));
+            exp.setShowProgressBarAutoclose(true);
+            exp.stop(new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), model.getTimeUnit()));
+            exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(250, model.getTimeUnit()));
+            exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
 
-        exp.start();
+            exp.start();
 
-        exp.report();
-        exp.finish();
-        System.out.println(InputParser.simulation);
+            exp.report();
+            exp.finish();
+            System.out.println(InputParser.simulation);
 
-        ExportReport exportReport = new ExportReport(model);
+            ExportReport exportReport = new ExportReport(model);
+        } else {
+            System.out.println("Your inserted input was not valide. Please check correctness of you JSON file.");
+        }
     }
 }
