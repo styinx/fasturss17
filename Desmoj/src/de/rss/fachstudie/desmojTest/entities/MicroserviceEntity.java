@@ -3,6 +3,8 @@ package de.rss.fachstudie.desmojTest.entities;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.*;
 
+import java.util.HashMap;
+
 /**
  * A MicroserviceEntity represents a collection of services.
  * Each instance is able to call operations to another service instance.
@@ -20,16 +22,22 @@ public class MicroserviceEntity extends Entity{
     private int id;
     private int sid;
     private String name = "";
+    private String[] patterns;
     private int CPU = 0;
     private int instances = 0;
     private Queue<MicroserviceThread> threads;
     private Operation[] operations;
+    private HashMap<Integer, Double> responseTime;
 
     public MicroserviceEntity(Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
 
         this.model = (MainModelClass) owner;
         threads = new Queue<>(model, "Thread Queue " + name + " #" + sid, true, true);
+        responseTime = new HashMap<>();
+        for(int i = 0; i < model.getDatapoints(); ++i) {
+            responseTime.put(i, 0.0);
+        }
     }
 
     public int getId() {
@@ -54,6 +62,14 @@ public class MicroserviceEntity extends Entity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String[] getPatterns() {
+        return patterns;
+    }
+
+    public void setPatterns(String[] patterns) {
+        this.patterns = patterns;
     }
 
     public int getCPU() {
@@ -86,5 +102,13 @@ public class MicroserviceEntity extends Entity{
 
     public void setOperations(Operation[] operations) {
         this.operations = operations;
+    }
+
+    public void addResponseTime(Double startTime) {
+        responseTime.put(startTime.intValue(), model.presentTime().getTimeAsDouble() - startTime);
+    }
+
+    public HashMap<Integer, Double> getResponseTime() {
+        return responseTime;
     }
 }

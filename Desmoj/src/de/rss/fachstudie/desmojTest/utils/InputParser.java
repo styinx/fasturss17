@@ -34,27 +34,4 @@ public class InputParser {
             System.out.println("File " + filename + " not found");
         }
     }
-
-    /**
-     * Create Microservice Entities from a JSON input file.
-     *
-     * @param filename
-     * @return MicroServiceEntity[]
-     * TODO: unused
-     */
-    public static MicroserviceEntity[] createMicroserviceEntities(String filename) {
-        try {
-            if(!filename.equals("")) {
-                Gson gson = new Gson();
-                MicroserviceEntity[] entities = gson.fromJson(new JsonReader(new FileReader(filename)), MicroserviceEntity[].class);
-                return entities;
-            } else {
-                System.out.println("Filename empty");
-            }
-            return null;
-        } catch(FileNotFoundException ex) {
-            System.out.println("File " + filename + " not found");
-            return null;
-        }
-    }
 }

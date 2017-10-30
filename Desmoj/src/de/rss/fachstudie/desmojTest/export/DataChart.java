@@ -27,11 +27,14 @@ public class DataChart {
             }
             options = options.substring(0, options.length() - 1) + "]},";
         }
-        options = options.substring(0, options.length() - 1) + "]";
+        if(series.keySet().size() > 0)
+            options = options.substring(0, options.length() - 1) + "]";
+        else
+            options += "]";
     }
 
     public String printDiv() {
-        return "document.getElementById('chart-container').innerHTML += \"<div id='" + chartId + "'></div>\";\n";
+        return "document.getElementById('chart-container').innerHTML += \"<div id='" + chartId + "' class='stat-chart'></div>\";\n";
     }
 
     public String printChart() {

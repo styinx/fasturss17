@@ -9,7 +9,7 @@ setTimeout(function(){
     var width = window.innerWidth;
     var height = window.innerHeight;
     var power =  graph.nodes.length * -10;
-    var distance = graph.nodes.length * 3;
+    var distance = 25 + graph.nodes.length * 3;
     var svg = d3.select("#svg");//d3.select("body").append("svg").attr("width", '100%').attr("height", height - 1);
     var force = d3.layout.force().charge(power).linkDistance(distance).size([width, height]);
 

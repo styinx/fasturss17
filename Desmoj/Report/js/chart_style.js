@@ -9,9 +9,9 @@
     (function(Highcharts) {
 
         Highcharts.theme = {
-            colors: ['#0077CC', '#DDDD00', '#CC00CC', '#009900', '#AA0000', '#00CCCC', '#DDDDDD',
+            /*colors: ['#0077CC', '#DDDD00', '#CC00CC', '#009900', '#AA0000', '#00CCCC', '#DDDDDD',
                 '#FF0000', '#00FF00', '#0000FF', '#FFFFFF'
-            ],
+            ],*/
             chart: {
                 backgroundColor: null,
                 style: {

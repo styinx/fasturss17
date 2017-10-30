@@ -8,8 +8,13 @@ body
 {
 	margin: 0px;
 	padding: 0px;
-	background: rgba(200, 200, 200, 50);
+	background: white;
+	/*background: rgba(200, 200, 200, 50);*/
 }
+
+/*
+ * Graph
+ */
 
 #info
 {
@@ -34,12 +39,20 @@ body
     height: 100%;
 }
 
+/*
+ * Chart
+ */
+
+div.chartbar
+{
+    position: fixed;
+}
+
 #chart-container
 {
     position: absolute;
     top: 100%;
     width: 100%;
-    background: rgba(200, 200, 200, 50);
 }
 
 #chart-container div

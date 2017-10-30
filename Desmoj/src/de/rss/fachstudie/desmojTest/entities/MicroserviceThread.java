@@ -1,9 +1,12 @@
 package de.rss.fachstudie.desmojTest.entities;
 
+import de.rss.fachstudie.desmojTest.modellingFeatures.CustomResource;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeInstant;
+
+import java.util.Vector;
 
 /**
  * A MicroserviceThread describes a part of a microservice instance.
@@ -47,5 +50,10 @@ public class MicroserviceThread extends Entity {
 
     public void setCreationTime(TimeInstant creation) {
         this.creationTime = creation;
+    }
+
+    public Vector<CustomResource> getUsedResources() {
+        // TODO: implement
+        return null;
     }
 }
