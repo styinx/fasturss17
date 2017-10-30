@@ -23,5 +23,12 @@
 \BOOKMARK [2][-]{subsection.1.4.2}{4.2 StartMicroserviceEvent}{section.1.4}% 23
 \BOOKMARK [2][-]{subsection.1.4.3}{4.3 StopMicroserviceEvent}{section.1.4}% 24
 \BOOKMARK [2][-]{subsection.1.4.4}{4.4 Entities}{section.1.4}% 25
-\BOOKMARK [1][-]{section.1.5}{5 Simulatordocumentation}{chapter.1}% 26
-\BOOKMARK [1][-]{section.1.6}{6 Conclusions}{chapter.1}% 27
+\BOOKMARK [1][-]{section.1.5}{5 Input - The JSON File}{chapter.1}% 26
+\BOOKMARK [2][-]{subsection.1.5.1}{5.1 Micro Service Input}{section.1.5}% 27
+\BOOKMARK [3][-]{section*.10}{Micro Service}{subsection.1.5.1}% 28
+\BOOKMARK [3][-]{section*.11}{Operations}{subsection.1.5.1}% 29
+\BOOKMARK [3][-]{section*.12}{Dependencies}{subsection.1.5.1}% 30
+\BOOKMARK [2][-]{subsection.1.5.2}{5.2 Exmaple}{section.1.5}% 31
+\BOOKMARK [2][-]{subsection.1.5.3}{5.3 System Meta Data Input}{section.1.5}% 32
+\BOOKMARK [1][-]{section.1.6}{6 Simulatordocumentation}{chapter.1}% 33
+\BOOKMARK [1][-]{section.1.7}{7 Conclusions}{chapter.1}% 34

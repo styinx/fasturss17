@@ -444,6 +444,159 @@ A StopMicroserviceEvent is called after work has been done in a micro service. C
 
 \subsection{Entities}
 The name already says it but for clarification all classes located in entities are only holding data and don't contain program logic. Message objects that are a entity represent "work". Message objects know the way they where traversing through the simulated system and therefore can be passed backwards after all operations are done on which they where used.
+
+\section{Input - The JSON File}
+This section explains how an correct input file works. For this purpose one micro service of a micro service architecture  is shown in figure \ref{fig:FinalInputMicroServices} and explained. In figure \ref{fig:FinalInputSystemInformation} it is explained how other meta experiment information such as chaos monkeys or system simulation time are inserted into the simulator.
+
+\subsection{Micro Service Input}
+All line references in this subsection reference figure \ref{fig:FinalInputMicroServices}.
+\subsubsection{Micro Service}
+All micro services are written into an array. The key value for this array is called "microservices" (Line 2-3). 
+Each micro service contains four fields. 
+\begin{itemize}
+\item
+The field "name" (line 5) states the name of the current micro service as a String. The name of a micro service is relevant because it is used as a reference in dependencies for operation targets. 
+\item
+The field "instances" (line 6) displays how many instances of a the current micro service are simulated. The here required value is an Integer.
+\item 
+"CPU" requires one Integer. (line 7) The inserted value states how many mega hertz (Mhz) a single instance of this current micro service has to distribute to its own operations.  
+\item 
+"operations" (line 8) is the key value for an array of operations that this micro service has to possibly work on. Each object in this array contains multiple values that are explained in the following subsection. 
+\end{itemize}
+
+
+\subsubsection{Operations}  
+\begin{itemize}
+\item "name" (line 11) field requires a String value as name of the current operation. The name of a operation is important because it is used as a reference in dependencies for operation targets.
+\item 
+"pattern" (line 12) requires a String to state the resilience pattern that the current micro service uses. (MAY CHANGE IN THE FUTURE) 
+\item "duration" (line 13) requires an Integer value that states how long this operation needs to run from start to finish. The time unit used is seconds and can not be changed. The minimum time unit is one second. 
+\item 
+"CPU" (line 14) states how much CPU this operation requires. Like the value in micro service this requires an Integer and is represented in mega hertz (Mhz). 
+\item "depencencies" (line 15) is the key value for an array. This array contains operations (in other or the same micro service) that are executed after the current operation is finished. The array can be left empty if there are no following calls after an operation is finished. Each dependency is an object containing three values that are explained in the following subsection.
+\end{itemize}
+
+\subsubsection{Dependencies} 
+\begin{itemize}
+\item
+"name" (line 18) requires a String. It is the name of the operation which is going to be executed.
+\item 
+"service" (line 19) requires the name of an specified micro service. The String points towards an micro service that contains the operation named above. 
+\item "probability" (line 20) requires an Double value that between 0.0 and 1.0. The Double value states a percentage chance on which the named operation is called. The probability is rolled against an random value based on the "seed" given for this experiment. This means that the experiment is deterministic for the same set of values and seed.  
+
+\subsection{System Meta Data Input}
+
+
+\subsection{Exmaple} The operation "register" in micro service "Gateway" is called. For the next 4 time units a single thread of one instance of the micro service Gateway works on an "register" operation. This operation takes 300 Mhz of available CPU form the current instance. After the operation has finished the seed roles a value between 0 and 1 end evaluates whether the dependent operation "save" in micro service "Authentication" is going to be started. 
+\end{itemize}
+
+
+
+
+\begin{figure}
+\begin{lstlisting}[style=JSON]
+{
+  "simulation":
+  {
+    "experiment" : "Desmoj_Microservice_Experiment",
+    "model" : "Simple microservice model",
+    "duration" : 50,
+    "datapoints" : 50,
+    "seed" : 2298
+  },
+  "microservices" :
+  [ 
+.......
+.......
+.......
+.......
+.......
+.......
+.......
+  ],
+ "generators" :
+   [
+     {
+       "time" : 1,
+       "microservice" : "Gateway",
+       "operation" : "update"
+     },
+     {
+       "time" : 50,
+       "microservice" : "Backup",
+       "operation" : "register"
+     }
+   ],
+   "chaosmonkeys" :
+   [
+     {
+       "time" : 1000,
+       "microservice" : "Database",
+       "instances" : 1
+     },
+     {
+       "time" : 1000,
+       "microservice" : "Gateway",
+       "instances" : 1
+     }
+   ]
+}\end{lstlisting}
+	\caption{Final Input Structure: Meta Information about the System }
+	\label{fig:FinalInputSystemInformation}
+\end{figure}
+
+\begin{figure}
+\begin{lstlisting}[style=JSON]
+
+  "microservices" :
+  [
+    {
+      "name" : "Gateway",
+      "instances" : 10,
+      "CPU" : 3500,
+      "operations" :
+      [
+        {
+          "name" : "register",
+          "pattern" : "Circuit Breaker",
+          "duration" : 4,
+          "CPU" : 300,
+          "dependencies" :
+          [
+            {
+              "name" : "save",
+              "service" : "Authentication",
+              "probability" : 0.7
+            }
+          ]
+        },
+        {
+          "name" : "update",
+          "pattern" : "Circuit Breaker",
+          "duration" : 1,
+          "CPU" : 800,
+          "dependencies" : 
+          [
+            {
+              "name" : "save",
+              "service" : "Order",
+              "probability" : 0.8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Authentication",
+      "instances" : 5,
+      "CPU" : 3500,
+      "operations" : ......
+}\end{lstlisting}
+	\caption{Final Input structure: The above JSON is the final input structure which represents the microservice architecture in the simulation.}
+	\label{fig:FinalInputMicroServices}
+\end{figure}
+
+
 \begin{center}
 --------------------------------------\newline
 
