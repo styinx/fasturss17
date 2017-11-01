@@ -118,11 +118,11 @@ public class MainModelClass extends Model {
      * @return
      */
     public MicroserviceEntity getServiceEntity(int id) {
-        double min = Double.POSITIVE_INFINITY;
+        double min = Double.NEGATIVE_INFINITY;
         int instance = 0;
         for(int i = 0; i < idleQueues.get(id).size(); ++i) {
             if(!idleQueues.get(id).get(i).isKilled()) {
-                if(serviceCPU.get(id).get(i) <= min) {
+                if(serviceCPU.get(id).get(i) > min) {
                     min = serviceCPU.get(id).get(i);
                     instance = i;
                 }
@@ -271,7 +271,7 @@ public class MainModelClass extends Model {
 
     public static void main(String[] args) {
 
-        InputParser parser = new InputParser("example_basic.json");
+        InputParser parser = new InputParser("example_simple.json");
         InputValidator validator = new InputValidator();
 
         if(validator.valideInput(parser)){
