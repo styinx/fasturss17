@@ -3,13 +3,14 @@ package de.rss.fachstudie.desmojTest.export;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class DataChart {
     private String chartId = "";
-    private HashMap<String, Double[]> series;
+    private TreeMap<String, Double[]> series;
     private String options = "";
 
-    public DataChart(String chartId, HashMap<String, Double[]> series) {
+    public DataChart(String chartId, TreeMap<String, Double[]> series) {
         this.chartId = chartId;
         this.series = series;
         this.options =
@@ -17,15 +18,18 @@ public class DataChart {
                 "legend : {enabled: true}," +
                 "series : " +
                 "[";
+        int index = 0;
         for(String key : series.keySet()) {
             options +=
                     "{" +
                         "name : '" + key + "'," +
+                        "index : " + index + "," +
                         "data : [";
             for(Double value : series.get(key)) {
                 options += value.toString() + ", ";
             }
             options = options.substring(0, options.length() - 1) + "]},";
+            index++;
         }
         if(series.keySet().size() > 0)
             options = options.substring(0, options.length() - 1) + "]";

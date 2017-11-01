@@ -3,6 +3,7 @@ package de.rss.fachstudie.desmojTest.export;
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.TimeInstant;
+import sun.reflect.generics.tree.Tree;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class ExportReport {
     private MainModelClass model;
@@ -36,9 +38,9 @@ public class ExportReport {
     }
 
     private void chartReport() {
-        HashMap<String, Double[]> activeInstances = new HashMap<>();
-        HashMap<String, Double[]> usedCPU = new HashMap<>();
-        HashMap<String, Double[]> responseTime = new HashMap<>();
+        TreeMap<String, Double[]> activeInstances = new TreeMap<>();
+        TreeMap<String, Double[]> usedCPU = new TreeMap<>();
+        TreeMap<String, Double[]> responseTime = new TreeMap<>();
 
         for(int id = 0; id < model.idleQueues.size(); id++) {
             for(int instance = 0; instance < model.idleQueues.get(id).get(0).getInstances(); instance++) {

@@ -32,6 +32,7 @@ public class ChaosMonkeyEvent extends ExternalEvent {
                 if(!msEntity.isKilled()) {
                     msEntity.setKilled(true);
                     msEntity.setThreads(new Queue<MicroserviceThread>(model, "", false, false));
+                    model.serviceCPU.get(msEntity.getId()).put(msEntity.getSid(), msEntity.getCPU());
                     this.instances -= 1;
                     break;
                 }
