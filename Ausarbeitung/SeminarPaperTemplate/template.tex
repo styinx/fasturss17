@@ -517,7 +517,7 @@ The field "instances" (line 6) displays how many instances of a the current micr
 \subsubsection{Dependencies} 
 \begin{itemize}
 \item
-"name" (line 18) requires a String. It is the name of the operation which is going to be executed.
+"operation" (line 18) requires a String. It is the name of the operation which is going to be executed.
 \item 
 "service" (line 19) requires the name of an specified micro service. The String points towards an micro service that contains the operation named above. 
 \item "probability" (line 20) requires an Double value that between 0.0 and 1.0. The Double value states a percentage chance on which the named operation is called. The probability is rolled against an random value based on the "seed" given for this experiment. This means that the experiment is deterministic for the same set of values and seed.  
