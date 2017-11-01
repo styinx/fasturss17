@@ -108,9 +108,6 @@ public class InputValidator {
                                 //run over all operations in target micro service
 
                                 for(int j = 0; j < parser.microservices[i].getOperations().length; j ++){
-                                    System.out.println(parser.microservices[i].getName() + " wasd");
-                                    System.out.println(parser.microservices[i].getOperations()[j].getName() + " wasd");
-                                    System.out.println(tempOperationName);
                                     if(tempOperationName.equals(parser.microservices[i].getOperations()[j].getName())){
                                         break loop;
                                     } else {
