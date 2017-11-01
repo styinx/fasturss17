@@ -96,7 +96,7 @@ public class InputValidator {
                     //get targeted micro service
                     String tempMicroserviceName = parser.microservices[microService].getOperations()[operation].getDependencies()[dependencie].get("service");
                     //get targeted operation name
-                    String tempOperationName = parser.microservices[microService].getOperations()[operation].getDependencies()[dependencie].get("name");
+                    String tempOperationName = parser.microservices[microService].getOperations()[operation].getDependencies()[dependencie].get("operation");
 
                     if(microserviceNames.contains(tempMicroserviceName)){
                         //Named Microservice has been found now check for operation in named microservice
@@ -106,7 +106,11 @@ public class InputValidator {
                             //found micro service with name equal to target micro service
                             if(tempMicroserviceName.equals(parser.microservices[i].getName())){
                                 //run over all operations in target micro service
+
                                 for(int j = 0; j < parser.microservices[i].getOperations().length; j ++){
+                                    System.out.println(parser.microservices[i].getName() + " wasd");
+                                    System.out.println(parser.microservices[i].getOperations()[j].getName() + " wasd");
+                                    System.out.println(tempOperationName);
                                     if(tempOperationName.equals(parser.microservices[i].getOperations()[j].getName())){
                                         break loop;
                                     } else {
