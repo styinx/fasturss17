@@ -190,7 +190,7 @@
     {
       "time" : 50,
       "microservice" : "Backup",
-      "operation" : "register"
+      "operation" : "update"
     }
   ],
   "chaosmonkeys" :
