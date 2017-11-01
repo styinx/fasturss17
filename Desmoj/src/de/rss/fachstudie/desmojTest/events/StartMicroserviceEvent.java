@@ -40,7 +40,6 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
         }
 
         if(availServices){
-
             model.taskQueues.get(id).remove(messageObject);
             // The service with most available resources gets returned
             MicroserviceEntity msEntity = model.getServiceEntity(id);
@@ -88,7 +87,6 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                                     model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) - op.getCPU());
                                 } else {
                                     // Not enough resources, try it later
-                                    // TODO: try it later or kick out???
                                     schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
                                 }
                                 MicroserviceThread thread = new MicroserviceThread(model, "", false);
@@ -105,7 +103,6 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                         } else {
 
                             // Not enough resources, try it later
-                            // TODO: try it later or kick out???
                             schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
                         }
                         MicroserviceThread thread = new MicroserviceThread(model, "", false);

@@ -9,9 +9,9 @@
     (function(Highcharts) {
 
         Highcharts.theme = {
-            /*colors: ['#0077CC', '#DDDD00', '#CC00CC', '#009900', '#AA0000', '#00CCCC', '#DDDDDD',
-                '#FF0000', '#00FF00', '#0000FF', '#FFFFFF'
-            ],*/
+            colors: ['#0077CC', '#DDDD00', '#CC00CC', '#009900', '#AA0000', '#00CCCC', '#000000',
+                '#FF0000', '#00FF00', '#0000FF', '#FFFFFF', '#0099FF'
+            ],
             chart: {
                 backgroundColor: null,
                 style: {
@@ -57,10 +57,10 @@
                 itemStyle: {
                     fontWeight: 'bold',
                     fontSize: '13px',
-                    color: 'rgba(50,50,50,0.8)'
+                    color: 'rgba(0,0,0,0.8)'
                 },
                 itemHoverStyle: {
-                    color: 'rgba(250,250,250,0.8)'
+                    color: 'rgba(0,150,0,0.8)'
                 },
                 layout: 'vertical',
                 align: 'right',

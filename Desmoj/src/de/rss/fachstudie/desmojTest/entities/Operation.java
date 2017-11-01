@@ -25,7 +25,7 @@ public class Operation extends Entity {
     private MainModelClass model;
     private String name = "";
     private String service = "";
-    private String[] patterns;
+    private String[] patterns = {};
     private double duration = 0;
     private int CPU = 0;
     private double probability = 0;
