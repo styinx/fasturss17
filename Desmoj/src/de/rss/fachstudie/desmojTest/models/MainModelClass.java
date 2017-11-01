@@ -7,10 +7,11 @@ import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.events.StatisticCollectorEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
+import de.rss.fachstudie.desmojTest.modellingFeatures.CustomResourceDB;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
 import de.rss.fachstudie.desmojTest.utils.InputValidator;
 import desmoj.core.simulator.*;
-import desmoj.core.statistic.*;
+import desmoj.core.statistic.TimeSeries;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -37,6 +38,7 @@ public class MainModelClass extends Model {
     // Resources
     public HashMap<Integer, HashMap<Integer, Integer>> serviceCPU;
     //public HashMap<Integer, HashMap<Integer, Res>> serviceCPU;
+    private CustomResourceDB resourceDB;
 
     // Statistics
     public HashMap<Integer, HashMap<Integer, TimeSeries>> cpuStatistics;
@@ -89,6 +91,10 @@ public class MainModelClass extends Model {
 
     public void setShowMonkeyEvent(boolean showMonkeyEvent) {
         this.showMonkeyEvent = showMonkeyEvent;
+    }
+
+    public CustomResourceDB getResourceDB() {
+        return this.resourceDB;
     }
 
     /**
@@ -182,6 +188,9 @@ public class MainModelClass extends Model {
         // Globals
         simulationTime = Double.parseDouble(InputParser.simulation.get("duration"));
         datapoints = Integer.parseInt(InputParser.simulation.get("datapoints"));
+
+        // Resources
+        resourceDB = new CustomResourceDB(this);
 
         // Queues
         allMicroservices    = new HashMap<>();
