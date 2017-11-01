@@ -254,8 +254,9 @@ public class MainModelClass extends Model {
 
     public static void main(String[] args) {
 
-        InputParser parser = new InputParser("example_advanced.json");
+        InputParser parser = new InputParser("example_basic.json");
         InputValidator validator = new InputValidator();
+
         if(validator.valideInput(parser)){
             MainModelClass model = new MainModelClass(null, InputParser.simulation.get("model"), true, true);
             Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
@@ -271,7 +272,6 @@ public class MainModelClass extends Model {
 
             exp.report();
             exp.finish();
-            System.out.println(InputParser.simulation);
 
             ExportReport exportReport = new ExportReport(model);
         } else {
