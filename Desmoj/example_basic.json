@@ -17,7 +17,7 @@
       [
         {
           "name" : "register",
-          "pattern" : "Circuit Breaker",
+          "patterns" : ["Circuit Breaker"],
           "duration" : 4,
           "CPU" : 300,
           "dependencies" :
@@ -31,7 +31,7 @@
         },
         {
           "name" : "update",
-          "pattern" : "Circuit Breaker",
+          "patterns" : ["Circuit Breaker"],
           "duration" : 1,
           "CPU" : 800,
           "dependencies" : 
