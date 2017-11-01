@@ -40,12 +40,15 @@ public class ExportReport {
         HashMap<String, Double[]> usedCPU = new HashMap<>();
         HashMap<String, Double[]> responseTime = new HashMap<>();
 
-        for(int i = 0; i < model.allMicroservices.size(); i++) {
-            MicroserviceEntity ms = model.allMicroservices.get(i);
-            for(int j = 0; j < ms.getInstances(); j++) {
-                activeInstances.put(ms.getName() + " #" + j, this.getTimeSeries("Report/resources/Threads_" + ms.getName() + "_" + j + ".txt"));
-                usedCPU.put(ms.getName() + " #" + j, this.getTimeSeries("Report/resources/CPU_" + ms.getName() + "_" + j + ".txt"));
-                responseTime.put(ms.getName() + " #" + j, this.getResponsTime(model.idleQueues.get(i).get(j).getResponseTime()));
+        for(int id = 0; id < model.idleQueues.size(); id++) {
+            for(int instance = 0; instance < model.idleQueues.get(id).get(0).getInstances(); instance++) {
+                MicroserviceEntity ms = model.idleQueues.get(id).get(instance);
+                activeInstances.put(ms.getName() + " #" + instance,
+                        this.getTimeSeries("Report/resources/Threads_" + ms.getName() + "_" + instance + ".txt"));
+                usedCPU.put(ms.getName() + " #" + instance,
+                        this.getTimeSeries("Report/resources/CPU_" + ms.getName() + "_" + instance + ".txt"));
+                responseTime.put(ms.getName() + " #" + instance,
+                        this.getResponsTime(ms.getResponseTime()));
             }
         }
 

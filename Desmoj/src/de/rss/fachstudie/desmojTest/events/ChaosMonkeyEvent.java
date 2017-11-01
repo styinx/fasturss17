@@ -1,9 +1,12 @@
 package de.rss.fachstudie.desmojTest.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
+import de.rss.fachstudie.desmojTest.entities.MicroserviceThread;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
+import desmoj.core.simulator.Queue;
 import desmoj.core.simulator.TimeSpan;
 
 public class ChaosMonkeyEvent extends ExternalEvent {
@@ -24,8 +27,14 @@ public class ChaosMonkeyEvent extends ExternalEvent {
     public void eventRoutine() throws SuspendExecution {
 
         for(int i = 0; i < instances; ++i) {
-            if(model.idleQueues.get(msId).removeFirst() != null) {
-                this.instances -= 1;
+            for(MicroserviceEntity msEntity : model.idleQueues.get(msId))
+            {
+                if(!msEntity.isKilled()) {
+                    msEntity.setKilled(true);
+                    msEntity.setThreads(new Queue<MicroserviceThread>(model, "", false, false));
+                    this.instances -= 1;
+                    break;
+                }
             }
         }
 

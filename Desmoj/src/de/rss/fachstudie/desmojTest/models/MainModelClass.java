@@ -2,6 +2,7 @@ package de.rss.fachstudie.desmojTest.models;
 
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
+import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
 import de.rss.fachstudie.desmojTest.events.StatisticCollectorEvent;
@@ -114,9 +115,11 @@ public class MainModelClass extends Model {
         double min = Double.POSITIVE_INFINITY;
         int instance = 0;
         for(int i = 0; i < idleQueues.get(id).size(); ++i) {
-            if(serviceCPU.get(id).get(i) <= min) {
-                min = serviceCPU.get(id).get(i);
-                instance = i;
+            if(!idleQueues.get(id).get(i).isKilled()) {
+                if(serviceCPU.get(id).get(i) <= min) {
+                    min = serviceCPU.get(id).get(i);
+                    instance = i;
+                }
             }
         }
         return idleQueues.get(id).get(instance);
@@ -210,8 +213,13 @@ public class MainModelClass extends Model {
             HashMap<Integer, TimeSeries> threadStats = new HashMap<>();
             HashMap<Integer, TimeSeries> cpuStats = new HashMap<>();
 
-            //Queue for maxQueue returns refuse and should be used to turn Circuit breakers of with using a waiting queue 1 ( 0 for int max value)
-            //Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[id].getName(), QueueBased.FIFO , 1, true , true);
+            for(Operation op : microservices[ id].getOperations()) {
+                for(String pattern : op.getPatterns()) {
+                    if(pattern.equals("Circuit Breaker")) {
+                        taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[id].getName(), QueueBased.FIFO, 1, true, true);
+                    }
+                }
+            }
 
             for(int instance = 0; instance < microservices[id].getInstances(); instance++){
                 MicroserviceEntity msEntity = new MicroserviceEntity(this , microservices[id].getName(), true );

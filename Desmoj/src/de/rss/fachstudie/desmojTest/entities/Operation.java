@@ -25,7 +25,7 @@ public class Operation extends Entity {
     private MainModelClass model;
     private String name = "";
     private String service = "";
-    private String pattern = "";
+    private String[] patterns;
     private double duration = 0;
     private int CPU = 0;
     private double probability = 0;
@@ -53,12 +53,12 @@ public class Operation extends Entity {
         this.service = service;
     }
 
-    public String getPattern() {
-        return pattern;
+    public String[] getPatterns() {
+        return patterns;
     }
 
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
+    public void setPatterns(String[] patterns) {
+        this.patterns = patterns;
     }
 
     public SortedMap<String, String>[] getDependencies() {

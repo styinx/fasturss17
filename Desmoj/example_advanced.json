@@ -58,7 +58,7 @@
       [
         {
           "name" : "updateRequest",
-          "pattern" : "Circuit Breaker",
+          "patterns" : ["Circuit Breaker"],
           "duration" : 2,
           "CPU" : 350,
           "dependencies" :
@@ -72,7 +72,7 @@
         },
         {
           "name" : "pullMessage",
-          "pattern" : "Circuit Breaker",
+          "patterns" : ["Circuit Breaker"],
           "duration" : 3,
           "CPU" : 200,
           "dependencies" : 
@@ -94,7 +94,7 @@
       [
         {
           "name" : "save",
-          "pattern" : "Circuit Breaker",
+          "patterns" : ["Circuit Breaker"],
           "duration" : 2,
           "CPU" : 400,
           "dependencies" :
@@ -108,7 +108,7 @@
         },
         {
           "name" : "sendMessage",
-          "pattern" : "Circuit Breaker",
+          "patterns" : ["Circuit Breaker"],
           "duration" : 1,
           "CPU" : 300,
           "dependencies" : 
@@ -126,7 +126,7 @@
       [
         {
           "name" : "update",
-          "pattern" : "Circuit Breaker",
+          "patterns" : ["Circuit Breaker"],
           "duration" : 2,
           "CPU" : 800,
           "dependencies" :
@@ -203,8 +203,8 @@
   "chaosmonkeys" :
   [
     {
-      "time" : 10,
-      "microservice" : "Database",
+      "time" : 1,
+      "microservice" : "Login",
       "instances" : 2
     }
   ]

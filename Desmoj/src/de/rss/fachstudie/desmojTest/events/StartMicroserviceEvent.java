@@ -30,7 +30,16 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
     public void eventRoutine(MessageObject messageObject) throws SuspendExecution {
         model.taskQueues.get(id).insert(messageObject);
 
-        if(!model.idleQueues.get(id).isEmpty()){
+        boolean availServices = false;
+
+        for(MicroserviceEntity m : model.idleQueues.get(id)) {
+            if(!m.isKilled()) {
+                availServices = true;
+                break;
+            }
+        }
+
+        if(availServices){
 
             model.taskQueues.get(id).remove(messageObject);
             // The service with most available resources gets returned
