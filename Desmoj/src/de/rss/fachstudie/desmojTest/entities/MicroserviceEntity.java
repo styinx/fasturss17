@@ -19,10 +19,10 @@ import java.util.HashMap;
  */
 public class MicroserviceEntity extends Entity{
     private MainModelClass model;
+    private boolean killed = false;
     private int id;
     private int sid;
     private String name = "";
-    private String[] patterns;
     private int CPU = 0;
     private int instances = 0;
     private Queue<MicroserviceThread> threads;
@@ -38,6 +38,14 @@ public class MicroserviceEntity extends Entity{
         for(int i = 0; i < model.getDatapoints(); ++i) {
             responseTime.put(i, 0.0);
         }
+    }
+
+    public boolean isKilled() {
+        return killed;
+    }
+
+    public void setKilled(boolean killed) {
+        this.killed = killed;
     }
 
     public int getId() {
@@ -62,14 +70,6 @@ public class MicroserviceEntity extends Entity{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String[] getPatterns() {
-        return patterns;
-    }
-
-    public void setPatterns(String[] patterns) {
-        this.patterns = patterns;
     }
 
     public int getCPU() {
