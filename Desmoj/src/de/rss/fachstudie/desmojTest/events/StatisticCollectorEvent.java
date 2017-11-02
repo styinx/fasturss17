@@ -25,9 +25,10 @@ public class StatisticCollectorEvent extends ExternalEvent {
         for(int id = 0; id < model.idleQueues.size(); ++id) {
             for(int instance = 0; instance < model.idleQueues.get(id).size(); ++instance) {
                 MicroserviceEntity entity = model.idleQueues.get(id).get(instance);
-                model.cpuStatistics.get(id).get(instance).update(model.idleQueues.get(id).get(instance).getCPU() - model.serviceCPU.get(id).get(instance));
                 model.threadStatistics.get(id).get(instance).update(entity.getThreads().size());
+                model.cpuStatistics.get(id).get(instance).update(model.idleQueues.get(id).get(instance).getCPU() - model.serviceCPU.get(id).get(instance));
             }
+            model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
         }
         schedule(new TimeSpan(model.getSimulationTime() / model.getDatapoints(), model.getTimeUnit()));
     }

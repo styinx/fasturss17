@@ -53,9 +53,31 @@ div.chartbar
     position: absolute;
     top: 100%;
     width: 100%;
+    text-align: center;
 }
 
 #chart-container div
 {
     max-width: 100%;
+}
+
+#chart-container button
+{
+    min-width: 100px;
+    min-height: 30px;
+    border: 1px solid #555555;
+    border-radius: 3px;
+    outline: 0;
+    color: black;
+    background: linear-gradient(rgba(255, 255, 255, 255), rgba(200, 200, 200, 255));
+}
+
+#chart-container button:hover
+{
+    background: linear-gradient(rgba(200, 200, 200, 255), rgba(255, 255, 255, 255));
+}
+
+#chart-container button:active
+{
+    border: 1px solid green;
 }

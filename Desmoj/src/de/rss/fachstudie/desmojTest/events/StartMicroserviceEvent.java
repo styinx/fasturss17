@@ -38,8 +38,6 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             }
         }
 
-        System.out.println(hasCircuitBreaker);
-
         if(!hasCircuitBreaker || model.taskQueues.get(id).size() <= 1) {
 
             model.taskQueues.get(id).insert(messageObject);
