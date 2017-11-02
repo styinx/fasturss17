@@ -16,6 +16,7 @@ public class DataChart {
         this.options =
                 "title : { text : '" + chartId + "'}," +
                 "legend : {enabled: true}," +
+                "colors : colors(" + series.keySet().size() + ")," +
                 "series : " +
                 "[";
         int index = 0;

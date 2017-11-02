@@ -1,4 +1,31 @@
 'use strict';
+function pad(s, size)
+{
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
+function colors(count)
+{
+    var fallback = ['#0077CC', '#DDDD00', '#CC00CC', '#009900', '#AA0000', '#00CCCC',
+                    '#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFFFF', '#0099FF'];
+    var cols = [];
+    var from = 0xFF0000;
+    var to = 0x00FF00;
+    if(from > to)
+    {
+        to = [from, from = to][0];
+    }
+    var step = Math.round((to - from)/count);
+
+    for(var x = from; x < to; x += step)
+    {
+        var color = pad(x.toString(16), 6);
+        cols.push("#" + color);
+    }
+    return cols;
+}
+
 (function(factory) {
     if (typeof module === 'object' && module.exports) {
         module.exports = factory;
@@ -9,9 +36,6 @@
     (function(Highcharts) {
 
         Highcharts.theme = {
-            colors: ['#0077CC', '#DDDD00', '#CC00CC', '#009900', '#AA0000', '#00CCCC', '#000000',
-                '#FF0000', '#00FF00', '#0000FF', '#FFFFFF', '#0099FF'
-            ],
             chart: {
                 backgroundColor: null,
                 style: {

@@ -100,6 +100,15 @@ public class MicroserviceEntity extends Entity{
         return operations;
     }
 
+    public Operation getOperation(String name) {
+        for(Operation o : operations) {
+            if(o.getName().equals(name)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
     public void setOperations(Operation[] operations) {
         this.operations = operations;
     }
