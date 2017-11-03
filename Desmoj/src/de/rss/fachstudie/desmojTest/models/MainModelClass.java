@@ -41,8 +41,9 @@ public class MainModelClass extends Model {
     private CustomResourceDB resourceDB;
 
     // Statistics
-    public HashMap<Integer, HashMap<Integer, TimeSeries>> cpuStatistics;
     public HashMap<Integer, HashMap<Integer, TimeSeries>> threadStatistics;
+    public HashMap<Integer, HashMap<Integer, TimeSeries>> cpuStatistics;
+    public HashMap<Integer, TimeSeries> taskQueueStatistics;
     //public HashMap<Integer, HashMap<Integer, TimeSeries>> threadTime;
 
     public double getSimulationTime() {
@@ -203,6 +204,7 @@ public class MainModelClass extends Model {
         // Statistics
         threadStatistics    = new HashMap<>();
         cpuStatistics       = new HashMap<>();
+        taskQueueStatistics = new HashMap<>();
 
         // Load JSON
         MicroserviceEntity[] microservices = InputParser.microservices;
@@ -221,6 +223,10 @@ public class MainModelClass extends Model {
             // Statistics
             HashMap<Integer, TimeSeries> threadStats = new HashMap<>();
             HashMap<Integer, TimeSeries> cpuStats = new HashMap<>();
+            TimeSeries taskQueueWork = new TimeSeries(this, "Task Queue: " + serviceName,
+                    "Report/resources/TaskQueue_" + serviceName + ".txt",
+                    new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), true, false);
+
 
             for(Operation op : microservices[ id].getOperations()) {
                 for(String pattern : op.getPatterns()) {
@@ -266,6 +272,7 @@ public class MainModelClass extends Model {
             // Statistics
             threadStatistics.put(id, threadStats);
             cpuStatistics.put(id, cpuStats);
+            taskQueueStatistics.put(id, taskQueueWork);
         }
     }
 
