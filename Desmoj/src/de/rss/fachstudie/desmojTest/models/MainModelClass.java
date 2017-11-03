@@ -119,17 +119,17 @@ public class MainModelClass extends Model {
      * @return
      */
     public MicroserviceEntity getServiceEntity(int id) {
-        double min = Double.NEGATIVE_INFINITY;
-        int instance = 0;
-        for(int i = 0; i < idleQueues.get(id).size(); ++i) {
-            if(!idleQueues.get(id).get(i).isKilled()) {
-                if(serviceCPU.get(id).get(i) > min) {
-                    min = serviceCPU.get(id).get(i);
-                    instance = i;
+        double min = Double.POSITIVE_INFINITY;
+        int i = 0;
+        for(int instance = 0; instance < idleQueues.get(id).size(); ++instance) {
+            if(!idleQueues.get(id).get(instance).isKilled()) {
+                if(idleQueues.get(id).get(instance).getThreads().size() < min) {
+                    min = idleQueues.get(id).get(instance).getThreads().size();
+                    i = instance;
                 }
             }
         }
-        return idleQueues.get(id).get(instance);
+        return idleQueues.get(id).get(i);
     }
 
     /**
