@@ -20,11 +20,11 @@ public class DataChart {
                         "[";
         int index = 0;
         for(String key : series.keySet()) {
-            options +=
-                    "{" +
-                            "name : '" + key + "', " +
-                            "index : " + index + ", " +
-                            "data : [";
+            options += "{"
+                    + "name : '" + key + "', "
+                    + "index : " + index + ", "
+                    + "data : [ ";
+
             for(Double value : series.get(key)) {
                 options += value.toString() + ", ";
             }
@@ -45,13 +45,14 @@ public class DataChart {
                         "xAxis: {max:" + model.getSimulationTime() + "}, " +
                         "colors : colors(" + series.keySet().size() + "), " +
                         "series : " +
-                        "[";
+                        "[ ";
         int index = 0;
         for(String key : series.keySet()) {
-            options += "{" +
-                    "name : '" + key + "', " +
-                    "index : " + index + ", " +
-                    "data : [";
+            options += "{"
+                    + "name : '" + key + "', "
+                    + "index : " + index + ", "
+                    + "data : [ ";
+
             TreeMap<Integer, Double> map = series.get(key);
             for(Integer mapKey : map.keySet()) {
                 options += "[" + mapKey + ", " + map.get(mapKey) + "], ";

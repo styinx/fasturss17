@@ -58,7 +58,7 @@ public class StartEvent extends Event<MessageObject> {
             }
         }
 
-        if(!hasCircuitBreaker || model.taskQueues.get(id).size() <= 1) {
+        if(!hasCircuitBreaker || model.taskQueues.get(id).size() <= model.services.get(id).size()) {
 
             model.taskQueues.get(id).insert(messageObject);
 

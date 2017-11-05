@@ -39,7 +39,7 @@ public class ExportReport {
     private void chartReport() {
         TreeMap<String, TreeMap<Integer, Double>> activeInstances = new TreeMap<>();
         TreeMap<String, TreeMap<Integer, Double>> usedCPU = new TreeMap<>();
-        TreeMap<String, Double[]> responseTime = new TreeMap<>();
+        TreeMap<String, TreeMap<Integer, Double>> responseTime = new TreeMap<>();
         TreeMap<String, TreeMap<Integer, Double>> taskQueueWork = new TreeMap<>();
 
         for(int id = 0; id < model.services.size(); id++) {
@@ -51,14 +51,15 @@ public class ExportReport {
                         this.getTimeSeriesWithKeys(resourcePath + "Threads_" + ms.getName() + "_" + instance + ".txt"));
                 usedCPU.put(ms.getName() + " #" + instance,
                         this.getTimeSeriesWithKeys(resourcePath + "CPU_" + ms.getName() + "_" + instance + ".txt"));
-                responseTime.put(ms.getName() + " #" + instance, this.getResponsTime(ms.getResponseTime()));
+                responseTime.put(ms.getName() + " #" + instance,
+                        this.getTimeSeriesWithKeys(resourcePath + "ResponseTime_" + ms.getName() + "_" + instance + ".txt"));
             }
             taskQueueWork.put(serviceName, this.getTimeSeriesWithKeys(resourcePath + "TaskQueue_" + serviceName + ".txt"));
         }
 
         DataChart chart1 = new DataChart(model, "Active Microservice Threads", activeInstances);
         DataChart chart2 = new DataChart(model, "Used CPU in percent", usedCPU);
-        DataChart chart3 = new DataChart(model, "Thread Response Time", responseTime, true);
+        DataChart chart3 = new DataChart(model, "Thread Response Time", responseTime);
         DataChart chart4 = new DataChart(model, "Task Queue per Service", taskQueueWork);
 
         String divs = chart1.printDiv()

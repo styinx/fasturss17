@@ -27,17 +27,12 @@ public class Microservice extends Entity{
     private int instances = 0;
     private Queue<Thread> threads;
     private Operation[] operations;
-    private HashMap<Integer, Double> responseTime;
 
     public Microservice(Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
 
         this.model = (MainModelClass) owner;
         threads = new Queue<>(model, "Thread Queue " + name + " #" + sid, true, true);
-        responseTime = new HashMap<>();
-        for(int i = 0; i < model.getDatapoints(); ++i) {
-            responseTime.put(i, 0.0);
-        }
     }
 
     public boolean isKilled() {
@@ -111,13 +106,5 @@ public class Microservice extends Entity{
 
     public void setOperations(Operation[] operations) {
         this.operations = operations;
-    }
-
-    public void addResponseTime(Double startTime) {
-        responseTime.put(startTime.intValue(), model.presentTime().getTimeAsDouble() - startTime);
-    }
-
-    public HashMap<Integer, Double> getResponseTime() {
-        return responseTime;
     }
 }

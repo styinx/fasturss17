@@ -12,6 +12,9 @@ import de.rss.fachstudie.desmojTest.utils.InputValidator;
 import desmoj.core.simulator.*;
 import desmoj.core.statistic.TimeSeries;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -43,8 +46,8 @@ public class MainModelClass extends Model {
     // Statistics
     public HashMap<Integer, HashMap<Integer, TimeSeries>> threadStatistics;
     public HashMap<Integer, HashMap<Integer, TimeSeries>> cpuStatistics;
+    public HashMap<Integer, HashMap<Integer, TimeSeries>> responseStatisitcs;
     public HashMap<Integer, TimeSeries> taskQueueStatistics;
-    //public HashMap<Integer, HashMap<Integer, TimeSeries>> threadTime;
 
     public double getSimulationTime() {
         return simulationTime;
@@ -200,6 +203,7 @@ public class MainModelClass extends Model {
         // Statistics
         threadStatistics    = new HashMap<>();
         cpuStatistics       = new HashMap<>();
+        responseStatisitcs  = new HashMap<>();
         taskQueueStatistics = new HashMap<>();
 
         // Load JSON
@@ -219,6 +223,7 @@ public class MainModelClass extends Model {
             // Statistics
             HashMap<Integer, TimeSeries> threadStats = new HashMap<>();
             HashMap<Integer, TimeSeries> cpuStats = new HashMap<>();
+            HashMap<Integer, TimeSeries> responseStats = new HashMap<>();
             TimeSeries taskQueueWork = new TimeSeries(this, "Task Queue: " + serviceName,
                     resourcePath + "TaskQueue_" + serviceName + ".txt",
                     new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
@@ -247,8 +252,13 @@ public class MainModelClass extends Model {
                         resourcePath + "CPU_" + serviceName + "_" + msEntity.getSid() + ".txt",
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
+                TimeSeries responseTime = new TimeSeries(this, "Response Time: " + serviceName + " #" + instance,
+                        resourcePath + "ResponseTime_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                        new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
+
                 threadStats.put(instance, activeInstances);
                 cpuStats.put(instance, activeCPU);
+                responseStats.put(instance, responseTime);
             }
             // Queues
             taskQueues.put(id, taskQueue);
@@ -260,8 +270,28 @@ public class MainModelClass extends Model {
             // Statistics
             threadStatistics.put(id, threadStats);
             cpuStatistics.put(id, cpuStats);
+            responseStatisitcs.put(id, responseStats);
             taskQueueStatistics.put(id, taskQueueWork);
         }
+    }
+
+    private String timeFormat(long nanosecs) {
+        long tempSec = nanosecs/(1000*1000*1000);
+        long ms = tempSec * 1000;
+        long sec = tempSec % 60;
+        long min = (tempSec /60) % 60;
+        long hour = (tempSec /(60*60)) % 24;
+        long day = (tempSec / (24*60*60)) % 24;
+
+        if(day > 0)
+            return String.format("%dd %dh %dm %ds %dms", day, hour, min, sec, ms);
+        else if(hour > 0)
+            return String.format("%dh %dm %ds %dms", hour, min, sec, ms);
+        else if(min > 0)
+            return String.format("%dm %ds %dms", min, sec, ms);
+        else if(sec > 0)
+            return String.format("%ds %dms", sec, ms);
+        return String.format("%dms", ms);
     }
 
     public static void main(String[] args) {
@@ -270,6 +300,8 @@ public class MainModelClass extends Model {
         InputValidator validator = new InputValidator();
 
         if(validator.valideInput(parser)){
+            long startTime = System.nanoTime();
+
             MainModelClass model = new MainModelClass(null, InputParser.simulation.get("model"), true, true);
             Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
 
@@ -280,12 +312,21 @@ public class MainModelClass extends Model {
             exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(250, model.getTimeUnit()));
             exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
 
+            System.out.println("Setup took: " + model.timeFormat(System.nanoTime() - startTime));
+            long timeVal = System.nanoTime();
+
             exp.start();
+
+            System.out.println("Experiment took: " + model.timeFormat(System.nanoTime() - timeVal));
+            timeVal = System.nanoTime();
 
             exp.report();
             exp.finish();
 
             ExportReport exportReport = new ExportReport(model);
+
+            System.out.println("Report took: " + model.timeFormat(System.nanoTime() - timeVal));
+            System.out.println("Execution took: " + model.timeFormat(System.nanoTime() - startTime));
         } else {
             System.out.println("Your inserted input was not valide. Please check correctness of you JSON file.");
         }

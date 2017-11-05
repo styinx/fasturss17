@@ -33,8 +33,6 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
 
                     model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) + operation.getCPU());
                 }
-                // Save response time
-                msEntity.addResponseTime(thread.getCreationTime().getTimeAsDouble());
                 // remove thread from microservice
                 msEntity.getThreads().remove(thread);
 
@@ -75,6 +73,8 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
                         (double)(msEntity.getCPU() - model.serviceCPU.get(id).get(msEntity.getSid()))/msEntity.getCPU());
                 // Statistics
                 model.threadStatistics.get(id).get(msEntity.getSid()).update(msEntity.getThreads().size());
+                // Response Time
+                model.responseStatisitcs.get(id).get(msEntity.getSid()).update(thread.getCreationTime().getTimeAsDouble());
                 // Task Queue
                 model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
             }
