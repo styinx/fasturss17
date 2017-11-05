@@ -6,7 +6,7 @@
     <node x="51.5" y="176.5">de.rss.fachstudie.desmojTest.entities.MicroserviceEntity</node>
     <node x="381.5" y="-23.5">de.rss.fachstudie.desmojTest.entities.MessageObject</node>
     <node x="52.0" y="324.0">de.rss.fachstudie.desmojTest.utils.InputParser</node>
-    <node x="396.0" y="256.5">de.rss.fachstudie.desmojTest.models.DesmojTest</node>
+    <node x="396.0" y="256.5">de.rss.fachstudie.desmojTest.models.MSSimulator</node>
     <node x="372.0" y="96.5">de.rss.fachstudie.desmojTest.events.MicroserviceEvent</node>
   </nodes>
   <notes />

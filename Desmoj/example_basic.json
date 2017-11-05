@@ -3,8 +3,8 @@
   {
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
-    "duration" : 5,
-    "datapoints" : 5,
+    "duration" : 50,
+    "datapoints" : 50,
     "seed" : 2298
   },
   "microservices" :

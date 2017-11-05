@@ -18,7 +18,7 @@
         {
           "name" : "validate",
           "patterns" : [],
-          "duration" : 1,
+          "duration" : 10,
           "CPU" : 300,
           "dependencies" :
           [
@@ -36,7 +36,7 @@
         },
         {
           "name" : "confirm",
-          "patterns" : [],
+          "patterns" : ["Circuit Breaker"],
           "duration" : 1,
           "CPU" : 100,
           "dependencies" : 
@@ -59,7 +59,7 @@
         {
           "name" : "updateRequest",
           "patterns" : ["Circuit Breaker"],
-          "duration" : 2,
+          "duration" : 10,
           "CPU" : 350,
           "dependencies" :
           [
@@ -144,7 +144,7 @@
       [
         {
           "name" : "updateRequest",
-          "patterns" : [],
+          "patterns" : ["Circuit Breaker"],
           "duration" : 3,
           "CPU" : 700,
           "dependencies" :
@@ -171,7 +171,7 @@
       [
         {
           "name" : "update",
-          "patterns" : [],
+          "patterns" : ["Circuit Breaker"],
           "duration" : 3,
           "CPU" : 400,
           "dependencies" :
@@ -202,10 +202,6 @@
   ],
   "chaosmonkeys" :
   [
-    {
-      "time" : 50,
-      "microservice" : "Login",
-      "instances" : 2
-    }
+
   ]
 }

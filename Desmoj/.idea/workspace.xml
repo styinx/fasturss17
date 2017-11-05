@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c1559c2e-0d81-447f-8daa-233839b7a9ab" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Report/js/jquery-3.2.1.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Report/js/palette.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Report/resources/CPU_Database.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Report/resources/Instances_Database.txt" afterPath="" />
+    <list default="true" id="c1559c2e-0d81-447f-8daa-233839b7a9ab" name="Default" comment="create new class initalerrormonkeyevent, monkey works now for all time periods">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diagrams/ClassDiagram.uml" afterPath="$PROJECT_DIR$/Diagrams/ClassDiagram.uml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diagrams/Diagrams.mdj" afterPath="$PROJECT_DIR$/Diagrams/Diagrams.mdj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Report/js/chart.js" afterPath="$PROJECT_DIR$/Report/js/chart.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Report/js/chart_style.js" afterPath="$PROJECT_DIR$/Report/js/chart_style.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example_advanced.json" afterPath="$PROJECT_DIR$/example_advanced.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Operation.java" afterPath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Operation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ChaosMonkeyEvent.java" afterPath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ChaosMonkeyEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StartMicroserviceEvent.java" afterPath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StartMicroserviceEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StopMicroserviceEvent.java" afterPath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StopMicroserviceEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DataChart.java" afterPath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DataChart.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/ExportReport.java" afterPath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/ExportReport.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example_basic.json" afterPath="$PROJECT_DIR$/example_basic.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example_simple.json" afterPath="$PROJECT_DIR$/example_simple.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/MainModelClass.java" afterPath="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/MainModelClass.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -31,138 +24,61 @@
       <file leaf-file-name="MainModelClass.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/MainModelClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="266" column="62" lean-forward="false" selection-start-line="266" selection-start-column="62" selection-end-line="266" selection-end-column="62" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2129#2130#0" expanded="true" />
-                <element signature="e#2166#2167#0" expanded="true" />
-                <element signature="e#2203#2204#0" expanded="true" />
-                <element signature="e#2236#2237#0" expanded="true" />
-                <element signature="e#2273#2274#0" expanded="true" />
-                <element signature="e#2304#2305#0" expanded="true" />
-                <element signature="e#2354#2355#0" expanded="true" />
-                <element signature="e#2394#2395#0" expanded="true" />
-                <element signature="e#2435#2436#0" expanded="true" />
-                <element signature="e#2471#2472#0" expanded="true" />
-                <element signature="e#2530#2531#0" expanded="true" />
-                <element signature="e#2580#2581#0" expanded="true" />
-                <element signature="e#2622#2623#0" expanded="true" />
-                <element signature="e#2659#2660#0" expanded="true" />
-                <element signature="e#2720#2721#0" expanded="true" />
-                <element signature="e#2772#2773#0" expanded="true" />
-                <element signature="e#2813#2814#0" expanded="true" />
-                <element signature="e#2849#2850#0" expanded="true" />
-                <element signature="e#2908#2909#0" expanded="true" />
-                <element signature="e#2958#2959#0" expanded="true" />
-                <element signature="e#3001#3002#0" expanded="true" />
-                <element signature="e#3039#3040#0" expanded="true" />
-                <element signature="e#3102#3103#0" expanded="true" />
-                <element signature="e#3156#3157#0" expanded="true" />
-                <element signature="e#3203#3204#0" expanded="true" />
-                <element signature="e#3241#3242#0" expanded="true" />
-                <element signature="e#7375#7395#0" expanded="true" />
-                <element signature="e#7499#7514#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExportReport.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/ExportReport.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="19" column="33" lean-forward="false" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="example_simple.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/example_simple.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-510">
-              <caret line="18" column="27" lean-forward="false" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
-              <folding>
-                <marker date="1509539763143" expanded="true" signature="0:1566" ph="{...}" />
-                <marker date="1509539763143" expanded="true" signature="20:137" ph="{&quot;experiment&quot;: &quot;Desmoj_Microservice_Experiment&quot;...}" />
-                <marker date="1509539763143" expanded="true" signature="1312:1398" ph="{&quot;name&quot;: &quot;update&quot;...}" />
-                <marker date="1509539763143" expanded="true" signature="1312:1406" ph="[...]" />
-                <marker date="1509539763143" expanded="true" signature="1312:1412" ph="{&quot;name&quot;: &quot;Database&quot;...}" />
-                <marker date="1509539763143" expanded="true" signature="1312:1416" ph="[...]" />
-                <marker date="1509539763143" expanded="true" signature="1374:1388" ph="[...]" />
-                <marker date="1509539763143" expanded="true" signature="1437:1535" ph="[...]" />
-                <marker date="1509539763143" expanded="true" signature="1443:1531" ph="{&quot;time&quot;: 1...}" />
-                <marker date="1509539763143" expanded="true" signature="1558:1564" ph="[...]" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InputValidator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/utils/InputValidator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1783">
-              <caret line="113" column="0" lean-forward="false" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+            <state relative-caret-position="3026">
+              <caret line="218" column="24" lean-forward="false" selection-start-line="218" selection-start-column="24" selection-end-line="218" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StartMicroserviceEvent.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="StartMicroserviceEvent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StartMicroserviceEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="61" column="76" lean-forward="true" selection-start-line="61" selection-start-column="76" selection-end-line="61" selection-end-column="76" />
-              <folding />
+            <state relative-caret-position="306">
+              <caret line="26" column="5" lean-forward="false" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InitialMicroserviceEvent.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="InitialMicroserviceEvent.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialMicroserviceEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
-              <caret line="53" column="5" lean-forward="false" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
+            <state relative-caret-position="543">
+              <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StopMicroserviceEvent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StopMicroserviceEvent.java">
+      <file leaf-file-name="DataChart.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DataChart.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="32" column="94" lean-forward="false" selection-start-line="32" selection-start-column="94" selection-end-line="32" selection-end-column="94" />
+            <state relative-caret-position="0">
+              <caret line="0" column="44" lean-forward="true" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="example_advanced.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/example_advanced.json">
+      <file leaf-file-name="chart_script.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Report/js/chart_script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="152" column="20" lean-forward="false" selection-start-line="152" selection-start-column="20" selection-end-line="152" selection-end-column="20" />
+            <state relative-caret-position="1054">
+              <caret line="62" column="49" lean-forward="false" selection-start-line="62" selection-start-column="49" selection-end-line="62" selection-end-column="49" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MicroserviceEntity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceEntity.java">
+      <file leaf-file-name="chart_style.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Report/js/chart_style.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="42" column="31" lean-forward="false" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
-              <folding>
-                <element signature="e#1576#1577#0" expanded="true" />
-                <element signature="e#1621#1622#0" expanded="true" />
-                <element signature="e#1657#1658#0" expanded="true" />
-                <element signature="e#2882#2883#0" expanded="true" />
-                <element signature="e#2917#2918#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="391">
+              <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -178,18 +94,20 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+      <find>removeF</find>
+      <find>input</find>
       <find>power</find>
-      <find>3.5</find>
-      <find>&quot;pattern&quot; : &quot;&quot;</find>
-      <find>patterns</find>
-      <find>pattern&quot;</find>
-      <find>&quot;Circuit Breaker&quot;</find>
+      <find>Integer.parseInt</find>
+      <find>Prop</find>
+      <find>propability</find>
+      <find>Sys</find>
     </findStrings>
     <replaceStrings>
+      <replace>microservices</replace>
       <replace>CPU</replace>
-      <replace>3500</replace>
-      <replace>&quot;patterns&quot; : []</replace>
-      <replace>patterns&quot;</replace>
+      <replace>Double.parseDouble</replace>
+      <replace>Prob</replace>
+      <replace>probability</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -214,10 +132,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/DesmojTest.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Request.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Instance.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/ProcessingRequest.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/ShippingRequest.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Order.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Processing.java" />
@@ -231,30 +145,44 @@
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ShippingEndEvent.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ProcessingEndEvent.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/utils/Node.java" />
+        <option value="$PROJECT_DIR$/Report/js/graph.js" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/ErrorMonkeyEntity.java" />
+        <option value="$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/simulator/Queue.class" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialEvent.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitalErrorMonkeyEvent.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialErrorMonkeyEvent.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ErrorMonkeyEvent.java" />
         <option value="$PROJECT_DIR$/example_4.json" />
-        <option value="$PROJECT_DIR$/example_3.json" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DependecyGraph.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ChaosMonkeyEvent.java" />
         <option value="$PROJECT_DIR$/Report/css/d3.css" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DependecyGraph.java" />
+        <option value="$PROJECT_DIR$/example_3.json" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialChaosMonkeyEvent.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Operation.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/utils/InputParser.java" />
+        <option value="$PROJECT_DIR$/Report/js/d3_script.js" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Microservices.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Microservice.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceThread.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Predecessor.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MessageObject.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialMicroserviceEvent.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/DesmojTest.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StatisticCollectorEvent.java" />
-        <option value="$PROJECT_DIR$/Report/js/d3_script.js" />
-        <option value="$PROJECT_DIR$/Report/css/style.css" />
-        <option value="$PROJECT_DIR$/Report/js/chart_script.js" />
-        <option value="$PROJECT_DIR$/Report/index.html" />
-        <option value="$PROJECT_DIR$/example_basic.json" />
-        <option value="$PROJECT_DIR$/example_simple.json" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/utils/InputParser.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceEntity.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/ExportReport.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Operation.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DataChart.java" />
-        <option value="$PROJECT_DIR$/Report/js/chart_style.js" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ChaosMonkeyEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StartMicroserviceEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/MainModelClass.java" />
-        <option value="$PROJECT_DIR$/example_advanced.json" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StopMicroserviceEvent.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceEntity.java" />
+        <option value="$PROJECT_DIR$/example_simple.json" />
+        <option value="$PROJECT_DIR$/example_basic.json" />
+        <option value="$PROJECT_DIR$/Report/js/chart_style.js" />
+        <option value="$PROJECT_DIR$/Report/js/chart.js" />
+        <option value="$PROJECT_DIR$/Report/index.html" />
+        <option value="$PROJECT_DIR$/Report/css/style.css" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StartMicroserviceEvent.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StatisticCollectorEvent.java" />
+        <option value="$PROJECT_DIR$/example_advanced.json" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/MainModelClass.java" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/ExportReport.java" />
+        <option value="$PROJECT_DIR$/Report/js/chart_script.js" />
+        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DataChart.java" />
       </list>
     </option>
   </component>
@@ -265,9 +193,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="31" />
-    <option name="width" value="969" />
-    <option name="height" value="1169" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1294" />
+    <option name="height" value="1092" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
@@ -287,6 +216,25 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Desmoj" type="58d84e3e:PackageViewProjectNode" />
+              <item name="Desmoj" type="616d4139:PackageViewModuleNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="58d84e3e:PackageViewProjectNode" />
+              <item name="Desmoj" type="616d4139:PackageViewModuleNode" />
+              <item name="de.rss.fachstudie.desmojTest" type="1f31426a:PackageElementNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -298,6 +246,12 @@
               <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
               <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
               <item name="Report" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="Report" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
@@ -362,134 +316,18 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Java" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/gson-2.6.2.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path" value="D:/Program Files (x86)/nodejs/node" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-  </component>
-  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
-    <UpdatedFiles>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Updated from server" />
-        <option name="myStatusName" value="Changed on server" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="CHANGED_ON_SERVER" />
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated" />
-          <option name="myStatusName" value="Changed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/example_advanced.json</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/example_basic.json</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/example_simple.json</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/utils/InputValidator.java</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created" />
-          <option name="myStatusName" value="Created" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Deleted" />
-          <option name="myStatusName" value="Deleted" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Restored" />
-          <option name="myStatusName" value="Will be restored" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="RESTORED" />
-        </FILE-GROUP>
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Modified" />
-        <option name="myStatusName" value="Modified" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MODIFIED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Skipped" />
-        <option name="myStatusName" value="Skipped" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SKIPPED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with conflicts" />
-        <option name="myStatusName" value="Will be merged with conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_CONFLICTS" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with tree conflicts" />
-        <option name="myStatusName" value="Merged with tree conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with property conflicts" />
-        <option name="myStatusName" value="Will be merged with property conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged" />
-        <option name="myStatusName" value="Will be merged" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Not in repository" />
-        <option name="myStatusName" value="Not in repository" />
-        <option name="mySupportsDeletion" value="true" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="UNKNOWN" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally added" />
-        <option name="myStatusName" value="Locally added" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_ADDED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally removed" />
-        <option name="myStatusName" value="Locally removed" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_REMOVED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Switched" />
-        <option name="myStatusName" value="Switched" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SWITCHED" />
-      </FILE-GROUP>
-    </UpdatedFiles>
+    <property name="last.edited.regexp" value=" " />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -620,100 +458,242 @@
       <option name="presentableId" value="Default" />
       <updated>1502377046111</updated>
       <workItem from="1502377047597" duration="14722000" />
+      <workItem from="1506591857420" duration="177000" />
     </task>
-    <task id="LOCAL-00001" summary="fixed dependency graph (no more lonely nodes)">
-      <created>1506078070939</created>
+    <task id="LOCAL-00001" summary="dependency graph shows now whole architecture, added Report directory, outsourced js html and css files">
+      <created>1506110540912</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1506078070946</updated>
+      <updated>1506110540913</updated>
     </task>
-    <task id="LOCAL-00002" summary="temprary push">
-      <created>1507199389932</created>
+    <task id="LOCAL-00002" summary="adding Operation class, adjusting json files, add new json file for new format, add chart script">
+      <created>1506169675258</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1507199389933</updated>
+      <updated>1506169675258</updated>
     </task>
-    <task id="LOCAL-00003" summary="added cpu as resource to model (MSEntity needs inheritance from SimProcess &lt;- TODO), improved graph creation, add CPU values to json">
-      <created>1507206868640</created>
+    <task id="LOCAL-00003" summary="graph works now properly">
+      <created>1506194891095</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1507206868640</updated>
+      <updated>1506194891095</updated>
     </task>
-    <task id="LOCAL-00004" summary="fix missing function in advanced example, adjust json examples">
-      <created>1508334354045</created>
+    <task id="LOCAL-00004" summary="add error monkey (works only for 1 as time value, needs some research), rework for Inital event (needs complete rework)">
+      <created>1506426874529</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1508334354046</updated>
+      <updated>1506426874529</updated>
     </task>
-    <task id="LOCAL-00005" summary="add simple example to test, fixed used CPU graph addded response time graph">
-      <created>1508932492037</created>
+    <task id="LOCAL-00005" summary="add flags for tracing events, add default errormonkey, which kills all instances of a ms, add 2 new uml diagrams">
+      <created>1506443310354</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1508932492037</updated>
+      <updated>1506443310354</updated>
     </task>
-    <task id="LOCAL-00006" summary="add simple example to test, fixed used CPU graph addded response time graph">
-      <created>1508936018989</created>
+    <task id="LOCAL-00006" summary="create new class initalerrormonkeyevent, monkey works now for all time periods">
+      <created>1506505633170</created>
       <option name="number" value="00006" />
       <option name="presentableId" value="LOCAL-00006" />
       <option name="project" value="LOCAL" />
-      <updated>1508936018989</updated>
+      <updated>1506505633170</updated>
     </task>
-    <task id="LOCAL-00007" summary="fix nullptr exception when report tried to access non existing services, when a monkey kills a service the existing threads get deleted">
-      <created>1509532576789</created>
+    <task id="LOCAL-00007" summary="operations can be read from the new json format (dependencies not working yet), monkeys and inital events can be read from json as well">
+      <created>1506523798499</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1509532576789</updated>
+      <updated>1506523798499</updated>
     </task>
-    <task id="LOCAL-00008" summary="new json format">
-      <created>1509535957377</created>
+    <task id="LOCAL-00008" summary="update latest json (example_4.json sorry :-))">
+      <created>1506523924933</created>
       <option name="number" value="00008" />
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1509535957377</updated>
+      <updated>1506523924933</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="made adjustments to json input, all events get initialized at start, operations are now supported and shown at report (but need some further testing)">
+      <created>1506684972466</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1506684972466</updated>
+    </task>
+    <task id="LOCAL-00010" summary="add operations as labels to graph">
+      <created>1506762424485</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1506762424485</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Report generates now graphs and charts together">
+      <created>1507045651351</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1507045651351</updated>
+    </task>
+    <task id="LOCAL-00012" summary="change 3rd example to new architecture, all dependant operations are called from predecessors, adjust graph export">
+      <created>1507117539340</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1507117539340</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Simulator collects now statisitcs (currently used instances over time), Statistics are shown in first diagram of the report (in our custom report as well as DesmoJ Report), Distribution titles need rework">
+      <created>1507300788857</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1507300788857</updated>
+    </task>
+    <task id="LOCAL-00014" summary="multiple time series can be collected from each service (Report takes some time to collect daa from written files), CPU is stored as Number (resources were not working properly) and is now shown in report (negativ numbers possible!)">
+      <created>1507488985960</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1507488985960</updated>
+    </task>
+    <task id="LOCAL-00015" summary="add new section json for global settings, cpu usage graph gets plotted in the correct way">
+      <created>1507645585582</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1507645585583</updated>
+    </task>
+    <task id="LOCAL-00016" summary="fix wrong resource assignment, small style changes">
+      <created>1507741470597</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1507741470597</updated>
+    </task>
+    <task id="LOCAL-00017" summary="expand documentation, fix typo in json">
+      <created>1508094719694</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1508094719694</updated>
+    </task>
+    <task id="LOCAL-00018" summary="add scrollarea to charts for more convenient scrolling">
+      <created>1508173686708</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1508173686708</updated>
+    </task>
+    <task id="LOCAL-00019" summary="stacked operations, add operations to image, highstock for scrollbar in chart">
+      <created>1508243571079</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1508243571079</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fixed stacked operations issue (output looks acceptable), modified json">
+      <created>1508247026273</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1508247026273</updated>
+    </task>
+    <task id="LOCAL-00021" summary="add new example with image">
+      <created>1508252808648</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1508252808648</updated>
+    </task>
+    <task id="LOCAL-00022" summary="remove unused or deprecated code, add new class MicroserviceThread">
+      <created>1508512612561</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1508512612561</updated>
+    </task>
+    <task id="LOCAL-00023" summary="add threads to events (just dummys), moved probabilities to dependencies">
+      <created>1508516751294</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1508516751295</updated>
+    </task>
+    <task id="LOCAL-00024" summary="collecting statistics for each instance is now possible (creates higher workload ~10secs)">
+      <created>1508622329262</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1508622329262</updated>
+    </task>
+    <task id="LOCAL-00025" summary="threads are now supported, but need further investigation for correctness">
+      <created>1508683808917</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1508683808917</updated>
+    </task>
+    <task id="LOCAL-00026" summary="fix problem with instance selection">
+      <created>1509548291120</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1509548291122</updated>
+    </task>
+    <task id="LOCAL-00027" summary="create custom color generator, move circuit breaker to start event, problem: effects of circuit breaker not visible">
+      <created>1509616844166</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1509616844166</updated>
+    </task>
+    <task id="LOCAL-00028" summary="circuit breaker is now functioning, task queue is collected in statisitcs, graph improvements">
+      <created>1509628497759</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1509628497759</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14722000" />
+    <option name="totallyTimeSpent" value="14899000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="31" width="1922" height="1173" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32742536" sideWeight="0.434333" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286517" sideWeight="0.56566703" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929105" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26679105" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2108209" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21070234" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23188406" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18072917" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17910448" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3277592" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929105" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -750,83 +730,255 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.js" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed dependency graph (no more lonely nodes)" />
-    <MESSAGE value="temprary push" />
-    <MESSAGE value="added cpu as resource to model (MSEntity needs inheritance from SimProcess &lt;- TODO), improved graph creation, add CPU values to json" />
-    <MESSAGE value="fix missing function in advanced example, adjust json examples" />
-    <MESSAGE value="add simple example to test, fixed used CPU graph addded response time graph" />
-    <MESSAGE value="fix nullptr exception when report tried to access non existing services, when a monkey kills a service the existing threads get deleted" />
-    <MESSAGE value="new json format" />
-    <option name="LAST_COMMIT_MESSAGE" value="new json format" />
+    <MESSAGE value="add error monkey (works only for 1 as time value, needs some research), rework for Inital event (needs complete rework)" />
+    <MESSAGE value="add flags for tracing events, add default errormonkey, which kills all instances of a ms, add 2 new uml diagrams" />
+    <MESSAGE value="create new class initalerrormonkeyevent, monkey works now for all time periods" />
+    <MESSAGE value="operations can be read from the new json format (dependencies not working yet), monkeys and inital events can be read from json as well" />
+    <MESSAGE value="update latest json (example_4.json sorry :-))" />
+    <MESSAGE value="made adjustments to json input, all events get initialized at start, operations are now supported and shown at report (but need some further testing)" />
+    <MESSAGE value="add operations as labels to graph" />
+    <MESSAGE value="Report generates now graphs and charts together" />
+    <MESSAGE value="change 3rd example to new architecture, all dependant operations are called from predecessors, adjust graph export" />
+    <MESSAGE value="Simulator collects now statisitcs (currently used instances over time), Statistics are shown in first diagram of the report (in our custom report as well as DesmoJ Report), Distribution titles need rework" />
+    <MESSAGE value="multiple time series can be collected from each service (Report takes some time to collect daa from written files), CPU is stored as Number (resources were not working properly) and is now shown in report (negativ numbers possible!)" />
+    <MESSAGE value="add new section json for global settings, cpu usage graph gets plotted in the correct way" />
+    <MESSAGE value="fix wrong resource assignment, small style changes" />
+    <MESSAGE value="expand documentation, fix typo in json" />
+    <MESSAGE value="add scrollarea to charts for more convenient scrolling" />
+    <MESSAGE value="stacked operations, add operations to image, highstock for scrollbar in chart" />
+    <MESSAGE value="fixed stacked operations issue (output looks acceptable), modified json" />
+    <MESSAGE value="add new example with image" />
+    <MESSAGE value="remove unused or deprecated code, add new class MicroserviceThread" />
+    <MESSAGE value="add threads to events (just dummys), moved probabilities to dependencies" />
+    <MESSAGE value="collecting statistics for each instance is now possible (creates higher workload ~10secs)" />
+    <MESSAGE value="threads are now supported, but need further investigation for correctness" />
+    <MESSAGE value="fix problem with instance selection" />
+    <MESSAGE value="create custom color generator, move circuit breaker to start event, problem: effects of circuit breaker not visible" />
+    <MESSAGE value="circuit breaker is now functioning, task queue is collected in statisitcs, graph improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="circuit breaker is now functioning, task queue is collected in statisitcs, graph improvements" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ProcessingRequestArrivalEvent.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/RequestGeneratorEvent.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/DesmojTest.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/DesmojTest.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Request.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/ProcessingRequest.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/ShippingRequest.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Processing.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Order.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Shipping.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Instance.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/OrderEndEvent.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/RequestGeneratorEvent.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/RequestArrivalEvent.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ProcessingRequestArrivalEvent.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ProcessingEndEvent.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ShippingRequestArrivalEvent.java" />
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ShippingEndEvent.java" />
     <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/utils/Node.java" />
     <entry file="file://$PROJECT_DIR$/example_3.png" />
-    <entry file="file://$PROJECT_DIR$/example_4.json" />
-    <entry file="file://$PROJECT_DIR$/example_3.json" />
-    <entry file="file://$PROJECT_DIR$/Report/css/d3.css">
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/ErrorMonkey.java" />
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/ErrorMonkeyEntity.java" />
+    <entry file="jar://$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/simulator/QueueList.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="26" column="1" lean-forward="true" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+        <state relative-caret-position="-612">
+          <caret line="13" column="22" lean-forward="false" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/DesmojTest.java" />
+    <entry file="jar://$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/simulator/Queue.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/simulator/ExternalEvent.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="10" column="22" lean-forward="false" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialEvent.java" />
+    <entry file="file://$PROJECT_DIR$/../../LeergutVerwaltung/php/source/chart.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="2" lean-forward="true" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../SysMonitor/src/SysMonitor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="31" lean-forward="true" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/new_format.json" />
+    <entry file="file://$PROJECT_DIR$/Report/js/highcharts_script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_4.json" />
+    <entry file="jar://$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/report/Reporter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="11" column="22" lean-forward="false" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/simulator/Experiment.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-423">
+          <caret line="812" column="25" lean-forward="false" selection-start-line="812" selection-start-column="25" selection-end-line="812" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/simulator/SimProcess.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Report/css/d3.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="21" lean-forward="true" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DependecyGraph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="48" column="57" lean-forward="false" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="57" />
-          <folding>
-            <marker date="1508150001391" expanded="true" signature="2453:2877" ph="{...}" />
-          </folding>
+        <state relative-caret-position="289">
+          <caret line="50" column="17" lean-forward="true" selection-start-line="50" selection-start-column="17" selection-end-line="50" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ChaosMonkeyEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="20" column="5" lean-forward="false" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_3.json" />
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Operation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="22" column="78" lean-forward="false" selection-start-line="22" selection-start-column="78" selection-end-line="22" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_2.png" />
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialChaosMonkeyEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="38" column="56" lean-forward="true" selection-start-line="38" selection-start-column="56" selection-end-line="38" selection-end-column="56" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Report/js/graph.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="45" lean-forward="false" selection-start-line="0" selection-start-column="45" selection-end-line="0" selection-end-column="45" />
+          <caret line="0" column="131" lean-forward="false" selection-start-line="0" selection-start-column="131" selection-end-line="0" selection-end-column="131" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Report/js/d3_script.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="29" lean-forward="false" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+          <caret line="20" column="49" lean-forward="true" selection-start-line="20" selection-start-column="49" selection-end-line="20" selection-end-column="49" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Report/css/style.css">
+    <entry file="file://$PROJECT_DIR$/example_advanced.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_advanced_clear.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/modellingFeatures/CustomRes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="54" column="16" lean-forward="false" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
+        <state relative-caret-position="-1768">
+          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pattern.json" />
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Predecessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="51" lean-forward="false" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+          <folding>
+            <element signature="e#532#533#0" expanded="false" />
+            <element signature="e#561#562#0" expanded="false" />
+            <element signature="e#606#607#0" expanded="false" />
+            <element signature="e#635#636#0" expanded="false" />
+            <element signature="e#686#687#0" expanded="false" />
+            <element signature="e#718#719#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MessageObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#553#554#0" expanded="false" />
+            <element signature="e#601#602#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="43" column="42" lean-forward="false" selection-start-line="43" selection-start-column="42" selection-end-line="43" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4570#4571#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/utils/InputParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="16" column="103" lean-forward="false" selection-start-line="16" selection-start-column="103" selection-end-line="16" selection-end-column="103" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/DesmojTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1275">
+          <caret line="108" column="20" lean-forward="false" selection-start-line="108" selection-start-column="20" selection-end-line="108" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_simple.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="815">
+          <caret line="63" column="25" lean-forward="false" selection-start-line="63" selection-start-column="25" selection-end-line="63" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StopMicroserviceEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -839,228 +991,103 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Report/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="69" lean-forward="false" selection-start-line="33" selection-start-column="69" selection-end-line="33" selection-end-column="69" />
+        <state relative-caret-position="484">
+          <caret line="32" column="42" lean-forward="false" selection-start-line="32" selection-start-column="42" selection-end-line="32" selection-end-column="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Report/js/chart_script.js">
+    <entry file="file://$PROJECT_DIR$/Report/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="1" lean-forward="false" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StatisticCollectorEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialChaosMonkeyEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <marker date="1508922516402" expanded="false" signature="888:899" ph=" { " />
-            <marker date="1508922516402" expanded="false" signature="916:922" ph=" }" />
-            <marker date="1508922516402" expanded="false" signature="959:970" ph=" { " />
-            <marker date="1508922516402" expanded="false" signature="995:1001" ph=" }" />
-            <marker date="1508922516402" expanded="false" signature="1032:1043" ph=" { " />
-            <marker date="1508922516402" expanded="false" signature="1065:1071" ph=" }" />
-          </folding>
+        <state relative-caret-position="286">
+          <caret line="65" column="21" lean-forward="true" selection-start-line="65" selection-start-column="21" selection-end-line="65" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/example_basic.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="178" column="9" lean-forward="true" selection-start-line="178" selection-start-column="9" selection-end-line="178" selection-end-column="9" />
+        <state relative-caret-position="204">
+          <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceThread.java">
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StartMicroserviceEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="46" lean-forward="false" selection-start-line="0" selection-start-column="46" selection-end-line="0" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/utils/InputParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="35" column="5" lean-forward="false" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Report/js/chart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="4" column="1751" lean-forward="false" selection-start-line="4" selection-start-column="1751" selection-end-line="4" selection-end-column="1751" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DataChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="20" lean-forward="false" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/ExportReport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="19" column="33" lean-forward="false" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
+        <state relative-caret-position="306">
+          <caret line="26" column="5" lean-forward="false" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_advanced.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Report/js/chart_style.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="69" lean-forward="true" selection-start-line="12" selection-start-column="69" selection-end-line="12" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="42" column="31" lean-forward="false" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
-          <folding>
-            <element signature="e#1576#1577#0" expanded="true" />
-            <element signature="e#1621#1622#0" expanded="true" />
-            <element signature="e#1657#1658#0" expanded="true" />
-            <element signature="e#2882#2883#0" expanded="true" />
-            <element signature="e#2917#2918#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialMicroserviceEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="53" column="5" lean-forward="false" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Operation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="39">
-          <caret line="23" column="39" lean-forward="true" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ChaosMonkeyEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="34" column="99" lean-forward="false" selection-start-line="34" selection-start-column="99" selection-end-line="34" selection-end-column="99" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_simple.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-510">
-          <caret line="18" column="27" lean-forward="false" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
-          <folding>
-            <marker date="1509539763143" expanded="true" signature="0:1566" ph="{...}" />
-            <marker date="1509539763143" expanded="true" signature="20:137" ph="{&quot;experiment&quot;: &quot;Desmoj_Microservice_Experiment&quot;...}" />
-            <marker date="1509539763143" expanded="true" signature="1312:1398" ph="{&quot;name&quot;: &quot;update&quot;...}" />
-            <marker date="1509539763143" expanded="true" signature="1312:1406" ph="[...]" />
-            <marker date="1509539763143" expanded="true" signature="1312:1412" ph="{&quot;name&quot;: &quot;Database&quot;...}" />
-            <marker date="1509539763143" expanded="true" signature="1312:1416" ph="[...]" />
-            <marker date="1509539763143" expanded="true" signature="1374:1388" ph="[...]" />
-            <marker date="1509539763143" expanded="true" signature="1437:1535" ph="[...]" />
-            <marker date="1509539763143" expanded="true" signature="1443:1531" ph="{&quot;time&quot;: 1...}" />
-            <marker date="1509539763143" expanded="true" signature="1558:1564" ph="[...]" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/utils/InputValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1783">
-          <caret line="113" column="0" lean-forward="false" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/MainModelClass.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="266" column="62" lean-forward="false" selection-start-line="266" selection-start-column="62" selection-end-line="266" selection-end-column="62" />
+        <state relative-caret-position="3026">
+          <caret line="218" column="24" lean-forward="false" selection-start-line="218" selection-start-column="24" selection-end-line="218" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StatisticCollectorEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="30" column="45" lean-forward="false" selection-start-line="30" selection-start-column="45" selection-end-line="30" selection-end-column="45" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2129#2130#0" expanded="true" />
-            <element signature="e#2166#2167#0" expanded="true" />
-            <element signature="e#2203#2204#0" expanded="true" />
-            <element signature="e#2236#2237#0" expanded="true" />
-            <element signature="e#2273#2274#0" expanded="true" />
-            <element signature="e#2304#2305#0" expanded="true" />
-            <element signature="e#2354#2355#0" expanded="true" />
-            <element signature="e#2394#2395#0" expanded="true" />
-            <element signature="e#2435#2436#0" expanded="true" />
-            <element signature="e#2471#2472#0" expanded="true" />
-            <element signature="e#2530#2531#0" expanded="true" />
-            <element signature="e#2580#2581#0" expanded="true" />
-            <element signature="e#2622#2623#0" expanded="true" />
-            <element signature="e#2659#2660#0" expanded="true" />
-            <element signature="e#2720#2721#0" expanded="true" />
-            <element signature="e#2772#2773#0" expanded="true" />
-            <element signature="e#2813#2814#0" expanded="true" />
-            <element signature="e#2849#2850#0" expanded="true" />
-            <element signature="e#2908#2909#0" expanded="true" />
-            <element signature="e#2958#2959#0" expanded="true" />
-            <element signature="e#3001#3002#0" expanded="true" />
-            <element signature="e#3039#3040#0" expanded="true" />
-            <element signature="e#3102#3103#0" expanded="true" />
-            <element signature="e#3156#3157#0" expanded="true" />
-            <element signature="e#3203#3204#0" expanded="true" />
-            <element signature="e#3241#3242#0" expanded="true" />
-            <element signature="e#7375#7395#0" expanded="true" />
-            <element signature="e#7499#7514#0" expanded="true" />
+            <marker date="1509626642229" expanded="true" signature="1211:1431" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/example_advanced.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="152" column="20" lean-forward="false" selection-start-line="152" selection-start-column="20" selection-end-line="152" selection-end-column="20" />
-          <folding />
+        <state relative-caret-position="221">
+          <caret line="19" column="24" lean-forward="false" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StopMicroserviceEvent.java">
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/ExportReport.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="32" column="94" lean-forward="false" selection-start-line="32" selection-start-column="94" selection-end-line="32" selection-end-column="94" />
+          <caret line="47" column="77" lean-forward="false" selection-start-line="47" selection-start-column="77" selection-end-line="47" selection-end-column="77" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StartMicroserviceEvent.java">
+    <entry file="file://$PROJECT_DIR$/Report/js/chart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="61" column="76" lean-forward="true" selection-start-line="61" selection-start-column="76" selection-end-line="61" selection-end-column="76" />
+        <state relative-caret-position="51">
+          <caret line="3" column="67" lean-forward="true" selection-start-line="3" selection-start-column="67" selection-end-line="3" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Report/js/chart_style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Report/js/chart_script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="62" column="49" lean-forward="false" selection-start-line="62" selection-start-column="49" selection-end-line="62" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DataChart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="44" lean-forward="true" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialMicroserviceEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="543">
+          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding />
         </state>
       </provider>
