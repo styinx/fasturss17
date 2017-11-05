@@ -16,6 +16,7 @@ import java.util.TreeMap;
 
 public class ExportReport {
     private MainModelClass model;
+    private String resourcePath = "Report/resources/";
 
     public ExportReport(MainModelClass model) {
         this.model = model;
@@ -36,10 +37,10 @@ public class ExportReport {
     }
 
     private void chartReport() {
-        TreeMap<String, Double[]> activeInstances = new TreeMap<>();
-        TreeMap<String, Double[]> usedCPU = new TreeMap<>();
+        TreeMap<String, TreeMap<Integer, Double>> activeInstances = new TreeMap<>();
+        TreeMap<String, TreeMap<Integer, Double>> usedCPU = new TreeMap<>();
         TreeMap<String, Double[]> responseTime = new TreeMap<>();
-        TreeMap<String, Double[]> taskQueueWork = new TreeMap<>();
+        TreeMap<String, TreeMap<Integer, Double>> taskQueueWork = new TreeMap<>();
 
         for(int id = 0; id < model.services.size(); id++) {
             String serviceName = model.services.get(id).get(0).getName();
@@ -47,18 +48,17 @@ public class ExportReport {
             for(int instance = 0; instance < model.services.get(id).get(0).getInstances(); instance++) {
                 Microservice ms = model.services.get(id).get(instance);
                 activeInstances.put(ms.getName() + " #" + instance,
-                        this.getTimeSeries("Report/resources/Threads_" + ms.getName() + "_" + instance + ".txt"));
+                        this.getTimeSeriesWithKeys(resourcePath + "Threads_" + ms.getName() + "_" + instance + ".txt"));
                 usedCPU.put(ms.getName() + " #" + instance,
-                        this.getTimeSeries("Report/resources/CPU_" + ms.getName() + "_" + instance + ".txt"));
-                responseTime.put(ms.getName() + " #" + instance,
-                        this.getResponsTime(ms.getResponseTime()));
+                        this.getTimeSeriesWithKeys(resourcePath + "CPU_" + ms.getName() + "_" + instance + ".txt"));
+                responseTime.put(ms.getName() + " #" + instance, this.getResponsTime(ms.getResponseTime()));
             }
-            taskQueueWork.put(serviceName, this.getTimeSeries("Report/resources/TaskQueue_" + serviceName + ".txt"));
+            taskQueueWork.put(serviceName, this.getTimeSeriesWithKeys(resourcePath + "TaskQueue_" + serviceName + ".txt"));
         }
 
         DataChart chart1 = new DataChart(model, "Active Microservice Threads", activeInstances);
         DataChart chart2 = new DataChart(model, "Used CPU in percent", usedCPU);
-        DataChart chart3 = new DataChart(model, "Thread Response Time", responseTime);
+        DataChart chart3 = new DataChart(model, "Thread Response Time", responseTime, true);
         DataChart chart4 = new DataChart(model, "Task Queue per Service", taskQueueWork);
 
         String divs = chart1.printDiv()
@@ -101,6 +101,29 @@ public class ExportReport {
         Double[] result = new Double[values.size()];
         result = values.toArray(result);
         return result;
+    }
+
+    private TreeMap<Integer, Double> getTimeSeriesWithKeys(String filename) {
+        TreeMap<Integer, Double> values = new TreeMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(new File(filename)))) {
+            String line;
+            int index = 0;
+            while ((line = br.readLine()) != null) {
+                if(index > 0) {
+                    String kvp[] = line.split("\\s+");
+                    if(kvp.length > 1) {
+                        Double value = Double.parseDouble(kvp[0]);
+                        values.put(value.intValue(), Double.parseDouble(kvp[1]));
+                    }
+                }
+                index++;
+            }
+        } catch (IOException ex) {
+            System.out.println("Error while reading file: " + filename);
+        }
+//        Double[] result = new Double[values.size()];
+//        result = values.toArray(result);
+        return values;
     }
 
     private Double[] getResponsTime(HashMap<Integer, Double> data) {

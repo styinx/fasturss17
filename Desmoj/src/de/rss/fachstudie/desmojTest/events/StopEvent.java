@@ -70,6 +70,13 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
                         schedule(previousMs, previousThread, messageObject, new TimeSpan(1.0, model.getTimeUnit()));
                     }
                 }
+                // CPU
+                model.cpuStatistics.get(id).get(msEntity.getSid()).update(
+                        (double)(msEntity.getCPU() - model.serviceCPU.get(id).get(msEntity.getSid()))/msEntity.getCPU());
+                // Statistics
+                model.threadStatistics.get(id).get(msEntity.getSid()).update(msEntity.getThreads().size());
+                // Task Queue
+                model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
             }
         }
     }

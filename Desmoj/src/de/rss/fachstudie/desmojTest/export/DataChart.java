@@ -2,35 +2,59 @@ package de.rss.fachstudie.desmojTest.export;
 
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 public class DataChart {
     private String chartId = "";
-    private TreeMap<String, Double[]> series;
     private String options = "";
 
-    public DataChart(MainModelClass model, String chartId, TreeMap<String, Double[]> series) {
+    public DataChart(MainModelClass model, String chartId, TreeMap<String, Double[]> series, boolean dummy) {
         this.chartId = chartId;
-        this.series = series;
         this.options =
                 "title : {text : '" + chartId + "'}, " +
-                "legend : {enabled: true}, " +
-                "xAxis: {max:" + model.getSimulationTime() + "}, " +
-                "colors : colors(" + series.keySet().size() + "), " +
-                "series : " +
-                "[";
+                        "legend : {enabled: true}, " +
+                        "xAxis: {max:" + model.getSimulationTime() + "}, " +
+                        "colors : colors(" + series.keySet().size() + "), " +
+                        "series : " +
+                        "[";
         int index = 0;
         for(String key : series.keySet()) {
             options +=
                     "{" +
-                        "name : '" + key + "', " +
-                        "index : " + index + ", " +
-                        "data : [";
+                            "name : '" + key + "', " +
+                            "index : " + index + ", " +
+                            "data : [";
             for(Double value : series.get(key)) {
                 options += value.toString() + ", ";
+            }
+            options = options.substring(0, options.length() - 1) + "]}, ";
+            index++;
+        }
+        if(series.keySet().size() > 0)
+            options = options.substring(0, options.length() - 1) + "] ";
+        else
+            options += "] ";
+    }
+
+    public DataChart(MainModelClass model, String chartId, TreeMap<String, TreeMap<Integer, Double>> series) {
+        this.chartId = chartId;
+        this.options =
+                "title : {text : '" + chartId + "'}, " +
+                        "legend : {enabled: true}, " +
+                        "xAxis: {max:" + model.getSimulationTime() + "}, " +
+                        "colors : colors(" + series.keySet().size() + "), " +
+                        "series : " +
+                        "[";
+        int index = 0;
+        for(String key : series.keySet()) {
+            options += "{" +
+                    "name : '" + key + "', " +
+                    "index : " + index + ", " +
+                    "data : [";
+            TreeMap<Integer, Double> map = series.get(key);
+            for(Integer mapKey : map.keySet()) {
+                options += "[" + mapKey + ", " + map.get(mapKey) + "], ";
             }
             options = options.substring(0, options.length() - 1) + "]}, ";
             index++;

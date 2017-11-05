@@ -141,6 +141,14 @@ public class StartEvent extends Event<MessageObject> {
                             msEndEvent.schedule(msEntity, thread, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                         }
                     }
+                    // Statistics
+                    // CPU
+                    model.cpuStatistics.get(id).get(msEntity.getSid()).update(
+                            (double)(msEntity.getCPU() - model.serviceCPU.get(id).get(msEntity.getSid()))/msEntity.getCPU());
+                    // Thread
+                    model.threadStatistics.get(id).get(msEntity.getSid()).update(msEntity.getThreads().size());
+                    // Task Queue
+                    model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
                 }
             }
         }

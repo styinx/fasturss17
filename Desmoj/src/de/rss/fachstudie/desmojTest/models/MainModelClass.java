@@ -5,7 +5,6 @@ import de.rss.fachstudie.desmojTest.entities.Microservice;
 import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialEvent;
-import de.rss.fachstudie.desmojTest.events.StatisticEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.modellingFeatures.CustomResourceDB;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
@@ -25,6 +24,7 @@ public class MainModelClass extends Model {
     private TimeUnit timeUnit       = TimeUnit.SECONDS;
     private double simulationTime   = 0;
     private int datapoints          = 0;
+    private String resourcePath     = "Report/resources/";
     private boolean showInitEvent   = false;
     private boolean showStartEvent  = false;
     private boolean showStopEvent   = false;
@@ -175,10 +175,6 @@ public class MainModelClass extends Model {
                     getIdByName(monkey.getMicroservice()), monkey.getInstances());
             initMonkey.schedule(new TimeSpan(0, timeUnit));
         }
-
-        // Fire off statistics collection
-        StatisticEvent collectorEvent = new StatisticEvent(this, "", false);
-        collectorEvent.schedule(new TimeSpan(0, timeUnit));
     }
 
     /**
@@ -224,17 +220,9 @@ public class MainModelClass extends Model {
             HashMap<Integer, TimeSeries> threadStats = new HashMap<>();
             HashMap<Integer, TimeSeries> cpuStats = new HashMap<>();
             TimeSeries taskQueueWork = new TimeSeries(this, "Task Queue: " + serviceName,
-                    "Report/resources/TaskQueue_" + serviceName + ".txt",
-                    new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), true, false);
+                    resourcePath + "TaskQueue_" + serviceName + ".txt",
+                    new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
-
-            for(Operation op : microservices[ id].getOperations()) {
-                for(String pattern : op.getPatterns()) {
-                    if(pattern.equals("Circuit Breaker")) {
-                        taskQueue = new Queue<MessageObject>(this, "Task Queue: " + microservices[id].getName(), QueueBased.FIFO, 1, true, true);
-                    }
-                }
-            }
 
             for(int instance = 0; instance < microservices[id].getInstances(); instance++){
                 Microservice msEntity = new Microservice(this , microservices[id].getName(), true );
@@ -252,12 +240,12 @@ public class MainModelClass extends Model {
 
                 // Statistics
                 TimeSeries activeInstances = new TimeSeries(this, "Active Threads: " + serviceName + " #" + instance,
-                        "Report/resources/Threads_" + serviceName + "_" + msEntity.getSid() + ".txt",
-                        new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), true, false);
+                        resourcePath + "Threads_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                        new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
                 TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + serviceName + " #" + instance,
-                        "Report/resources/CPU_" + serviceName + "_" + msEntity.getSid() + ".txt",
-                        new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), true, false);
+                        resourcePath + "CPU_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                        new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
                 threadStats.put(instance, activeInstances);
                 cpuStats.put(instance, activeCPU);

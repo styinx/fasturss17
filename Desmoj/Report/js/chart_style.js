@@ -26,6 +26,20 @@ function colors(count)
     return cols;
 }
 
+function timeFormat(seconds)
+{
+    var date = new Date(1970, 0, 1);
+    date.setSeconds(seconds);
+
+    var h = pad(date.getHours());
+    var m = pad(date.getMinutes());
+    var s = pad(date.getSeconds());
+
+    var format = ((h != "00") ? h + "h" : "") + m + "m" + s + "s";
+
+    return format;
+}
+
 (function(factory) {
     if (typeof module === 'object' && module.exports) {
         module.exports = factory;
@@ -52,9 +66,9 @@ function colors(count)
             },
             tooltip: {
                 formatter: function () {
-                    var s = '<b>' + this.x + '</b>';
+                    var s = 'Time: <b>' + timeFormat(this.x) + '</b>';
                     for(var p in this.points) {
-                        s += '<br/><span style="color:' + this.points[p].color + '">\u25CF</span> ' + this.points[p].series.name + ': ' + this.points[p].y;
+                        s += '<br/><span style="color:' + this.points[p].color + '">\u25CF</span> ' + this.points[p].series.name + ': ' + Math.floor(this.points[p].y * 100)/100;
                     }
                     return s;
                 },
@@ -101,8 +115,8 @@ function colors(count)
                         color: 'rgba(50,50,50,0.8)'
                     },
                     formatter: function () {
-                        return this.value;
-                    }
+                        return timeFormat(this.value);
+                    },
                 }
             },
             yAxis: {
