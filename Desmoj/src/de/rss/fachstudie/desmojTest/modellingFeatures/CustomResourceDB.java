@@ -1,6 +1,6 @@
 package de.rss.fachstudie.desmojTest.modellingFeatures;
 
-import de.rss.fachstudie.desmojTest.entities.MicroserviceThread;
+import de.rss.fachstudie.desmojTest.entities.Thread;
 import desmoj.core.simulator.Model;
 
 import java.util.Enumeration;
@@ -12,19 +12,19 @@ public class CustomResourceDB {
     private Model owner;
     private boolean debugMode;
     private Hashtable<CustomRes, Vector<AssignedResources>> assignmentTable;
-    private Hashtable<MicroserviceThread, RequestedResources> requestTable;
+    private Hashtable<Thread, RequestedResources> requestTable;
     private Hashtable<CustomRes, Integer> effCapacity;
 
     private static class AssignedResources {
-        private MicroserviceThread thread;
+        private Thread thread;
         private int seizedUnits;
 
-        protected AssignedResources(MicroserviceThread thread, int seizedRes) {
+        protected AssignedResources(Thread thread, int seizedRes) {
             this.thread = thread;
             this.seizedUnits = seizedRes;
         }
 
-        protected MicroserviceThread getThread() {
+        protected Thread getThread() {
             return this.thread;
         }
 
@@ -63,13 +63,13 @@ public class CustomResourceDB {
         this.owner = owner;
 
         assignmentTable = new Hashtable<CustomRes, Vector<AssignedResources>>();
-        requestTable = new Hashtable<MicroserviceThread, RequestedResources>();
+        requestTable = new Hashtable<Thread, RequestedResources>();
         effCapacity = new Hashtable<CustomRes, Integer>();
 
         debugOn();
     }
 
-    private boolean checkThread(MicroserviceThread thread) {
+    private boolean checkThread(Thread thread) {
         if (thread == null) {
             return false;
         }
@@ -101,7 +101,7 @@ public class CustomResourceDB {
      * @param doneThread
      * @param quantity
      */
-    public void deleteResAllocation(CustomRes resPool, MicroserviceThread doneThread, int quantity) {
+    public void deleteResAllocation(CustomRes resPool, Thread doneThread, int quantity) {
 
         // Check for null references and negative quantity
         if (!checkThread(doneThread)) {
@@ -174,7 +174,7 @@ public class CustomResourceDB {
      * @param resPool
      * @param quantity
      */
-    public void deleteResRequest(MicroserviceThread gainThread, CustomRes resPool, int quantity) {
+    public void deleteResRequest(Thread gainThread, CustomRes resPool, int quantity) {
 
         // Check for null references and negative quantity
         if (!checkThread(gainThread)) {
@@ -226,7 +226,7 @@ public class CustomResourceDB {
      * @param allocatingThread
      * @param quantity
      */
-    public void noteResourceAllocation(CustomRes resPool, MicroserviceThread allocatingThread, int quantity) {
+    public void noteResourceAllocation(CustomRes resPool, Thread allocatingThread, int quantity) {
         // Check for null references and negative quantity
         if (!checkThread(allocatingThread)) {
             return;
@@ -289,7 +289,7 @@ public class CustomResourceDB {
      * @param resPool
      * @param quantity
      */
-    public void noteResourceRequest(MicroserviceThread requestingThread, CustomRes resPool, int quantity) {
+    public void noteResourceRequest(Thread requestingThread, CustomRes resPool, int quantity) {
         // Check for null references and negative quantity
         if (!checkThread(requestingThread)) {
             return;
@@ -324,7 +324,7 @@ public class CustomResourceDB {
      *
      * @param thread
      */
-    private void reduce(MicroserviceThread thread) {
+    private void reduce(Thread thread) {
         // get the Vector of all the resources this thread holds at the
         // moment
         Vector<CustomResource> usedResVec = thread.getUsedResources();

@@ -2,6 +2,7 @@ package de.rss.fachstudie.desmojTest.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.*;
+import de.rss.fachstudie.desmojTest.entities.Thread;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.Event;
@@ -13,17 +14,36 @@ import java.util.SortedMap;
 /**
  * This event class gets a working object and schedules a timespan during a microservice is busy.
  */
-public class StartMicroserviceEvent extends Event<MessageObject> {
+public class StartEvent extends Event<MessageObject> {
     private MainModelClass model;
     private int id;
     private String operation;
 
-    public StartMicroserviceEvent(Model owner, String name, boolean showInTrace, int id, String operation){
+    public StartEvent(Model owner, String name, boolean showInTrace, int id, String operation){
         super(owner, name, showInTrace);
 
         this.id = id;
         this.operation = operation;
         model = (MainModelClass) owner;
+    }
+
+    /**
+     * Chooses the service with most resources and space available
+     * @param id
+     * @return
+     */
+    private Microservice getServiceEntity(int id) {
+        double min = Double.POSITIVE_INFINITY;
+        int i = 0;
+        for(int instance = 0; instance < model.services.get(id).size(); ++instance) {
+            if(!model.services.get(id).get(instance).isKilled()) {
+                if(model.services.get(id).get(instance).getThreads().size() < min) {
+                    min = model.services.get(id).get(instance).getThreads().size();
+                    i = instance;
+                }
+            }
+        }
+        return model.services.get(id).get(i);
     }
 
     @Override
@@ -43,7 +63,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             model.taskQueues.get(id).insert(messageObject);
 
             boolean availServices = false;
-            for(MicroserviceEntity m : model.idleQueues.get(id)) {
+            for(Microservice m : model.services.get(id)) {
                 if(!m.isKilled()) {
                     availServices = true;
                     break;
@@ -53,9 +73,9 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
             // Check if there are available services
             if(availServices) {
                 // The service with most available resources gets chosen
-                MicroserviceEntity msEntity = model.getServiceEntity(id);
+                Microservice msEntity = getServiceEntity(id);
 
-                StopMicroserviceEvent msEndEvent = new StopMicroserviceEvent(model,
+                StopEvent msEndEvent = new StopEvent(model,
                         "Stop Event: " + msEntity.getName() + "(" + operation + ")",
                         model.getShowStopEvent(), id, operation);
 
@@ -80,13 +100,13 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                                 if (prob.sample() <= probability) {
 
                                     // Add Stacked operation info to message object
-                                    MicroserviceThread thread = new MicroserviceThread(model, "", false);
+                                    Thread thread = new Thread(model, "", false);
                                     msEntity.getThreads().insert(thread);
                                     Predecessor predecessor = new Predecessor(msEntity, thread, msEndEvent);
                                     messageObject.addDependency(predecessor);
 
                                     // Immediately start dependant operation
-                                    StartMicroserviceEvent nextEvent = new StartMicroserviceEvent(model,
+                                    StartEvent nextEvent = new StartEvent(model,
                                             "Start Event: " + nextService + "(" + nextOperation + ")",
                                             model.getShowStartEvent(), nextServiceId, nextOperation);
                                     nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
@@ -100,7 +120,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                                         // Not enough resources, try it later
                                         schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
                                     }
-                                    MicroserviceThread thread = new MicroserviceThread(model, "", false);
+                                    Thread thread = new Thread(model, "", false);
                                     msEntity.getThreads().insert(thread);
                                     msEndEvent.schedule(msEntity, thread, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                                 }
@@ -116,7 +136,7 @@ public class StartMicroserviceEvent extends Event<MessageObject> {
                                 // Not enough resources, try it later
                                 schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
                             }
-                            MicroserviceThread thread = new MicroserviceThread(model, "", false);
+                            Thread thread = new Thread(model, "", false);
                             msEntity.getThreads().insert(thread);
                             msEndEvent.schedule(msEntity, thread, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
                         }

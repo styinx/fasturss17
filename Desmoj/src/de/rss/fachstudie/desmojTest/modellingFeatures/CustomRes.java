@@ -1,7 +1,7 @@
 package de.rss.fachstudie.desmojTest.modellingFeatures;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.entities.MicroserviceThread;
+import de.rss.fachstudie.desmojTest.entities.Thread;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.advancedModellingFeatures.report.ResourceReporter;
 import desmoj.core.report.Reporter;
@@ -13,7 +13,7 @@ public class CustomRes extends QueueBased {
 
     private static int resNum = 0;
     private int id;
-    private QueueList<MicroserviceThread> queue;
+    private QueueList<Thread> queue;
     private Vector<UsedResource> usedResources;
     private Vector<CustomResource> unusedResources;
     private CustomResourceDB resourceDB;
@@ -22,15 +22,15 @@ public class CustomRes extends QueueBased {
     private int avail;
 
     private static class UsedResource {
-        private MicroserviceThread thread;
+        private Thread thread;
         private Vector<CustomResource> occupiedResources;
 
-        protected UsedResource(MicroserviceThread thread, Vector<CustomResource> occupiedResources) {
+        protected UsedResource(Thread thread, Vector<CustomResource> occupiedResources) {
             this.thread = thread;
             this.occupiedResources = occupiedResources;
         }
 
-        protected MicroserviceThread getMicroserviceThread() {
+        protected Thread getMicroserviceThread() {
             return this.thread;
         }
 
@@ -46,16 +46,16 @@ public class CustomRes extends QueueBased {
 
         switch (sortOrder) {
             case QueueBased.FIFO:
-                queue = new QueueListFifo<MicroserviceThread>();
+                queue = new QueueListFifo<Thread>();
                 break;
             case QueueBased.LIFO:
-                queue = new QueueListLifo<MicroserviceThread>();
+                queue = new QueueListLifo<Thread>();
                 break;
             case QueueBased.RANDOM:
-                queue = new QueueListRandom<MicroserviceThread>();
+                queue = new QueueListRandom<Thread>();
                 break;
             default:
-                queue = new QueueListFifo<MicroserviceThread>();
+                queue = new QueueListFifo<Thread>();
         }
 
         queue.setQueueBased(this);
@@ -85,7 +85,7 @@ public class CustomRes extends QueueBased {
 
         this.id = resNum++;
 
-        queue = new QueueListFifo<MicroserviceThread>();
+        queue = new QueueListFifo<Thread>();
         queue.setQueueBased(this);
 
         unusedResources = new Vector<CustomResource>();
@@ -110,12 +110,12 @@ public class CustomRes extends QueueBased {
     }
 
     /**
-     * Activates the MicroserviceThread, given as a parameter of this method, as the next thread.
-     * This thread should be a MicroserviceThread waiting in the queue for some resources.
+     * Activates the Thread, given as a parameter of this method, as the next thread.
+     * This thread should be a Thread waiting in the queue for some resources.
      *
      * @param thread
      */
-    protected void activateAsNext(MicroserviceThread thread) {
+    protected void activateAsNext(Thread thread) {
         if (thread != null) {
 
             if (thread.isScheduled()) {
@@ -151,7 +151,7 @@ public class CustomRes extends QueueBased {
      * in the waiting-queue is satisfied.
      */
     protected void activateFirst() {
-        MicroserviceThread first = queue.first();
+        Thread first = queue.first();
 
         if (first != null) {
 
@@ -184,7 +184,7 @@ public class CustomRes extends QueueBased {
 
     private CustomResource[] deliver(int n) {
         // TODO: get currentMicroserviceThread
-        MicroserviceThread currentThread = new MicroserviceThread(getModel(), "tpm", false);
+        Thread currentThread = new Thread(getModel(), "tpm", false);
 
         // get resources from unused resource pool
         CustomResource[] resArray = new CustomResource[n];
@@ -202,7 +202,7 @@ public class CustomRes extends QueueBased {
         return resArray;
     }
 
-    protected int heldResources(MicroserviceThread thread) {
+    protected int heldResources(Thread thread) {
         int j = 0;
 
         for (int i = 0; i < usedResources.size(); i++) {
@@ -219,7 +219,7 @@ public class CustomRes extends QueueBased {
     public boolean provide(int n) throws SuspendExecution {
 
         // TODO: get currentMicroserviceThread
-        MicroserviceThread thread = new MicroserviceThread(getModel(), "tpm", false);
+        Thread thread = new Thread(getModel(), "tpm", false);
 
         if (thread == null) {
             return false;
@@ -277,7 +277,7 @@ public class CustomRes extends QueueBased {
     public void takeBack(CustomResource[] returnedResources) {
 
         // TODO: get currentMicroserviceThread
-        MicroserviceThread currentThread = new MicroserviceThread(getModel(), "tpm", false);
+        Thread currentThread = new Thread(getModel(), "tpm", false);
 
         if (currentThread == null) {
             return;
@@ -313,7 +313,7 @@ public class CustomRes extends QueueBased {
     public void takeBack(int n) {
 
         // TODO: get currentMicroserviceThread
-        MicroserviceThread currentThread = new MicroserviceThread(getModel(), "tpm", false);
+        Thread currentThread = new Thread(getModel(), "tpm", false);
 
         if (currentThread == null) {
             return;
@@ -348,7 +348,7 @@ public class CustomRes extends QueueBased {
         activateFirst();
     }
 
-    protected void updateProvidedRes(MicroserviceThread crntThread, CustomResource[] provRes) {
+    protected void updateProvidedRes(Thread crntThread, CustomResource[] provRes) {
         boolean holdsResources = false;
 
         // search the whole vector
@@ -393,7 +393,7 @@ public class CustomRes extends QueueBased {
         }
     }
 
-    protected void updateTakenBackRes(MicroserviceThread crntThread, CustomResource[] returnedRes) {
+    protected void updateTakenBackRes(Thread crntThread, CustomResource[] returnedRes) {
 
         // search the whole vector
         for (int i = 0; i < usedResources.size(); i++) {

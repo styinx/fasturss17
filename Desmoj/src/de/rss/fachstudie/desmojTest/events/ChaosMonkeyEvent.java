@@ -1,8 +1,8 @@
 package de.rss.fachstudie.desmojTest.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
-import de.rss.fachstudie.desmojTest.entities.MicroserviceThread;
+import de.rss.fachstudie.desmojTest.entities.Microservice;
+import de.rss.fachstudie.desmojTest.entities.Thread;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
@@ -27,11 +27,11 @@ public class ChaosMonkeyEvent extends ExternalEvent {
     public void eventRoutine() throws SuspendExecution {
 
         for(int i = 0; i < instances; ++i) {
-            for(MicroserviceEntity msEntity : model.idleQueues.get(msId))
+            for(Microservice msEntity : model.services.get(msId))
             {
                 if(!msEntity.isKilled()) {
                     msEntity.setKilled(true);
-                    msEntity.setThreads(new Queue<MicroserviceThread>(model, "", false, false));
+                    msEntity.setThreads(new Queue<Thread>(model, "", false, false));
                     model.serviceCPU.get(msEntity.getId()).put(msEntity.getSid(), msEntity.getCPU());
                     this.instances -= 1;
                     break;

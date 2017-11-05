@@ -6,7 +6,7 @@ import desmoj.core.simulator.*;
 import java.util.HashMap;
 
 /**
- * A MicroserviceEntity represents a collection of services.
+ * A Microservice represents a collection of services.
  * Each instance is able to call operations to another service instance.
  *
  * model:       reference to the experiment model
@@ -17,7 +17,7 @@ import java.util.HashMap;
  * instances:   number of instances a service can create
  * operations:  an array of dependent operations
  */
-public class MicroserviceEntity extends Entity{
+public class Microservice extends Entity{
     private MainModelClass model;
     private boolean killed = false;
     private int id;
@@ -25,11 +25,11 @@ public class MicroserviceEntity extends Entity{
     private String name = "";
     private int CPU = 0;
     private int instances = 0;
-    private Queue<MicroserviceThread> threads;
+    private Queue<Thread> threads;
     private Operation[] operations;
     private HashMap<Integer, Double> responseTime;
 
-    public MicroserviceEntity(Model owner, String name, boolean showInTrace){
+    public Microservice(Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
 
         this.model = (MainModelClass) owner;
@@ -88,11 +88,11 @@ public class MicroserviceEntity extends Entity{
         this.instances = numberOfInstances;
     }
 
-    public Queue<MicroserviceThread> getThreads() {
+    public Queue<Thread> getThreads() {
         return threads;
     }
 
-    public void setThreads(Queue<MicroserviceThread> threads) {
+    public void setThreads(Queue<Thread> threads) {
         this.threads = threads;
     }
 

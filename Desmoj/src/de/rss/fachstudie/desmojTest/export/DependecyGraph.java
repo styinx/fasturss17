@@ -1,6 +1,6 @@
 package de.rss.fachstudie.desmojTest.export;
 
-import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
+import de.rss.fachstudie.desmojTest.entities.Microservice;
 import de.rss.fachstudie.desmojTest.entities.Operation;
 
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import java.util.SortedMap;
 
 public class DependecyGraph {
     private List<Integer> nodes;
-    private HashMap<Integer, MicroserviceEntity> microservices;
-    public DependecyGraph(HashMap<Integer, MicroserviceEntity> microservices, int id) {
+    private HashMap<Integer, Microservice> microservices;
+    public DependecyGraph(HashMap<Integer, Microservice> microservices, int id) {
         this.microservices = microservices;
         this.nodes = new ArrayList<>();
     }

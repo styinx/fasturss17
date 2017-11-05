@@ -11,7 +11,7 @@ import desmoj.core.simulator.TimeSpan;
 /**
  *
  */
-public class InitialMicroserviceEvent extends ExternalEvent {
+public class InitialEvent extends ExternalEvent {
     private MainModelClass model;
     private double time;
     private ContDistExponential timeToCreate;
@@ -27,7 +27,7 @@ public class InitialMicroserviceEvent extends ExternalEvent {
      * @param showInTrace
      * @param time          Time period to create first event
      */
-    public InitialMicroserviceEvent(Model owner, String name, boolean showInTrace, double time, int msId, String op) {
+    public InitialEvent(Model owner, String name, boolean showInTrace, double time, int msId, String op) {
         super(owner, name, showInTrace);
 
         model = (MainModelClass) owner;
@@ -58,7 +58,7 @@ public class InitialMicroserviceEvent extends ExternalEvent {
 
         // Create a message object and begin event
         MessageObject initialMessageObject = new MessageObject(model, this.getClass().getName(), model.getShowStartEvent());
-        StartMicroserviceEvent startEvent = new StartMicroserviceEvent(model,
+        StartEvent startEvent = new StartEvent(model,
                 "Start Event: " + microservice + "(" + operation + ")",
                 model.getShowStartEvent(), msId, operation);
 

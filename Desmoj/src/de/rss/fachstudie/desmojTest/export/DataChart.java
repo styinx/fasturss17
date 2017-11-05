@@ -1,5 +1,7 @@
 package de.rss.fachstudie.desmojTest.export;
 
+import de.rss.fachstudie.desmojTest.models.MainModelClass;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,12 +12,13 @@ public class DataChart {
     private TreeMap<String, Double[]> series;
     private String options = "";
 
-    public DataChart(String chartId, TreeMap<String, Double[]> series) {
+    public DataChart(MainModelClass model, String chartId, TreeMap<String, Double[]> series) {
         this.chartId = chartId;
         this.series = series;
         this.options =
-                "title : { text : '" + chartId + "'}, " +
+                "title : {text : '" + chartId + "'}, " +
                 "legend : {enabled: true}, " +
+                "xAxis: {max:" + model.getSimulationTime() + "}, " +
                 "colors : colors(" + series.keySet().size() + "), " +
                 "series : " +
                 "[";

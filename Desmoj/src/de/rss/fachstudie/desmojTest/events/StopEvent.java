@@ -1,18 +1,19 @@
 package de.rss.fachstudie.desmojTest.events;
 
 import de.rss.fachstudie.desmojTest.entities.*;
+import de.rss.fachstudie.desmojTest.entities.Thread;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.EventOf3Entities;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
-public class StopMicroserviceEvent extends EventOf3Entities<MicroserviceEntity, MicroserviceThread, MessageObject> {
+public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObject> {
     private MainModelClass model;
     private int id;
     private String operation;
 
-    StopMicroserviceEvent(Model owner, String name, Boolean showInTrace, int id, String operation){
+    StopEvent(Model owner, String name, Boolean showInTrace, int id, String operation){
         super(owner, name, showInTrace);
 
         this.id = id;
@@ -21,7 +22,7 @@ public class StopMicroserviceEvent extends EventOf3Entities<MicroserviceEntity, 
     }
 
     @Override
-    public void eventRoutine(MicroserviceEntity msEntity, MicroserviceThread thread, MessageObject messageObject) {
+    public void eventRoutine(Microservice msEntity, Thread thread, MessageObject messageObject) {
         for(Operation operation : msEntity.getOperations()) {
             if (operation.getName().equals(this.operation)) {
 
@@ -41,9 +42,9 @@ public class StopMicroserviceEvent extends EventOf3Entities<MicroserviceEntity, 
                 if (messageObject.getDependency().size() > 0) {
 
                     Predecessor predecessor = messageObject.removeDependency();
-                    MicroserviceEntity previousMs = predecessor.getEntity();
-                    MicroserviceThread previousThread = predecessor.getThread();
-                    StopMicroserviceEvent previousStopEvent = predecessor.getStopEvent();
+                    Microservice previousMs = predecessor.getEntity();
+                    Thread previousThread = predecessor.getThread();
+                    StopEvent previousStopEvent = predecessor.getStopEvent();
                     Operation stopOperation = new Operation(model, "", false);
                     int previousId = previousMs.getId();
 

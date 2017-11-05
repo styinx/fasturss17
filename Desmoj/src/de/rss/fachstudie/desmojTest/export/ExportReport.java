@@ -1,9 +1,7 @@
 package de.rss.fachstudie.desmojTest.export;
 
-import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
+import de.rss.fachstudie.desmojTest.entities.Microservice;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
-import desmoj.core.simulator.TimeInstant;
-import sun.reflect.generics.tree.Tree;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,10 +41,11 @@ public class ExportReport {
         TreeMap<String, Double[]> responseTime = new TreeMap<>();
         TreeMap<String, Double[]> taskQueueWork = new TreeMap<>();
 
-        for(int id = 0; id < model.idleQueues.size(); id++) {
-            String serviceName = model.idleQueues.get(id).get(0).getName();
-            for(int instance = 0; instance < model.idleQueues.get(id).get(0).getInstances(); instance++) {
-                MicroserviceEntity ms = model.idleQueues.get(id).get(instance);
+        for(int id = 0; id < model.services.size(); id++) {
+            String serviceName = model.services.get(id).get(0).getName();
+
+            for(int instance = 0; instance < model.services.get(id).get(0).getInstances(); instance++) {
+                Microservice ms = model.services.get(id).get(instance);
                 activeInstances.put(ms.getName() + " #" + instance,
                         this.getTimeSeries("Report/resources/Threads_" + ms.getName() + "_" + instance + ".txt"));
                 usedCPU.put(ms.getName() + " #" + instance,
@@ -57,13 +56,21 @@ public class ExportReport {
             taskQueueWork.put(serviceName, this.getTimeSeries("Report/resources/TaskQueue_" + serviceName + ".txt"));
         }
 
-        DataChart chart1 = new DataChart("Active Microservice Threads", activeInstances);
-        DataChart chart2 = new DataChart("Used CPU", usedCPU);
-        DataChart chart3 = new DataChart("Response Time per Instance", responseTime);
-        DataChart chart4 = new DataChart("Task Queue per Service", taskQueueWork);
+        DataChart chart1 = new DataChart(model, "Active Microservice Threads", activeInstances);
+        DataChart chart2 = new DataChart(model, "Used CPU in percent", usedCPU);
+        DataChart chart3 = new DataChart(model, "Thread Response Time", responseTime);
+        DataChart chart4 = new DataChart(model, "Task Queue per Service", taskQueueWork);
 
-        String divs = chart1.printDiv() + chart2.printDiv() + chart3.printDiv() + chart4.printDiv();
-        String charts = chart1.printStockChart() + chart2.printStockChart() + chart3.printStockChart() + chart4.printStockChart();
+        String divs = chart1.printDiv()
+                + chart2.printDiv()
+                + chart3.printDiv()
+                + chart4.printDiv();
+
+        String charts = chart1.printStockChart()
+                + chart2.printStockChart()
+                + chart3.printStockChart()
+                + chart4.printStockChart();
+
         String contents = divs + charts;
 
         try {

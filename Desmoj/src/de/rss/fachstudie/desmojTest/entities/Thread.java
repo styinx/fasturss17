@@ -14,13 +14,13 @@ import desmoj.core.simulator.TimeInstant;
 import java.util.Vector;
 
 /**
- * A MicroserviceThread describes a part of a microservice instance.
+ * A Thread describes a part of a microservice instance.
  * This thread can performs work in form of operations.
  *
  * id:  the service id it belongs to
  * tid: the thread id (map to the number of existing threads in the service)
  */
-public class MicroserviceThread extends Entity {
+public class Thread extends Entity {
     MainModelClass model;
     private int id;
     private int tid;
@@ -28,7 +28,7 @@ public class MicroserviceThread extends Entity {
     private boolean isBlocked;
     private Vector<CustomResource> usedResources;
 
-    public MicroserviceThread(Model owner, String name, boolean b) {
+    public Thread(Model owner, String name, boolean b) {
         super(owner, name, b);
 
         model = (MainModelClass) owner;
@@ -73,7 +73,7 @@ public class MicroserviceThread extends Entity {
     }
 
     /**
-     * Schedules this MicroserviceThread to be activated
+     * Schedules this Thread to be activated
      * directly after the given schedulable, which itself
      * must already be scheduled
      *
@@ -105,7 +105,7 @@ public class MicroserviceThread extends Entity {
     }
 
     /**
-     * Maked the MicroserviceThread obtain an array of resources and store them for further usage.
+     * Maked the Thread obtain an array of resources and store them for further usage.
      *
      * @param obtainedResources
      */

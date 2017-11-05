@@ -1,11 +1,11 @@
 package de.rss.fachstudie.desmojTest.models;
 
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
-import de.rss.fachstudie.desmojTest.entities.MicroserviceEntity;
+import de.rss.fachstudie.desmojTest.entities.Microservice;
 import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
-import de.rss.fachstudie.desmojTest.events.InitialMicroserviceEvent;
-import de.rss.fachstudie.desmojTest.events.StatisticCollectorEvent;
+import de.rss.fachstudie.desmojTest.events.InitialEvent;
+import de.rss.fachstudie.desmojTest.events.StatisticEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.modellingFeatures.CustomResourceDB;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
@@ -31,9 +31,9 @@ public class MainModelClass extends Model {
     private boolean showMonkeyEvent = false;
 
     // Queues
-    public HashMap<Integer, Queue<MicroserviceEntity>>   idleQueues;
-    public HashMap<Integer, Queue<MessageObject>>        taskQueues;
-    public HashMap<Integer, MicroserviceEntity>          allMicroservices;
+    public HashMap<Integer, Queue<Microservice>>    services;
+    public HashMap<Integer, Queue<MessageObject>>   taskQueues;
+    public HashMap<Integer, Microservice>           allMicroservices;
 
     // Resources
     public HashMap<Integer, HashMap<Integer, Integer>> serviceCPU;
@@ -118,18 +118,18 @@ public class MainModelClass extends Model {
      * @param id
      * @return
      */
-    public MicroserviceEntity getServiceEntity(int id) {
+    public Microservice getServiceEntity(int id) {
         double min = Double.POSITIVE_INFINITY;
         int i = 0;
-        for(int instance = 0; instance < idleQueues.get(id).size(); ++instance) {
-            if(!idleQueues.get(id).get(instance).isKilled()) {
-                if(idleQueues.get(id).get(instance).getThreads().size() < min) {
-                    min = idleQueues.get(id).get(instance).getThreads().size();
+        for(int instance = 0; instance < services.get(id).size(); ++instance) {
+            if(!services.get(id).get(instance).isKilled()) {
+                if(services.get(id).get(instance).getThreads().size() < min) {
+                    min = services.get(id).get(instance).getThreads().size();
                     i = instance;
                 }
             }
         }
-        return idleQueues.get(id).get(i);
+        return services.get(id).get(i);
     }
 
     /**
@@ -159,9 +159,9 @@ public class MainModelClass extends Model {
     public void doInitialSchedules() {
 
         // Fire off all generators for scheduling
-        InitialMicroserviceEvent generators[] = InputParser.generators;
-        for(InitialMicroserviceEvent generator : generators) {
-            InitialMicroserviceEvent initEvent = new InitialMicroserviceEvent(this,
+        InitialEvent generators[] = InputParser.generators;
+        for(InitialEvent generator : generators) {
+            InitialEvent initEvent = new InitialEvent(this,
                     "<b><u>Inital Event:</u></b> " + generator.getMicroservice(), showInitEvent, generator.getTime(),
                     getIdByName(generator.getMicroservice()), generator.getOperation());
             initEvent.schedule(new TimeSpan(0, timeUnit));
@@ -177,7 +177,7 @@ public class MainModelClass extends Model {
         }
 
         // Fire off statistics collection
-        StatisticCollectorEvent collectorEvent = new StatisticCollectorEvent(this, "", false);
+        StatisticEvent collectorEvent = new StatisticEvent(this, "", false);
         collectorEvent.schedule(new TimeSpan(0, timeUnit));
     }
 
@@ -196,7 +196,7 @@ public class MainModelClass extends Model {
         // Queues
         allMicroservices    = new HashMap<>();
         taskQueues          = new HashMap<>();
-        idleQueues          = new HashMap<>();
+        services            = new HashMap<>();
 
         // Resources
         serviceCPU          = new HashMap<>();
@@ -207,13 +207,13 @@ public class MainModelClass extends Model {
         taskQueueStatistics = new HashMap<>();
 
         // Load JSON
-        MicroserviceEntity[] microservices = InputParser.microservices;
+        Microservice[] microservices = InputParser.microservices;
         for(int id = 0; id < microservices.length; id++){
 
             String serviceName = microservices[id].getName();
 
             // Queues
-            Queue<MicroserviceEntity> idleQueue = new Queue<MicroserviceEntity>(this, "Idle Queue: " + serviceName, true, true);
+            Queue<Microservice> idleQueue = new Queue<Microservice>(this, "Idle Queue: " + serviceName, true, true);
             Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + serviceName, true , true) ;
 
             // Resources
@@ -237,7 +237,7 @@ public class MainModelClass extends Model {
             }
 
             for(int instance = 0; instance < microservices[id].getInstances(); instance++){
-                MicroserviceEntity msEntity = new MicroserviceEntity(this , microservices[id].getName(), true );
+                Microservice msEntity = new Microservice(this , microservices[id].getName(), true );
                 msEntity.setName(microservices[id].getName());
                 msEntity.setId(id);
                 msEntity.setSid(instance);
@@ -264,7 +264,7 @@ public class MainModelClass extends Model {
             }
             // Queues
             taskQueues.put(id, taskQueue);
-            idleQueues.put(id, idleQueue);
+            services.put(id, idleQueue);
 
             // Resources
             serviceCPU.put(id, cpu);

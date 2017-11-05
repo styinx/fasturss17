@@ -1,30 +1,30 @@
 package de.rss.fachstudie.desmojTest.entities;
 
-import de.rss.fachstudie.desmojTest.events.StopMicroserviceEvent;
+import de.rss.fachstudie.desmojTest.events.StopEvent;
 
 /**
  * A class to save a triplet of previous operations
  */
 public class Predecessor {
-    private MicroserviceEntity entity;
-    private MicroserviceThread thread;
-    private StopMicroserviceEvent stopEvent;
+    private Microservice entity;
+    private Thread thread;
+    private StopEvent stopEvent;
 
-    public Predecessor(MicroserviceEntity e, MicroserviceThread t, StopMicroserviceEvent s) {
+    public Predecessor(Microservice e, Thread t, StopEvent s) {
         entity = e;
         thread = t;
         stopEvent = s;
     }
 
-    public MicroserviceEntity getEntity() {
+    public Microservice getEntity() {
         return entity;
     }
 
-    public MicroserviceThread getThread() {
+    public Thread getThread() {
         return thread;
     }
 
-    public StopMicroserviceEvent getStopEvent() {
+    public StopEvent getStopEvent() {
         return stopEvent;
     }
 }
