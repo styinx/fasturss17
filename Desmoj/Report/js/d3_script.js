@@ -4,12 +4,21 @@ setTimeout(function(){
     {
         graph = {nodes : [{name : "Graph is Empty (Some problems occurred)"}], links : []}
     }
+    if(graphMinimalistic == null)
+    {
+        var graphMinimalistic = false;
+    }
     document.getElementById('info').style.display = "none";
+    if(graphMinimalistic)
+    {
+        document.getElementById('warning').style.display = "block";
+    }
+
     var color = d3.scale.category20();
     var width = window.innerWidth;
     var height = window.innerHeight;
-    var power =  graph.nodes.length * -10;
-    var distance = 25 + graph.nodes.length * 3;
+    var power = ((graph.nodes.length > 100) ? 50 : graph.nodes.length) * -10;
+    var distance = 25 + ((graph.nodes.length > 100) ? 50 : graph.nodes.length) * 3;
     var svg = d3.select("#svg");//d3.select("body").append("svg").attr("width", '100%').attr("height", height - 1);
     var force = d3.layout.force().charge(power).linkDistance(distance).size([width, height]);
 
@@ -100,6 +109,7 @@ setTimeout(function(){
 function renameLinks(graph)
 {
     var links = [];
+    var i = 0;
     graph.links.forEach(function(l)
     {
         var sourceNode = graph.nodes.filter(function(n) { return n.group === l.source; })[0];
@@ -116,6 +126,7 @@ function groupLinks(graph)
 {
     var links = [];
     var groups = {};
+
     graph.links.forEach(function(l)
     {
         if(!groups[l.source])

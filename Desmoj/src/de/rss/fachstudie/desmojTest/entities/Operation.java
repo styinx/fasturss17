@@ -28,6 +28,7 @@ public class Operation extends Entity {
     private String[] patterns = {};
     private double duration = 0;
     private int CPU = 0;
+    private int demand = 0;
     private double probability = 0;
     private SortedMap<String, String>[] dependencies;
 

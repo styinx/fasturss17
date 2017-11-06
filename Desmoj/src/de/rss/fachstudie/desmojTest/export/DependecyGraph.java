@@ -2,6 +2,7 @@ package de.rss.fachstudie.desmojTest.export;
 
 import de.rss.fachstudie.desmojTest.entities.Microservice;
 import de.rss.fachstudie.desmojTest.entities.Operation;
+import de.rss.fachstudie.desmojTest.utils.InputParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.SortedMap;
 public class DependecyGraph {
     private List<Integer> nodes;
     private HashMap<Integer, Microservice> microservices;
+
     public DependecyGraph(HashMap<Integer, Microservice> microservices, int id) {
         this.microservices = microservices;
         this.nodes = new ArrayList<>();
@@ -44,7 +46,12 @@ public class DependecyGraph {
                     labels += "'" + op.getName() + "', ";
                 }
                 nodes.add(id);
-                for(int i = 0; i < microservices.get(id).getInstances(); ++i) {
+
+                int instanceLimit = microservices.get(id).getInstances();
+                if(InputParser.simulation.get("report").equals("minimalistic")) {
+                    instanceLimit = (microservices.get(id).getInstances() < 10) ? microservices.get(id).getInstances() : 10;
+                }
+                for(int i = 0; i < instanceLimit; ++i) {
                     json += "{ name: '" + microservices.get(id).getName() +
                         "', id: " + (id + microservices.get(id).getInstances() + microservices.keySet().size() * i) +
                         ", labels : [" + labels.substring(0, labels.length() - 2) + "]" +
@@ -59,6 +66,10 @@ public class DependecyGraph {
         String json = "";
         nodes = new ArrayList<>();
         for(Integer id : microservices.keySet()) {
+            int instanceLimit = microservices.get(id).getInstances();
+            if(InputParser.simulation.get("report").equals("minimalistic")) {
+                instanceLimit = (microservices.get(id).getInstances() < 10) ? microservices.get(id).getInstances() : 10;
+            }
             if(!nodes.contains(id)) {
                 nodes.add(id);
                 String labels = "";
@@ -68,7 +79,7 @@ public class DependecyGraph {
                         int depId = getIdByName(depService.get("service"));
                         json += "{ source: " + id
                                 + ", target : " + depId
-                                + ", value : " + microservices.get(id).getInstances() + "}, ";
+                                + ", value : " + instanceLimit + "}, ";
                     }
                 }
             }

@@ -24,6 +24,7 @@ public class Microservice extends Entity{
     private int sid;
     private String name = "";
     private int CPU = 0;
+    private int capacity = 0;
     private int instances = 0;
     private Queue<Thread> threads;
     private Operation[] operations;

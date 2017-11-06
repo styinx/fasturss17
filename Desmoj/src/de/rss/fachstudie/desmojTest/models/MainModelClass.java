@@ -2,7 +2,6 @@ package de.rss.fachstudie.desmojTest.models;
 
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.entities.Microservice;
-import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
@@ -11,10 +10,8 @@ import de.rss.fachstudie.desmojTest.utils.InputParser;
 import de.rss.fachstudie.desmojTest.utils.InputValidator;
 import desmoj.core.simulator.*;
 import desmoj.core.statistic.TimeSeries;
+import org.apache.commons.cli.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 public class MainModelClass extends Model {
     private TimeUnit timeUnit       = TimeUnit.SECONDS;
     private double simulationTime   = 0;
-    private int datapoints          = 0;
     private String resourcePath     = "Report/resources/";
     private boolean showInitEvent   = false;
     private boolean showStartEvent  = false;
@@ -47,14 +43,11 @@ public class MainModelClass extends Model {
     public HashMap<Integer, HashMap<Integer, TimeSeries>> threadStatistics;
     public HashMap<Integer, HashMap<Integer, TimeSeries>> cpuStatistics;
     public HashMap<Integer, HashMap<Integer, TimeSeries>> responseStatisitcs;
+    public HashMap<Integer, TimeSeries> circuitBreakerStatistics;
     public HashMap<Integer, TimeSeries> taskQueueStatistics;
 
     public double getSimulationTime() {
         return simulationTime;
-    }
-
-    public double getDatapoints() {
-        return datapoints;
     }
 
     public TimeUnit getTimeUnit() {
@@ -187,7 +180,6 @@ public class MainModelClass extends Model {
     public void init() {
         // Globals
         simulationTime = Double.parseDouble(InputParser.simulation.get("duration"));
-        datapoints = Integer.parseInt(InputParser.simulation.get("datapoints"));
 
         // Resources
         resourceDB = new CustomResourceDB(this);
@@ -204,6 +196,7 @@ public class MainModelClass extends Model {
         threadStatistics    = new HashMap<>();
         cpuStatistics       = new HashMap<>();
         responseStatisitcs  = new HashMap<>();
+        circuitBreakerStatistics = new HashMap<>();
         taskQueueStatistics = new HashMap<>();
 
         // Load JSON
@@ -224,6 +217,9 @@ public class MainModelClass extends Model {
             HashMap<Integer, TimeSeries> threadStats = new HashMap<>();
             HashMap<Integer, TimeSeries> cpuStats = new HashMap<>();
             HashMap<Integer, TimeSeries> responseStats = new HashMap<>();
+            TimeSeries circuitBreakerStats = new TimeSeries(this, "Tasks refused by Circuit Breaker: " + serviceName,
+                    resourcePath + "CircuitBreaker_" + serviceName + ".txt",
+                    new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
             TimeSeries taskQueueWork = new TimeSeries(this, "Task Queue: " + serviceName,
                     resourcePath + "TaskQueue_" + serviceName + ".txt",
                     new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
@@ -271,16 +267,17 @@ public class MainModelClass extends Model {
             threadStatistics.put(id, threadStats);
             cpuStatistics.put(id, cpuStats);
             responseStatisitcs.put(id, responseStats);
+            circuitBreakerStatistics.put(id, circuitBreakerStats);
             taskQueueStatistics.put(id, taskQueueWork);
         }
     }
 
     private String timeFormat(long nanosecs) {
-        long tempSec = nanosecs/(1000*1000*1000);
-        long ms = tempSec * 1000;
+        long tempSec = nanosecs / (1000*1000*1000);
+        long ms = (nanosecs / (1000*1000)) % 1000;
         long sec = tempSec % 60;
-        long min = (tempSec /60) % 60;
-        long hour = (tempSec /(60*60)) % 24;
+        long min = (tempSec / 60) % 60;
+        long hour = (tempSec / (60*60)) % 24;
         long day = (tempSec / (24*60*60)) % 24;
 
         if(day > 0)
@@ -295,8 +292,36 @@ public class MainModelClass extends Model {
     }
 
     public static void main(String[] args) {
+        String arch = "";
 
-        InputParser parser = new InputParser("example_simple.json");
+        /* Command Line parser uncomment to call from command line */
+//        Options options = new Options();
+//
+//        Option input = new Option("a", "arch", true, "input file path");
+//        input.setRequired(true);
+//        options.addOption(input);
+//
+////        Option output = new Option("r", "report", false, "create report");
+////        output.setRequired(false);
+////        options.addOption(output);
+//
+//        CommandLineParser cmdparser = new DefaultParser();
+//        HelpFormatter formatter = new HelpFormatter();
+//        CommandLine cmd;
+//
+//        try {
+//            cmd = cmdparser.parse(options, args);
+//        } catch (ParseException e) {
+//            System.out.println(e.getMessage());
+//            formatter.printHelp("Simulator", options);
+//            System.exit(1);
+//            return;
+//        }
+//
+//        arch = (cmd.getOptionValue("arch").equals("")) ? "example_simple.json" : cmd.getOptionValue("arch");
+        arch = "example_simple.json";
+
+        InputParser parser = new InputParser(arch);
         InputValidator validator = new InputValidator();
 
         if(validator.valideInput(parser)){
@@ -312,21 +337,29 @@ public class MainModelClass extends Model {
             exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(250, model.getTimeUnit()));
             exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
 
-            System.out.println("Setup took: " + model.timeFormat(System.nanoTime() - startTime));
-            long timeVal = System.nanoTime();
+            long setupTime = System.nanoTime() - startTime;
+            long tempTime = System.nanoTime();
 
             exp.start();
 
-            System.out.println("Experiment took: " + model.timeFormat(System.nanoTime() - timeVal));
-            timeVal = System.nanoTime();
+            long experimentTime = System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
 
             exp.report();
             exp.finish();
 
             ExportReport exportReport = new ExportReport(model);
 
-            System.out.println("Report took: " + model.timeFormat(System.nanoTime() - timeVal));
-            System.out.println("Execution took: " + model.timeFormat(System.nanoTime() - startTime));
+            long reportTime = System.nanoTime() - tempTime;
+            long executionTime = System.nanoTime() - startTime;
+
+            System.out.println("\n*** Simulator ***");
+            System.out.println("Simulation of Architecture:\t" + arch);
+            System.out.println("Executed Experiment:\t\t" + InputParser.simulation.get("experiment"));
+            System.out.println("Setup took:\t\t\t\t\t" + model.timeFormat(setupTime));
+            System.out.println("Experiment took:\t\t\t" + model.timeFormat(experimentTime));
+            System.out.println("Report took:\t\t\t\t" + model.timeFormat(reportTime));
+            System.out.println("Execution took:\t\t\t\t" + model.timeFormat(executionTime));
         } else {
             System.out.println("Your inserted input was not valide. Please check correctness of you JSON file.");
         }

@@ -2,6 +2,7 @@ package de.rss.fachstudie.desmojTest.export;
 
 import de.rss.fachstudie.desmojTest.entities.Microservice;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.desmojTest.utils.InputParser;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,10 +30,14 @@ public class ExportReport {
         DependecyGraph graph = new DependecyGraph(model.allMicroservices, 0);
 
         try {
-            Files.write(Paths.get("./Report/js/graph.js"), graph.printGraph().getBytes());
-            System.out.println("Created graph report.");
+            String content = "";
+            if(InputParser.simulation.get("report").equals("minimalistic")) {
+                content += "var graphMinimalistic = true;\n";
+            }
+            Files.write(Paths.get("./Report/js/graph.js"), (content + graph.printGraph()).getBytes());
+            System.out.println("\nCreated graph report.");
         } catch (IOException ex) {
-            System.out.println("Could not create graph report.");
+            System.out.println("\nCould not create graph report.");
         }
     }
 
@@ -40,12 +45,19 @@ public class ExportReport {
         TreeMap<String, TreeMap<Integer, Double>> activeInstances = new TreeMap<>();
         TreeMap<String, TreeMap<Integer, Double>> usedCPU = new TreeMap<>();
         TreeMap<String, TreeMap<Integer, Double>> responseTime = new TreeMap<>();
+        TreeMap<String, TreeMap<Integer, Double>> circuitBreaker = new TreeMap<>();
         TreeMap<String, TreeMap<Integer, Double>> taskQueueWork = new TreeMap<>();
 
         for(int id = 0; id < model.services.size(); id++) {
             String serviceName = model.services.get(id).get(0).getName();
+            int instanceLimit = model.services.get(id).get(0).getInstances();
 
-            for(int instance = 0; instance < model.services.get(id).get(0).getInstances(); instance++) {
+            if(InputParser.simulation.get("report").equals("minimalistic")) {
+                instanceLimit = (model.services.get(id).get(0).getInstances() < 10) ?
+                        model.services.get(id).get(0).getInstances() : 10;
+            }
+
+            for(int instance = 0; instance < instanceLimit; instance++) {
                 Microservice ms = model.services.get(id).get(instance);
                 activeInstances.put(ms.getName() + " #" + instance,
                         this.getTimeSeriesWithKeys(resourcePath + "Threads_" + ms.getName() + "_" + instance + ".txt"));
@@ -54,31 +66,35 @@ public class ExportReport {
                 responseTime.put(ms.getName() + " #" + instance,
                         this.getTimeSeriesWithKeys(resourcePath + "ResponseTime_" + ms.getName() + "_" + instance + ".txt"));
             }
+            circuitBreaker.put(serviceName, this.getTimeSeriesWithKeys(resourcePath + "CircuitBreaker_" + serviceName + ".txt"));
             taskQueueWork.put(serviceName, this.getTimeSeriesWithKeys(resourcePath + "TaskQueue_" + serviceName + ".txt"));
         }
 
         DataChart chart1 = new DataChart(model, "Active Microservice Threads", activeInstances);
         DataChart chart2 = new DataChart(model, "Used CPU in percent", usedCPU);
         DataChart chart3 = new DataChart(model, "Thread Response Time", responseTime);
-        DataChart chart4 = new DataChart(model, "Task Queue per Service", taskQueueWork);
+        DataChart chart4 = new DataChart(model, "Tasks refused by Circuit Breaker", circuitBreaker);
+        DataChart chart5 = new DataChart(model, "Task Queue per Service", taskQueueWork);
 
         String divs = chart1.printDiv()
                 + chart2.printDiv()
                 + chart3.printDiv()
-                + chart4.printDiv();
+                + chart4.printDiv()
+                + chart5.printDiv();
 
         String charts = chart1.printStockChart()
                 + chart2.printStockChart()
                 + chart3.printStockChart()
-                + chart4.printStockChart();
+                + chart4.printStockChart()
+                + chart5.printStockChart();
 
         String contents = divs + charts;
 
         try {
             Files.write(Paths.get("./Report/js/chart.js"), contents.getBytes());
-            System.out.println("Created chart report.");
+            System.out.println("\nCreated chart report.");
         } catch (IOException ex) {
-            System.out.println("Could not create chart report.");
+            System.out.println("\nCould not create chart report.");
         }
     }
 

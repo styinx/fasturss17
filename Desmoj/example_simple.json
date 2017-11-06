@@ -3,23 +3,23 @@
   {
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
-    "duration" : 500,
-    "datapoints" : 500,
+    "report" : "",
+    "duration" : 100,
     "seed" : 1234
   },
   "microservices" :
   [
     {
       "name" : "Frontend",
-      "instances" : 2,
+      "instances" : 10,
       "CPU" : 1000,
       "operations" :
       [
         {
           "name" : "login",
-          "patterns" : [],
-          "duration" : 50,
-          "CPU" : 100,
+          "patterns" : ["Circuit Breaker"],
+          "duration" : 2,
+          "CPU" : 45,
           "dependencies" :
           [
             {
@@ -33,21 +33,21 @@
     },
     {
       "name" : "Server",
-      "instances" : 2,
+      "instances" : 10,
       "CPU" : 1000,
       "operations" :
       [
         {
           "name" : "save",
           "patterns" : [],
-          "duration" : 5,
-          "CPU" : 100,
+          "duration" : 20,
+          "CPU" : 50,
           "dependencies" :
           [
             {
               "operation" : "update",
               "service" : "Database",
-              "probability" : 1.0
+              "probability" : 0.5
             }
           ]
         }
@@ -55,7 +55,7 @@
     },
     {
       "name" : "Database",
-      "instances" : 2,
+      "instances" : 10,
       "CPU" : 1000,
       "operations" :
       [
@@ -63,7 +63,7 @@
           "name" : "update",
           "patterns" : [],
           "duration" : 5,
-          "CPU" : 100,
+          "CPU" : 20,
           "dependencies" :
           [
 
@@ -75,7 +75,7 @@
   "generators" :
   [
     {
-      "time" : 1,
+      "time" : 0.1,
       "microservice" : "Frontend",
       "operation" : "login"
     }

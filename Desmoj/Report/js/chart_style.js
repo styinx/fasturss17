@@ -1,27 +1,25 @@
 'use strict';
+
 function pad(s, size)
 {
     while (s.length < size) s = "0" + s;
     return s;
 }
 
-function colors(count)
+function colors(steps)
 {
-    var fallback = ['#0077CC', '#DDDD00', '#CC00CC', '#009900', '#AA0000', '#00CCCC',
-                    '#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFFFF', '#0099FF'];
     var cols = [];
-    var from = 0xFF0000;
-    var to = 0x00FF00;
-    if(from > to)
-    {
-        to = [from, from = to][0];
-    }
-    var step = Math.round((to - from)/count);
+    var stepFactor = 1 / (steps - 1);
+    var color1 = [255, 0, 50], color2 = [0, 150, 255];
 
-    for(var x = from; x < to; x += step)
+    for(var i = 0; i < steps; i++)
     {
-        var color = pad(x.toString(16), 6);
-        cols.push("#" + color);
+        var result = '#';
+        for (var j = 0; j < 3; j++)
+        {
+            result += pad(Math.round(color1[j] + (stepFactor * i) * (color2[j] - color1[j])).toString(16), 2);
+        }
+        cols.push(result)
     }
     return cols;
 }

@@ -9,6 +9,7 @@ import desmoj.core.simulator.Event;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
+import java.util.List;
 import java.util.SortedMap;
 
 /**
@@ -58,7 +59,7 @@ public class StartEvent extends Event<MessageObject> {
             }
         }
 
-        if(!hasCircuitBreaker || model.taskQueues.get(id).size() <= model.services.get(id).size()) {
+        if(!hasCircuitBreaker || model.taskQueues.get(id).size() < model.services.get(id).size()) {
 
             model.taskQueues.get(id).insert(messageObject);
 
@@ -151,6 +152,15 @@ public class StartEvent extends Event<MessageObject> {
                     model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
                 }
             }
+        }
+        else
+        {
+
+            double last = 0;
+            List<Double> values = model.circuitBreakerStatistics.get(id).getDataValues();
+            if(values != null)
+                last = values.get(values.size() - 1);
+            model.circuitBreakerStatistics.get(id).update(last + 1);
         }
     }
 }
