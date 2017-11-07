@@ -4,6 +4,7 @@ import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.dist.ContDistExponential;
+import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
@@ -14,7 +15,7 @@ import desmoj.core.simulator.TimeSpan;
 public class InitialEvent extends ExternalEvent {
     private MainModelClass model;
     private double time;
-    private ContDistExponential timeToCreate;
+    private ContDistUniform timeToCreate;
     private String microservice = "";
     private String operation = "";
     private int msId = -1;
@@ -31,7 +32,7 @@ public class InitialEvent extends ExternalEvent {
         super(owner, name, showInTrace);
 
         model = (MainModelClass) owner;
-        timeToCreate = new ContDistExponential(model, name, time, model.getShowInitEvent(), true);
+        timeToCreate = new ContDistUniform(model, name, time, time, model.getShowInitEvent(), true);
         this.msId = msId;
         this.microservice = model.allMicroservices.get(msId).getName();
         this.operation = op;

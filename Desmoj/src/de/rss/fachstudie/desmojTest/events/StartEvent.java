@@ -59,7 +59,8 @@ public class StartEvent extends Event<MessageObject> {
             }
         }
 
-        if(!hasCircuitBreaker || model.taskQueues.get(id).size() < model.services.get(id).size()) {
+        if(!hasCircuitBreaker || model.taskQueues.get(id).size() <
+                (model.services.get(id).size() * (model.services.get(id).get(0).getCPU() / model.services.get(id).get(0).getOperation(operation).getCPU()))) {
 
             model.taskQueues.get(id).insert(messageObject);
 
@@ -76,70 +77,71 @@ public class StartEvent extends Event<MessageObject> {
                 // The service with most available resources gets chosen
                 Microservice msEntity = getServiceEntity(id);
 
-                StopEvent msEndEvent = new StopEvent(model,
-                        "Stop Event: " + msEntity.getName() + "(" + operation + ")",
+                StopEvent msEndEvent = new StopEvent(model, "Stop Event: " + msEntity.getName() + "(" + operation + ")",
                         model.getShowStopEvent(), id, operation);
 
-                for (Operation op : msEntity.getOperations()) {
-                    if (op.getName().equals(operation)) {
-                        ContDistUniform timeUntilFinished = new ContDistUniform(model,
-                                "Start Event: " + msEntity.getName() + " (" + operation + ")",
-                                op.getDuration(), op.getDuration(), model.getShowStartEvent(), true);
+                Operation op = msEntity.getOperation(operation);
+                if(op != null) {
+                    ContDistUniform timeUntilFinished = new ContDistUniform(model,
+                            "Start Event: " + msEntity.getName() + " (" + operation + ")",
+                            op.getDuration(), op.getDuration(), model.getShowStartEvent(), true);
 
-                        // Are there dependant operations
-                        if (op.getDependencies().length > 0) {
+                    // Are there dependant operations
+                    if (op.getDependencies().length > 0) {
 
-                            for (SortedMap<String, String> dependantOperation : op.getDependencies()) {
+                        for (SortedMap<String, String> dependantOperation : op.getDependencies()) {
 
-                                String nextOperation = dependantOperation.get("operation");
-                                String nextService = dependantOperation.get("service");
-                                double probability = Double.parseDouble(dependantOperation.get("probability"));
-                                int nextServiceId = model.getIdByName(nextService);
+                            String nextOperation = dependantOperation.get("operation");
+                            String nextService = dependantOperation.get("service");
+                            double probability = Double.parseDouble(dependantOperation.get("probability"));
+                            int nextServiceId = model.getIdByName(nextService);
 
-                                // Roll probability
-                                ContDistUniform prob = new ContDistUniform(model, "", 0.0, 1.0, false, false);
-                                if (prob.sample() <= probability) {
+                            // Roll probability
+                            ContDistUniform prob = new ContDistUniform(model, "", 0.0, 1.0, false, false);
+                            if (prob.sample() <= probability) {
 
-                                    // Add Stacked operation info to message object
-                                    Thread thread = new Thread(model, "", false);
-                                    msEntity.getThreads().insert(thread);
-                                    Predecessor predecessor = new Predecessor(msEntity, thread, msEndEvent);
-                                    messageObject.addDependency(predecessor);
+                                // Add Stacked operation info to message object
+                                Thread thread = new Thread(model, "", false);
+                                msEntity.getThreads().insert(thread);
+                                Predecessor predecessor = new Predecessor(msEntity, thread, msEndEvent);
+                                messageObject.addDependency(predecessor);
 
-                                    // Immediately start dependant operation
-                                    StartEvent nextEvent = new StartEvent(model,
-                                            "Start Event: " + nextService + "(" + nextOperation + ")",
-                                            model.getShowStartEvent(), nextServiceId, nextOperation);
-                                    nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
-                                } else {
+                                // Immediately start dependant operation
+                                StartEvent nextEvent = new StartEvent(model,
+                                        "Start Event: " + nextService + "(" + nextOperation + ")",
+                                        model.getShowStartEvent(), nextServiceId, nextOperation);
+                                nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
+                            } else {
 
-                                    // The probability of the next operation wasn't achieved, the current operation can start to work
-                                    // Provide CPU resources for the operation
-                                    if (model.serviceCPU.get(id).get(msEntity.getSid()) >= op.getCPU()) {
-                                        model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) - op.getCPU());
-                                    } else {
-                                        // Not enough resources, try it later
-                                        schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
-                                    }
+                                // The probability of the next operation wasn't achieved, the current operation can start to work
+                                // Provide CPU resources for the operation
+                                if (model.serviceCPU.get(id).get(msEntity.getSid()) >= op.getCPU()) {
+
+                                    model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) - op.getCPU());
+
                                     Thread thread = new Thread(model, "", false);
                                     msEntity.getThreads().insert(thread);
                                     msEndEvent.schedule(msEntity, thread, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                                } else {
+                                    // Not enough resources, try it later
+                                    schedule(messageObject, new TimeSpan(10.0, model.getTimeUnit()));
                                 }
                             }
-                        } else {
-                            // No dependent operations, so the service can work
-                            // Provide CPU resources for the operation
-                            if (model.serviceCPU.get(id).get(msEntity.getSid()) >= op.getCPU()) {
+                        }
+                    } else {
+                        // No dependent operations, so the service can work
+                        // Provide CPU resources for the operation
+                        if (model.serviceCPU.get(id).get(msEntity.getSid()) >= op.getCPU()) {
 
-                                model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) - op.getCPU());
-                            } else {
+                            model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) - op.getCPU());
 
-                                // Not enough resources, try it later
-                                schedule(messageObject, new TimeSpan(1.0, model.getTimeUnit()));
-                            }
                             Thread thread = new Thread(model, "", false);
                             msEntity.getThreads().insert(thread);
                             msEndEvent.schedule(msEntity, thread, messageObject, new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
+                        } else {
+
+                            // Not enough resources, try it later
+                            schedule(messageObject, new TimeSpan(10.0, model.getTimeUnit()));
                         }
                     }
                     // Statistics

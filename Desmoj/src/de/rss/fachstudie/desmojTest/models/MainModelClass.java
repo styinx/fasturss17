@@ -24,10 +24,10 @@ public class MainModelClass extends Model {
     private TimeUnit timeUnit       = TimeUnit.SECONDS;
     private double simulationTime   = 0;
     private String resourcePath     = "Report/resources/";
-    private boolean showInitEvent   = false;
-    private boolean showStartEvent  = false;
-    private boolean showStopEvent   = false;
-    private boolean showMonkeyEvent = false;
+    private boolean showInitEvent   = true;
+    private boolean showStartEvent  = true;
+    private boolean showStopEvent   = true;
+    private boolean showMonkeyEvent = true;
 
     // Queues
     public HashMap<Integer, Queue<Microservice>>    services;
@@ -269,6 +269,7 @@ public class MainModelClass extends Model {
             responseStatisitcs.put(id, responseStats);
             circuitBreakerStatistics.put(id, circuitBreakerStats);
             taskQueueStatistics.put(id, taskQueueWork);
+            HashMap<String, String> a = new HashMap<>();
         }
     }
 
@@ -319,7 +320,8 @@ public class MainModelClass extends Model {
 //        }
 //
 //        arch = (cmd.getOptionValue("arch").equals("")) ? "example_simple.json" : cmd.getOptionValue("arch");
-        arch = "example_simple.json";
+        if(arch == "")
+            arch = "example_advanced.json";
 
         InputParser parser = new InputParser(arch);
         InputValidator validator = new InputValidator();

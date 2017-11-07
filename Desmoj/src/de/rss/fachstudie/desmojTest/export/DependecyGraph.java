@@ -31,8 +31,15 @@ public class DependecyGraph {
     public String printGraph() {
         String nodes = printNodes();
         String links = printLinks();
-        String html = "var graph = {nodes:[" + nodes.substring(0, nodes.length() - 2) + "],"
-                + "links:[" + links.substring(0, links.length() - 2) + "]};";
+        String html = "var graph = {nodes:[";
+        if(nodes.length() > 2)
+            html += nodes.substring(0, nodes.length() - 2);
+        else
+            html += "],";
+        if(links.length() > 2)
+                html += "links:[" + links.substring(0, links.length() - 2);
+        else
+            html += "]};";
         return html;
     }
 
