@@ -1,6 +1,7 @@
 package de.rss.fachstudie.desmojTest.entities;
 
 import de.rss.fachstudie.desmojTest.events.StopEvent;
+import de.rss.fachstudie.desmojTest.resources.Thread;
 
 /**
  * A class to save a triplet of previous operations

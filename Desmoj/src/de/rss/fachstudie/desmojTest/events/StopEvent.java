@@ -1,7 +1,7 @@
 package de.rss.fachstudie.desmojTest.events;
 
 import de.rss.fachstudie.desmojTest.entities.*;
-import de.rss.fachstudie.desmojTest.entities.Thread;
+import de.rss.fachstudie.desmojTest.resources.Thread;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.EventOf3Entities;
@@ -28,11 +28,7 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
 
                 // Remove the message object from the task queue
                 model.taskQueues.get(id).remove(messageObject);
-                // Free the cpu resources the operation has
-                if (model.serviceCPU.get(id).get(msEntity.getSid()) + operation.getCPU() <= msEntity.getCPU()) {
 
-                    model.serviceCPU.get(id).put(msEntity.getSid(), model.serviceCPU.get(id).get(msEntity.getSid()) + operation.getCPU());
-                }
                 // remove thread from microservice
                 msEntity.getThreads().remove(thread);
 
@@ -43,35 +39,17 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
                     Microservice previousMs = predecessor.getEntity();
                     Thread previousThread = predecessor.getThread();
                     StopEvent previousStopEvent = predecessor.getStopEvent();
-                    Operation stopOperation = new Operation(model, "", false);
+                    Operation stopOperation = previousMs.getOperation(previousStopEvent.getOperation());
                     int previousId = previousMs.getId();
 
-                    for (Operation op : previousMs.getOperations()) {
-                        if (op.getName().equals(previousStopEvent.getOperation())) {
-                            stopOperation = op;
-                        }
-                    }
-
-                    ContDistUniform timeUntilFinished = new ContDistUniform(model,
-                            "Stop Event: " + previousMs.getName() + "(" + stopOperation.getName() + ")",
-                            stopOperation.getDuration(), stopOperation.getDuration(), model.getShowStopEvent(), true);
-
-                    // Check if the previous service has enough resources
-                    if (model.serviceCPU.get(previousId).get(previousMs.getSid()) >= stopOperation.getCPU()) {
-
-                        model.serviceCPU.get(previousId).put(previousMs.getSid(), model.serviceCPU.get(previousId).get(previousMs.getSid()) - stopOperation.getCPU());
-                        previousStopEvent.schedule(previousMs, previousThread, messageObject,
-                                new TimeSpan(timeUntilFinished.sample(), model.getTimeUnit()));
-                    } else {
-
-                        // Not enough resources, not reschedule to another time
-                        schedule(previousMs, previousThread, messageObject, new TimeSpan(1.0, model.getTimeUnit()));
-                    }
+                    // add thread to cpu
+                    msEntity.getThreads().insert(previousThread);
+                    model.serviceCPU.get(previousId).get(previousMs.getSid()).addThread(previousThread);
                 }
-                // CPU
-                model.cpuStatistics.get(id).get(msEntity.getSid()).update(
-                        (double)(msEntity.getCPU() - model.serviceCPU.get(id).get(msEntity.getSid()))/msEntity.getCPU());
                 // Statistics
+                // CPU
+                model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getCapacity());
+                // Threads
                 model.threadStatistics.get(id).get(msEntity.getSid()).update(msEntity.getThreads().size());
                 // Response Time
                 model.responseStatisitcs.get(id).get(msEntity.getSid()).update(thread.getCreationTime().getTimeAsDouble());

@@ -2,6 +2,7 @@ package de.rss.fachstudie.desmojTest.resources;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.desmojTest.resources.Thread;
 import desmoj.core.simulator.*;
 
 import java.util.ArrayList;
@@ -9,34 +10,33 @@ import java.util.List;
 
 public class CPU extends Event {
     private MainModelClass model;
-    private int capacity = 1000;
+    private int capacity = 0;
     private int robinTime = 10;
     private int cycleTime = 0;
     private double lastThreadEntry;
-    private List<CPUThread> queue;
+    private List<Thread> queue;
 
-    public CPU (Model owner, String name, boolean showInTrace) {
+    public CPU (Model owner, String name, boolean showInTrace, int capacity) {
         super(owner, name, showInTrace);
 
         model = (MainModelClass) owner;
         queue = new ArrayList<>();
-
+        this.capacity = capacity;
         lastThreadEntry = 0;
     }
 
     public void eventRoutine(Entity entity) throws SuspendExecution {
-        for(CPUThread thread : queue) {
+        for(Thread thread : queue) {
             thread.subtractDemand(cycleTime);
             if(thread.getDemand() == 0) {
                 queue.remove(thread);
-                thread.schedule();
+                thread.scheduleEndEvent();
             }
         }
-
         calculateMin();
     }
 
-    public void addThread(CPUThread thread) {
+    public void addThread(Thread thread) {
         if(lastThreadEntry != 0) {
             int robins = (int)Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) / robinTime);
             for(int i = 0; i < robins; i++) {
@@ -46,28 +46,29 @@ public class CPU extends Event {
             lastThreadEntry = this.model.presentTime().getTimeAsDouble();
         }
         queue.add(thread);
-
         calculateMin();
     }
 
     private void calculateMin() {
-        CPUThread minimum = new CPUThread(Double.POSITIVE_INFINITY);
-        for(CPUThread t : queue) {
-            if(t.getDemand() < minimum.getDemand()) {
-                minimum = t;
+        double smallestThread = Double.POSITIVE_INFINITY;
+        for(Thread t : queue) {
+            if(t.getDemand() < smallestThread) {
+                smallestThread = t.getDemand();
             }
         }
 
-        cycleTime = queue.size() * (minimum.getDemand() / robinTime);
+        cycleTime = queue.size() * (int)(smallestThread / robinTime);
 
         if(!queue.isEmpty()) {
-            // TODO reschedule or schedule
             if(isScheduled()) {
                 reSchedule(new TimeSpan(cycleTime, model.getTimeUnit()));
             } else {
-                // TODO      \/
-                schedule(null, new TimeSpan(cycleTime, model.getTimeUnit()));
+                reSchedule(new TimeSpan(cycleTime, model.getTimeUnit()));
             }
         }
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 }

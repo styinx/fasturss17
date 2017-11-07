@@ -5,7 +5,7 @@ import de.rss.fachstudie.desmojTest.entities.Microservice;
 import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
-import de.rss.fachstudie.desmojTest.modellingFeatures.CustomResourceDB;
+import de.rss.fachstudie.desmojTest.resources.CPU;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
 import de.rss.fachstudie.desmojTest.utils.InputValidator;
 import desmoj.core.simulator.*;
@@ -35,9 +35,7 @@ public class MainModelClass extends Model {
     public HashMap<Integer, Microservice>           allMicroservices;
 
     // Resources
-    public HashMap<Integer, HashMap<Integer, Integer>> serviceCPU;
-    //public HashMap<Integer, HashMap<Integer, Res>> serviceCPU;
-    private CustomResourceDB resourceDB;
+    public HashMap<Integer, HashMap<Integer, CPU>> serviceCPU;
 
     // Statistics
     public HashMap<Integer, HashMap<Integer, TimeSeries>> threadStatistics;
@@ -88,10 +86,6 @@ public class MainModelClass extends Model {
 
     public void setShowMonkeyEvent(boolean showMonkeyEvent) {
         this.showMonkeyEvent = showMonkeyEvent;
-    }
-
-    public CustomResourceDB getResourceDB() {
-        return this.resourceDB;
     }
 
     /**
@@ -182,7 +176,7 @@ public class MainModelClass extends Model {
         simulationTime = Double.parseDouble(InputParser.simulation.get("duration"));
 
         // Resources
-        resourceDB = new CustomResourceDB(this);
+        serviceCPU          = new HashMap<>();
 
         // Queues
         allMicroservices    = new HashMap<>();
@@ -210,7 +204,7 @@ public class MainModelClass extends Model {
             Queue<MessageObject> taskQueue = new Queue<MessageObject>(this, "Task Queue: " + serviceName, true , true) ;
 
             // Resources
-            HashMap<Integer, Integer> cpu = new HashMap<>();
+            HashMap<Integer, CPU> cpu = new HashMap<>();
             //Res microserviceCPU = new Res(this, serviceName + " CPU", microservices[id].getCPU(), true, true);
 
             // Statistics
@@ -237,7 +231,8 @@ public class MainModelClass extends Model {
                 allMicroservices.put(id, msEntity);
 
                 // Resources
-                cpu.put(instance, msEntity.getCPU());
+                CPU msCPU = new CPU(this, "", false, msEntity.getCPU());
+                cpu.put(instance, msCPU);
 
                 // Statistics
                 TimeSeries activeInstances = new TimeSeries(this, "Active Threads: " + serviceName + " #" + instance,
@@ -321,7 +316,7 @@ public class MainModelClass extends Model {
 //
 //        arch = (cmd.getOptionValue("arch").equals("")) ? "example_simple.json" : cmd.getOptionValue("arch");
         if(arch == "")
-            arch = "example_advanced.json";
+            arch = "example_simple.json";
 
         InputParser parser = new InputParser(arch);
         InputValidator validator = new InputValidator();

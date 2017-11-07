@@ -1,9 +1,8 @@
 package de.rss.fachstudie.desmojTest.entities;
 
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.desmojTest.resources.Thread;
 import desmoj.core.simulator.*;
-
-import java.util.HashMap;
 
 /**
  * A Microservice represents a collection of services.
