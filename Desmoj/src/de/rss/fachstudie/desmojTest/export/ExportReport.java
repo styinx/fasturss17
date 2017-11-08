@@ -27,14 +27,10 @@ public class ExportReport {
     }
 
     private void graphReport() {
-        DependecyGraph graph = new DependecyGraph(model.allMicroservices, 0);
+        DependecyGraph graph = new DependecyGraph(model, model.allMicroservices, 0);
 
         try {
-            String content = "";
-            if(InputParser.simulation.get("report").equals("minimalistic")) {
-                content += "var graphMinimalistic = true;\n";
-            }
-            Files.write(Paths.get("./Report/js/graph.js"), (content + graph.printGraph()).getBytes());
+            Files.write(Paths.get("./Report/js/graph.js"), graph.printGraph().getBytes());
             System.out.println("\nCreated graph report.");
         } catch (IOException ex) {
             System.out.println("\nCould not create graph report.");

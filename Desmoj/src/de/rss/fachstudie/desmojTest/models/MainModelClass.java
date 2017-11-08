@@ -23,6 +23,9 @@ import java.util.concurrent.TimeUnit;
 public class MainModelClass extends Model {
     private TimeUnit timeUnit       = TimeUnit.SECONDS;
     private double simulationTime   = 0;
+    private String report           = "";
+    private int datapoints          = -1;
+    private int seed                = 0;
     private String resourcePath     = "Report/resources/";
     private boolean showInitEvent   = true;
     private boolean showStartEvent  = true;
@@ -44,48 +47,63 @@ public class MainModelClass extends Model {
     public HashMap<Integer, TimeSeries> circuitBreakerStatistics;
     public HashMap<Integer, TimeSeries> taskQueueStatistics;
 
+    public void  setSimulationTime(double simTime) {
+        if(simTime > 0)
+            simulationTime = simTime;
+        else
+            simulationTime = 1000;
+    };
+
     public double getSimulationTime() {
         return simulationTime;
+    }
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report;
+    }
+
+    public void setDatapoints(int points) {
+        if(points > 0)
+            this.datapoints = points;
+        if(points > simulationTime || points == -1) {
+            points = (int)simulationTime;
+        }
+    }
+
+    public int getDatapoints() {
+        return this.datapoints;
+    }
+
+    public int getSeed() {
+        return seed;
+    }
+
+    public void setSeed(int seed) {
+        this.seed = seed;
     }
 
     public TimeUnit getTimeUnit() {
         return timeUnit;
     }
 
-    public void setTimeUnit(TimeUnit timeUnit) {
-        this.timeUnit = timeUnit;
-    }
-
     public boolean getShowInitEvent() {
         return showInitEvent;
-    }
-
-    public void setShowInitEvent(boolean showInitEvent) {
-        this.showInitEvent = showInitEvent;
     }
 
     public boolean getShowStartEvent() {
         return showStartEvent;
     }
 
-    public void setShowStartEvent(boolean showStartEvent) {
-        this.showStartEvent = showStartEvent;
-    }
-
     public boolean getShowStopEvent() {
         return showStopEvent;
     }
 
-    public void setShowStopEvent(boolean showStopEvent) {
-        this.showStopEvent = showStopEvent;
-    }
-
     public boolean getShowMonkeyEvent() {
         return showMonkeyEvent;
-    }
-
-    public void setShowMonkeyEvent(boolean showMonkeyEvent) {
-        this.showMonkeyEvent = showMonkeyEvent;
     }
 
     /**
@@ -101,25 +119,6 @@ public class MainModelClass extends Model {
             }
         }
         return -1;
-    }
-
-    /**
-     * Chooses the service with most resources and space available
-     * @param id
-     * @return
-     */
-    public Microservice getServiceEntity(int id) {
-        double min = Double.POSITIVE_INFINITY;
-        int i = 0;
-        for(int instance = 0; instance < services.get(id).size(); ++instance) {
-            if(!services.get(id).get(instance).isKilled()) {
-                if(services.get(id).get(instance).getThreads().size() < min) {
-                    min = services.get(id).get(instance).getThreads().size();
-                    i = instance;
-                }
-            }
-        }
-        return services.get(id).get(i);
     }
 
     /**
@@ -151,8 +150,7 @@ public class MainModelClass extends Model {
         // Fire off all generators for scheduling
         InitialEvent generators[] = InputParser.generators;
         for(InitialEvent generator : generators) {
-            InitialEvent initEvent = new InitialEvent(this,
-                    "<b><u>Inital Event:</u></b> " + generator.getMicroservice(), showInitEvent, generator.getTime(),
+            InitialEvent initEvent = new InitialEvent(this,"", showInitEvent, generator.getTime(),
                     getIdByName(generator.getMicroservice()), generator.getOperation());
             initEvent.schedule(new TimeSpan(0, timeUnit));
         }
@@ -160,9 +158,8 @@ public class MainModelClass extends Model {
         // Fire off all monkeys for scheduling
         InitialChaosMonkeyEvent monkeys[] = InputParser.monkeys;
         for(InitialChaosMonkeyEvent monkey : monkeys) {
-            InitialChaosMonkeyEvent initMonkey = new InitialChaosMonkeyEvent(this,
-                    "<b><u>Monkey Event:</u></b> Kill " + monkey.getMicroservice(), showMonkeyEvent, monkey.getTime(),
-                    getIdByName(monkey.getMicroservice()), monkey.getInstances());
+            InitialChaosMonkeyEvent initMonkey = new InitialChaosMonkeyEvent(this, "", showMonkeyEvent,
+                    monkey.getTime(), getIdByName(monkey.getMicroservice()), monkey.getInstances());
             initMonkey.schedule(new TimeSpan(0, timeUnit));
         }
     }
@@ -172,9 +169,6 @@ public class MainModelClass extends Model {
      */
     @Override
     public void init() {
-        // Globals
-        simulationTime = Double.parseDouble(InputParser.simulation.get("duration"));
-
         // Resources
         serviceCPU          = new HashMap<>();
 
@@ -325,13 +319,17 @@ public class MainModelClass extends Model {
             long startTime = System.nanoTime();
 
             MainModelClass model = new MainModelClass(null, InputParser.simulation.get("model"), true, true);
-            Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
+            model.setSimulationTime(Double.parseDouble(InputParser.simulation.get("duration")));
+            model.setReport(InputParser.simulation.get("report"));
+            model.setDatapoints(Integer.parseInt(InputParser.simulation.get("datapoints")));
+            model.setSeed(Integer.parseInt(InputParser.simulation.get("seed")));
 
+            Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
             model.connectToExperiment(exp);
-            exp.setSeedGenerator(Integer.parseInt(InputParser.simulation.get("seed")));
+            exp.setSeedGenerator(model.getSeed());
             exp.setShowProgressBarAutoclose(true);
-            exp.stop(new TimeInstant(Double.parseDouble(InputParser.simulation.get("duration")), model.getTimeUnit()));
-            exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(250, model.getTimeUnit()));
+            exp.stop(new TimeInstant(model.getSimulationTime(), model.getTimeUnit()));
+            exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
             exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
 
             long setupTime = System.nanoTime() - startTime;

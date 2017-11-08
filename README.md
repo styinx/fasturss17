@@ -25,6 +25,8 @@ The tool is used for ...
     "experiment" : <i>name of the experiment [String]</i>,
     "model" : <i>name of the model [String]</i>,
     "duration" : <i>simulation time in seconds [Integer]</i>,
+    "report" : <i>declares the type of report [String]</i>,
+    "datapoints" : <i>number of points the report generates for each graph line [Integer]</i>,
     "seed" : <i>seed to generate random numbers [Integer]</i>
   },
   "microservices" :
@@ -78,6 +80,9 @@ The tool is used for ...
 </pre>
 
 #### Advanced Description
+
+- simulation :
+  - report : ["" | "minimalistic" | "none"]
 
 - microservices :
 	- patterns : 

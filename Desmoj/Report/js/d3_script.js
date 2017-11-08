@@ -1,18 +1,15 @@
 // Setup
 setTimeout(function(){
-    if(!graph)
+    if(graphMinimalistic == "minimalistic")
     {
-        graph = {nodes : [{name : "Graph is Empty (Some problems occurred)"}], links : []}
-    }
-    if(graphMinimalistic == null)
-    {
-        var graphMinimalistic = false;
-    }
-    document.getElementById('info').style.display = "none";
-    if(graphMinimalistic)
-    {
+        graphMinimalistic = true;
         document.getElementById('warning').style.display = "block";
     }
+    else
+    {
+        graphMinimalistic = false;
+    }
+    document.getElementById('info').style.display = "none";
 
     var color = d3.scale.category20();
     var width = window.innerWidth;

@@ -38,21 +38,20 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
                     Predecessor predecessor = messageObject.removeDependency();
                     Microservice previousMs = predecessor.getEntity();
                     Thread previousThread = predecessor.getThread();
-                    StopEvent previousStopEvent = predecessor.getStopEvent();
-                    Operation stopOperation = previousMs.getOperation(previousStopEvent.getOperation());
                     int previousId = previousMs.getId();
 
                     // add thread to cpu
-                    msEntity.getThreads().insert(previousThread);
+                    previousMs.getThreads().insert(previousThread);
                     model.serviceCPU.get(previousId).get(previousMs.getSid()).addThread(previousThread);
                 }
                 // Statistics
                 // CPU
-                model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getCapacity());
+                model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getUsage());
                 // Threads
                 model.threadStatistics.get(id).get(msEntity.getSid()).update(msEntity.getThreads().size());
                 // Response Time
-                model.responseStatisitcs.get(id).get(msEntity.getSid()).update(thread.getCreationTime().getTimeAsDouble());
+                model.responseStatisitcs.get(id).get(msEntity.getSid()).update(
+                        model.presentTime().getTimeAsDouble() - thread.getCreationTime().getTimeAsDouble());
                 // Task Queue
                 model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
             }

@@ -13,6 +13,7 @@ public class CPU extends Event {
     private int capacity = 0;
     private int robinTime = 10;
     private int cycleTime = 0;
+    private int doneWork = 0;
     private double lastThreadEntry;
     private List<Thread> queue;
 
@@ -28,6 +29,9 @@ public class CPU extends Event {
     public void eventRoutine(Entity entity) throws SuspendExecution {
         for(Thread thread : queue) {
             thread.subtractDemand(cycleTime);
+            doneWork += cycleTime;
+            if(doneWork > capacity)
+                doneWork -= capacity;
             if(thread.getDemand() == 0) {
                 queue.remove(thread);
                 thread.scheduleEndEvent();
@@ -41,6 +45,9 @@ public class CPU extends Event {
             int robins = (int)Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) / robinTime);
             for(int i = 0; i < robins; i++) {
                 queue.get(i % queue.size()).subtractDemand(robinTime);
+                doneWork += robinTime;
+                if(doneWork > capacity)
+                    doneWork -= capacity;
             }
         } else {
             lastThreadEntry = this.model.presentTime().getTimeAsDouble();
@@ -70,5 +77,9 @@ public class CPU extends Event {
 
     public int getCapacity() {
         return capacity;
+    }
+
+    public double getUsage() {
+        return ((float)doneWork / (float)capacity);
     }
 }
