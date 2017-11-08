@@ -4,6 +4,9 @@ import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import de.rss.fachstudie.desmojTest.resources.Thread;
 import desmoj.core.simulator.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A Microservice represents a collection of services.
  * Each instance is able to call operations to another service instance.
@@ -22,6 +25,7 @@ public class Microservice extends Entity{
     private int id;
     private int sid;
     private String name = "";
+    private HashMap<String, Integer>[] patterns;
     private int capacity = 0;
     private int instances = 0;
     private Queue<Thread> threads;
@@ -64,6 +68,30 @@ public class Microservice extends Entity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public HashMap<String, Integer>[] getPatterns() {
+        return patterns;
+    }
+
+    public void setPatterns(HashMap<String, Integer>[] patterns) {
+        this.patterns = patterns;
+    }
+
+    public boolean hasPattern(String name) {
+        for(HashMap<String, Integer> pattern : patterns) {
+            if(pattern.containsKey(name))
+                return true;
+        }
+        return false;
+    }
+
+    public int getPattern(String name) {
+        for(HashMap<String, Integer> pattern : patterns) {
+            if(pattern.containsKey(name))
+                return pattern.get(name);
+        }
+        return -1;
     }
 
     public int getCapacity() {

@@ -60,6 +60,14 @@ public class Operation extends Entity {
         this.patterns = patterns;
     }
 
+    public boolean hasPattern(String name) {
+        for(String pattern : patterns) {
+            if(name.equals(pattern))
+                return true;
+        }
+        return false;
+    }
+
     public SortedMap<String, String>[] getDependencies() {
         return dependencies;
     }

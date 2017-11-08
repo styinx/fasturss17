@@ -108,7 +108,7 @@ public class MainModelClass extends Model {
 
     /**
      * Helper Function to get the id of a microservice instance by the name.
-     * @param name
+     * @param name the name of the service to get the name from
      * @return id of the corresponding microservice if successful, otherwise -1
      */
     public int getIdByName(String name){
@@ -121,20 +121,13 @@ public class MainModelClass extends Model {
         return -1;
     }
 
-    /**
-     *
-     * @param owner
-     * @param modelName
-     * @param showInReport
-     * @param showInTrace
-     */
     public MainModelClass(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
         super(owner, modelName, showInReport, showInTrace);
     }
 
     /**
      * Required method which returns a description for the model.
-     * @return
+     * @return the description of the model
      */
     @Override
     public String description() {
@@ -215,9 +208,10 @@ public class MainModelClass extends Model {
 
             for(int instance = 0; instance < microservices[id].getInstances(); instance++){
                 Microservice msEntity = new Microservice(this , microservices[id].getName(), true );
-                msEntity.setName(microservices[id].getName());
                 msEntity.setId(id);
                 msEntity.setSid(instance);
+                msEntity.setName(microservices[id].getName());
+                msEntity.setPatterns(microservices[id].getPatterns());
                 msEntity.setCapacity(microservices[id].getCapacity());
                 msEntity.setInstances(microservices[id].getInstances());
                 msEntity.setOperations(microservices[id].getOperations());
@@ -225,7 +219,7 @@ public class MainModelClass extends Model {
                 allMicroservices.put(id, msEntity);
 
                 // Resources
-                CPU msCPU = new CPU(this, "", false, msEntity.getCapacity());
+                CPU msCPU = new CPU(this, "", false, id, msEntity.getCapacity());
                 cpu.put(instance, msCPU);
 
                 // Statistics

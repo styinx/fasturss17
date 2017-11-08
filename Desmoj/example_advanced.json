@@ -13,6 +13,7 @@
     {
       "name" : "Login",
       "instances" : 10,
+      "patterns" : [{"Thread Pool" : 10}, {"Thread Queue" : 10}],
       "capacity" : 3000,
       "operations" :
       [
@@ -39,6 +40,7 @@
     {
       "name" : "Message",
       "instances" : 5,
+      "patterns" : [{"Thread Pool" : 10}],
       "capacity" : 3000,
       "operations" :
       [
@@ -60,6 +62,7 @@
     {
       "name" : "Processing",
       "instances" : 5,
+      "patterns" : [{"Thread Pool" : 10}],
       "capacity" : 3000,
       "operations" :
       [
@@ -77,6 +80,7 @@
     {
       "name" : "Session",
       "instances" : 5,
+      "patterns" : [{"Thread Pool" : 10}],
       "capacity" : 3000,
       "operations" :
       [
@@ -94,6 +98,7 @@
     {
       "name" : "Account",
       "instances" : 5,
+      "patterns" : [{"Thread Pool" : 10}],
       "capacity" : 3000,
       "operations" :
       [
@@ -120,12 +125,13 @@
     {
       "name" : "Database",
       "instances" : 1,
+      "patterns" : [{"Thread Pool" : 10}],
       "capacity" : 3000,
       "operations" :
       [
         {
           "name" : "DatabaseOP1",
-          "patterns" : ["Circuit Breaker"],
+          "patterns" : [],
           "demand" : 500,
           "dependencies" :
           [
@@ -138,14 +144,9 @@
   "generators" :
   [
     {
-      "time" : 0.1,
+      "time" : 1,
       "microservice" : "Login",
       "operation" : "LoginOP1"
-    },
-    {
-      "time" : 0.1,
-      "microservice" : "Message",
-      "operation" : "MessageOP1"
     }
   ],
   "chaosmonkeys" :

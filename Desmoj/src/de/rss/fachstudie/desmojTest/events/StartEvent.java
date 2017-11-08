@@ -39,7 +39,7 @@ public class StartEvent extends Event<MessageObject> {
         for(int instance = 0; instance < model.services.get(id).size(); ++instance) {
             if(!model.services.get(id).get(instance).isKilled()) {
                 if(model.serviceCPU.get(id).get(instance).getUsage() < min) {
-                    min = model.services.get(id).get(instance).getThreads().size();
+                    min = model.serviceCPU.get(id).get(instance).getUsage();
                     i = instance;
                 }
             }
@@ -50,16 +50,10 @@ public class StartEvent extends Event<MessageObject> {
     @Override
     public void eventRoutine(MessageObject messageObject) throws SuspendExecution {
 
-        boolean hasCircuitBreaker = false;
+        Operation op = model.allMicroservices.get(id).getOperation(operation);
+        boolean hasCircuitBreaker = op.hasPattern("Circuit Breaker");
         int circuitBreakerLimit = model.services.get(id).size() *
                 (model.services.get(id).get(0).getCapacity() / model.services.get(id).get(0).getOperation(operation).getDemand());
-        if(model.allMicroservices.get(id).getOperation(operation) != null) {
-            for(String pattern : model.allMicroservices.get(id).getOperation(operation).getPatterns()) {
-                if(pattern.equals("Circuit Breaker")) {
-                    hasCircuitBreaker = true;
-                }
-            }
-        }
 
         if(!hasCircuitBreaker || model.taskQueues.get(id).size() < circuitBreakerLimit) {
 
@@ -77,7 +71,6 @@ public class StartEvent extends Event<MessageObject> {
             if(availServices) {
                 // The service with most available resources gets chosen
                 Microservice msEntity = getServiceEntity(id);
-                Operation op = msEntity.getOperation(operation);
                 StopEvent msEndEvent = new StopEvent(model, "", model.getShowStopEvent(), id, operation);
                 Thread thread = new Thread(model, "", false, op.getDemand(), msEndEvent, msEntity, messageObject);
 
