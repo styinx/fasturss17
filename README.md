@@ -24,7 +24,7 @@ The tool is used for ...
   {
     "experiment" : <i>name of the experiment [String]</i>,
     "model" : <i>name of the model [String]</i>,
-    "duration" : <i>simulation time in seconds [Integer]</i>,
+    "duration" : <i>simulation time in seconds [Double]</i>,
     "report" : <i>declares the type of report [String]</i>,
     "datapoints" : <i>number of points the report generates for each graph line [Integer]</i>,
     "seed" : <i>seed to generate random numbers [Integer]</i>
@@ -63,17 +63,17 @@ The tool is used for ...
   "generators" :
   [
     {
-      "time" : <i>time interval a task is started [Integer]</i>,
+      "time" : <i>time interval a task is started [Double]</i>,
       "microservice" : <i>the service the task starts [String]</i>,
       "operation" : <i>the operation of the task [String]</i>
     }
   ],
   "chaosmonkeys" :
   [
-	{
-    	"time" : <i>time instant the monkey gets executed [Integer]</i>,
-        "microservice" : <i>name of the service that gets killed [String]</i>,
-        "instances" : <i>number of instances that get killed [Integer]</i>
+    {
+      "time" : <i>time instant the monkey gets executed [Double]</i>,
+      "microservice" : <i>name of the service that gets killed [String]</i>,
+      "instances" : <i>number of instances that get killed [Integer]</i>
     }
   ]
 }
@@ -81,41 +81,45 @@ The tool is used for ...
 
 #### Advanced Description
 
+The ***simulation*** field hold general information for the simulation and the report.
 - simulation :
-  - report : ["" | "minimalistic" | "none"]
+  - report : 
+    
+    Defines the type of the report. Possible values : 
+      - "" -> creates a default report,
+      - "minimalistic" -> creates a cut down version of the report,
+      - "none" -> no report is created
+    
+  - datapoints :
+    
+    Defines how much points are plotted on charts. Possible values:
+      - 0 -> no charts are created
+      - -1 -> creates default charts with one point per simulation time interval
+      - [0-9]* -> number of points a chart will have
 
+The ***microservices*** field holds the information about the microservice architecture.
 - microservices :
-	- patterns : 
-	  ```
-      [
-        {"Thread Pool" : 100}, // Instances can only create 100 threads at same time
-     	{"Thread Queue" : 100}, // Instances can put threads into a queue if the thread pool is consumed
-      ]
-      ```
+	- patterns :
+	  
+	  Each different service can have none or multiple patterns. Possible values: 
+	    - {"Thread Pool" : 100} 
+	      - only 100 threads can exist at same time
+        - {"Thread Queue" : 100}
+          - if 100 threads exist, new threads are added to the queue with the size 100
+      
    - operations :
+    
+     A service has one or multiple operations
        - patterns :
-         ```
-         [
-           {"Circuit Breaker"} // The task queue is limited to the number of instances a service has 
-         ]
-         ```
+       
+         Each operation can have none or multiple patterns. Possible values:
+           - {"Circuit Breaker"}
+           - the task queue is limited to the number of threads it can maximal take
+         
 - generators :
-    - it is possible to declare 2 or more generators with the same signature
-      ```
-      [
-        {
-          "time" : 1,
-          "microservice" : "Login",
-          "operation" : "validate
-        },
-        {
-          "time" : 1,
-          "microservice" : "Login",
-          "operation" : "validate
-        }
-      ]
-      ```
-
+    
+    Generators describe ... ***TODO***
+      
 
 ### <a name="Sim-Use"></a>Usage
 ---

@@ -64,7 +64,7 @@ function timeFormat(seconds)
             },
             tooltip: {
                 formatter: function () {
-                    var s = 'Time: <b>' + timeFormat(this.x) + '</b>';
+                    var s = 'Time: <b>' + timeFormat(this.x) + " / " + this.x + 's</b><br>';
                     for(var p in this.points) {
                         s += '<br/><span style="color:' + this.points[p].color + '">\u25CF</span> ' + this.points[p].series.name + ': ' + Math.floor(this.points[p].y * 100)/100;
                     }
@@ -113,7 +113,7 @@ function timeFormat(seconds)
                         color: 'rgba(50,50,50,0.8)'
                     },
                     formatter: function () {
-                        return timeFormat(this.value);
+                        return timeFormat(this.value) + "<br>" + this.value + "s";
                     },
                 }
             },

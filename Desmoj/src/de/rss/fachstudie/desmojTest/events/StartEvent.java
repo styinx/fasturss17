@@ -38,7 +38,7 @@ public class StartEvent extends Event<MessageObject> {
         int i = 0;
         for(int instance = 0; instance < model.services.get(id).size(); ++instance) {
             if(!model.services.get(id).get(instance).isKilled()) {
-                if(model.services.get(id).get(instance).getThreads().size() < min) {
+                if(model.serviceCPU.get(id).get(instance).getUsage() < min) {
                     min = model.services.get(id).get(instance).getThreads().size();
                     i = instance;
                 }
@@ -51,6 +51,8 @@ public class StartEvent extends Event<MessageObject> {
     public void eventRoutine(MessageObject messageObject) throws SuspendExecution {
 
         boolean hasCircuitBreaker = false;
+        int circuitBreakerLimit = model.services.get(id).size() *
+                (model.services.get(id).get(0).getCapacity() / model.services.get(id).get(0).getOperation(operation).getDemand());
         if(model.allMicroservices.get(id).getOperation(operation) != null) {
             for(String pattern : model.allMicroservices.get(id).getOperation(operation).getPatterns()) {
                 if(pattern.equals("Circuit Breaker")) {
@@ -59,8 +61,7 @@ public class StartEvent extends Event<MessageObject> {
             }
         }
 
-        if(!hasCircuitBreaker || model.taskQueues.get(id).size() <
-                (model.services.get(id).size() * (model.services.get(id).get(0).getCPU() / model.services.get(id).get(0).getOperation(operation).getCPU()))) {
+        if(!hasCircuitBreaker || model.taskQueues.get(id).size() < circuitBreakerLimit) {
 
             model.taskQueues.get(id).insert(messageObject);
 
@@ -78,7 +79,7 @@ public class StartEvent extends Event<MessageObject> {
                 Microservice msEntity = getServiceEntity(id);
                 Operation op = msEntity.getOperation(operation);
                 StopEvent msEndEvent = new StopEvent(model, "", model.getShowStopEvent(), id, operation);
-                Thread thread = new Thread(model, "", false, op.getCPU(), msEndEvent, msEntity, messageObject);
+                Thread thread = new Thread(model, "", false, op.getDemand(), msEndEvent, msEntity, messageObject);
 
                 // Are there dependant operations
                 if (op.getDependencies().length > 0) {

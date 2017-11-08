@@ -26,8 +26,6 @@ public class Operation extends Entity {
     private String name = "";
     private String service = "";
     private String[] patterns = {};
-    private double duration = 0;
-    private int CPU = 0;
     private int demand = 0;
     private double probability = 0;
     private SortedMap<String, String>[] dependencies;
@@ -70,20 +68,12 @@ public class Operation extends Entity {
         this.dependencies = operations;
     }
 
-    public double getDuration() {
-        return duration;
+    public int getDemand() {
+        return demand;
     }
 
-    public void setDuration(double duration) {
-        this.duration = duration;
-    }
-
-    public int getCPU() {
-        return CPU;
-    }
-
-    public void setCPU(int CPU) {
-        this.CPU = CPU;
+    public void setDemand(int demand) {
+        this.demand = demand;
     }
 
     public double getProbability() {

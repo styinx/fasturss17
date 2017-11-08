@@ -13,14 +13,13 @@
     {
       "name" : "Login",
       "instances" : 10,
-      "CPU" : 3000,
+      "capacity" : 3000,
       "operations" :
       [
         {
           "name" : "LoginOP1",
           "patterns" : [],
-          "duration" : 1,
-          "CPU" : 500,
+          "demand" : 500,
           "dependencies" :
           [
             {
@@ -40,14 +39,13 @@
     {
       "name" : "Message",
       "instances" : 5,
-      "CPU" : 3000,
+      "capacity" : 3000,
       "operations" :
       [
         {
           "name" : "MessageOP1",
           "patterns" : [],
-          "duration" : 1,
-          "CPU" : 500,
+          "demand" : 500,
           "dependencies" :
           [
             {
@@ -62,14 +60,13 @@
     {
       "name" : "Processing",
       "instances" : 5,
-      "CPU" : 3000,
+      "capacity" : 3000,
       "operations" :
       [
         {
           "name" : "ProcessingOP1",
           "patterns" : [],
-          "duration" : 1,
-          "CPU" : 500,
+          "demand" : 500,
           "dependencies" :
           [
 
@@ -80,14 +77,13 @@
     {
       "name" : "Session",
       "instances" : 5,
-      "CPU" : 3000,
+      "capacity" : 3000,
       "operations" :
       [
         {
           "name" : "SessionOP1",
           "patterns" : [],
-          "duration" : 1,
-          "CPU" : 500,
+          "demand" : 500,
           "dependencies" :
           [
 
@@ -98,14 +94,13 @@
     {
       "name" : "Account",
       "instances" : 5,
-      "CPU" : 3000,
+      "capacity" : 3000,
       "operations" :
       [
         {
           "name" : "AccountOP1",
           "patterns" : [],
-          "duration" : 1,
-          "CPU" : 500,
+          "demand" : 500,
           "dependencies" :
           [
             {
@@ -125,14 +120,13 @@
     {
       "name" : "Database",
       "instances" : 1,
-      "CPU" : 3000,
+      "capacity" : 3000,
       "operations" :
       [
         {
           "name" : "DatabaseOP1",
           "patterns" : ["Circuit Breaker"],
-          "duration" : 10,
-          "CPU" : 500,
+          "demand" : 500,
           "dependencies" :
           [
 

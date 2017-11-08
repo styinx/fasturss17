@@ -9,4 +9,8 @@ public class Table {
     public Table(MainModelClass model, HashMap<String, HashMap<String, Double>> series) {
 
     }
+
+    public String printTable() {
+        return "";
+    }
 }

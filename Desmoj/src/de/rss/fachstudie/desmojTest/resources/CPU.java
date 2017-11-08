@@ -33,8 +33,8 @@ public class CPU extends Event {
             if(doneWork > capacity)
                 doneWork -= capacity;
             if(thread.getDemand() == 0) {
-                queue.remove(thread);
                 thread.scheduleEndEvent();
+                queue.remove(thread);
             }
         }
         calculateMin();
@@ -44,10 +44,17 @@ public class CPU extends Event {
         if(lastThreadEntry != 0) {
             int robins = (int)Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) / robinTime);
             for(int i = 0; i < robins; i++) {
-                queue.get(i % queue.size()).subtractDemand(robinTime);
-                doneWork += robinTime;
-                if(doneWork > capacity)
-                    doneWork -= capacity;
+                if(queue.size() > 0) {
+                    if (queue.get(i % queue.size()).getDemand() == 0) {
+                        queue.get(i % queue.size()).scheduleEndEvent();
+                        queue.remove(queue.get(i % queue.size()));
+                    } else {
+                        queue.get(i % queue.size()).subtractDemand(robinTime);
+                        doneWork += robinTime;
+                        if (doneWork > capacity)
+                            doneWork -= capacity;
+                    }
+                }
             }
         } else {
             lastThreadEntry = this.model.presentTime().getTimeAsDouble();

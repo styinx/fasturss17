@@ -218,14 +218,14 @@ public class MainModelClass extends Model {
                 msEntity.setName(microservices[id].getName());
                 msEntity.setId(id);
                 msEntity.setSid(instance);
-                msEntity.setCPU(microservices[id].getCPU());
+                msEntity.setCapacity(microservices[id].getCapacity());
                 msEntity.setInstances(microservices[id].getInstances());
                 msEntity.setOperations(microservices[id].getOperations());
                 idleQueue.insert(msEntity);
                 allMicroservices.put(id, msEntity);
 
                 // Resources
-                CPU msCPU = new CPU(this, "", false, msEntity.getCPU());
+                CPU msCPU = new CPU(this, "", false, msEntity.getCapacity());
                 cpu.put(instance, msCPU);
 
                 // Statistics
@@ -310,7 +310,7 @@ public class MainModelClass extends Model {
 //
 //        arch = (cmd.getOptionValue("arch").equals("")) ? "example_simple.json" : cmd.getOptionValue("arch");
         if(arch == "")
-            arch = "example_simple.json";
+            arch = "example_advanced.json";
 
         InputParser parser = new InputParser(arch);
         InputValidator validator = new InputValidator();

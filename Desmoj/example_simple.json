@@ -5,22 +5,22 @@
     "model" : "Simple microservice model",
     "duration" : 1000,
     "report" : "",
-    "datapoints" : 1000,
+    "datapoints" : 100,
     "seed" : 1234
   },
   "microservices" :
   [
     {
       "name" : "Frontend",
-      "instances" : 1,
-      "CPU" : 1000,
+      "instances" : 2,
+      "patterns" : [],
+      "capacity" : 1000,
       "operations" :
       [
         {
           "name" : "login",
           "patterns" : [],
-          "duration" : 1,
-          "CPU" : 100,
+          "demand" : 100,
           "dependencies" :
           [
             {
@@ -34,19 +34,36 @@
     },
     {
       "name" : "Server",
-      "instances" : 1,
-      "CPU" : 1000,
+      "instances" : 2,
+      "capacity" : 1000,
       "operations" :
       [
         {
           "name" : "save",
           "patterns" : [],
-          "duration" : 2,
-          "CPU" : 100,
+          "demand" : 100,
           "dependencies" :
           [
-
+            {
+              "operation" : "update",
+              "service" : "Database",
+              "probability" : 1.0
+            }
           ]
+        }
+      ]
+    },
+    {
+      "name" : "Database",
+      "instances" : 2,
+      "capacity" : 1000,
+      "operations" :
+      [
+        {
+          "name" : "update",
+          "patterns" : [],
+          "demand" : 100,
+          "dependencies" : []
         }
       ]
     }

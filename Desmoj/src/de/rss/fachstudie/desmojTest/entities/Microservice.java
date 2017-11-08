@@ -22,7 +22,6 @@ public class Microservice extends Entity{
     private int id;
     private int sid;
     private String name = "";
-    private int CPU = 0;
     private int capacity = 0;
     private int instances = 0;
     private Queue<Thread> threads;
@@ -67,12 +66,12 @@ public class Microservice extends Entity{
         this.name = name;
     }
 
-    public int getCPU() {
-        return CPU;
+    public int getCapacity() {
+        return capacity;
     }
 
-    public void setCPU(int CPU) {
-        this.CPU = CPU;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public int getInstances() {

@@ -56,6 +56,59 @@ body
     height: 100%;
 }
 
+svg
+{
+	border: none;
+}
+
+.node
+{
+	fill: #ccc;
+	stroke: #ddd;
+	stroke-width: 1px;
+}
+
+.node:hover
+{
+	stroke: #fff;
+	stroke-width: 2px;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 2px;
+    color: white;
+    background: rgba(50, 50, 50, 0.8);
+    pointer-events: none;
+}
+
+.link
+{
+	stroke: #555;
+}
+
+.link:hover
+{
+    stroke: #f00;
+}
+
+.label
+{
+    fill: #444;
+    stroke: #444;
+    font-family: helvetica;
+    font-size: 8pt;
+    opacity: 1.0;
+    display: block;
+    top: 100px;
+    left: 100px;
+    position: absolute;
+    background: red;
+    width: 100px;
+    height: 200px;
+}
+
 /*
  * Chart
  */
@@ -102,4 +155,66 @@ div.chartbar
 #chart-container button:active
 {
     border: 1px solid green;
+}
+
+/*
+ * Table
+ */
+
+div.stat-table
+{
+
+}
+
+.stat-table table
+{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    white-space: nowrap;
+    border-spacing: 0;
+    border-collapse: separate;
+    cursor: pointer;
+    color: black;
+}
+
+.stat-table thead th
+{
+    padding: 5px 5px 5px 5px;
+    border-bottom: 2px solid black;
+    cursor: pointer;
+    background: linear-gradient(rgba(255, 255, 255, 255), rgba(250, 250, 250, 255));
+}
+
+.stat-table tbody tr
+{
+    transition: 500ms;
+}
+
+.stat-table tbody tr:nth-child(odd)
+{
+    background: rgba(255, 255, 255, 255);
+}
+
+.stat-table tbody tr:nth-child(even)
+{
+    background: rgba(250, 250, 250, 250);
+}
+
+.stat-table tbody tr:hover
+{
+    border-left: 1px solid #0099FF;
+    background: rgba(0, 150, 255, 50);
+}
+
+.stat-table tbody td
+{
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 255);
+}
+
+.stat-table tbody td:empty:before
+{
+    content: "\200b";
 }

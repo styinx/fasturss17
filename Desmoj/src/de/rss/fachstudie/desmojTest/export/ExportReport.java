@@ -94,6 +94,11 @@ public class ExportReport {
         }
     }
 
+    /**
+     *
+     * @param filename report file
+     * @return an array of double values
+     */
     private Double[] getTimeSeries(String filename) {
         List<Double> values = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(new File(filename)))) {

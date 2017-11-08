@@ -4,7 +4,6 @@
 		<meta charset="utf-8">
 		<title>Simluation Report</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
-		<link rel="stylesheet" type="text/css" href="css/d3.css"/>
         <!-- jquery -->
         <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
         <!-- d3 library -->
@@ -23,16 +22,17 @@
         <div id="info">One moment please ...</div>
         <!-- Load Data and Scripts from the written files -->
 
+		<!-- charts -->
+        <div id="chart-container">
+            <!-- file containing the chart information -->
+            <script type="text/javascript" src="js/chart.js"></script>
+        </div>
+
         <!-- graph -->
         <svg id="svg"></svg>
         <!-- file containing the graph information -->
         <script type="text/javascript" src="js/graph.js"></script>
         <!-- d3 script -->
         <script type="text/javascript" src="js/d3_script.js"></script>
-		<!-- charts -->
-        <div id="chart-container">
-            <!-- file containing the chart information -->
-            <script type="text/javascript" src="js/chart.js"></script>
-        </div>
 	</body>
 </html>

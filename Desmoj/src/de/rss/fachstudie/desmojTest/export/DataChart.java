@@ -55,7 +55,7 @@ public class DataChart {
         this.options =
                 "title : {text : '" + chartId + "'}, " +
                         "legend : {enabled: true}, " +
-                        "xAxis: {max:" + model.getSimulationTime() + "}, " +
+                        "xAxis: {min: 0, max:" + model.getSimulationTime() + "}, " +
                         "colors : colors(" + series.keySet().size() + "), " +
                         "series : " +
                         "[ ";
@@ -67,9 +67,18 @@ public class DataChart {
                     + "data : [ ";
 
             TreeMap<Integer, Double> map = series.get(key);
-            for(int i = 0; i < map.size(); i += Math.round(model.getSimulationTime()/model.getDatapoints())) {
-                if(map.get(i) != null)
-                    options += "[" + i + ", " + map.get(i) + "], ";
+            int last = 0;
+            for(int i = 0; i < model.getSimulationTime(); i += Math.round(model.getSimulationTime()/model.getDatapoints())) {
+                if(map.get(i) != null) {
+                    last = i;
+                    options += "[" + i + ", " + Math.round(map.get(i) * 100.0) / 100.0 + "], ";
+                }
+                else {
+                    if(map.get(last) == null)
+                        options += "[" + i + ", " + 0 + "], ";
+                    else
+                        options += "[" + i + ", " + Math.round(map.get(last) * 100.0) / 100.0 + "], ";
+                }
             }
             options = options.substring(0, options.length() - 1) + "]}, ";
             index++;
