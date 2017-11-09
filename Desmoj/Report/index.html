@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
-	<head>
+<html lang="en">
+    <head>
 		<meta charset="utf-8">
 		<title>Simluation Report</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
         <!-- jquery -->
         <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
+
         <!-- d3 library -->
 		<script type="text/javascript" src="js/d3.min.js"></script>
         <!-- highchart library -->
@@ -16,10 +18,33 @@
         <script type="text/javascript" src="js/chart_style.js"></script>
         <!-- highchart script -->
         <script type="text/javascript" src="js/highcharts_script.js"></script>
+        <script>
+            function hideTable(element, id)
+            {
+                var table = document.getElementById(id).getElementsByTagName('tbody')[0];
+                if(table.style.display === "")
+                {
+                    element.innerHTML = "&#x25BA";
+                    table.style.display = "none";
+                }
+                else
+                {
+                    element.innerHTML = "&#x25BC";
+                    table.style.display = "";
+                }
+            }
+
+            $(document).ready(function()
+                {
+                    $('.tablesorter').tablesorter();
+                }
+            );
+        </script>
 	</head>
 	<body>
         <div id="warning">Report shows a cut down version of the actual architecture.</div>
         <div id="info">One moment please ...</div>
+
         <!-- Load Data and Scripts from the written files -->
 
 		<!-- charts -->

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script src="js/formatter.js"></script>
+        <style>
+            #json
+            {
+                position: fixed;
+                top: 25%;
+                right: 5%;
+                height: 50%;
+            }
+
+            .top
+            {
+                min-width: 800px;
+            }
+
+            .ms-color
+            {
+                background: rgba(0, 150, 0, 0.5);
+            }
+
+            .op-color
+            {
+                background: rgba(0, 150, 255, 0.5);
+            }
+
+            table
+            {
+                min-width: 100%;
+                border: 1px solid black;
+                white-space: nowrap;
+                border-spacing: 0;
+                border-collapse: separate;
+            }
+
+            input[type=number]
+            {
+                max-width: 50px;
+            }
+
+            textarea
+            {
+                min-width: 400px;
+                max-width: 400px;
+            }
+        </style>
+    </head>
+    <body>
+        <table style="border: none;">
+            <tr>
+                <td>
+                    <table class="top">
+                        <tr>
+                            <th colspan="100%"><h1>Generation for Simulatoion Architecture</h1></th>
+                        </tr>
+                        <tr>
+                            <td colspan="100%"><b>Simulation:</b></td>
+                        </tr>
+                        <tr>
+                            <td>Experiment:</td>
+                            <td><textarea id="simulation-experiment"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Model:</td>
+                            <td><textarea id="simulation-model"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Duration:</td>
+                            <td><input id="simulation-duration" type="number"/>&nbsp;sec</td>
+                        </tr>
+                        <tr>
+                            <td>Report:</td>
+                            <td>
+                                <select id="simulation-report">
+                                    <option value="">default</option>
+                                    <option value="minimalistic">minimalistic</option>
+                                    <option value="none">none</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Datapoints:</td>
+                            <td><input id="simulation-datapoints" type="number"/></td>
+                        </tr>
+                        <tr>
+                            <td>Seed:</td>
+                            <td><input id="simulation-seed" type="number"/></td>
+                        </tr>
+                        <tr><td colspan="100%">&nbsp;</td></tr>
+                        <tr>
+                            <td colspan="100%"><b>Microservices:</b></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td><td><div id="microservice0"></div></td>
+                            <script>makeMicroservice(0);</script>
+                        </tr>
+                        <tr><td colspan="100%">&nbsp;</td></tr>
+                        <tr>
+                            <td colspan="100%"><b>Generators:</b></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td><td><div id="generator0"></div></td>
+                            <script>makeGenerator(0);</script>
+                        </tr>
+                        <tr><td colspan="100%">&nbsp;</td></tr>
+                        <tr>
+                            <td colspan="100%"><b>Chaos Monkeys:</b></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td><td><div id="monkey0"></div></td>
+                            <script>makeGenerator(0);</script>
+                        </tr>
+                    </table>
+                </td>
+                <td><textarea id="json">Hier kommt die JSON hin</textarea></td>
+            </tr>
+        </table>
+    </body>
+</html>

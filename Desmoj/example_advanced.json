@@ -3,7 +3,7 @@
   {
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
-    "duration" : 500,
+    "duration" : 10000,
     "report" : "",
     "datapoints" : 100,
     "seed" : 2298
@@ -13,7 +13,7 @@
     {
       "name" : "Login",
       "instances" : 10,
-      "patterns" : [{"Thread Pool" : 10}, {"Thread Queue" : 10}],
+      "patterns" : [],
       "capacity" : 3000,
       "operations" :
       [
@@ -40,7 +40,7 @@
     {
       "name" : "Message",
       "instances" : 5,
-      "patterns" : [{"Thread Pool" : 10}],
+      "patterns" : [],
       "capacity" : 3000,
       "operations" :
       [
@@ -80,7 +80,7 @@
     {
       "name" : "Session",
       "instances" : 5,
-      "patterns" : [{"Thread Pool" : 10}],
+      "patterns" : [],
       "capacity" : 3000,
       "operations" :
       [
@@ -98,7 +98,7 @@
     {
       "name" : "Account",
       "instances" : 5,
-      "patterns" : [{"Thread Pool" : 10}],
+      "patterns" : [],
       "capacity" : 3000,
       "operations" :
       [
@@ -125,7 +125,7 @@
     {
       "name" : "Database",
       "instances" : 1,
-      "patterns" : [{"Thread Pool" : 10}],
+      "patterns" : [],
       "capacity" : 3000,
       "operations" :
       [

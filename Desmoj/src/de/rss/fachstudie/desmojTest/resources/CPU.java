@@ -62,6 +62,7 @@ public class CPU extends Event {
 
     public void addThread(Thread thread) {
 
+        // update all threads that are currently in the active queue
         if(lastThreadEntry != 0) {
             int robins = (int) Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) / robinTime);
             for (int i = 0; i < robins; i++) {
@@ -81,22 +82,49 @@ public class CPU extends Event {
             lastThreadEntry = this.model.presentTime().getTimeAsDouble();
         }
 
-        // if thread pool patterns exists check size of active queue
+        // check for patterns and add the current thread to the queue or
+        // send a default response to the depending service
         if(!hasThreadPool || activeThreads.size() < threadPoolSize) {
 
             // cpu has no thread pool, or the size of the thread pool is big enough
             activeThreads.insert(thread);
         } else {
-            // if thread queue pattern exists check the size of waiting queue
-            if(hasThreadQueue && waitingThreads.size() < threadQueueSize) {
 
-                // a thread queue exists and the size is big enough
-                activeThreads.insert(thread);
+            // if thread queue pattern exists check the size of waiting queue
+            if(hasThreadQueue) {
+                if(waitingThreads.size() < threadQueueSize) {
+
+                    // a thread queue exists and the size is big enough
+                    waitingThreads.insert(thread);
+                } else {
+
+                    // thread waiting queue is too big,
+                    thread.scheduleEndEvent();
+                    // statistics
+                    double last = 0;
+                    List<Double> values = model.threadQueueStatistics.get(thread.getId()).get(thread.getSid()).getDataValues();
+                    if(values != null)
+                        last = values.get(values.size() - 1);
+                    model.threadQueueStatistics.get(thread.getId()).get(thread.getSid()).update(last + 1);
+                }
             } else {
-                // thread waiting queue is too big, thread will not be added to cpu,
-                // so the depending thread will be released
+
+                // thread pool is too big
                 thread.scheduleEndEvent();
+                // statistics
+                double last = 0;
+                List<Double> values = model.threadPoolStatistics.get(thread.getId()).get(thread.getSid()).getDataValues();
+                if(values != null)
+                    last = values.get(values.size() - 1);
+                model.threadPoolStatistics.get(thread.getId()).get(thread.getSid()).update(last + 1);
             }
+        }
+
+        // Shift from waiting queue to the active queue
+        int freeSlots = threadPoolSize - activeThreads.size();
+        for(int index = 0; index < freeSlots; ++index) {
+            activeThreads.insert(waitingThreads.first());
+            waitingThreads.removeFirst();
         }
 
         calculateMin();

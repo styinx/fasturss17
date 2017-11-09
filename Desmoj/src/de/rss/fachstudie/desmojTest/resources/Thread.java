@@ -22,6 +22,7 @@ import java.util.Vector;
 public class Thread extends Entity {
     MainModelClass model;
     private int id;
+    private int sid;
     private int tid;
     private int demand;
     private StopEvent endEvent;
@@ -35,6 +36,7 @@ public class Thread extends Entity {
 
         model = (MainModelClass) owner;
         this.id = service.getId();
+        this.sid = service.getSid();
         this.tid = service.getThreads().size();
         this.demand = demand;
         this.endEvent = end;
@@ -49,6 +51,14 @@ public class Thread extends Entity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getSid() {
+        return sid;
+    }
+
+    public void setSid(int sid) {
+        this.sid = sid;
     }
 
     public int getTid() {

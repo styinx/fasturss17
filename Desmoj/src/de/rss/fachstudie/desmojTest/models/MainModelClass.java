@@ -45,6 +45,8 @@ public class MainModelClass extends Model {
     public HashMap<Integer, HashMap<Integer, TimeSeries>> cpuStatistics;
     public HashMap<Integer, HashMap<Integer, TimeSeries>> responseStatisitcs;
     public HashMap<Integer, TimeSeries> circuitBreakerStatistics;
+    public HashMap<Integer, HashMap<Integer, TimeSeries>> threadPoolStatistics;
+    public HashMap<Integer, HashMap<Integer, TimeSeries>> threadQueueStatistics;
     public HashMap<Integer, TimeSeries> taskQueueStatistics;
 
     public void  setSimulationTime(double simTime) {
@@ -174,11 +176,13 @@ public class MainModelClass extends Model {
         serviceCPU          = new HashMap<>();
 
         // Statistics
-        threadStatistics    = new HashMap<>();
-        cpuStatistics       = new HashMap<>();
-        responseStatisitcs  = new HashMap<>();
-        circuitBreakerStatistics = new HashMap<>();
-        taskQueueStatistics = new HashMap<>();
+        threadStatistics            = new HashMap<>();
+        cpuStatistics               = new HashMap<>();
+        responseStatisitcs          = new HashMap<>();
+        circuitBreakerStatistics    = new HashMap<>();
+        threadPoolStatistics        = new HashMap<>();
+        threadQueueStatistics       = new HashMap<>();
+        taskQueueStatistics         = new HashMap<>();
 
         // Load JSON
         Microservice[] microservices = InputParser.microservices;
@@ -201,6 +205,9 @@ public class MainModelClass extends Model {
             TimeSeries circuitBreakerStats = new TimeSeries(this, "Tasks refused by Circuit Breaker: " + serviceName,
                     resourcePath + "CircuitBreaker_" + serviceName + ".txt",
                     new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
+            HashMap<Integer, TimeSeries> threadPoolStats = new HashMap<>();
+            HashMap<Integer, TimeSeries> threadQueueStats = new HashMap<>();
+
             TimeSeries taskQueueWork = new TimeSeries(this, "Task Queue: " + serviceName,
                     resourcePath + "TaskQueue_" + serviceName + ".txt",
                     new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
@@ -235,9 +242,19 @@ public class MainModelClass extends Model {
                         resourcePath + "ResponseTime_" + serviceName + "_" + msEntity.getSid() + ".txt",
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
+                TimeSeries threadPool = new TimeSeries(this, "Tasks refused by Thread Pool: " + serviceName,
+                        resourcePath + "ThreadPool_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                        new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
+
+                TimeSeries threadQueue = new TimeSeries(this, "Tasks refused by Thread Queue: " + serviceName,
+                        resourcePath + "ThreadQueue_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                        new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
+
                 threadStats.put(instance, activeInstances);
                 cpuStats.put(instance, activeCPU);
                 responseStats.put(instance, responseTime);
+                threadPoolStats.put(instance, threadPool);
+                threadQueueStats.put(instance, threadQueue);
             }
             // Queues
             taskQueues.put(id, taskQueue);
@@ -251,6 +268,8 @@ public class MainModelClass extends Model {
             cpuStatistics.put(id, cpuStats);
             responseStatisitcs.put(id, responseStats);
             circuitBreakerStatistics.put(id, circuitBreakerStats);
+            threadPoolStatistics.put(id, threadPoolStats);
+            threadQueueStatistics.put(id, threadQueueStats);
             taskQueueStatistics.put(id, taskQueueWork);
             HashMap<String, String> a = new HashMap<>();
         }

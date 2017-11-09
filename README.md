@@ -113,7 +113,7 @@ The ***microservices*** field holds the information about the microservice archi
        - patterns :
        
          Each operation can have none or multiple patterns. Possible values:
-           - {"Circuit Breaker"}
+           - "Circuit Breaker"
            - the task queue is limited to the number of threads it can maximal take
          
 - generators :

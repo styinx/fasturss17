@@ -39,10 +39,12 @@ public class ExportReport {
 
     private void chartReport() {
         TreeMap<String, TreeMap<Integer, Double>> activeInstances = new TreeMap<>();
+        TreeMap<String, TreeMap<Integer, Double>> taskQueueWork = new TreeMap<>();
         TreeMap<String, TreeMap<Integer, Double>> usedCPU = new TreeMap<>();
         TreeMap<String, TreeMap<Integer, Double>> responseTime = new TreeMap<>();
         TreeMap<String, TreeMap<Integer, Double>> circuitBreaker = new TreeMap<>();
-        TreeMap<String, TreeMap<Integer, Double>> taskQueueWork = new TreeMap<>();
+        TreeMap<String, TreeMap<Integer, Double>> threadPool = new TreeMap<>();
+        TreeMap<String, TreeMap<Integer, Double>> threadQueue = new TreeMap<>();
 
         for(int id = 0; id < model.services.size(); id++) {
             String serviceName = model.services.get(id).get(0).getName();
@@ -54,35 +56,51 @@ public class ExportReport {
             }
 
             for(int instance = 0; instance < instanceLimit; instance++) {
+                
                 Microservice ms = model.services.get(id).get(instance);
-                activeInstances.put(ms.getName() + " #" + instance,
-                        this.getTimeSeriesWithKeys(resourcePath + "Threads_" + ms.getName() + "_" + instance + ".txt"));
-                usedCPU.put(ms.getName() + " #" + instance,
-                        this.getTimeSeriesWithKeys(resourcePath + "CPU_" + ms.getName() + "_" + instance + ".txt"));
-                responseTime.put(ms.getName() + " #" + instance,
-                        this.getTimeSeriesWithKeys(resourcePath + "ResponseTime_" + ms.getName() + "_" + instance + ".txt"));
+                String file = ms.getName() + "_" + instance + ".txt";
+                
+                activeInstances.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "Threads_" + file));
+                usedCPU.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "CPU_" + file));
+                responseTime.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "ResponseTime_" + file));
+                threadPool.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "ThreadPool_" + file));
+                threadQueue.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "ThreadQueue_" + file));
             }
             circuitBreaker.put(serviceName, this.getTimeSeriesWithKeys(resourcePath + "CircuitBreaker_" + serviceName + ".txt"));
             taskQueueWork.put(serviceName, this.getTimeSeriesWithKeys(resourcePath + "TaskQueue_" + serviceName + ".txt"));
         }
 
         DataChart chart1 = new DataChart(model, "Active Microservice Threads", activeInstances);
-        DataChart chart2 = new DataChart(model, "Used CPU in percent", usedCPU);
-        DataChart chart3 = new DataChart(model, "Thread Response Time", responseTime);
-        DataChart chart4 = new DataChart(model, "Tasks refused by Circuit Breaker", circuitBreaker);
-        DataChart chart5 = new DataChart(model, "Task Queue per Service", taskQueueWork);
+        DataChart chart2 = new DataChart(model, "Task Queue per Service", taskQueueWork);
+        DataChart chart3 = new DataChart(model, "Used CPU in percent", usedCPU);
+        DataChart chart4 = new DataChart(model, "Thread Response Time", responseTime);
+        DataChart chart5 = new DataChart(model, "Tasks refused by Circuit Breaker", circuitBreaker);
+        DataChart chart6 = new DataChart(model, "Tasks refused by Thread Pool", threadPool);
+        DataChart chart7 = new DataChart(model, "Tasks refused by Thread Queue", threadQueue);
 
-        String divs = chart1.printDiv()
-                + chart2.printDiv()
-                + chart3.printDiv()
-                + chart4.printDiv()
-                + chart5.printDiv();
+        Table table1 = new Table("Active Microservice Threads", activeInstances);
+        Table table2 = new Table("Task Queue per Service", taskQueueWork);
+        Table table3 = new Table("Used CPU in percent", usedCPU);
+        Table table4 = new Table("Thread Response Time", responseTime);
+        Table table5 = new Table("Tasks refused by Circuit Breaker", circuitBreaker);
+        Table table6 = new Table("Tasks refused by Thread Pool", threadPool);
+        Table table7 = new Table("Tasks refused by Thread Queue", threadQueue);
+
+        String divs = chart1.printDiv() + table1.printTable()
+                + chart2.printDiv() + table2.printTable()
+                + chart3.printDiv() + table3.printTable()
+                + chart4.printDiv() + table4.printTable()
+                + chart5.printDiv() + table5.printTable()
+                + chart6.printDiv() + table6.printTable()
+                + chart7.printDiv() + table7.printTable();
 
         String charts = chart1.printStockChart()
                 + chart2.printStockChart()
                 + chart3.printStockChart()
                 + chart4.printStockChart()
-                + chart5.printStockChart();
+                + chart5.printStockChart()
+                + chart6.printStockChart()
+                + chart7.printStockChart();
 
         String contents = divs + charts;
 
