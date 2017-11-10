@@ -68,7 +68,11 @@ public class DataChart {
 
             TreeMap<Integer, Double> map = series.get(key);
             int last = 0;
-            for(int i = 0; i < model.getSimulationTime(); i += Math.round(model.getSimulationTime()/model.getDatapoints())) {
+            int step = (int)model.getSimulationTime()/model.getDatapoints();
+            if(step == 0)
+                step = 1;
+
+            for(int i = 0; i < model.getSimulationTime(); i += step) {
                 if(map.get(i) != null) {
                     last = i;
                     options += "[" + i + ", " + Math.round(map.get(i) * 100.0) / 100.0 + "], ";
