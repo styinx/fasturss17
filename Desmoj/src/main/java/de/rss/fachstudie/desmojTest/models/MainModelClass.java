@@ -11,6 +11,9 @@ import de.rss.fachstudie.desmojTest.utils.InputValidator;
 import desmoj.core.simulator.*;
 import desmoj.core.statistic.TimeSeries;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -182,6 +185,12 @@ public class MainModelClass extends Model {
         threadPoolStatistics        = new HashMap<>();
         threadQueueStatistics       = new HashMap<>();
         taskQueueStatistics         = new HashMap<>();
+
+        // Create folder for statistics file
+        File resPath = new File("./Report/resources");
+        if(!resPath.exists()) {
+            resPath.mkdir();
+        }
 
         // Load JSON
         Microservice[] microservices = InputParser.microservices;
