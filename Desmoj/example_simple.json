@@ -3,9 +3,9 @@
   {
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
-    "duration" : 100,
+    "duration" : 90,
     "report" : "",
-    "datapoints" : 100,
+    "datapoints" : 90,
     "seed" : 1234
   },
   "microservices" :
@@ -20,7 +20,7 @@
         {
           "name" : "login",
           "patterns" : [],
-          "demand" : 200,
+          "demand" : 2000,
           "dependencies" :
           [
 //            {
@@ -71,10 +71,21 @@
   "generators" :
   [
     {
-      "time" : 0.1,
+      "time" : 50,
+      "microservice" : "Frontend",
+      "operation" : "login"
+    },
+    {
+      "time" : 50,
+      "microservice" : "Frontend",
+      "operation" : "login"
+    },
+    {
+      "time" : 50,
       "microservice" : "Frontend",
       "operation" : "login"
     }
+
   ],
   "chaosmonkeys" :
   [

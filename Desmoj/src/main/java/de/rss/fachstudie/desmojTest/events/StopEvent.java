@@ -30,7 +30,7 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
                 model.taskQueues.get(id).remove(messageObject);
 
                 // remove thread from microservice
-                msEntity.getThreads().remove(thread);
+
 
                 // Free stacked and waiting operations
                 if (messageObject.getDependency().size() > 0) {
@@ -48,7 +48,7 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
                 // CPU
                 model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getUsage());
                 // Threads
-                model.threadStatistics.get(id).get(msEntity.getSid()).update(msEntity.getThreads().size());
+                model.threadStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getActiveThreads());
                 // Response Time
                 model.responseStatisitcs.get(id).get(msEntity.getSid()).update(
                         model.presentTime().getTimeAsDouble() - thread.getCreationTime().getTimeAsDouble());

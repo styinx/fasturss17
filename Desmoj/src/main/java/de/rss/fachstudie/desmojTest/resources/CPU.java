@@ -22,6 +22,7 @@ public class CPU extends Event {
     private int threadPoolSize = 0;
     private boolean hasThreadQueue = false;
     private int threadQueueSize = 0;
+    private double smallestThread = 0.0;
 
     public CPU (Model owner, String name, boolean showInTrace, int id, int capacity) {
         super(owner, name, showInTrace);
@@ -45,17 +46,24 @@ public class CPU extends Event {
         }
     }
 
+    public int getActiveThreads(){
+        return activeThreads.size();
+    }
+
     public void eventRoutine(Entity entity) throws SuspendExecution {
         System.out.println("EVENTROUTINE");
         for(Thread thread : activeThreads) {
-            thread.subtractDemand((int)cycleTime);
+            thread.subtractDemand((int) smallestThread);
             doneWork += cycleTime;
             if(doneWork > capacity)
                 doneWork -= capacity;
             if(thread.getDemand() == 0) {
 
                 thread.scheduleEndEvent();
+                System.out.println(model.presentTime().getTimeAsDouble());
+                System.out.println(activeThreads.size() + " active thread size");
                 activeThreads.remove(thread);
+                System.out.println(activeThreads.size() + " active thread size");
             }
         }
         calculateMin();
@@ -136,14 +144,17 @@ public class CPU extends Event {
     }
 
     private void calculateMin() {
-        double smallestThread = Double.POSITIVE_INFINITY;
+        smallestThread = Double.POSITIVE_INFINITY;
         for(Thread t : activeThreads) {
             if(t.getDemand() < smallestThread) {
                 smallestThread = t.getDemand();
             }
         }
 
-        cycleTime = activeThreads.size() * (smallestThread / robinTime);
+        //TODO capacity lead to 100 or 0% cpu
+        cycleTime = (activeThreads.size() * smallestThread)/ capacity ;
+
+        System.out.println(cycleTime +" cycle");
 
         if(!activeThreads.isEmpty()) {
             if(isScheduled()) {
@@ -160,6 +171,10 @@ public class CPU extends Event {
     }
 
     public double getUsage() {
-        return ((float)doneWork / (float)capacity);
+        if(activeThreads.size() > 0){
+            return 1.0;
+        } else {
+            return 0;
+        }
     }
 }

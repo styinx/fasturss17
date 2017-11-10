@@ -98,13 +98,13 @@ public class StartEvent extends Event<MessageObject> {
                             nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
                         } else {
                             // add thread to cpu
-                            msEntity.getThreads().insert(thread);
+
                             model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
                         }
                     }
                 } else {
                     // add thread to cpu
-                    msEntity.getThreads().insert(thread);
+
                     model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
                 }
 
@@ -112,7 +112,7 @@ public class StartEvent extends Event<MessageObject> {
                 // CPU
                 model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getUsage());
                 // Thread
-                model.threadStatistics.get(id).get(msEntity.getSid()).update(msEntity.getThreads().size());
+                model.threadStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getActiveThreads());
                 // Task Queue
                 model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
             }
