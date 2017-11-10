@@ -3,12 +3,16 @@
 **Table of contents:**
 
 - [Simulator](#Sim)
+	- [Installation](#Sim-Inst)
 	- [Description](#Sim-Des)
 	- [JSON Format](#Sim-Form)
 	- [Usage](#Sim-Use)
 	- [Documentation](#Sim-Doc)
 
 ## <a name="Sim"></a>Simulator
+
+### <a name="Sim-Inst"></a>Installation
+In order to install the simulator you have to download the DesmoJ library from [sourceforge](http://desmoj.sourceforge.net/download.html) and then integrate it into the project.
 
 ### <a name="Sim-Des"></a>Description
 ---

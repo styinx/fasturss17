@@ -1,6 +1,7 @@
 package de.rss.fachstudie.desmojTest.resources;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.*;
 
@@ -12,7 +13,7 @@ public class CPU extends Event {
     private MainModelClass model;
     private int capacity = 0;
     private int robinTime = 10;
-    private int cycleTime = 0;
+    private double cycleTime = 0;
     private int doneWork = 0;
     private double lastThreadEntry;
     private Queue<Thread> activeThreads;
@@ -41,18 +42,18 @@ public class CPU extends Event {
             threadQueueSize = model.allMicroservices.get(id).getPattern("Thread Queue");
             waitingThreads = new Queue<>(owner, "", QueueBased.FIFO, threadQueueSize, false, false);
             hasThreadQueue = true;
-        } else {
-            waitingThreads = new Queue<>(owner, "", QueueBased.FIFO, 0, false, false);
         }
     }
 
     public void eventRoutine(Entity entity) throws SuspendExecution {
+        System.out.println("EVENTROUTINE");
         for(Thread thread : activeThreads) {
-            thread.subtractDemand(cycleTime);
+            thread.subtractDemand((int)cycleTime);
             doneWork += cycleTime;
             if(doneWork > capacity)
                 doneWork -= capacity;
             if(thread.getDemand() == 0) {
+
                 thread.scheduleEndEvent();
                 activeThreads.remove(thread);
             }
@@ -61,26 +62,29 @@ public class CPU extends Event {
     }
 
     public void addThread(Thread thread) {
-
         // update all threads that are currently in the active queue
-        if(lastThreadEntry != 0) {
-            int robins = (int) Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) / robinTime);
-            for (int i = 0; i < robins; i++) {
-                if (activeThreads.size() > 0) {
-                    if (activeThreads.get(i % activeThreads.size()).getDemand() == 0) {
-                        activeThreads.get(i % activeThreads.size()).scheduleEndEvent();
-                        activeThreads.remove(activeThreads.get(i % activeThreads.size()));
-                    } else {
-                        activeThreads.get(i % activeThreads.size()).subtractDemand(robinTime);
-                        doneWork += robinTime;
-                        if (doneWork > capacity)
-                            doneWork -= capacity;
-                    }
+        int robins = (int) Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) / robinTime);
+        for (int i = 0; i < robins; i++) {
+            if (activeThreads.size() > 0) {
+                System.out.println(activeThreads.size() + " ACTIVE THREADS");
+                if (activeThreads.get(i % activeThreads.size()).getDemand() == 0) {
+                    System.out.println(activeThreads.get(i % activeThreads.size()).getDemand() + " remaining demand should be 0");
+                    System.out.println(model.presentTime().getTimeAsDouble() + " time");
+                    activeThreads.get(i % activeThreads.size()).scheduleEndEvent();
+                    activeThreads.remove(activeThreads.get(i % activeThreads.size()));
+                } else {
+                    System.out.println(activeThreads.get(i % activeThreads.size()).getDemand() + " remaining demand");
+                    System.out.println(model.presentTime().getTimeAsDouble() +" time");
+                    activeThreads.get(i % activeThreads.size()).subtractDemand(robinTime);
+                    doneWork += robinTime;
+                    if (doneWork > capacity)
+                        doneWork -= capacity;
                 }
             }
-        } else {
-            lastThreadEntry = this.model.presentTime().getTimeAsDouble();
+            System.out.println();
         }
+
+        lastThreadEntry = this.model.presentTime().getTimeAsDouble();
 
         // check for patterns and add the current thread to the queue or
         // send a default response to the depending service
@@ -128,6 +132,7 @@ public class CPU extends Event {
         }
 
         calculateMin();
+
     }
 
     private void calculateMin() {
@@ -138,13 +143,14 @@ public class CPU extends Event {
             }
         }
 
-        cycleTime = activeThreads.size() * (int)(smallestThread / robinTime);
+        cycleTime = activeThreads.size() * (smallestThread / robinTime);
 
         if(!activeThreads.isEmpty()) {
             if(isScheduled()) {
                 reSchedule(new TimeSpan(cycleTime, model.getTimeUnit()));
             } else {
-                reSchedule(new TimeSpan(cycleTime, model.getTimeUnit()));
+                System.out.println("Schedule to next time event " + cycleTime);
+                schedule(new MessageObject(model, "",false), new TimeSpan(cycleTime, model.getTimeUnit()));
             }
         }
     }
