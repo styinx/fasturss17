@@ -3,15 +3,12 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="51.5" y="176.5">de.rss.fachstudie.desmojTest.entities.MicroserviceEntity</node>
     <node x="381.5" y="-23.5">de.rss.fachstudie.desmojTest.entities.MessageObject</node>
     <node x="52.0" y="324.0">de.rss.fachstudie.desmojTest.utils.InputParser</node>
-    <node x="396.0" y="256.5">de.rss.fachstudie.desmojTest.models.MSSimulator</node>
-    <node x="372.0" y="96.5">de.rss.fachstudie.desmojTest.events.MicroserviceEvent</node>
   </nodes>
   <notes />
   <edges />
-  <settings layout="Hierarchic Group" zoom="1.0" x="175.5" y="160.5" />
+  <settings layout="Hierarchic Group" zoom="0.9" x="191.7499999999999" y="152.7500000000001" />
   <SelectedNodes>
     <node>de.rss.fachstudie.desmojTest.utils.InputParser</node>
   </SelectedNodes>

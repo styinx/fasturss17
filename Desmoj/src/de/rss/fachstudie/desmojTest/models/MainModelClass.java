@@ -10,7 +10,6 @@ import de.rss.fachstudie.desmojTest.utils.InputParser;
 import de.rss.fachstudie.desmojTest.utils.InputValidator;
 import desmoj.core.simulator.*;
 import desmoj.core.statistic.TimeSeries;
-import org.apache.commons.cli.*;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
