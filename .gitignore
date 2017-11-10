@@ -1,2 +1,6 @@
 *.class
 Desmoj/lib/
+Desmoj/Desmoj_Microservice_Experiment_error.html
+Desmoj/Desmoj_Microservice_Experiment_debug.html
+Desmoj/Desmoj_Microservice_Experiment_report.html
+Desmoj/Desmoj_Microservice_Experiment_trace.html
