@@ -1,64 +1,201 @@
-# Name placeholder
+# Simulation-based Resilience Prediction of Microservice Architectures
+
+This simulator was created as part of the Fachstudie __Simulation-based Resilience Prediction of Microservice Architectures__ at the Reliable Software Systems Research Group of the Institute of Software Technology at the University of Stuttgart.
+
+It allows the simulation of microservice architectures in regard to resilience and is based on the [DesmoJ](http://desmoj.sourceforge.net) framework for discrete event modelling and simulation. 
 
 **Table of contents:**
+- [Installation](#Installation)
+- [Input Model](#Input)
+- [Usage](#Sim-Use)
+- [Documentation](#Sim-Doc)
 
-- [Simulator](#Sim)
-	- [Installation](#Sim-Inst)
-	- [Description](#Sim-Des)
-	- [JSON Format](#Sim-Form)
-	- [Usage](#Sim-Use)
-	- [Documentation](#Sim-Doc)
+## <a name="Installation"></a>Installation
 
-## <a name="Sim"></a>Simulator
+In order to run the simulator you have to download the DesmoJ binary from [sourceforge](http://desmoj.sourceforge.net/download.html) and then include it into the project.
 
-### <a name="Sim-Inst"></a>Installation
-In order to install the simulator you have to download the DesmoJ library from [sourceforge](http://desmoj.sourceforge.net/download.html) and then integrate it into the project.
+## <a name="Input"></a>Input Model
+This is an example input for the simulator. **TODO: write more about the input model**
 
-### <a name="Sim-Des"></a>Description
----
 
-The tool is used for ...
-
-### <a name="Sim-Form"></a>JSON Format
----
-
-<pre>
+```json
 {
   "simulation":
   {
-    "experiment" : <i>name of the experiment [String]</i>,
-    "model" : <i>name of the model [String]</i>,
-    "duration" : <i>simulation time in seconds [Double]</i>,
-    "report" : <i>declares the type of report [String]</i>,
-    "datapoints" : <i>number of points the report generates for each graph line [Integer]</i>,
-    "seed" : <i>seed to generate random numbers [Integer]</i>
+    "experiment" : "Desmoj_Microservice_Experiment",
+    "model" : "Simple microservice model",
+    "duration" : 50,
+    "datapoints" : 50,
+    "seed" : 2298
   },
   "microservices" :
   [
     {
-      "name" : <i>name of the microservice [String]</i>,
-      "instances" : <i>number of instances [Integer]</i>,
-      "patterns" : 
-      [
-      	{<i>pattern name [String]</i> : <i>pattern value [String|Integer]</i>}
-      ],
-      "capacity" : <i>CPU capacity in MHz [Integer]</i>,
+      "name" : "Gateway",
+      "instances" : 10,
+      "CPU" : 3500,
       "operations" :
       [
         {
-          "name" : <i>name of the operation [String]</i>,
-          "patterns" : 
-          [
-          	{<i>pattern name [String]</i> : <i>pattern value [String|Integer]</i>}
-          ],
-          "demand" : <i>CPU demand in MHz [Integer]</i>,
+          "name" : "register",
+          "patterns" : ["Circuit Breaker"],
+          "duration" : 4,
+          "CPU" : 300,
           "dependencies" :
           [
             {
-              "operation" : <i>name of the depending operation [String]</i>,
-              "service" : <i>name of the service the operation is part of [String]</i>,
-              "probability" : <i>probability of the operation to get executed [Double]</i>
+              "operation" : "save",
+              "service" : "Authentication",
+              "probability" : 0.7
             }
+          ]
+        },
+        {
+          "name" : "update",
+          "patterns" : ["Circuit Breaker"],
+          "duration" : 1,
+          "CPU" : 800,
+          "dependencies" : 
+          [
+            {
+              "operation" : "save",
+              "service" : "Order",
+              "probability" : 0.8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Authentication",
+      "instances" : 5,
+      "CPU" : 3500,
+      "operations" :
+      [
+        {
+          "name" : "save",
+          "patterns" : [],
+          "duration" : 2,
+          "CPU" : 600,
+          "dependencies" :
+          [
+            {
+              "operation" : "update",
+              "service" : "Backup",
+              "probability" : 0.2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Order",
+      "instances" : 5,
+      "CPU" : 3500,
+      "operations" :
+      [
+        {
+          "name" : "save",
+          "patterns" : [],
+          "duration" : 2,
+          "CPU" : 300,
+          "dependencies" :
+          [
+            {
+              "operation" : "update",
+              "service" : "Backup",
+              "probability" : 0.1
+            }
+          ]
+        },
+        {
+          "name" : "update",
+          "patterns" : [],
+          "duration" : 2,
+          "CPU" : 500,
+          "dependencies" :
+          [
+            {
+              "operation" : "register",
+              "service" : "Shipping",
+              "probability" : 0.4
+            }
+          ]
+        },
+        {
+          "name" : "register",
+          "patterns" : [],
+          "duration" : 2,
+          "CPU" : 900,
+          "dependencies" :
+          [
+            {
+              "operation" : "update",
+              "service" : "Database",
+              "probability" : 0.8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Backup",
+      "instances" : 5,
+      "CPU" : 3500,
+      "operations" :
+      [
+        {
+          "name" : "update",
+          "patterns" : [],
+          "duration" : 2,
+          "CPU" : 700,
+          "dependencies" :
+          [
+            {
+              "operation" : "update",
+              "service" : "Database",
+              "probability" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Shipping",
+      "instances" : 5,
+      "CPU" : 3500,
+      "operations" :
+      [
+        {
+          "name" : "register",
+          "patterns" : [],
+          "duration" : 2,
+          "CPU" : 1200,
+          "dependencies" :
+          [
+            {
+              "operation" : "update",
+              "service" : "Database",
+              "probability" : 0.3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "Database",
+      "instances" : 5,
+      "CPU" : 3500,
+      "operations" :
+      [
+        {
+          "name" : "update",
+          "patterns" : [],
+          "duration" : 2,
+          "CPU" : 500,
+          "dependencies" :
+          [
+          
           ]
         }
       ]
@@ -67,23 +204,32 @@ The tool is used for ...
   "generators" :
   [
     {
-      "time" : <i>time interval a task is started [Double]</i>,
-      "microservice" : <i>the service the task starts [String]</i>,
-      "operation" : <i>the operation of the task [String]</i>
+      "time" : 1,
+      "microservice" : "Gateway",
+      "operation" : "update"
+    },
+    {
+      "time" : 50,
+      "microservice" : "Backup",
+      "operation" : "update"
     }
   ],
   "chaosmonkeys" :
   [
     {
-      "time" : <i>time instant the monkey gets executed [Double]</i>,
-      "microservice" : <i>name of the service that gets killed [String]</i>,
-      "instances" : <i>number of instances that get killed [Integer]</i>
+      "time" : 50,
+      "microservice" : "Database",
+      "instances" : 1
+    },
+    {
+      "time" : 50,
+      "microservice" : "Gateway",
+      "instances" : 1
     }
   ]
 }
-</pre>
-
-#### Advanced Description
+```
+### Advanced Description
 
 The ***simulation*** field hold general information for the simulation and the report.
 - simulation :
@@ -125,137 +271,12 @@ The ***microservices*** field holds the information about the microservice archi
     Generators describe ... ***TODO***
       
 
-### <a name="Sim-Use"></a>Usage
----
+## <a name="Sim-Use"></a>Usage
 
 What do i need for use ...
 
-The most important thing to have is an existing microservice architecture. In order to use the simulator you will need to encode the architecture into the simulators own json format. The following code snippet will provide a minimal example to show a very basic architecture.
+The most important thing to have is an existing microservice architecture. In order to use the simulator you will need to encode the architecture into the simulators own json format. 
 
-``` javascript
-{
-  "simulation":
-  {
-    "experiment" : "Microservice Architecture Example",
-    "model" : "Simple Web Shop",
-    "duration" : 1000,
-    "seed" : 1234
-  },
-  "microservices" :
-  [
-    {
-      "name" : "Login",
-      "instances" : 2,
-      "patterns" : [],
-      "capacity" : 1000,
-      "operations" :
-      [
-        {
-          "name" : "login",
-          "patterns" : [],
-          "demand" : 110,
-          "dependencies" :
-          [
-            {
-              "operation" : "",
-              "service" : "",
-              "probability" : 1.0
-            }
-          ]
-        },
-        {
-          "name" : "update",
-          "patterns" : [],
-          "demand" : 10,
-          "dependencies" : []
-        }
-      ]
-    },
-     {
-      "name" : "Order",
-      "instances" : 5,
-      "patterns" : [{"Thread Pool" : 100}],
-      "capacity" : 3000,
-      "operations" :
-      [
-        {
-          "name" : "checkout",
-          "patterns" : [{"Circuit Breaker"}],
-          "demand" : 80,
-          "dependencies" :
-          [
-            {
-              "operation" : "update",
-              "service" : "Login",
-              "probability" : 0.2
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "generators" :
-  [
-    {
-      "time" : 1,
-      "microservice" : "Login",
-      "operation" : "login"
-    }
-  ],
-  "chaosmonkeys" :
-  [
-	{
-    	"time" : 100,
-        "microservice" : "Order",
-        "instances" : 1
-    }
-  ]
-}
-```
-
-### <a name="Sim-Doc"></a>Documentation
----
+## <a name="Sim-Doc"></a>Documentation
 
 What does the tool ...
-
----
----
----
-# Testarea
-``` java
-import java.util.Date;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-
-/**
- * Main class to start the experiment. This class will load the input file and create a model out of it.
- * doInitialSchedules Starts the inital event.
- * init Gets called at the start of the experiment and loads all relevant experiment resources.
- */
-public class MainModelClass extends Model {
-    private TimeUnit timeUnit       = TimeUnit.SECONDS;
-    private double simulationTime   = 0;
-    private int datapoints          = 0;
-    private String resourcePath     = "Report/resources/";
-    private boolean showInitEvent   = false;
-}
-```
-<pre language="java" style="max-height: 30px; overflow: scroll;">
-import java.util.Date;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-
-/**
- * Main class to start the experiment. This class will load the input file and create a model out of it.
- * doInitialSchedules Starts the inital event.
- * init Gets called at the start of the experiment and loads all relevant experiment resources.
- */
-public class MainModelClass extends Model {
-    private TimeUnit timeUnit       = TimeUnit.SECONDS;
-    private double simulationTime   = 0;
-    private int datapoints          = 0;
-    private String resourcePath     = "Report/resources/";
-    private boolean showInitEvent   = false;
-}
-</pre>
-
