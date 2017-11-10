@@ -331,7 +331,7 @@ public class MainModelClass extends Model {
 //
 //        arch = (cmd.getOptionValue("arch").equals("")) ? "example_simple.json" : cmd.getOptionValue("arch");
         if(arch == "")
-            arch = "example_advanced.json";
+            arch = "example_simple.json";
 
         InputParser parser = new InputParser(arch);
         InputValidator validator = new InputValidator();

@@ -3,7 +3,7 @@
   {
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
-    "duration" : 1000,
+    "duration" : 100,
     "report" : "",
     "datapoints" : 100,
     "seed" : 1234
@@ -12,7 +12,7 @@
   [
     {
       "name" : "Frontend",
-      "instances" : 2,
+      "instances" : 1,
       "patterns" : [],
       "capacity" : 1000,
       "operations" :
@@ -20,14 +20,14 @@
         {
           "name" : "login",
           "patterns" : [],
-          "demand" : 100,
+          "demand" : 200,
           "dependencies" :
           [
-            {
-              "operation" : "save",
-              "service" : "Server",
-              "probability" : 1.0
-            }
+//            {
+//              "operation" : "save",
+//              "service" : "Server",
+//              "probability" : 1.0
+//            }
           ]
         }
       ]
@@ -71,7 +71,7 @@
   "generators" :
   [
     {
-      "time" : 5.2,
+      "time" : 0.1,
       "microservice" : "Frontend",
       "operation" : "login"
     }

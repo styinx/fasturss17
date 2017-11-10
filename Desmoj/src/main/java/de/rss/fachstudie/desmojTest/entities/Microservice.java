@@ -79,10 +79,14 @@ public class Microservice extends Entity{
     }
 
     public boolean hasPattern(String name) {
-        for(HashMap<String, Integer> pattern : patterns) {
-            if(pattern.containsKey(name))
-                return true;
+        if(patterns != null){
+            for(HashMap<String, Integer> pattern : patterns) {
+                if(pattern.containsKey(name)) {
+                    return true;
+                }
+            }
         }
+
         return false;
     }
 
