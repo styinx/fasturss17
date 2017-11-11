@@ -12,15 +12,16 @@ public class CPU extends Event {
     private int capacity = 0;
     private int robinTime = 10;
     private double cycleTime = 0;
-    private int doneWork = 0;
     private double lastThreadEntry;
+    private double smallestThread = 0.0;
+
     private Queue<Thread> activeThreads;
     private Queue<Thread> waitingThreads;
     private boolean hasThreadPool = false;
     private int threadPoolSize = 0;
     private boolean hasThreadQueue = false;
     private int threadQueueSize = 0;
-    private double smallestThread = 0.0;
+
 
     public CPU (Model owner, String name, boolean showInTrace, int id, int capacity) {
         super(owner, name, showInTrace);
@@ -47,9 +48,6 @@ public class CPU extends Event {
     public void eventRoutine(Entity entity) throws SuspendExecution {
         for(Thread thread : activeThreads) {
             thread.subtractDemand((int) smallestThread);
-            doneWork += cycleTime;
-            if(doneWork > capacity)
-                doneWork -= capacity;
             if(thread.getDemand() == 0) {
                 thread.scheduleEndEvent();
                 activeThreads.remove(thread);
@@ -68,9 +66,6 @@ public class CPU extends Event {
                     activeThreads.remove(activeThreads.get(i % activeThreads.size()));
                 } else {
                     activeThreads.get(i % activeThreads.size()).subtractDemand(robinTime);
-                    doneWork += robinTime;
-                    if (doneWork > capacity)
-                        doneWork -= capacity;
                 }
             }
         }
@@ -135,7 +130,7 @@ public class CPU extends Event {
         }
 
         //TODO capacity lead to 100 or 0% cpu
-        cycleTime = (activeThreads.size() * smallestThread)/ capacity ;
+        cycleTime = (activeThreads.size() * smallestThread) / capacity;
 
         if(!activeThreads.isEmpty()) {
             if(isScheduled()) {

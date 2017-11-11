@@ -26,11 +26,6 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
     public void eventRoutine(Microservice msEntity, Thread thread, MessageObject messageObject) {
         for(Operation operation : msEntity.getOperations()) {
             if (operation.getName().equals(this.operation)) {
-                model.log("remove " + msEntity.getId());
-
-                // Remove the message object from the task queue
-                model.taskQueues.get(id).remove(messageObject);
-
                 // Free stacked and waiting operations
                 if (messageObject.getDependency().size() > 0) {
 
@@ -40,9 +35,13 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
                     int previousId = previousMs.getId();
 
                     // add thread to cpu
-                    previousMs.getThreads().insert(previousThread);
+                    model.log("add " + previousId + "-" + previousMs.getSid());
                     model.serviceCPU.get(previousId).get(previousMs.getSid()).addThread(previousThread);
                 }
+
+                // Remove the message object from the task queue
+                model.taskQueues.get(id).remove(messageObject);
+                model.log("remove " + msEntity.getId() + "-" + msEntity.getSid());
 
                 // Statistics
                 // CPU

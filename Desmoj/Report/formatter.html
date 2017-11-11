@@ -3,120 +3,115 @@
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
+        <link rel="stylesheet" href="css/formatter.css"/>
         <script src="js/formatter.js"></script>
-        <style>
-            #json
-            {
-                position: fixed;
-                top: 25%;
-                right: 5%;
-                height: 50%;
-            }
-
-            .top
-            {
-                min-width: 800px;
-            }
-
-            .ms-color
-            {
-                background: rgba(0, 150, 0, 0.5);
-            }
-
-            .op-color
-            {
-                background: rgba(0, 150, 255, 0.5);
-            }
-
-            table
-            {
-                min-width: 100%;
-                border: 1px solid black;
-                white-space: nowrap;
-                border-spacing: 0;
-                border-collapse: separate;
-            }
-
-            input[type=number]
-            {
-                max-width: 50px;
-            }
-
-            textarea
-            {
-                min-width: 400px;
-                max-width: 400px;
-            }
-        </style>
     </head>
-    <body>
-        <table style="border: none;">
+    <body onload="createJson();">
+    <table>
+        <tr>
+            <th colspan="100%"><h1>Generation for Simulation Architecture</h1></th>
+        </tr>
             <tr>
                 <td>
-                    <table class="top">
+                    <table>
                         <tr>
-                            <th colspan="100%"><h1>Generation for Simulatoion Architecture</h1></th>
+                            <td><h2>Simulation:</h2></td>
+                            <td>&nbsp;</td>
                         </tr>
                         <tr>
-                            <td colspan="100%"><b>Simulation:</b></td>
-                        </tr>
-                        <tr>
-                            <td>Experiment:</td>
-                            <td><textarea id="simulation-experiment"></textarea></td>
-                        </tr>
-                        <tr>
-                            <td>Model:</td>
-                            <td><textarea id="simulation-model"></textarea></td>
-                        </tr>
-                        <tr>
-                            <td>Duration:</td>
-                            <td><input id="simulation-duration" type="number"/>&nbsp;sec</td>
-                        </tr>
-                        <tr>
-                            <td>Report:</td>
+                            <td>&nbsp;</td>
                             <td>
-                                <select id="simulation-report">
-                                    <option value="">default</option>
-                                    <option value="minimalistic">minimalistic</option>
-                                    <option value="none">none</option>
-                                </select>
+                                <table class="simulation-table">
+                                    <tr>
+                                        <td>Experiment:</td>
+                                        <td><textarea id="simulation-experiment" oninput="createJson();"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Model:</td>
+                                        <td><textarea id="simulation-model" oninput="createJson();"></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Duration:</td>
+                                        <td><input id="simulation-duration" type="number"
+                                                   oninput="checkPattern(this, pat_double);createJson();"/>&nbsp;sec
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Report:</td>
+                                        <td>
+                                            <select id="simulation-report" onchange="createJson();">
+                                                <option value="" selected="selected">default</option>
+                                                <option value="minimalistic">minimalistic</option>
+                                                <option value="none">none</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Datapoints:</td>
+                                        <td><input id="simulation-datapoints" type="number"
+                                                   oninput="checkPattern(this, pat_int);createJson();"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Seed:</td>
+                                        <td><input id="simulation-seed" type="number"
+                                                   oninput="checkPattern(this, pat_int);createJson();"/></td>
+                                    </tr>
+                                </table>
                             </td>
                         </tr>
                         <tr>
-                            <td>Datapoints:</td>
-                            <td><input id="simulation-datapoints" type="number"/></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
                         </tr>
                         <tr>
-                            <td>Seed:</td>
-                            <td><input id="simulation-seed" type="number"/></td>
-                        </tr>
-                        <tr><td colspan="100%">&nbsp;</td></tr>
-                        <tr>
-                            <td colspan="100%"><b>Microservices:</b></td>
+                            <td><h2>Microservices:</h2></td>
+                            <td>&nbsp;</td>
                         </tr>
                         <tr>
-                            <td>&nbsp;</td><td><div id="microservice0"></div></td>
+                            <td>&nbsp;</td>
+                            <td>
+                                <div id="microservice-0-container"></div>
+                            </td>
                             <script>makeMicroservice(0);</script>
                         </tr>
-                        <tr><td colspan="100%">&nbsp;</td></tr>
                         <tr>
-                            <td colspan="100%"><b>Generators:</b></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
                         </tr>
                         <tr>
-                            <td>&nbsp;</td><td><div id="generator0"></div></td>
+                            <td><h2>Generators:</h2></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <div id="generator-0-container"></div>
+                            </td>
                             <script>makeGenerator(0);</script>
                         </tr>
-                        <tr><td colspan="100%">&nbsp;</td></tr>
                         <tr>
-                            <td colspan="100%"><b>Chaos Monkeys:</b></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
                         </tr>
                         <tr>
-                            <td>&nbsp;</td><td><div id="monkey0"></div></td>
-                            <script>makeGenerator(0);</script>
+                            <td><h2>Chaos Monkeys:</h2></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <div id="chaosmonkey-0-container"></div>
+                            </td>
+                            <script>makeChaosMonkey(0);</script>
                         </tr>
                     </table>
                 </td>
-                <td><textarea id="json">Hier kommt die JSON hin</textarea></td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td class="jsontd">
+                    <div id="json"></div>
+                    <button onclick="copy();">Copy to Clipboard</button>
+                </td>
             </tr>
         </table>
     </body>

@@ -102,14 +102,14 @@ public class StartEvent extends Event<MessageObject> {
                         } else {
 
                             // add thread to cpu
-                            model.log("add " + msEntity.getId());
+                            model.log("add " + msEntity.getId() + "-" + msEntity.getSid());
                             model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
                         }
                     }
                 } else {
 
                     // add thread to cpu
-                    model.log("add " + msEntity.getId());
+                    model.log("add " + msEntity.getId() + "-" + msEntity.getSid());
                     model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
                 }
 
