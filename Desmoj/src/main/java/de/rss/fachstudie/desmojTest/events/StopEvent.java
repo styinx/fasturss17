@@ -1,12 +1,13 @@
 package de.rss.fachstudie.desmojTest.events;
 
-import de.rss.fachstudie.desmojTest.entities.*;
-import de.rss.fachstudie.desmojTest.resources.Thread;
+import de.rss.fachstudie.desmojTest.entities.MessageObject;
+import de.rss.fachstudie.desmojTest.entities.Microservice;
+import de.rss.fachstudie.desmojTest.entities.Operation;
+import de.rss.fachstudie.desmojTest.entities.Predecessor;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
-import desmoj.core.dist.ContDistUniform;
+import de.rss.fachstudie.desmojTest.resources.Thread;
 import desmoj.core.simulator.EventOf3Entities;
 import desmoj.core.simulator.Model;
-import desmoj.core.simulator.TimeSpan;
 
 public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObject> {
     private MainModelClass model;
@@ -25,12 +26,10 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
     public void eventRoutine(Microservice msEntity, Thread thread, MessageObject messageObject) {
         for(Operation operation : msEntity.getOperations()) {
             if (operation.getName().equals(this.operation)) {
+                model.log("remove " + msEntity.getId());
 
                 // Remove the message object from the task queue
                 model.taskQueues.get(id).remove(messageObject);
-
-                // remove thread from microservice
-
 
                 // Free stacked and waiting operations
                 if (messageObject.getDependency().size() > 0) {
@@ -44,14 +43,14 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
                     previousMs.getThreads().insert(previousThread);
                     model.serviceCPU.get(previousId).get(previousMs.getSid()).addThread(previousThread);
                 }
+
                 // Statistics
                 // CPU
                 model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getUsage());
                 // Threads
                 model.threadStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getActiveThreads());
                 // Response Time
-                model.responseStatisitcs.get(id).get(msEntity.getSid()).update(
-                        model.presentTime().getTimeAsDouble() - thread.getCreationTime().getTimeAsDouble());
+                model.responseStatisitcs.get(id).get(msEntity.getSid()).update(model.presentTime().getTimeAsDouble() - thread.getCreationTime());
                 // Task Queue
                 model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
             }

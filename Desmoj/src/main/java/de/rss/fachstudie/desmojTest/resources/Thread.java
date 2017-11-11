@@ -1,16 +1,11 @@
 package de.rss.fachstudie.desmojTest.resources;
 
-import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.entities.Microservice;
-import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.events.StopEvent;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
-import desmoj.core.exception.DelayedInterruptException;
-import desmoj.core.exception.InterruptException;
-import desmoj.core.simulator.*;
-
-import java.util.Vector;
+import desmoj.core.simulator.Entity;
+import desmoj.core.simulator.Model;
 
 /**
  * A Thread describes a part of a microservice instance.
@@ -28,7 +23,7 @@ public class Thread extends Entity {
     private StopEvent endEvent;
     private Microservice service;
     private MessageObject mobject;
-    private TimeInstant creationTime;
+    private double creationTime;
     private boolean isBlocked;
 
     public Thread(Model owner, String name, boolean b, int demand, StopEvent end, Microservice service, MessageObject mo) {
@@ -42,7 +37,7 @@ public class Thread extends Entity {
         this.endEvent = end;
         this.service = service;
         this.mobject = mo;
-        creationTime = model.presentTime();
+        creationTime = model.presentTime().getTimeAsDouble();
     }
 
     public int getId() {
@@ -69,12 +64,8 @@ public class Thread extends Entity {
         this.tid = tid;
     }
 
-    public TimeInstant getCreationTime() {
+    public double getCreationTime() {
         return creationTime;
-    }
-
-    public void setCreationTime(TimeInstant creation) {
-        this.creationTime = creation;
     }
 
     public boolean isBlocked() {

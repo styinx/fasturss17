@@ -2,7 +2,6 @@ package de.rss.fachstudie.desmojTest.export;
 
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 
-import java.util.List;
 import java.util.TreeMap;
 
 public class DataChart {
@@ -10,87 +9,60 @@ public class DataChart {
     private String options = "";
 
     /**
-     * A Chart with y values
-     * @param model     Desmoj model
-     * @param chartId   id of the chart
-     * @param series    data that will be plotted
-     * @param dummy     variable to distinct from second constructor
-     */
-    public DataChart(MainModelClass model, String chartId, TreeMap<String, Double[]> series, boolean dummy) {
-        this.chartId = chartId;
-        this.options =
-                "title : {text : '" + chartId + "'}, " +
-                        "legend : {enabled: true}, " +
-                        "xAxis: {max:" + model.getSimulationTime() + "}, " +
-                        "colors : colors(" + series.keySet().size() + "), " +
-                        "series : " +
-                        "[";
-        int index = 0;
-        for(String key : series.keySet()) {
-            options += "{"
-                    + "name : '" + key + "', "
-                    + "index : " + index + ", "
-                    + "data : [ ";
-
-            for(Double value : series.get(key)) {
-                options += value.toString() + ", ";
-            }
-            options = options.substring(0, options.length() - 1) + "]}, ";
-            index++;
-        }
-        if(series.keySet().size() > 0)
-            options = options.substring(0, options.length() - 1) + "] ";
-        else
-            options += "] ";
-    }
-
-    /**
      * A Chart with x and y values
      * @param model     Desmoj model
      * @param chartId   id of the chart
      * @param series    data that will be plotted
      */
-    public DataChart(MainModelClass model, String chartId, TreeMap<String, TreeMap<Integer, Double>> series) {
+    public DataChart(MainModelClass model, String chartId, TreeMap<String, TreeMap<Double, Double>> series) {
         this.chartId = chartId;
-        this.options =
-                "title : {text : '" + chartId + "'}, " +
-                        "legend : {enabled: true}, " +
-                        "xAxis: {min: 0, max:" + model.getSimulationTime() + "}, " +
-                        "colors : colors(" + series.keySet().size() + "), " +
-                        "series : " +
-                        "[ ";
+        this.options = "title : {text : '" + chartId + "'}, "
+                + "legend : {enabled: true}, "
+                + "xAxis: {min: 0, max:" + model.getSimulationTime() + "}, "
+                + "yAxis: {min: 0}, "
+                + "colors : colors(" + series.keySet().size() + "), "
+                + "series : "
+                + "[ ";
         int index = 0;
-        for(String key : series.keySet()) {
+        int max = 0;
+        for (String mapkey : series.keySet()) {
             options += "{"
-                    + "name : '" + key + "', "
+                    + "name : '" + mapkey + "', "
                     + "index : " + index + ", "
+                    + "dataGrouping: {enabled: false}, "
                     + "data : [ ";
 
-            TreeMap<Integer, Double> map = series.get(key);
-            int last = 0;
-            int step = (int)model.getSimulationTime()/model.getDatapoints();
-            if(step == 0)
-                step = 1;
+            TreeMap<Double, Double> map = series.get(mapkey);
+            double step = model.getSimulationTime() / model.getDatapoints();
 
-            for(int i = 0; i < model.getSimulationTime(); i += step) {
-                if(map.get(i) != null) {
-                    last = i;
-                    options += "[" + i + ", " + Math.round(map.get(i) * 100.0) / 100.0 + "], ";
-                }
-                else {
-                    if(map.get(last) == null)
-                        options += "[" + i + ", " + 0 + "], ";
-                    else
-                        options += "[" + i + ", " + Math.round(map.get(last) * 100.0) / 100.0 + "], ";
+            for (double x = 0; x < model.getSimulationTime(); x += step) {
+                double key = Math.round(x * 100.0) / 100.0;
+
+                if (map.get(x) != null) {
+                    options += "[" + key + ", " + Math.round(map.get(x) * 100.0) / 100.0 + "], ";
+                } else {
+                    if (model.getSimulationTime() < model.getDatapoints()) {
+                        if (map.get(x) != null) {
+                            options += "[" + key + ", " + Math.round(map.get(x) * 100.0) / 100.0 + "], ";
+                        } else {
+                            if (map.floorEntry(x) != null && map.floorKey(x) - x < step) {
+                                options += "[" + key + ", " + Math.round(map.floorEntry(x).getValue() * 100.0) / 100.0 + "], ";
+                            } else {
+                                options += "[" + key + ", 0], ";
+                            }
+                        }
+                    } else {
+                        options += "[" + key + ", 0], ";
+                    }
                 }
             }
-            options = options.substring(0, options.length() - 1) + "]}, ";
+            options = options.substring(0, options.length() - 2) + "]}, ";
             index++;
         }
         if(series.keySet().size() > 0)
-            options = options.substring(0, options.length() - 1) + "] ";
+            options = options.substring(0, options.length() - 2) + "]";
         else
-            options += "] ";
+            options += "]";
     }
 
     public String printDiv() {

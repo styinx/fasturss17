@@ -166,6 +166,7 @@ div.stat-table
     margin: 0 5% 0 5%;
     width: 90%;
     tex-align: center;
+    transition: 500ms;
 }
 
 .stat-table table, table
@@ -186,9 +187,21 @@ div.stat-table
 .stat-table thead th
 {
     padding: 5px 5px 5px 5px;
+    border: 1px solid black;
     border-bottom: 2px solid black;
     cursor: pointer;
-    background: linear-gradient(rgba(255, 255, 255, 255), rgba(200, 200, 200, 255));
+    background: rgba(220, 220, 220, 255);
+    transition: 500ms;
+}
+
+.stat-table thead th:hover
+{
+    background: rgba(180, 180, 180, 255);
+}
+
+.hidden
+{
+    display: none;
 }
 
 .stat-table tbody tr
@@ -214,6 +227,7 @@ div.stat-table
 .stat-table tbody td
 {
     border-bottom: 1px solid rgba(0, 0, 0, 255);
+    transition: 500ms;
 }
 
 .stat-table tbody td:empty:before

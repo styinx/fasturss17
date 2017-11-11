@@ -19,18 +19,18 @@
         <!-- highchart script -->
         <script type="text/javascript" src="js/highcharts_script.js"></script>
         <script>
-            function hideTable(element, id)
+            function toggleTable(element, id)
             {
                 var table = document.getElementById(id).getElementsByTagName('tbody')[0];
-                if(table.style.display === "")
+                if($(table).hasClass('hidden'))
                 {
-                    element.innerHTML = "&#x25BA";
-                    table.style.display = "none";
+                    element.innerHTML = "&#x25BC";
+                    $(table).removeClass('hidden');
                 }
                 else
                 {
-                    element.innerHTML = "&#x25BC";
-                    table.style.display = "";
+                    element.innerHTML = "&#x25BA";
+                    $(table).addClass('hidden');
                 }
             }
 

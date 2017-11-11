@@ -5,9 +5,7 @@ import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import desmoj.core.simulator.Queue;
 
 public class CPU extends Event {
     private MainModelClass model;
@@ -46,24 +44,15 @@ public class CPU extends Event {
         }
     }
 
-    public int getActiveThreads(){
-        return activeThreads.size();
-    }
-
     public void eventRoutine(Entity entity) throws SuspendExecution {
-        System.out.println("EVENTROUTINE");
         for(Thread thread : activeThreads) {
             thread.subtractDemand((int) smallestThread);
             doneWork += cycleTime;
             if(doneWork > capacity)
                 doneWork -= capacity;
             if(thread.getDemand() == 0) {
-
                 thread.scheduleEndEvent();
-                System.out.println(model.presentTime().getTimeAsDouble());
-                System.out.println(activeThreads.size() + " active thread size");
                 activeThreads.remove(thread);
-                System.out.println(activeThreads.size() + " active thread size");
             }
         }
         calculateMin();
@@ -74,22 +63,16 @@ public class CPU extends Event {
         int robins = (int) Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) / robinTime);
         for (int i = 0; i < robins; i++) {
             if (activeThreads.size() > 0) {
-                System.out.println(activeThreads.size() + " ACTIVE THREADS");
                 if (activeThreads.get(i % activeThreads.size()).getDemand() == 0) {
-                    System.out.println(activeThreads.get(i % activeThreads.size()).getDemand() + " remaining demand should be 0");
-                    System.out.println(model.presentTime().getTimeAsDouble() + " time");
                     activeThreads.get(i % activeThreads.size()).scheduleEndEvent();
                     activeThreads.remove(activeThreads.get(i % activeThreads.size()));
                 } else {
-                    System.out.println(activeThreads.get(i % activeThreads.size()).getDemand() + " remaining demand");
-                    System.out.println(model.presentTime().getTimeAsDouble() +" time");
                     activeThreads.get(i % activeThreads.size()).subtractDemand(robinTime);
                     doneWork += robinTime;
                     if (doneWork > capacity)
                         doneWork -= capacity;
                 }
             }
-            System.out.println();
         }
 
         lastThreadEntry = this.model.presentTime().getTimeAsDouble();
@@ -154,16 +137,17 @@ public class CPU extends Event {
         //TODO capacity lead to 100 or 0% cpu
         cycleTime = (activeThreads.size() * smallestThread)/ capacity ;
 
-        System.out.println(cycleTime +" cycle");
-
         if(!activeThreads.isEmpty()) {
             if(isScheduled()) {
                 reSchedule(new TimeSpan(cycleTime, model.getTimeUnit()));
             } else {
-                System.out.println("Schedule to next time event " + cycleTime);
                 schedule(new MessageObject(model, "",false), new TimeSpan(cycleTime, model.getTimeUnit()));
             }
         }
+    }
+
+    public int getActiveThreads() {
+        return activeThreads.size();
     }
 
     public int getCapacity() {

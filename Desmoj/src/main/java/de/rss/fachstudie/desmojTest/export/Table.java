@@ -10,14 +10,21 @@ public class Table {
     private TreeMap<String, List<Double>> values;
     private String header;
 
-    public Table(String header, TreeMap<String, TreeMap<Integer, Double>> series) {
+    public Table(String header, TreeMap<String, TreeMap<Double, Double>> series) {
         values = new TreeMap<>();
         this.header = header;
 
         for(String key : series.keySet()) {
-            TreeMap<Integer, Double> entry = series.get(key);
+            TreeMap<Double, Double> entry = series.get(key);
+            double start = Double.NEGATIVE_INFINITY, end = Double.NEGATIVE_INFINITY;
             double min = Double.POSITIVE_INFINITY, mean = 0, max = Double.NEGATIVE_INFINITY;
-            for(Integer index : entry.keySet()) {
+
+            if (entry.size() > 0) {
+                start = entry.firstEntry().getValue();
+                end = entry.lastEntry().getValue();
+            }
+
+            for (Double index : entry.keySet()) {
                 if(entry.get(index) < min) {
                     min = entry.get(index);
                 }
@@ -25,10 +32,10 @@ public class Table {
                     max = entry.get(index);
                 }
                 if(index > 0) {
-                    mean = (mean + entry.get(index)) / 2;
+                    mean += entry.get(index);
                 }
             }
-            values.put(key, new ArrayList<>(Arrays.asList(min, mean, max)));
+            values.put(key, new ArrayList<>(Arrays.asList(start, min, mean / entry.size(), max, end)));
         }
     }
 
@@ -38,29 +45,31 @@ public class Table {
 
         String id = "table-" + header.replace(" ", "_");
         html += "<table class='stat-table tablesorter' id='" + id + "'>"
-                + "<thead><tr><th><span onclick=\\\"hideTable(this, '" + id + "');\\\">&#x25BC;</span>" + header + "</th><th>Min</th><th>Mean</th><th>Max</th></thead>"
-                + "<tbody>";
+                + "<thead><tr><th><span onclick=\\\"toggleTable(this, '" + id + "');\\\">&#x25BA;</span>" + header + "</th>"
+                + "<th>Start</th><th>Min</th><th>Mean</th><th>Max</th><th>End</th></thead>"
+                + "<tbody class='hidden'>";
 
         for(String entry : values.keySet()) {
             List<Double> mmm = values.get(entry);
-            String min = "", mean = "", max = "";
+            String start = "-", min = "-", mean = "-", max = "-", end = "-";
 
-            if(mmm.get(0) == Double.POSITIVE_INFINITY)
-                min = "-";
-            else
-                min = nf.format(mmm.get(0));
+            if (mmm.get(0) != Double.NEGATIVE_INFINITY)
+                start = nf.format(mmm.get(0));
 
-            if(mmm.get(2) == Double.NEGATIVE_INFINITY)
-                max = "-";
-            else
-                max = nf.format(mmm.get(2));
+            if (mmm.get(1) != Double.POSITIVE_INFINITY)
+                min = nf.format(mmm.get(1));
 
-            if(mmm.get(0) == Double.POSITIVE_INFINITY && mmm.get(2) == Double.NEGATIVE_INFINITY)
-                mean = "-";
-            else
-                mean = nf.format(mmm.get(0));
+            if (mmm.get(3) != Double.NEGATIVE_INFINITY)
+                max = nf.format(mmm.get(3));
 
-            html += "<tr><td align='left'>" + entry + "</td><td>" + min + "</td><td>" + mean + "</td><td>" + max + "</td></tr>";
+            if (mmm.get(1) != Double.POSITIVE_INFINITY && mmm.get(3) != Double.NEGATIVE_INFINITY)
+                mean = nf.format(mmm.get(2));
+
+            if (mmm.get(4) != Double.NEGATIVE_INFINITY)
+                end = nf.format(mmm.get(4));
+
+            html += "<tr><td align='left'>" + entry + "</td><td>" + start + "</td><td>" + min + "</td>"
+                    + "<td>" + mean + "</td><td>" + max + "</td><td>" + end + "</td></tr>";
         }
 
         html += "</tbody>"

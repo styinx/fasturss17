@@ -10,9 +10,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.TreeMap;
 
 public class ExportReport {
@@ -38,13 +35,13 @@ public class ExportReport {
     }
 
     private void chartReport() {
-        TreeMap<String, TreeMap<Integer, Double>> activeInstances = new TreeMap<>();
-        TreeMap<String, TreeMap<Integer, Double>> taskQueueWork = new TreeMap<>();
-        TreeMap<String, TreeMap<Integer, Double>> usedCPU = new TreeMap<>();
-        TreeMap<String, TreeMap<Integer, Double>> responseTime = new TreeMap<>();
-        TreeMap<String, TreeMap<Integer, Double>> circuitBreaker = new TreeMap<>();
-        TreeMap<String, TreeMap<Integer, Double>> threadPool = new TreeMap<>();
-        TreeMap<String, TreeMap<Integer, Double>> threadQueue = new TreeMap<>();
+        TreeMap<String, TreeMap<Double, Double>> activeInstances = new TreeMap<>();
+        TreeMap<String, TreeMap<Double, Double>> taskQueueWork = new TreeMap<>();
+        TreeMap<String, TreeMap<Double, Double>> usedCPU = new TreeMap<>();
+        TreeMap<String, TreeMap<Double, Double>> responseTime = new TreeMap<>();
+        TreeMap<String, TreeMap<Double, Double>> circuitBreaker = new TreeMap<>();
+        TreeMap<String, TreeMap<Double, Double>> threadPool = new TreeMap<>();
+        TreeMap<String, TreeMap<Double, Double>> threadQueue = new TreeMap<>();
 
         for(int id = 0; id < model.services.size(); id++) {
             String serviceName = model.services.get(id).get(0).getName();
@@ -112,13 +109,8 @@ public class ExportReport {
         }
     }
 
-    /**
-     *
-     * @param filename report file
-     * @return an array of double values
-     */
-    private Double[] getTimeSeries(String filename) {
-        List<Double> values = new ArrayList<>();
+    private TreeMap<Double, Double> getTimeSeriesWithKeys(String filename) {
+        TreeMap<Double, Double> values = new TreeMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(new File(filename)))) {
             String line;
             int index = 0;
@@ -126,7 +118,7 @@ public class ExportReport {
                 if(index > 0) {
                     String kvp[] = line.split("\\s+");
                     if(kvp.length > 1) {
-                        values.add(Double.parseDouble(kvp[1]));
+                        values.put(Double.parseDouble(kvp[0]), Double.parseDouble(kvp[1]));
                     }
                 }
                 index++;
@@ -134,37 +126,6 @@ public class ExportReport {
         } catch (IOException ex) {
             System.out.println("Error while reading file: " + filename);
         }
-        Double[] result = new Double[values.size()];
-        result = values.toArray(result);
-        return result;
-    }
-
-    private TreeMap<Integer, Double> getTimeSeriesWithKeys(String filename) {
-        TreeMap<Integer, Double> values = new TreeMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(new File(filename)))) {
-            String line;
-            int index = 0;
-            while ((line = br.readLine()) != null) {
-                if(index > 0) {
-                    String kvp[] = line.split("\\s+");
-                    if(kvp.length > 1) {
-                        Double value = Double.parseDouble(kvp[0]);
-                        values.put(value.intValue(), Double.parseDouble(kvp[1]));
-                    }
-                }
-                index++;
-            }
-        } catch (IOException ex) {
-            System.out.println("Error while reading file: " + filename);
-        }
-//        Double[] result = new Double[values.size()];
-//        result = values.toArray(result);
         return values;
-    }
-
-    private Double[] getResponsTime(HashMap<Integer, Double> data) {
-        Double[] result = new Double[data.size()];
-        result = data.values().toArray(result);
-        return result;
     }
 }

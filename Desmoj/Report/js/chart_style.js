@@ -64,7 +64,7 @@ function timeFormat(seconds)
             },
             tooltip: {
                 formatter: function () {
-                    var s = 'Time: <b>' + timeFormat(this.x) + " / " + this.x + 's</b><br>';
+                    var s = 'Time: <b>' + timeFormat(this.x) + " / " + Math.round(this.x * 100) / 100 + 's</b><br>';
                     for(var p in this.points) {
                         s += '<br/><span style="color:' + this.points[p].color + '">\u25CF</span> ' + this.points[p].series.name + ': ' + Math.floor(this.points[p].y * 100)/100;
                     }
@@ -137,6 +137,9 @@ function timeFormat(seconds)
                 }
             },
             plotOptions: {
+                series: {
+                    dataGrouping : 'high',
+                },
                 candlestick: {
                     lineColor: 'rgba(50,50,50,0.8)'
                 }

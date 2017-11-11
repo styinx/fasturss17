@@ -1,9 +1,12 @@
 package de.rss.fachstudie.desmojTest.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.entities.*;
-import de.rss.fachstudie.desmojTest.resources.Thread;
+import de.rss.fachstudie.desmojTest.entities.MessageObject;
+import de.rss.fachstudie.desmojTest.entities.Microservice;
+import de.rss.fachstudie.desmojTest.entities.Operation;
+import de.rss.fachstudie.desmojTest.entities.Predecessor;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.desmojTest.resources.Thread;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.Event;
 import desmoj.core.simulator.Model;
@@ -79,9 +82,9 @@ public class StartEvent extends Event<MessageObject> {
 
                     for (SortedMap<String, String> dependantOperation : op.getDependencies()) {
 
-                        double probability = Double.parseDouble(dependantOperation.get("probability"));
                         // Roll probability
                         ContDistUniform prob = new ContDistUniform(model, "", 0.0, 1.0, false, false);
+                        double probability = Double.parseDouble(dependantOperation.get("probability"));
 
                         if (prob.sample() <= probability) {
 
@@ -97,14 +100,16 @@ public class StartEvent extends Event<MessageObject> {
                             StartEvent nextEvent = new StartEvent(model,"", model.getShowStartEvent(), nextServiceId, nextOperation);
                             nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
                         } else {
-                            // add thread to cpu
 
+                            // add thread to cpu
+                            model.log("add " + msEntity.getId());
                             model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
                         }
                     }
                 } else {
-                    // add thread to cpu
 
+                    // add thread to cpu
+                    model.log("add " + msEntity.getId());
                     model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
                 }
 
