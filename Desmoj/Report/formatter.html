@@ -21,7 +21,7 @@
                         <tr>
                             <td>&nbsp;</td>
                             <td>
-                                <table class="simulation-table">
+                                <table class="simulation-table simulation-color">
                                     <tr>
                                         <td>Experiment:</td>
                                         <td><textarea id="simulation-experiment" oninput="createJson();"></textarea>
@@ -102,8 +102,10 @@
                             <td>&nbsp;</td>
                             <td>
                                 <div id="chaosmonkey-0-container"></div>
+                                <button id='chaosmonkey--1-button-add' onclick="makeChaosmonkey(0);createJson();">Add
+                                    Chaosmonkey
+                                </button>
                             </td>
-                            <script>makeChaosMonkey(0);</script>
                         </tr>
                     </table>
                 </td>
