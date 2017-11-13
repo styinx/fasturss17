@@ -16,6 +16,19 @@ var architecture =
         "chaosmonkeys" : []
     };
 
+function selectValues(select)
+{
+    var vals = [];
+    for (var i = 0; i < select.options.length; i++)
+    {
+        if(select.options[i].selected == true)
+        {
+            vals.push(select.options[i].value);
+        }
+    }
+    return vals;
+}
+
 function checkPattern(element, pattern, callback)
 {
     if(pattern.test(element.value))
@@ -49,15 +62,28 @@ function createJson()
         var name = document.getElementById('microservice-' + index + '-name').value;
         var instances = document.getElementById('microservice-' + index + '-instances').value;
         var capacity = document.getElementById('microservice-' + index + '-capacity').value;
-        var patterns = []; //TODO
+
+        var patterns = [];
+        var pattern = {};
+        var patternName = document.getElementById('microservice-' + index + '-patternName').value;
+        var patternValue = document.getElementById('microservice-' + index + '-patternValue').value;
+
+        pattern[patternName] = patternValue;
+        patterns.push(pattern);
 
         var operations = [];
         for(var opindex = 0; opindex < operation_counter[index]; ++opindex)
         {
             var opname = document.getElementById('operation-' + index + "-" + opindex + '-name').value;
             var opdemand = document.getElementById('operation-' + index + "-" + opindex + '-demand').value;
-            var oppatterns = []; //TODO
-            var opdependencies = []; //TODO
+            var oppatterns = selectValues(document.getElementById('operation-' + index + "-" + opindex + '-patterns'));
+
+            var opdependencies = [];
+            var opdependentService = document.getElementById('operation-' + index + "-" + opindex + '-dependentService').value;
+            var opdependentOperation = document.getElementById('operation-' + index + "-" + opindex + '-dependentOperation').value;
+            var opdependentProbability = document.getElementById('operation-' + index + "-" + opindex + '-dependentProbability').value;
+
+            opdependencies.push({"service" : opdependentService, "operation" : opdependentOperation, "probability" : opdependentProbability});
 
             operations.push({"name" : opname, "demand" : opdemand, "patterns" : oppatterns, "dependencies" : opdependencies});
         }
@@ -149,42 +175,50 @@ function getServiceNames()
 function getServiceOperations(service)
 {
     var operation_names = [];
-    for(var index = 0; index < architecture["microservices"][service].operations.length; ++index)
+    for(var service_id = 0; service_id < architecture["microservices"].length; ++service_id)
     {
-        operation_names.push(architecture["microservices"][service].operations[index].name);
+        if(service === architecture["microservices"][service_id].name)
+        {
+            for(var index = 0; index < architecture["microservices"][service_id].operations.length; ++index)
+            {
+                operation_names.push(architecture["microservices"][service_id].operations[index].name);
+            }
+        }
     }
     return operation_names;
 }
 
 function fillServiceSelects()
 {
-    fillSelects('microservice-names', getServiceNames());
-}
-
-function fillOperationSelects(service)
-{
-    //fillSelects('operation-names', getServiceOperations(service));
-}
-
-function fillSelects(classname, name_values)
-{
-    var selects = document.getElementsByClassName(classname);
+    var selects = document.getElementsByClassName('microservice-names');
     for(var index = 0; index < selects.length; ++index)
     {
-        var select = selects[index];
-        var select_value = select.value;
-        select.innerHTML = "";
+        fillSelect(selects[index], getServiceNames());
+    }
+}
 
-        var names = name_values
-        for(var name in names)
-        {
-            var option = document.createElement('option');
-            option.innerHTML = names[name];
-            option.value = names[name];
-            if(select_value === names[name])
-                option.selected = true;
-            select.appendChild(option);
-        }
+function fillOperationSelect(service_select, operation_select_id)
+{
+    var operation_names = getServiceOperations(service_select.value);
+    var operation_select = document.getElementById(operation_select_id);
+    fillSelect(operation_select, operation_names);
+}
+
+function fillSelect(element, name_values)
+{
+    var select = element;
+    var select_value = select.value;
+    select.innerHTML = "";
+
+    var names = name_values
+    for(var name in names)
+    {
+        var option = document.createElement('option');
+        option.innerHTML = names[name];
+        option.value = names[name];
+        if(select_value === names[name])
+            option.selected = true;
+        select.appendChild(option);
     }
 }
 
@@ -221,10 +255,12 @@ function makeMicroservice(id)
                + "Patterns:"
              + "</td>"
              + "<td>"
-//               + "<select multiple>"
-//                 + "<option value='Thread Pool'>Thread Pool</option>"
-//                 + "<option value='Thread Queue'>Thread Queue</option>"
-//               + "</select>"
+               + "<select id='microservice-" + id + "-patternName' onchange=\"createJson();\">"
+                 + "<option value=''></option>"
+                 + "<option value='Thread Pool'>Thread Pool</option>"
+                 + "<option value='Thread Queue'>Thread Queue</option>"
+               + "</select>"
+               + "<input id='microservice-" + id + "-patternValue' type='number' oninput=\"checkPattern(this, pat_int);createJson();\"/>"
              + "</td>"
            + "</tr>"
            + "<tr>"
@@ -295,7 +331,7 @@ function makeOperation(id, service)
                + "Name:"
              + "</td>"
              + "<td>"
-               + "<input id='operation-" + service + "-" + id + "-name' type='text' oninput=\"checkPattern(this, pat_name);fillOperationSelects(" + service + ");createJson();\"/>"
+               + "<input id='operation-" + service + "-" + id + "-name' type='text' oninput=\"checkPattern(this, pat_name);createJson();\"/>"
              + "</td>"
            + "</tr>"
            + "<tr>"
@@ -311,9 +347,9 @@ function makeOperation(id, service)
                + "Patterns:"
              + "</td>"
              + "<td>"
-//               + "<select multiple>"
-//                 + "<option value='Circuit Breaker'>Circuit Breaker</option>"
-//               + "</select>"
+               + "<select multiple id='operation-" + service + "-" + id + "-patterns' onchange=\"createJson();\">"
+                 + "<option value='Circuit Breaker'>Circuit Breaker</option>"
+               + "</select>"
              + "</td>"
            + "</tr>"
            + "<tr>"
@@ -321,9 +357,9 @@ function makeOperation(id, service)
                + "Dependencies:"
              + "</td>"
              + "<td>"
-               + "<select class='microservice-names' id='operation-" + service + "-" + id + "-dependencyS' onchange=\"\"></select>"
-               + "<select class='operation-names' id='operation-" + service + "-" + id + "-dependencyO'></select>"
-               + "<input id='operation-" + service + "-" + id + "-dependencyP' type='number' oninput=\"checkPattern(this, pat_prob);createJson();\"/>"
+               + "<select class='microservice-names' id='operation-" + service + "-" + id + "-dependentService' onchange=\"fillOperationSelect(this, 'operation-" + service + "-" + id + "-dependentOperation');createJson();\"></select>"
+               + "<select class='operation-names' id='operation-" + service + "-" + id + "-dependentOperation'></select>"
+               + "<input id='operation-" + service + "-" + id + "-dependentProbability' type='number' oninput=\"checkPattern(this, pat_prob);createJson();\"/>"
              + "</td>"
            + "</tr>"
          + "</table>"
@@ -374,7 +410,7 @@ function makeGenerator(id)
                + "Service:"
              + "</td>"
              + "<td>"
-               + "<select class='microservice-names' id='generator-" + id + "-service' onchange=\"createJson();\"></select>"
+               + "<select class='microservice-names' id='generator-" + id + "-service' onchange=\"createJson();fillOperationSelect(this,'generator-" + id + "-operation');\"></select>"
              + "</td>"
            + "</tr>"
            + "<tr>"
