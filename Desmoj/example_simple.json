@@ -5,14 +5,14 @@
     "model" : "Simple microservice model",
     "duration": 100,
     "report" : "",
-    "datapoints": 1000,
+    "datapoints": 100,
     "seed" : 1234
   },
   "microservices" :
   [
     {
       "name" : "Frontend",
-      "instances" : 1,
+      "instances" : 5,
       "patterns" : [],
       "capacity" : 1000,
       "operations" :
@@ -20,7 +20,7 @@
         {
           "name" : "login",
           "patterns" : [],
-          "demand": 100,
+          "demand": 1000,
           "dependencies" :
           [
             {
@@ -34,14 +34,14 @@
     },
     {
       "name" : "Server",
-      "instances": 1,
+      "instances": 5,
       "capacity" : 1000,
       "operations" :
       [
         {
           "name" : "save",
           "patterns" : [],
-          "demand" : 100,
+          "demand" : 1000,
           "dependencies" :
           [
             {
@@ -55,14 +55,14 @@
     },
     {
       "name" : "Database",
-      "instances": 1,
+      "instances": 5,
       "capacity" : 1000,
       "operations" :
       [
         {
           "name" : "update",
           "patterns" : [],
-          "demand" : 100,
+          "demand" : 1000,
           "dependencies" : []
         }
       ]
@@ -71,7 +71,7 @@
   "generators" :
   [
     {
-      "time": 10,
+      "time": 0.1,
       "microservice" : "Frontend",
       "operation" : "login"
     }
@@ -79,6 +79,10 @@
   ],
   "chaosmonkeys" :
   [
-
+//    {
+//      "microservice" : "Server",
+//      "instances" : 5,
+//      "time" : 500
+//    }
   ]
 }

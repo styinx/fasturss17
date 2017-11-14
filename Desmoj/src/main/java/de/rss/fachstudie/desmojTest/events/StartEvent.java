@@ -40,13 +40,21 @@ public class StartEvent extends Event<MessageObject> {
         double min = Double.POSITIVE_INFINITY;
         int i = 0;
         for(int instance = 0; instance < model.services.get(id).size(); ++instance) {
+            //model.log(instance + " loop run");
+//            if(!model.services.get(id).get(instance).isKilled()) {
+//                if(model.serviceCPU.get(id).get(instance).getActiveThreads() < min) {
+//                    min = model.serviceCPU.get(id).get(instance).getActiveThreads();
+//                    i = instance;
+//                }
+//            }
             if(!model.services.get(id).get(instance).isKilled()) {
-                if(model.serviceCPU.get(id).get(instance).getUsage() < min) {
-                    min = model.serviceCPU.get(id).get(instance).getUsage();
+                if(model.services.get(id).get(instance).getThreads().size() < min) {
+                    min = model.services.get(id).get(instance).getThreads().size();
                     i = instance;
                 }
             }
         }
+        //model.log("retuning instance: " + i);
         return model.services.get(id).get(i);
     }
 
@@ -62,6 +70,7 @@ public class StartEvent extends Event<MessageObject> {
 
             model.taskQueues.get(id).insert(messageObject);
 
+
             boolean availServices = false;
             for(Microservice m : model.services.get(id)) {
                 if(!m.isKilled()) {
@@ -76,6 +85,8 @@ public class StartEvent extends Event<MessageObject> {
                 Microservice msEntity = getServiceEntity(id);
                 StopEvent msEndEvent = new StopEvent(model, "", model.getShowStopEvent(), id, operation);
                 Thread thread = new Thread(model, "", false, op.getDemand(), msEndEvent, msEntity, messageObject);
+
+                msEntity.getThreads().insert(thread);
 
                 // Are there dependant operations
                 if (op.getDependencies().length > 0) {
@@ -100,16 +111,13 @@ public class StartEvent extends Event<MessageObject> {
                             StartEvent nextEvent = new StartEvent(model,"", model.getShowStartEvent(), nextServiceId, nextOperation);
                             nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
                         } else {
-
                             // add thread to cpu
-                            model.log("add " + msEntity.getId() + "-" + msEntity.getSid());
                             model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
                         }
                     }
                 } else {
 
                     // add thread to cpu
-                    model.log("add " + msEntity.getId() + "-" + msEntity.getSid());
                     model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
                 }
 
@@ -117,7 +125,8 @@ public class StartEvent extends Event<MessageObject> {
                 // CPU
                 model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getUsage());
                 // Thread
-                model.threadStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getActiveThreads());
+                //model.threadStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getActiveThreads());
+                model.threadStatistics.get(id).get(msEntity.getSid()).update(msEntity.getThreads().size());
                 // Task Queue
                 model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
             }

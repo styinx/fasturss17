@@ -67,6 +67,7 @@ public class ExportReport {
             taskQueueWork.put(serviceName, this.getTimeSeriesWithKeys(resourcePath + "TaskQueue_" + serviceName + ".txt"));
         }
 
+
         DataChart chart1 = new DataChart(model, "Active Microservice Threads", activeInstances);
         DataChart chart2 = new DataChart(model, "Task Queue per Service", taskQueueWork);
         DataChart chart3 = new DataChart(model, "Used CPU in percent", usedCPU);
