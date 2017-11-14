@@ -15,260 +15,121 @@ It allows the simulation of microservice architectures in regard to resilience a
 In order to run the simulator you have to download the DesmoJ binary from [sourceforge](http://desmoj.sourceforge.net/download.html) and then include it into the project.
 
 ## <a name="Input"></a>Input Model
-This is an example input for the simulator. **TODO: write more about the input model**
+The input for the simulator is a _json_ file which contains all the information necessary to simulate the architecture.
+The following is a simple example for the _json_ input:
 
 
 ```json
 {
-  "simulation":
-  {
-    "experiment" : "Desmoj_Microservice_Experiment",
-    "model" : "Simple microservice model",
-    "duration" : 50,
-    "datapoints" : 50,
-    "seed" : 2298
+  "simulation": {
+    "experiment": "example",
+    "model": "mModel",
+    "duration": "1000",
+    "report": "",
+    "datapoints": "1000",
+    "seed": ""
   },
-  "microservices" :
-  [
+  "microservices": [
     {
-      "name" : "Gateway",
-      "instances" : 10,
-      "CPU" : 3500,
-      "operations" :
-      [
+      "name": "frontend",
+      "instances": "3",
+      "capacity": "2000",
+      "operations": [
         {
-          "name" : "register",
-          "patterns" : ["Circuit Breaker"],
-          "duration" : 4,
-          "CPU" : 300,
-          "dependencies" :
-          [
+          "name": "login",
+          "demand": "150",
+          "patterns": [
+            "Circuit Breaker"
+          ],
+          "dependencies": [
             {
-              "operation" : "save",
-              "service" : "Authentication",
-              "probability" : 0.7
-            }
-          ]
-        },
-        {
-          "name" : "update",
-          "patterns" : ["Circuit Breaker"],
-          "duration" : 1,
-          "CPU" : 800,
-          "dependencies" : 
-          [
-            {
-              "operation" : "save",
-              "service" : "Order",
-              "probability" : 0.8
+              "service": "authentication",
+              "operation": "authenticate",
+              "probability": "0.9"
             }
           ]
         }
       ]
     },
     {
-      "name" : "Authentication",
-      "instances" : 5,
-      "CPU" : 3500,
-      "operations" :
-      [
+      "name": "authentication",
+      "instances": "2",
+      "capacity": "2000",
+      "operations": [
         {
-          "name" : "save",
-          "patterns" : [],
-          "duration" : 2,
-          "CPU" : 600,
-          "dependencies" :
-          [
-            {
-              "operation" : "update",
-              "service" : "Backup",
-              "probability" : 0.2
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name" : "Order",
-      "instances" : 5,
-      "CPU" : 3500,
-      "operations" :
-      [
-        {
-          "name" : "save",
-          "patterns" : [],
-          "duration" : 2,
-          "CPU" : 300,
-          "dependencies" :
-          [
-            {
-              "operation" : "update",
-              "service" : "Backup",
-              "probability" : 0.1
-            }
-          ]
-        },
-        {
-          "name" : "update",
-          "patterns" : [],
-          "duration" : 2,
-          "CPU" : 500,
-          "dependencies" :
-          [
-            {
-              "operation" : "register",
-              "service" : "Shipping",
-              "probability" : 0.4
-            }
-          ]
-        },
-        {
-          "name" : "register",
-          "patterns" : [],
-          "duration" : 2,
-          "CPU" : 900,
-          "dependencies" :
-          [
-            {
-              "operation" : "update",
-              "service" : "Database",
-              "probability" : 0.8
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name" : "Backup",
-      "instances" : 5,
-      "CPU" : 3500,
-      "operations" :
-      [
-        {
-          "name" : "update",
-          "patterns" : [],
-          "duration" : 2,
-          "CPU" : 700,
-          "dependencies" :
-          [
-            {
-              "operation" : "update",
-              "service" : "Database",
-              "probability" : 0.5
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name" : "Shipping",
-      "instances" : 5,
-      "CPU" : 3500,
-      "operations" :
-      [
-        {
-          "name" : "register",
-          "patterns" : [],
-          "duration" : 2,
-          "CPU" : 1200,
-          "dependencies" :
-          [
-            {
-              "operation" : "update",
-              "service" : "Database",
-              "probability" : 0.3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name" : "Database",
-      "instances" : 5,
-      "CPU" : 3500,
-      "operations" :
-      [
-        {
-          "name" : "update",
-          "patterns" : [],
-          "duration" : 2,
-          "CPU" : 500,
-          "dependencies" :
-          [
-          
+          "name": "authenticate",
+          "demand": "100",
+          "patterns": [
+            "Circuit Breaker"
           ]
         }
       ]
     }
   ],
-  "generators" :
-  [
+  "generators": [
     {
-      "time" : 1,
-      "microservice" : "Gateway",
-      "operation" : "update"
-    },
-    {
-      "time" : 50,
-      "microservice" : "Backup",
-      "operation" : "update"
+      "service": "frontend",
+      "operation": "login",
+      "time": "10"
     }
   ],
-  "chaosmonkeys" :
-  [
+  "chaosmonkeys": [
     {
-      "time" : 50,
-      "microservice" : "Database",
-      "instances" : 1
-    },
-    {
-      "time" : 50,
-      "microservice" : "Gateway",
-      "instances" : 1
+      "service": "frontend",
+      "instances": "1",
+      "time": "50"
     }
   ]
 }
 ```
-### Advanced Description
 
-The ***simulation*** field hold general information for the simulation and the report.
-- simulation :
-  - report : 
-    
-    Defines the type of the report. Possible values : 
-      - "" -> creates a default report,
-      - "minimalistic" -> creates a cut down version of the report,
-      - "none" -> no report is created
-    
-  - datapoints :
-    
-    Defines how much points are plotted on charts. Possible values:
-      - 0 -> no charts are created
-      - -1 -> creates default charts with one point per simulation time interval
-      - [0-9]* -> number of points a chart will have
+### Description
+The input basically consits of four main components. These are:
+- Simulation
+- Microservices
+- Generators
+- Chaosmonkeys
 
-The ***microservices*** field holds the information about the microservice architecture.
-- microservices :
-	- patterns :
-	  
-	  Each different service can have none or multiple patterns. Possible values: 
-	    - {"Thread Pool" : 100} 
-	      - only 100 threads can exist at same time
-        - {"Thread Queue" : 100}
-          - if 100 threads exist, new threads are added to the queue with the size 100
-      
-   - operations :
-    
-     A service has one or multiple operations
-       - patterns :
-       
-         Each operation can have none or multiple patterns. Possible values:
-           - "Circuit Breaker"
-           - the task queue is limited to the number of threads it can maximal take
-         
-- generators :
-    
-    Generators describe ... ***TODO***
+#### Simulation
+The _simulation_ object holds general information about the simulation experiment. 
+
+- ___experiment___: Name of the experiment
+- ___model___: Name of the employed model
+- ___duration___: Desired duration of the simulation in seconds
+- ___report___: The simulator creates a report at the end of the simulation. Leave this field __empty__ if you want a detailed report, set the value to _"minimalistic"_ if you want a minimalistic version of the report or set it to _"none"_ if you don't want a report
+- ___datapoints___: The number of datapoints you want for the charts in your report. The simulator records statistics at every datapoint. If you set the value to _"0"_ no charts will be created. If you set it to _"-1"_ the simulator will record a datapoint at every simulated second
+- ___seed___: A seed for the randomly generated events in the simulator. Leave this field __empty__ if you want random experiments or set the value to an integer to use a seed
+
+#### Microservices
+The _microservices_ array holds objects which contain information about respectively one microservice and their dependcies. Together they compose the architecture that is simulated.
+
+- ___name___: Name of the microservice
+- ___instances___: Number of instances of this microservice
+- ___capacity___: CPU capacity of _each_ instance in Mhz
+- ___patterns___: Array of resilience patterns that are implemented in this microservices. For now the simulator can simulate the _Thread Pool_ and _Thread Queue_ patterns
+- ___operations___: Array which holds objects which contain information about the different operations that this microservice can perform
+	- ___name___: Name of the operation
+	- ___demand___: CPU demand of this operation in Mhz
+	- ___patterns___: Array of resilience patterns which are implemented in the specific operation. For now the simulator can simulate the _Circuit Breaker_ pattern
+	- ___dependencies___: Arry of objects which hold information about a dependency that this operation has with another operation.
+		- ___service___: Name of the microservice to which the other operation belongs
+		- ___operation___: Name of the other operation from which this operation depends
+		- ___probability___: The probability that this operation will call the other operation (decimal number in between 0 and 1)
+	
+#### Generators
+The _generators_ array holds objects which contain information about the generation of inital requests to different microservices of the system to start the simulation.
+
+- ___service___: Name of the microservice to which the request should be send
+- ___operation___: Name of the operation which should be performed
+- ___time___: Time interval in seconds in which these requests will be created	
+
+#### Chaosmonkeys
+The _chaosmonkeys_ array holds objects which contain information about chaos monkeys which shut down instances of specified microservices during the simulation.
+
+- ___service___: Name of the service of which you want to shut down a number of instances during the simulation
+- ___instances___: Number of instances you want to shut down during the simulation
+- ___time___: Time point (in seconds) at which you want to shut down the instances of the specified microservie
+
       
 
 ## <a name="Sim-Use"></a>Usage
