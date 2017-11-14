@@ -3,7 +3,7 @@
   {
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
-    "duration" : 10000,
+    "duration" : 100,
     "report" : "",
     "datapoints" : 100,
     "seed" : 2298
@@ -12,7 +12,7 @@
   [
     {
       "name" : "Login",
-      "instances" : 10,
+      "instances" : 1,
       "patterns" : [],
       "capacity" : 3000,
       "operations" :
@@ -26,12 +26,12 @@
             {
               "operation" : "AccountOP1",
               "service" : "Account",
-              "probability" : 0.9
+              "probability" : 0.0
             },
             {
               "operation" : "MessageOP1",
               "service" : "Message",
-              "probability" : 0.1
+              "probability" : 0.0
             }
           ]
         }
@@ -39,7 +39,7 @@
     },
     {
       "name" : "Message",
-      "instances" : 5,
+      "instances" : 1,
       "patterns" : [],
       "capacity" : 3000,
       "operations" :
@@ -61,8 +61,8 @@
     },
     {
       "name" : "Processing",
-      "instances" : 5,
-      "patterns" : [{"Thread Pool" : 10}],
+      "instances" : 1,
+      "patterns" : [],
       "capacity" : 3000,
       "operations" :
       [
@@ -79,7 +79,7 @@
     },
     {
       "name" : "Session",
-      "instances" : 5,
+      "instances" : 1,
       "patterns" : [],
       "capacity" : 3000,
       "operations" :
@@ -97,7 +97,7 @@
     },
     {
       "name" : "Account",
-      "instances" : 5,
+      "instances" : 1,
       "patterns" : [],
       "capacity" : 3000,
       "operations" :
@@ -143,6 +143,16 @@
   ],
   "generators" :
   [
+    {
+      "time" : 1,
+      "microservice" : "Login",
+      "operation" : "LoginOP1"
+    },
+    {
+      "time" : 1,
+      "microservice" : "Login",
+      "operation" : "LoginOP1"
+    },
     {
       "time" : 1,
       "microservice" : "Login",

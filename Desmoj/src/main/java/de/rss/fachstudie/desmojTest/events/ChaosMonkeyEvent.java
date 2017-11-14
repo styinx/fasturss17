@@ -31,11 +31,24 @@ public class ChaosMonkeyEvent extends ExternalEvent {
             {
                 if(!msEntity.isKilled()) {
                     msEntity.setKilled(true);
-                    msEntity.setThreads(new Queue<Thread>(model, "", false, false));
+                    model.serviceCPU.get(msEntity.getId()).get(msEntity.getSid()).getExistingThreads().removeAll();
+                    model.serviceCPU.get(msEntity.getId()).get(msEntity.getSid()).getActiveThreads().removeAll();
                     this.instances -= 1;
                     break;
                 }
             }
+        }
+
+        boolean hasServicesLeft = false;
+        for(int instance = 0; instance < model.services.get(msId).size(); ++instance) {
+            if(!model.services.get(msId).get(instance).isKilled()) {
+                hasServicesLeft = true;
+                break;
+            }
+        }
+
+        if(!hasServicesLeft) {
+            model.taskQueues.get(msId).removeAll();
         }
 
         if(this.instances > 0) {

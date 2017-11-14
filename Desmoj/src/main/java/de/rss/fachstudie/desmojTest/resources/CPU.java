@@ -9,14 +9,16 @@ import java.util.List;
 
 public class CPU extends Event {
     private MainModelClass model;
+    private int id = -1;
     private int capacity = 0;
-    private int robinTime = 10;
+    private double robinTime = 10;
     private double cycleTime = 0;
     private double lastThreadEntry;
     private double smallestThread = 0.0;
 
     private Queue<Thread> activeThreads;
     private Queue<Thread> waitingThreads;
+    private Queue<Thread> existingThreads;
     private boolean hasThreadPool = false;
     private int threadPoolSize = 0;
     private boolean hasThreadQueue = false;
@@ -27,8 +29,10 @@ public class CPU extends Event {
         super(owner, name, showInTrace);
 
         model = (MainModelClass) owner;
+        this.id = id;
         this.capacity = capacity;
         lastThreadEntry = 0;
+        existingThreads = new Queue<Thread>(owner, "", false, false);
 
         if(model.allMicroservices.get(id).hasPattern("Thread Pool")) {
             threadPoolSize = model.allMicroservices.get(id).getPattern("Thread Pool");
@@ -74,12 +78,10 @@ public class CPU extends Event {
 
         // check for patterns and add the current thread to the queue or
         // send a default response to the depending service
-        if(!hasThreadPool || activeThreads.size() < threadPoolSize) {
-
+        if(!hasThreadPool || existingThreads.size() < threadPoolSize) {
             // cpu has no thread pool, or the size of the thread pool is big enough
             activeThreads.insert(thread);
         } else {
-
             // if thread queue pattern exists check the size of waiting queue
             if(hasThreadQueue) {
                 if(waitingThreads.size() < threadQueueSize) {
@@ -111,11 +113,11 @@ public class CPU extends Event {
         }
 
         // Shift from waiting queue to the active queue
-        int freeSlots = threadPoolSize - activeThreads.size();
-        for(int index = 0; index < freeSlots; ++index) {
-            activeThreads.insert(waitingThreads.first());
-            waitingThreads.removeFirst();
-        }
+//        int freeSlots = threadPoolSize - activeThreads.size();
+//        for(int index = 0; index < freeSlots; ++index) {
+//            activeThreads.insert(waitingThreads.first());
+//            waitingThreads.removeFirst();
+//        }
 
         calculateMin();
 
@@ -141,8 +143,20 @@ public class CPU extends Event {
         }
     }
 
-    public int getActiveThreads() {
-        return activeThreads.size();
+    public Queue<Thread> getExistingThreads() {
+        return existingThreads;
+    }
+
+    public void addExistingThread(Thread thread) {
+        existingThreads.insert(thread);
+    }
+
+    public void removeExisitngThread(Thread thread) {
+        existingThreads.remove(thread);
+    }
+
+    public Queue<Thread> getActiveThreads() {
+        return activeThreads;
     }
 
     public int getCapacity() {

@@ -32,7 +32,7 @@ public class Thread extends Entity {
         model = (MainModelClass) owner;
         this.id = service.getId();
         this.sid = service.getSid();
-        this.tid = service.getThreads().size();
+        this.tid = model.serviceCPU.get(service.getId()).get(service.getSid()).getExistingThreads().size();
         this.demand = demand;
         this.endEvent = end;
         this.service = service;
@@ -80,106 +80,39 @@ public class Thread extends Entity {
         return this.demand;
     }
 
-    public void subtractDemand(int value) {
+    public void subtractDemand(double value) {
         if(demand - value > 0)
             this.demand -= value;
         else
             demand = 0;
     }
 
+    public StopEvent getEndEvent() {
+        return endEvent;
+    }
+
+    public void setEndEvent(StopEvent endEvent) {
+        this.endEvent = endEvent;
+    }
+
+    public Microservice getService() {
+        return service;
+    }
+
+    public void setService(Microservice service) {
+        this.service = service;
+    }
+
+    public MessageObject getMobject() {
+        return mobject;
+    }
+
+    public void setMobject(MessageObject mobject) {
+        this.mobject = mobject;
+    }
+
     public void scheduleEndEvent() {
         endEvent.schedule(service, this, mobject);
     }
 
-//    /**
-//     * Schedules this Thread to be activated
-//     * directly after the given schedulable, which itself
-//     * must already be scheduled
-//     *
-//     * @param after
-//     */
-//    public void activateAfter(Schedulable after) {
-//
-//        if (after == null) {
-//            return;
-//        }
-//        if (isBlocked()) {
-//            return;
-//        }
-//
-//        // TODO: debugging
-//
-//        // TODO: schedule this thread
-//    }
-//
-//    public void passivate() throws DelayedInterruptException, InterruptException, SuspendExecution {
-//        // TODO: implement
-//        /*
-//        Strand.parkAndUnpark(this.getModel().getExperiment().getSchedulerStrand());
-//
-//        if (getModel().getExperiment().isAborted()) {
-//            throw (new SimFinishedException(getModel(), getName(), presentTime()));
-//        }
-//        */
-//    }
-//
-//    /**
-//     * Maked the Thread obtain an array of resources and store them for further usage.
-//     *
-//     * @param obtainedResources
-//     */
-//    public void obtainResources(CustomResource[] obtainedResources) {
-//        if (obtainedResources.length <= 0) {
-//            //parameter contains nothing
-//            return;
-//        }
-//
-//        // put all the obtained resources in the vector of used resources
-//        for (CustomResource obtainedResource : obtainedResources) {
-//            usedResources.addElement(obtainedResource);
-//        }
-//
-//        // TODO: debugging
-//    }
-//
-//    public CustomResource[] returnResources(CustomRes resPool, int n) {
-//        if (n <= 0) {
-//            // return nothing
-//            return null;
-//        }
-//        if (usedResources.isEmpty()) {
-//            // return nothing
-//            return null;
-//        }
-//
-//        // make the arra yo store the resources which will be returned
-//        CustomResource[] returningRes = new CustomResource[n];
-//
-//        // Counter for the index of the array
-//        int j = 0;
-//
-//        // Collect all the resources from the Vector of usedResources
-//        for (int i = 0; i < usedResources.size(); i++) {
-//            if ((usedResources.elementAt(i)).getRes() == resPool) {
-//                // put res in array
-//                returningRes[j] = usedResources.elementAt(i);
-//                j++;
-//            }
-//            if (j == n) {
-//                break;
-//            }
-//        }
-//
-//        // Remove the returning resource form the vector of usedResources
-//        for (int m = 0; m < j; m++) {
-//            usedResources.removeElement(returningRes[m]);
-//        }
-//
-//        if (j < n) {
-//            // TODO: array is not full, send warning
-//        }
-//
-//        // TODO: debugging
-//        return returningRes;
-//    }
 }

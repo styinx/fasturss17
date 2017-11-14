@@ -3,9 +3,9 @@
   {
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
-    "duration": 100,
+    "duration": 200,
     "report" : "",
-    "datapoints": 100,
+    "datapoints": 200,
     "seed" : 1234
   },
   "microservices" :
@@ -20,13 +20,13 @@
         {
           "name" : "login",
           "patterns" : [],
-          "demand": 1000,
+          "demand": 100,
           "dependencies" :
           [
             {
               "operation": "save",
               "service": "Server",
-              "probability": 1.0
+              "probability": 0.9
             }
           ]
         }
@@ -47,7 +47,7 @@
             {
               "operation" : "update",
               "service" : "Database",
-              "probability" : 1.0
+              "probability" : 0.9
             }
           ]
         }
@@ -62,7 +62,7 @@
         {
           "name" : "update",
           "patterns" : [],
-          "demand" : 1000,
+          "demand" : 1000000000,
           "dependencies" : []
         }
       ]
@@ -79,10 +79,10 @@
   ],
   "chaosmonkeys" :
   [
-//    {
-//      "microservice" : "Server",
-//      "instances" : 5,
-//      "time" : 500
-//    }
+    {
+      "microservice" : "Server",
+      "instances" : 5,
+      "time" : 50
+    }
   ]
 }

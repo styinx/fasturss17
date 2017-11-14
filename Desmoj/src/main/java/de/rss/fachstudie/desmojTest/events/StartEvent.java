@@ -48,8 +48,8 @@ public class StartEvent extends Event<MessageObject> {
 //                }
 //            }
             if(!model.services.get(id).get(instance).isKilled()) {
-                if(model.services.get(id).get(instance).getThreads().size() < min) {
-                    min = model.services.get(id).get(instance).getThreads().size();
+                if(model.serviceCPU.get(id).get(instance).getExistingThreads().size() < min) {
+                    min = model.serviceCPU.get(id).get(instance).getExistingThreads().size();
                     i = instance;
                 }
             }
@@ -62,9 +62,20 @@ public class StartEvent extends Event<MessageObject> {
     public void eventRoutine(MessageObject messageObject) throws SuspendExecution {
 
         Operation op = model.allMicroservices.get(id).getOperation(operation);
+        Microservice msEntity = getServiceEntity(id);
+        StopEvent msEndEvent = new StopEvent(model, "", model.getShowStopEvent(), id, operation);
+        Thread thread = new Thread(model, "", false, op.getDemand(), msEndEvent, msEntity, messageObject);
+
         boolean hasCircuitBreaker = op.hasPattern("Circuit Breaker");
-        int circuitBreakerLimit = model.services.get(id).size() *
-                (model.services.get(id).get(0).getCapacity() / model.services.get(id).get(0).getOperation(operation).getDemand());
+        int circuitBreakerLimit = Integer.MAX_VALUE;
+        double ratio = (model.services.get(id).get(0).getCapacity() / model.services.get(id).get(0).getOperation(operation).getDemand());
+
+        if(ratio >= 1) {
+            circuitBreakerLimit = model.services.get(id).size() *
+                    (model.services.get(id).get(0).getCapacity() / model.services.get(id).get(0).getOperation(operation).getDemand());
+        } else {
+            circuitBreakerLimit = model.services.get(id).size();
+        }
 
         if(!hasCircuitBreaker || model.taskQueues.get(id).size() < circuitBreakerLimit) {
 
@@ -81,12 +92,8 @@ public class StartEvent extends Event<MessageObject> {
 
             // Check if there are available services
             if(availServices) {
-                // The service with most available resources gets chosen
-                Microservice msEntity = getServiceEntity(id);
-                StopEvent msEndEvent = new StopEvent(model, "", model.getShowStopEvent(), id, operation);
-                Thread thread = new Thread(model, "", false, op.getDemand(), msEndEvent, msEntity, messageObject);
 
-                msEntity.getThreads().insert(thread);
+                model.serviceCPU.get(id).get(msEntity.getSid()).addExistingThread(thread);
 
                 // Are there dependant operations
                 if (op.getDependencies().length > 0) {
@@ -120,15 +127,8 @@ public class StartEvent extends Event<MessageObject> {
                     // add thread to cpu
                     model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
                 }
-
-                // Statistics
-                // CPU
-                model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getUsage());
-                // Thread
-                //model.threadStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getActiveThreads());
-                model.threadStatistics.get(id).get(msEntity.getSid()).update(msEntity.getThreads().size());
-                // Task Queue
-                model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
+            } else {
+                msEndEvent.schedule(msEntity, thread, messageObject);
             }
         }
         else
@@ -140,5 +140,14 @@ public class StartEvent extends Event<MessageObject> {
                 last = values.get(values.size() - 1);
             model.circuitBreakerStatistics.get(id).update(last + 1);
         }
+
+        // Statistics
+        // CPU
+        model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getUsage());
+        // Thread
+        //model.threadStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getActiveThreads());
+        model.threadStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getExistingThreads().size());
+        // Task Queue
+        model.taskQueueStatistics.get(id).update(model.taskQueues.get(id).size());
     }
 }

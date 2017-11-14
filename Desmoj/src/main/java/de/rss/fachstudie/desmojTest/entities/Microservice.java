@@ -28,14 +28,12 @@ public class Microservice extends Entity{
     private HashMap<String, Integer>[] patterns;
     private int capacity = 0;
     private int instances = 0;
-    private Queue<Thread> threads;
     private Operation[] operations;
 
     public Microservice(Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
 
         this.model = (MainModelClass) owner;
-        threads = new Queue<>(model, "Thread Queue " + name + " #" + sid, true, true);
     }
 
     public boolean isKilled() {
@@ -112,14 +110,6 @@ public class Microservice extends Entity{
 
     public void setInstances(int numberOfInstances) {
         this.instances = numberOfInstances;
-    }
-
-    public Queue<Thread> getThreads() {
-        return threads;
-    }
-
-    public void setThreads(Queue<Thread> threads) {
-        this.threads = threads;
     }
 
     public Operation[] getOperations() {

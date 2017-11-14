@@ -159,86 +159,6 @@ public class MainModelClass extends Model {
         }
     }
 
-    public static void main(String[] args) {
-        String arch = "";
-
-        /* Command Line parser uncomment to call from command line */
-//        Options options = new Options();
-//
-//        Option input = new Option("a", "arch", true, "input file path");
-//        input.setRequired(true);
-//        options.addOption(input);
-//
-////        Option output = new Option("r", "report", false, "create report");
-////        output.setRequired(false);
-////        options.addOption(output);
-//
-//        CommandLineParser cmdparser = new DefaultParser();
-//        HelpFormatter formatter = new HelpFormatter();
-//        CommandLine cmd;
-//
-//        try {
-//            cmd = cmdparser.parse(options, args);
-//        } catch (ParseException e) {
-//            System.out.println(e.getMessage());
-//            formatter.printHelp("Simulator", options);
-//            System.exit(1);
-//            return;
-//        }
-//
-//        arch = (cmd.getOptionValue("arch").equals("")) ? "example_simple.json" : cmd.getOptionValue("arch");
-        if (arch == "")
-            arch = "example_simple.json";
-
-        InputParser parser = new InputParser(arch);
-        InputValidator validator = new InputValidator();
-
-        if (validator.valideInput(parser)) {
-            long startTime = System.nanoTime();
-
-            MainModelClass model = new MainModelClass(null, InputParser.simulation.get("model"), true, true);
-            model.setSimulationTime(Double.parseDouble(InputParser.simulation.get("duration")));
-            model.setReport(InputParser.simulation.get("report"));
-            model.setDatapoints(Integer.parseInt(InputParser.simulation.get("datapoints")));
-            model.setSeed(Integer.parseInt(InputParser.simulation.get("seed")));
-
-            Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
-            model.connectToExperiment(exp);
-            exp.setSeedGenerator(model.getSeed());
-            exp.setShowProgressBarAutoclose(true);
-            exp.stop(new TimeInstant(model.getSimulationTime(), model.getTimeUnit()));
-            exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
-            exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
-
-            long setupTime = System.nanoTime() - startTime;
-            long tempTime = System.nanoTime();
-
-            exp.start();
-
-            long experimentTime = System.nanoTime() - tempTime;
-            tempTime = System.nanoTime();
-
-            exp.report();
-            exp.finish();
-
-            ExportReport exportReport = new ExportReport(model);
-            System.out.println("\nCreated Report successfully.");
-
-            long reportTime = System.nanoTime() - tempTime;
-            long executionTime = System.nanoTime() - startTime;
-
-            System.out.println("\n*** Simulator ***");
-            System.out.println("Simulation of Architecture:\t" + arch);
-            System.out.println("Executed Experiment:\t\t" + InputParser.simulation.get("experiment"));
-            System.out.println("Setup took:\t\t\t\t\t" + model.timeFormat(setupTime));
-            System.out.println("Experiment took:\t\t\t" + model.timeFormat(experimentTime));
-            System.out.println("Report took:\t\t\t\t" + model.timeFormat(reportTime));
-            System.out.println("Execution took:\t\t\t\t" + model.timeFormat(executionTime));
-        } else {
-            System.out.println("Your inserted input was not valide. Please check correctness of you JSON file.");
-        }
-    }
-
     /**
      * Initialize static model components like distributions and queues.
      */
@@ -381,5 +301,85 @@ public class MainModelClass extends Model {
 
     public void log(String message) {
         System.out.println(this.presentTime() + ": \t" + message);
+    }
+
+    public static void main(String[] args) {
+        String arch = "";
+
+        /* Command Line parser uncomment to call from command line */
+//        Options options = new Options();
+//
+//        Option input = new Option("a", "arch", true, "input file path");
+//        input.setRequired(true);
+//        options.addOption(input);
+//
+////        Option output = new Option("r", "report", false, "create report");
+////        output.setRequired(false);
+////        options.addOption(output);
+//
+//        CommandLineParser cmdparser = new DefaultParser();
+//        HelpFormatter formatter = new HelpFormatter();
+//        CommandLine cmd;
+//
+//        try {
+//            cmd = cmdparser.parse(options, args);
+//        } catch (ParseException e) {
+//            System.out.println(e.getMessage());
+//            formatter.printHelp("Simulator", options);
+//            System.exit(1);
+//            return;
+//        }
+//
+//        arch = (cmd.getOptionValue("arch").equals("")) ? "example_simple.json" : cmd.getOptionValue("arch");
+        if (arch == "")
+            arch = "Examples/example_advanced.json";
+
+        InputParser parser = new InputParser(arch);
+        InputValidator validator = new InputValidator();
+
+        if (validator.valideInput(parser)) {
+            long startTime = System.nanoTime();
+
+            MainModelClass model = new MainModelClass(null, InputParser.simulation.get("model"), true, true);
+            model.setSimulationTime(Double.parseDouble(InputParser.simulation.get("duration")));
+            model.setReport(InputParser.simulation.get("report"));
+            model.setDatapoints(Integer.parseInt(InputParser.simulation.get("datapoints")));
+            model.setSeed(Integer.parseInt(InputParser.simulation.get("seed")));
+
+            Experiment exp = new Experiment(InputParser.simulation.get("experiment"));
+            model.connectToExperiment(exp);
+            exp.setSeedGenerator(model.getSeed());
+            exp.setShowProgressBarAutoclose(true);
+            exp.stop(new TimeInstant(model.getSimulationTime(), model.getTimeUnit()));
+            exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
+            exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
+
+            long setupTime = System.nanoTime() - startTime;
+            long tempTime = System.nanoTime();
+
+            exp.start();
+
+            long experimentTime = System.nanoTime() - tempTime;
+            tempTime = System.nanoTime();
+
+            exp.report();
+            exp.finish();
+
+            ExportReport exportReport = new ExportReport(model);
+            System.out.println("\nCreated Report successfully.");
+
+            long reportTime = System.nanoTime() - tempTime;
+            long executionTime = System.nanoTime() - startTime;
+
+            System.out.println("\n*** Simulator ***");
+            System.out.println("Simulation of Architecture:\t" + arch);
+            System.out.println("Executed Experiment:\t\t" + InputParser.simulation.get("experiment"));
+            System.out.println("Setup took:\t\t\t\t\t" + model.timeFormat(setupTime));
+            System.out.println("Experiment took:\t\t\t" + model.timeFormat(experimentTime));
+            System.out.println("Report took:\t\t\t\t" + model.timeFormat(reportTime));
+            System.out.println("Execution took:\t\t\t\t" + model.timeFormat(executionTime));
+        } else {
+            System.out.println("Your inserted input was not valide. Please check correctness of you JSON file.");
+        }
     }
 }
