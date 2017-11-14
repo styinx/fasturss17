@@ -17,14 +17,11 @@ public class DataChart {
     public DataChart(MainModelClass model, String chartId, TreeMap<String, TreeMap<Double, Double>> series) {
         this.chartId = chartId;
         this.options = "title : {text : '" + chartId + "'}, "
-                + "legend : {enabled: true}, "
                 + "xAxis: {min: 0, max:" + model.getSimulationTime() + "}, "
-                + "yAxis: {min: 0}, "
                 + "colors : colors(" + series.keySet().size() + "), "
                 + "series : "
                 + "[ ";
         int index = 0;
-        int max = 0;
 
         for (String mapkey : series.keySet()) {
             options += "{"
@@ -35,37 +32,33 @@ public class DataChart {
 
             TreeMap<Double, Double> map = series.get(mapkey);
             double step = model.getSimulationTime() / model.getDatapoints();
+            double lastValue = 0;
+            double lastStep = 0;
+            int mapIndex = 0;
 
-//            for (double x = 0; x < model.getSimulationTime(); x += step) {
-//                double key = Math.round(x * 100.0) / 100.0;
-//
-//                if (map.get(x) != null) {
-//                    options += "[" + key + ", " + Math.round(map.get(x) * 100.0) / 100.0 + "], ";
-//                } else {
-//                    if (model.getSimulationTime() < model.getDatapoints()) {
-//                        if (map.get(x) != null) {
-//                            options += "[" + key + ", " + Math.round(map.get(x) * 100.0) / 100.0 + "], ";
-//                        } else {
-//                            if (map.floorEntry(x) != null && map.floorKey(x) - x < step) {
-//                                options += "[" + key + ", " + Math.round(map.floorEntry(x).getValue() * 100.0) / 100.0 + "], ";
-//                            } else {
-//                                options += "[" + key + ", 0], ";
-//                            }
-//                        }
-//                    } else {
-//                        options += "[" + key + ", 0], ";
-//                    }
-//                }
-//            }
+            if (map.keySet().size() == 0)
+                map.put(model.getSimulationTime(), 0.0);
+
             for(double x : map.keySet()) {
                 double key = Math.round(x * 100.0) / 100.0;
 
+                while (x > lastStep) {
+                    options += "[" + lastStep + ", " + lastValue + "], ";
+                    lastStep += step;
+                }
+
+                if (mapIndex == map.size() - 1 && x < model.getSimulationTime()) {
+                    while (lastStep < model.getSimulationTime()) {
+                        options += "[" + lastStep + ", " + lastValue + "], ";
+                        lastStep += step;
+                    }
+                }
+
                 options += "[" + key + ", " + Math.round(map.get(x) * 100.0) / 100.0 + "], ";
+                lastValue = Math.round(map.get(x) * 100.0) / 100.0;
+                mapIndex++;
             }
-            if(map.keySet().size() > 0)
-                options = options.substring(0, options.length() - 2) + "]}, ";
-            else
-                options = options.substring(0, options.length() - 2) + "[]}, ";
+            options = options.substring(0, options.length() - 2) + "]}, ";
             index++;
         }
         if(series.keySet().size() > 0)

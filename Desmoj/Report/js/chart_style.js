@@ -49,6 +49,7 @@ function timeFormat(seconds)
 
         Highcharts.theme = {
             chart: {
+                type: 'line',
                 backgroundColor: null,
                 style: {
                     fontFamily: 'Verdana, sans-serif'
@@ -98,6 +99,7 @@ function timeFormat(seconds)
                 itemHoverStyle: {
                     color: 'rgba(0,150,0,0.8)'
                 },
+                enabled: true,
                 layout: 'vertical',
                 align: 'right',
                 verticalAlign: 'top'
@@ -118,6 +120,7 @@ function timeFormat(seconds)
                 }
             },
             yAxis: {
+                min: 0,
                 opposite: false,
                 minorTickInterval: 'auto',
                 gridLineWidth: 1,

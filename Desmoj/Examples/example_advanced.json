@@ -5,7 +5,7 @@
     "model" : "Simple microservice model",
     "duration" : 100,
     "report" : "",
-    "datapoints" : 100,
+    "datapoints": 10,
     "seed" : 2298
   },
   "microservices" :
@@ -26,12 +26,12 @@
             {
               "operation" : "AccountOP1",
               "service" : "Account",
-              "probability" : 0.0
+              "probability": 0.5
             },
             {
               "operation" : "MessageOP1",
               "service" : "Message",
-              "probability" : 0.0
+              "probability": 0.5
             }
           ]
         }
