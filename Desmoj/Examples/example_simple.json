@@ -12,7 +12,7 @@
   [
     {
       "name" : "Frontend",
-      "instances" : 5,
+      "instances": 1,
       "patterns" : [],
       "capacity" : 1000,
       "operations" :
@@ -26,7 +26,7 @@
             {
               "operation": "save",
               "service": "Server",
-              "probability": 0.9
+              "probability": 0.0
             }
           ]
         }
@@ -79,10 +79,10 @@
   ],
   "chaosmonkeys" :
   [
-    {
-      "microservice" : "Server",
-      "instances" : 5,
-      "time" : 50
-    }
+    //    {
+    //      "microservice" : "Server",
+    //      "instances" : 5,
+    //      "time" : 50
+    //    }
   ]
 }

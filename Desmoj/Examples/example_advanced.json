@@ -3,9 +3,9 @@
   {
     "experiment" : "Desmoj_Microservice_Experiment",
     "model" : "Simple microservice model",
-    "duration" : 100,
+    "duration": 500,
     "report" : "",
-    "datapoints": 10,
+    "datapoints": 500,
     "seed" : 2298
   },
   "microservices" :
@@ -143,11 +143,6 @@
   ],
   "generators" :
   [
-    {
-      "time" : 1,
-      "microservice" : "Login",
-      "operation" : "LoginOP1"
-    },
     {
       "time" : 1,
       "microservice" : "Login",

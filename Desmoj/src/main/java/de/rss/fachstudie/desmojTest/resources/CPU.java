@@ -13,6 +13,7 @@ public class CPU extends Event {
     private int capacity = 0;
     private double robinTime = 10;
     private double cycleTime = 0;
+    private double doneWork = 0;
     private double lastThreadEntry;
     private double smallestThread = 0.0;
 
@@ -52,6 +53,7 @@ public class CPU extends Event {
     public void eventRoutine(Entity entity) throws SuspendExecution {
         for(Thread thread : activeThreads) {
             thread.subtractDemand((int) smallestThread);
+            doneWork += smallestThread;
             if(thread.getDemand() == 0) {
                 thread.scheduleEndEvent();
                 activeThreads.remove(thread);
@@ -61,6 +63,8 @@ public class CPU extends Event {
     }
 
     public void addThread(Thread thread) {
+        doneWork = 0;
+
         // update all threads that are currently in the active queue
         int robins = (int) Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) / robinTime);
         for (int i = 0; i < robins; i++) {
@@ -75,14 +79,15 @@ public class CPU extends Event {
         }
 
         lastThreadEntry = this.model.presentTime().getTimeAsDouble();
+        doneWork = robins * robinTime;
 
-        // check for patterns and add the current thread to the queue or
-        // send a default response to the depending service
+        // check for patterns
         if(!hasThreadPool || existingThreads.size() < threadPoolSize) {
+
             // cpu has no thread pool, or the size of the thread pool is big enough
             activeThreads.insert(thread);
         } else {
-            // if thread queue pattern exists check the size of waiting queue
+
             if(hasThreadQueue) {
                 if(waitingThreads.size() < threadQueueSize) {
 
@@ -90,8 +95,9 @@ public class CPU extends Event {
                     waitingThreads.insert(thread);
                 } else {
 
-                    // thread waiting queue is too big,
+                    // thread waiting queue is too big, send default response
                     thread.scheduleEndEvent();
+
                     // statistics
                     double last = 0;
                     List<Double> values = model.threadQueueStatistics.get(thread.getId()).get(thread.getSid()).getDataValues();
@@ -101,8 +107,9 @@ public class CPU extends Event {
                 }
             } else {
 
-                // thread pool is too big
+                // thread pool is too big, send default response
                 thread.scheduleEndEvent();
+
                 // statistics
                 double last = 0;
                 List<Double> values = model.threadPoolStatistics.get(thread.getId()).get(thread.getSid()).getDataValues();
@@ -113,27 +120,30 @@ public class CPU extends Event {
         }
 
         // Shift from waiting queue to the active queue
-//        int freeSlots = threadPoolSize - activeThreads.size();
-//        for(int index = 0; index < freeSlots; ++index) {
-//            activeThreads.insert(waitingThreads.first());
-//            waitingThreads.removeFirst();
-//        }
-
-        calculateMin();
-
-    }
-
-    private void calculateMin() {
-        smallestThread = Double.POSITIVE_INFINITY;
-        for(Thread t : activeThreads) {
-            if(t.getDemand() < smallestThread) {
-                smallestThread = t.getDemand();
+        if (hasThreadQueue) {
+            int freeSlots = threadPoolSize - activeThreads.size();
+            for (int index = 0; index < freeSlots; ++index) {
+                activeThreads.insert(waitingThreads.first());
+                waitingThreads.removeFirst();
             }
         }
 
-        //TODO capacity lead to 100 or 0% cpu
+        calculateMin();
+    }
+
+    private void calculateMin() {
+        if (activeThreads.size() > 0) {
+            smallestThread = Double.POSITIVE_INFINITY;
+            for (Thread t : activeThreads) {
+                if (t.getDemand() < smallestThread) {
+                    smallestThread = t.getDemand();
+                }
+            }
+        }
+
         cycleTime = (activeThreads.size() * smallestThread) / capacity;
 
+        // schedule to time when smallest thread is done
         if(!activeThreads.isEmpty()) {
             if(isScheduled()) {
                 reSchedule(new TimeSpan(cycleTime, model.getTimeUnit()));
@@ -164,10 +174,15 @@ public class CPU extends Event {
     }
 
     public double getUsage() {
-        if(activeThreads.size() > 0){
+        double timeSinceLastAdd = model.presentTime().getTimeAsDouble() - lastThreadEntry;
+        double availPower = capacity * timeSinceLastAdd;
+        if (activeThreads.size() > 0)
             return 1.0;
-        } else {
-            return 0;
-        }
+        else
+            return 0.0;
+//        if(doneWork > 0 && availPower > 0)
+//            return (doneWork / availPower);
+//        else
+//            return 0;
     }
 }
