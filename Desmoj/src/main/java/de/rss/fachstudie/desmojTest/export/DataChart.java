@@ -32,10 +32,6 @@ public class DataChart {
                     + "data : [ ";
 
             TreeMap<Double, Double> map = series.get(mapkey);
-            double step = model.getSimulationTime() / model.getDatapoints();
-            double lastValue = 0;
-            double lastStep = 0;
-            int mapIndex = 0;
 
             if (map.keySet().size() == 0)
                 map.put(model.getSimulationTime(), 0.0);
@@ -43,21 +39,7 @@ public class DataChart {
             for(double x : map.keySet()) {
                 double key = Math.round(x * 100.0) / 100.0;
 
-                while (x > lastStep) {
-                    options += "[" + lastStep + ", " + lastValue + "], ";
-                    lastStep += step;
-                }
-
-                if (mapIndex == map.size() - 1 && x < model.getSimulationTime()) {
-                    while (lastStep < model.getSimulationTime()) {
-                        options += "[" + lastStep + ", " + lastValue + "], ";
-                        lastStep += step;
-                    }
-                }
-
                 options += "[" + key + ", " + Math.round(map.get(x) * 100.0) / 100.0 + "], ";
-                lastValue = Math.round(map.get(x) * 100.0) / 100.0;
-                mapIndex++;
             }
             options = options.substring(0, options.length() - 2) + "]}, ";
             index++;

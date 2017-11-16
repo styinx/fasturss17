@@ -20,7 +20,45 @@ public class ExportReport {
         this.model = model;
         this.graphReport();
         this.chartReport();
+    }
 
+    private TreeMap<String, TreeMap<Double, Double>> fillDatapoints(TreeMap<String, TreeMap<Double, Double>> series) {
+
+        for (String mapkey : series.keySet()) {
+
+            TreeMap<Double, Double> map = series.get(mapkey);
+            TreeMap<Double, Double> newmap = new TreeMap<>();
+            double step = model.getSimulationTime() / model.getDatapoints();
+            double lastValue = 0;
+            double lastIndex = 0;
+            int mapIndex = 0;
+
+            if (map.keySet().size() == 0)
+                newmap.put(0.0, 0.0);
+
+            for (double x : map.keySet()) {
+                double key = Math.round(x * 100.0) / 100.0;
+
+                while (x > lastIndex) {
+                    newmap.put(lastIndex, lastValue);
+                    lastIndex += step;
+                }
+
+                lastValue = Math.round(map.get(x) * 100.0) / 100.0;
+                newmap.put(x, map.get(x));
+
+                if (mapIndex == map.size() - 1 && x < model.getSimulationTime()) {
+                    lastIndex = step * Math.round((x + 0.5) / step);
+                    while (lastIndex < model.getSimulationTime()) {
+                        newmap.put(lastIndex, lastValue);
+                        lastIndex += step;
+                    }
+                }
+                mapIndex++;
+            }
+            series.put(mapkey, newmap);
+        }
+        return series;
     }
 
     private void graphReport() {
@@ -67,6 +105,13 @@ public class ExportReport {
             taskQueueWork.put(serviceName, this.getTimeSeriesWithKeys(resourcePath + "TaskQueue_" + serviceName + ".txt"));
         }
 
+        fillDatapoints(activeInstances);
+        fillDatapoints(taskQueueWork);
+        fillDatapoints(usedCPU);
+        fillDatapoints(responseTime);
+        fillDatapoints(circuitBreaker);
+        fillDatapoints(threadPool);
+        fillDatapoints(threadQueue);
 
         DataChart chart1 = new DataChart(model, "Active Microservice Threads", activeInstances);
         DataChart chart2 = new DataChart(model, "Task Queue per Service", taskQueueWork);

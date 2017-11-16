@@ -106,6 +106,7 @@ function timeFormat(seconds)
             },
             xAxis: {
                 gridLineWidth: 1,
+                ordinal: false,
                 /*alternateGridColor: 'rgba(50,50,50,0.8)',*/
                 minorGridLineColor: 'rgba(50,50,50,0.2)',
                 gridLineColor: 'rgba(50,50,50,0.8)',

@@ -1,0 +1,80 @@
+{
+  "simulation": {
+    "experiment": "Desmoj_Microservice_Experiment",
+    "model": "Simple microservice model",
+    "duration": 200,
+    "report": "",
+    "datapoints": 200,
+    "seed": 1234
+  },
+  "microservices": [
+    {
+      "name": "Frontend",
+      "instances": 1,
+      "patterns": [
+        {
+          "Thread Pool": 10
+        },
+        {
+          "Thread Queue": 10
+        }
+      ],
+      "capacity": 1000,
+      "operations": [
+        {
+          "name": "login",
+          "patterns": [],
+          "demand": 100,
+          "dependencies": [
+            {
+              "operation": "save",
+              "service": "Server",
+              "probability": 0.1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Server",
+      "instances": 1,
+      "capacity": 1000,
+      "operations": [
+        {
+          "name": "save",
+          "patterns": [],
+          "demand": 100,
+          "dependencies": [
+            {
+              "operation": "update",
+              "service": "Database",
+              "probability": 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Database",
+      "instances": 1,
+      "capacity": 1000,
+      "operations": [
+        {
+          "name": "update",
+          "patterns": [],
+          "demand": 100,
+          "dependencies": []
+        }
+      ]
+    }
+  ],
+  "generators": [
+    {
+      "time": 0.1,
+      "microservice": "Frontend",
+      "operation": "login"
+    }
+  ],
+  "chaosmonkeys": [
+  ]
+}
