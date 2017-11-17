@@ -9,8 +9,10 @@ import de.rss.fachstudie.desmojTest.resources.CPU;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
 import de.rss.fachstudie.desmojTest.utils.InputValidator;
 import desmoj.core.simulator.*;
+import desmoj.core.simulator.Queue;
 import desmoj.core.statistic.TimeSeries;
 
+import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -332,7 +334,7 @@ public class MainModelClass extends Model {
 //
 //        arch = (cmd.getOptionValue("arch").equals("")) ? "example_simple.json" : cmd.getOptionValue("arch");
         if (arch == "")
-            arch = "Examples/Beispiel_6.json";
+            arch = "Examples/Beispiel_1.json";
 
         InputParser parser = new InputParser(arch);
         InputValidator validator = new InputValidator();
@@ -378,6 +380,7 @@ public class MainModelClass extends Model {
             System.out.println("Experiment took:\t\t\t" + model.timeFormat(experimentTime));
             System.out.println("Report took:\t\t\t\t" + model.timeFormat(reportTime));
             System.out.println("Execution took:\t\t\t\t" + model.timeFormat(executionTime));
+            Toolkit.getDefaultToolkit().beep();
         } else {
             System.out.println("Your inserted input was not valide. Please check correctness of you JSON file.");
         }
