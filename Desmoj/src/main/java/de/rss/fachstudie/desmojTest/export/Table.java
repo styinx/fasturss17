@@ -9,12 +9,16 @@ public class Table {
 
     private TreeMap<String, List<Double>> values;
     private String header;
+    private boolean empty = true;
 
     public Table(String header, TreeMap<String, TreeMap<Double, Double>> series) {
         values = new TreeMap<>();
         this.header = header;
 
         for(String key : series.keySet()) {
+            if (series.get(key).size() > 1)
+                empty = false;
+
             TreeMap<Double, Double> entry = series.get(key);
             double start = Double.NEGATIVE_INFINITY, end = Double.NEGATIVE_INFINITY;
             double min = Double.POSITIVE_INFINITY, mean = 0, max = Double.NEGATIVE_INFINITY;
@@ -75,6 +79,8 @@ public class Table {
         html += "</tbody>"
                 + "</table>";
 
-        return "document.getElementById('chart-container').innerHTML += \"" + html + "\"\n";
+        if (!empty)
+            return "document.getElementById('chart-container').innerHTML += \"" + html + "\"\n";
+        return "";
     }
 }

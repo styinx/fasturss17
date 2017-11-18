@@ -38,7 +38,7 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
                     model.serviceCPU.get(previousId).get(previousMs.getSid()).addThread(previousThread);
                 }
 
-                // Remove the message object from the task queue
+                // Remove the message object from the task queue and the thread from the cpu
                 model.taskQueues.get(id).remove(messageObject);
                 model.serviceCPU.get(id).get(msEntity.getSid()).removeExisitngThread(thread);
 

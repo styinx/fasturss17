@@ -7,6 +7,7 @@ import java.util.TreeMap;
 public class DataChart {
     private String chartId = "";
     private String options = "";
+    private boolean empty = true;
 
     /**
      * A Chart with x and y values
@@ -25,6 +26,9 @@ public class DataChart {
         int index = 0;
 
         for (String mapkey : series.keySet()) {
+            if (series.get(mapkey).size() > 1)
+                empty = false;
+
             options += "{"
                     + "name : '" + mapkey + "', "
                     + "index : " + index + ", "
@@ -51,10 +55,12 @@ public class DataChart {
     }
 
     public String printDiv() {
-        return "document.getElementById('chart-container').innerHTML += \"<div id='" + chartId.replace(" ", "_") + "' class='stat-chart'></div>"
-            + "<button onclick=\\\"toggleLines('" + chartId.replace(" ", "_") + "');\\\">Toggle Visibility</button>"
-            + "<button onclick=\\\"unsmoothYAxis('" + chartId.replace(" ", "_") + "');\\\">Unsmooth YAxis</button>"
-            + "<button onclick=\\\"smoothYAxis('" + chartId.replace(" ", "_") + "');\\\">Smooth YAxis</button>\"\n";
+        if (!empty)
+            return "document.getElementById('chart-container').innerHTML += \"<div id='" + chartId.replace(" ", "_") + "' class='stat-chart'></div>"
+                    + "<button onclick=\\\"toggleLines('" + chartId.replace(" ", "_") + "');\\\">Toggle Visibility</button>"
+                    + "<button onclick=\\\"unsmoothYAxis('" + chartId.replace(" ", "_") + "');\\\">Unsmooth YAxis</button>"
+                    + "<button onclick=\\\"smoothYAxis('" + chartId.replace(" ", "_") + "');\\\">Smooth YAxis</button>\"\n";
+        return "";
     }
 
     /**
@@ -62,7 +68,9 @@ public class DataChart {
      * @return js code for the chart
      */
     public String printChart() {
-        return "Highcharts.stockChart('" + chartId.replace(" ", "_") + "', {" + options + "});\n";
+        if (!empty)
+            return "Highcharts.stockChart('" + chartId.replace(" ", "_") + "', {" + options + "});\n";
+        return "";
     }
 
     /**
@@ -70,6 +78,8 @@ public class DataChart {
      * @return js code for the chart
      */
     public String printStockChart() {
-        return "Highcharts.stockChart('" + chartId.replace(" ", "_") + "', {" + options + "});\n";
+        if (!empty)
+            return "Highcharts.stockChart('" + chartId.replace(" ", "_") + "', {" + options + "});\n";
+        return "";
     }
 }
