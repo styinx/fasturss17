@@ -153,6 +153,12 @@ public class CPU extends Event {
         }
     }
 
+    public void releaseUnfinishedThreads() {
+        for (int thread = activeThreads.size() - 1; thread >= 0; thread--) {
+            activeThreads.get(thread).scheduleEndEvent();
+        }
+    }
+
     public Queue<Thread> getExistingThreads() {
         return existingThreads;
     }
