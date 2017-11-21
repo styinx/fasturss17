@@ -7,7 +7,7 @@ import desmoj.core.simulator.*;
 
 import java.util.List;
 
-public class CPU extends ExternalEvent {
+public class CPU extends Event<Thread> {
     private MainModelClass model;
     private int id = -1;
     private int capacity = 0;
@@ -37,7 +37,7 @@ public class CPU extends ExternalEvent {
 
         if(model.allMicroservices.get(id).hasPattern("Thread Pool")) {
             threadPoolSize = model.allMicroservices.get(id).getPattern("Thread Pool");
-            activeThreads = new Queue<>(owner, "", QueueBased.FIFO, threadPoolSize, false, false);
+            activeThreads = new Queue<>(owner, "", QueueBased.FIFO, 0, false, false);
             hasThreadPool = true;
         } else {
             activeThreads = new Queue<>(owner, "", false, false);
@@ -51,13 +51,11 @@ public class CPU extends ExternalEvent {
     }
 
     @Override
-    public void eventRoutine() throws SuspendExecution {
-        model.log("stop" + model.presentTime().getTimeAsDouble());
+    public void eventRoutine(Thread threadToEnd) throws SuspendExecution {
         for(Thread thread : activeThreads) {
             thread.subtractDemand((int) smallestThread);
             doneWork += smallestThread;
-            if(thread.getDemand() == 0 ) {
-                model.log("Thread fertig bei " + model.presentTime().getTimeAsDouble() + " mit zeit " + (model.presentTime().getTimeAsDouble() - thread.getCreationTime()));
+            if(thread.getDemand() == 0 || thread == threadToEnd) {
                 thread.scheduleEndEvent();
                 activeThreads.remove(thread);
             }
@@ -68,7 +66,7 @@ public class CPU extends ExternalEvent {
     public void addThread(Thread thread) {
         doneWork = 0;
         // update all threads that are currently in the active queue
-        int robins = (int) Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) / robinTime);
+        int robins = (int) Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) * 1000 / robinTime);
         for (int i = 0; i < robins; i++) {
             if (activeThreads.size() > 0) {
                 Thread activeThread = activeThreads.get(i % activeThreads.size());
@@ -127,7 +125,6 @@ public class CPU extends ExternalEvent {
                 waitingThreads.removeFirst();
             }
         }
-
         calculateMin();
     }
 
@@ -144,14 +141,14 @@ public class CPU extends ExternalEvent {
             }
         }
 
-        cycleTime = (activeThreads.size() * smallestThread) / capacity;
-
         // schedule to time when smallest thread is done
         if(!activeThreads.isEmpty()) {
+            cycleTime = (activeThreads.size() * smallestThread) / capacity;
+
             if(isScheduled()) {
-                reSchedule(new TimeSpan(cycleTime, model.getTimeUnit()));
+                reSchedule(new TimeInstant(cycleTime + model.presentTime().getTimeAsDouble(), model.getTimeUnit()));
             } else {
-                schedule(new TimeSpan(cycleTime, model.getTimeUnit()));
+                schedule(smallestThreadInstance, new TimeInstant(cycleTime + model.presentTime().getTimeAsDouble(), model.getTimeUnit()));
             }
         }
     }

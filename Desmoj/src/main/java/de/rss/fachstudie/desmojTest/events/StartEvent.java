@@ -40,13 +40,6 @@ public class StartEvent extends Event<MessageObject> {
         double min = Double.POSITIVE_INFINITY;
         int i = 0;
         for(int instance = 0; instance < model.services.get(id).size(); ++instance) {
-            //model.log(instance + " loop run");
-//            if(!model.services.get(id).get(instance).isKilled()) {
-//                if(model.serviceCPU.get(id).get(instance).getActiveThreads() < min) {
-//                    min = model.serviceCPU.get(id).get(instance).getActiveThreads();
-//                    i = instance;
-//                }
-//            }
             if(!model.services.get(id).get(instance).isKilled()) {
                 if(model.serviceCPU.get(id).get(instance).getExistingThreads().size() < min) {
                     min = model.serviceCPU.get(id).get(instance).getExistingThreads().size();
