@@ -37,14 +37,14 @@ public class ExportReport {
                 newmap.put(0.0, 0.0);
 
             for (double x : map.keySet()) {
-                double key = Math.round(x * 100.0) / 100.0;
+                double key = Math.round(x * model.getPrecision()) / model.getPrecision();
 
                 while (x > lastIndex) {
                     newmap.put(lastIndex, lastValue);
                     lastIndex += step;
                 }
 
-                lastValue = Math.round(map.get(x) * 100.0) / 100.0;
+                lastValue = Math.round(map.get(x) * model.getPrecision()) / model.getPrecision();
                 newmap.put(x, map.get(x));
 
                 if (mapIndex == map.size() - 1 && x < model.getSimulationTime()) {
@@ -86,8 +86,10 @@ public class ExportReport {
             int instanceLimit = model.services.get(id).get(0).getInstances();
 
             if(InputParser.simulation.get("report").equals("minimalistic")) {
-                instanceLimit = (model.services.get(id).get(0).getInstances() < 10) ?
-                        model.services.get(id).get(0).getInstances() : 10;
+                if(model.services.get(id).get(0).getInstances() < 10)
+                    instanceLimit = model.services.get(id).get(0).getInstances();
+                else
+                    instanceLimit = 10;
             }
 
             for(int instance = 0; instance < instanceLimit; instance++) {
@@ -104,6 +106,7 @@ public class ExportReport {
             circuitBreaker.put(serviceName, this.getTimeSeriesWithKeys(resourcePath + "CircuitBreaker_" + serviceName + ".txt"));
             taskQueueWork.put(serviceName, this.getTimeSeriesWithKeys(resourcePath + "TaskQueue_" + serviceName + ".txt"));
         }
+
 
         fillDatapoints(activeInstances);
         fillDatapoints(taskQueueWork);

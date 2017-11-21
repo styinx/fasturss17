@@ -65,7 +65,7 @@ function timeFormat(seconds)
             },
             tooltip: {
                 formatter: function () {
-                    var s = 'Time: <b>' + timeFormat(this.x) + " / " + Math.round(this.x * 100) / 100 + 's</b><br>';
+                    var s = 'Time: <b>' + timeFormat(this.x) + " / " + Math.round(this.x * 100000) / 100000 + 's</b><br>';
                     for(var p in this.points) {
                         s += '<br/><span style="color:' + this.points[p].color + '">\u25CF</span> ' + this.points[p].series.name + ': ' + Math.floor(this.points[p].y * 100)/100;
                     }
