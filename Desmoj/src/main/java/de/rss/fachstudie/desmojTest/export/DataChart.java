@@ -45,9 +45,9 @@ public class DataChart {
                 map.put(model.getSimulationTime(), 0.0);
 
             for(double x : map.keySet()) {
-                double key = Math.round(x * 100.0) / 100.0;
+                double key = Math.round(x * model.getPrecision()) / model.getPrecision();
 
-                options += "[" + key + ", " + Math.round(map.get(x) * 100.0) / 100.0 + "], ";
+                options += "[" + key + ", " + Math.round(map.get(x) * model.getPrecision()) / model.getPrecision() + "], ";
             }
             options = options.substring(0, options.length() - 2) + "]}, ";
             index++;

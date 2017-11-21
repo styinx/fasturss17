@@ -30,6 +30,7 @@ public class MainModelClass extends Model {
     private double simulationTime   = 0;
     private String report           = "";
     private int datapoints          = -1;
+    private double precision        = 100000;
     private int seed                = 0;
     private String resourcePath = "./Report/resources/";
     private boolean showInitEvent   = true;
@@ -83,6 +84,10 @@ public class MainModelClass extends Model {
 
     public int getDatapoints() {
         return this.datapoints;
+    }
+
+    public double getPrecision() {
+        return precision;
     }
 
     public int getSeed() {

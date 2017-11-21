@@ -7,7 +7,7 @@ import desmoj.core.simulator.*;
 
 import java.util.List;
 
-public class CPU extends Event {
+public class CPU extends ExternalEvent {
     private MainModelClass model;
     private int id = -1;
     private int capacity = 0;
@@ -50,11 +50,14 @@ public class CPU extends Event {
         }
     }
 
-    public void eventRoutine(Entity entity) throws SuspendExecution {
+    @Override
+    public void eventRoutine() throws SuspendExecution {
+        model.log("stop" + model.presentTime().getTimeAsDouble());
         for(Thread thread : activeThreads) {
             thread.subtractDemand((int) smallestThread);
             doneWork += smallestThread;
-            if(thread.getDemand() == 0) {
+            if(thread.getDemand() == 0 ) {
+                model.log("Thread fertig bei " + model.presentTime().getTimeAsDouble() + " mit zeit " + (model.presentTime().getTimeAsDouble() - thread.getCreationTime()));
                 thread.scheduleEndEvent();
                 activeThreads.remove(thread);
             }
@@ -64,16 +67,16 @@ public class CPU extends Event {
 
     public void addThread(Thread thread) {
         doneWork = 0;
-
         // update all threads that are currently in the active queue
         int robins = (int) Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) / robinTime);
         for (int i = 0; i < robins; i++) {
             if (activeThreads.size() > 0) {
-                if (activeThreads.get(i % activeThreads.size()).getDemand() == 0) {
-                    activeThreads.get(i % activeThreads.size()).scheduleEndEvent();
-                    activeThreads.remove(activeThreads.get(i % activeThreads.size()));
+                Thread activeThread = activeThreads.get(i % activeThreads.size());
+                if (activeThread.getDemand() == 0) {
+                    activeThread.scheduleEndEvent();
+                    activeThreads.remove(activeThread);
                 } else {
-                    activeThreads.get(i % activeThreads.size()).subtractDemand(robinTime);
+                    activeThread.subtractDemand(robinTime);
                 }
             }
         }
@@ -82,12 +85,10 @@ public class CPU extends Event {
         doneWork = robins * robinTime;
 
         // check for patterns
-        if(!hasThreadPool || existingThreads.size() < threadPoolSize) {
-
+        if(!hasThreadPool || activeThreads.size() < threadPoolSize) {
             // cpu has no thread pool, or the size of the thread pool is big enough
             activeThreads.insert(thread);
         } else {
-
             if(hasThreadQueue) {
                 if(waitingThreads.size() < threadQueueSize) {
 
@@ -106,7 +107,6 @@ public class CPU extends Event {
                     model.threadQueueStatistics.get(thread.getId()).get(thread.getSid()).update(last + 1);
                 }
             } else {
-
                 // thread pool is too big, send default response
                 thread.scheduleEndEvent();
 
@@ -132,11 +132,14 @@ public class CPU extends Event {
     }
 
     private void calculateMin() {
+        Thread smallestThreadInstance = null;
         if (activeThreads.size() > 0) {
+            smallestThreadInstance = activeThreads.get(0);
             smallestThread = Double.POSITIVE_INFINITY;
             for (Thread t : activeThreads) {
                 if (t.getDemand() < smallestThread) {
                     smallestThread = t.getDemand();
+                    smallestThreadInstance = t;
                 }
             }
         }
@@ -148,7 +151,7 @@ public class CPU extends Event {
             if(isScheduled()) {
                 reSchedule(new TimeSpan(cycleTime, model.getTimeUnit()));
             } else {
-                schedule(new MessageObject(model, "",false), new TimeSpan(cycleTime, model.getTimeUnit()));
+                schedule(new TimeSpan(cycleTime, model.getTimeUnit()));
             }
         }
     }
@@ -167,7 +170,7 @@ public class CPU extends Event {
         existingThreads.insert(thread);
     }
 
-    public void removeExisitngThread(Thread thread) {
+    public void removeExistingThread(Thread thread) {
         existingThreads.remove(thread);
     }
 
