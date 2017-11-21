@@ -64,7 +64,6 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
                 model.taskQueues.get(id).remove(messageObject);
                 model.serviceCPU.get(id).get(msEntity.getSid()).removeExistingThread(thread);
 
-                model.log("remove Thread");
 
                 // Statistics
                 // CPU
