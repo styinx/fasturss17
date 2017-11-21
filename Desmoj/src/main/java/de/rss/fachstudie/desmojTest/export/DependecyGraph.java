@@ -3,18 +3,28 @@ package de.rss.fachstudie.desmojTest.export;
 import de.rss.fachstudie.desmojTest.entities.Microservice;
 import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
-import de.rss.fachstudie.desmojTest.utils.InputParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 
+/**
+ * The <code>DependencyGraph</code> class is used in order to create the graph that displays the dependencies between
+ * all of the systems microservice instances.
+ */
 public class DependecyGraph {
     private MainModelClass model;
     private List<Integer> nodes;
     private HashMap<Integer, Microservice> microservices;
 
+    /**
+     * Instantiates <code>DependencyGraph</code>.
+     *
+     * @param model         MainModelClass: The model which owns this DependencyGraph
+     * @param microservices HashMap<Integer, Microservice>
+     * @param id            int: The ID of this DependencyGraph
+     */
     public DependecyGraph(MainModelClass model, HashMap<Integer, Microservice> microservices, int id) {
         this.model = model;
         this.microservices = microservices;
@@ -30,7 +40,11 @@ public class DependecyGraph {
         return -1;
     }
 
-
+    /**
+     * Create the javascript code for the <code>DependencyGraph</code>.
+     *
+     * @return String: js code for the graph
+     */
     public String printGraph() {
         String nodes = printNodes();
         String links = printLinks();
@@ -40,12 +54,17 @@ public class DependecyGraph {
         else
             html += "], ";
         if(links.length() > 2)
-                html += "links:[" + links.substring(0, links.length() - 2) + "]};";
+            html += "links:[" + links.substring(0, links.length() - 2) + "]};";
         else
             html += "]};";
         return html;
     }
 
+    /**
+     * Create the javascript code for the nodes of the <code>DependencyGraph</code>.
+     *
+     * @return String: js code for the nodes of the graph
+     */
     private String printNodes() {
         String json = "";
         nodes = new ArrayList<>();
@@ -63,15 +82,20 @@ public class DependecyGraph {
                 }
                 for(int i = 0; i < instanceLimit; ++i) {
                     json += "{ name: '" + microservices.get(id).getName() +
-                        "', id: " + (id + microservices.get(id).getInstances() + microservices.keySet().size() * i) +
-                        ", labels : [" + labels.substring(0, labels.length() - 2) + "]" +
-                        ", group: " + id + "}, ";
+                            "', id: " + (id + microservices.get(id).getInstances() + microservices.keySet().size() * i) +
+                            ", labels : [" + labels.substring(0, labels.length() - 2) + "]" +
+                            ", group: " + id + "}, ";
                 }
             }
         }
         return json;
     }
 
+    /**
+     * Create the javascript code for the links between the nodes in the <code>DependencyGraph</code>.
+     *
+     * @return String: js code for links in the graphs
+     */
     private String printLinks() {
         String json = "";
         nodes = new ArrayList<>();

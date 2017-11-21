@@ -9,11 +9,25 @@ import de.rss.fachstudie.desmojTest.resources.Thread;
 import desmoj.core.simulator.EventOf3Entities;
 import desmoj.core.simulator.Model;
 
+/**
+ * The <code>StopEvent</code> is an <code>EventOf3Entities</code> which gets a <code>Microservice</code>,
+ * <code>Thread</code> and <code>MessageObject</code> instance and gets called when this <code>Thread</code> is done
+ * performing a specified <code>Operation</code>.
+ */
 public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObject> {
     private MainModelClass model;
     private int id;
     private String operation;
 
+    /**
+     * Instantiate a <code>StopEvent</code>.
+     *
+     * @param owner       Model: The model that owns this event
+     * @param name        String: The name of this event
+     * @param showInTrace boolean: Whether or not this event should appear in the trace
+     * @param id          int: The ID of the microservice
+     * @param operation   String: The name of the operation
+     */
     StopEvent(Model owner, String name, Boolean showInTrace, int id, String operation){
         super(owner, name, showInTrace);
 
@@ -22,6 +36,14 @@ public class StopEvent extends EventOf3Entities<Microservice, Thread, MessageObj
         model = (MainModelClass) owner;
     }
 
+    /**
+     * The <code>eventRoutine</code> method of <code>StopEvent</code>.
+     * Collects statistics and notifies depending operations that this operation is finished.
+     *
+     * @param msEntity Microservice
+     * @param thread Thread
+     * @param messageObject MessageObject
+     */
     @Override
     public void eventRoutine(Microservice msEntity, Thread thread, MessageObject messageObject) {
         for(Operation operation : msEntity.getOperations()) {
