@@ -16,13 +16,24 @@ import java.util.List;
 import java.util.SortedMap;
 
 /**
- * This event class gets a working object and schedules a timespan during a microservice is busy.
+ * The <code>StartEvent</code> gets a <code>MessageObject</code> and schedules a <code>TimeSpan</code>
+ * during which an operation of a microservice is performed on one of that microservices instances.
  */
 public class StartEvent extends Event<MessageObject> {
     private MainModelClass model;
     private int id;
     private String operation;
 
+    /**
+     * Instantiates a <code>StartEvent</code> which schedules a <code>TimeSpan</code> during which an operation of a
+     * microservice is performed on one of that microservices instances.
+     *
+     * @param owner       Model: The model which owns this event
+     * @param name        String: The name of this event
+     * @param showInTrace boolean: Whether or not this event should be displayed in the trace
+     * @param id          int: The ID of the microservice
+     * @param operation   String: The name of the operation which will be performed
+     */
     public StartEvent(Model owner, String name, boolean showInTrace, int id, String operation){
         super(owner, name, showInTrace);
 
@@ -32,9 +43,10 @@ public class StartEvent extends Event<MessageObject> {
     }
 
     /**
-     * Chooses the service with most resources and space available
-     * @param id
-     * @return
+     * Chooses the service with most resources and space available.
+     *
+     * @param id: The ID of the microservice
+     * @return Mircroservice
      */
     private Microservice getServiceEntity(int id) {
         double min = Double.POSITIVE_INFINITY;
@@ -51,6 +63,14 @@ public class StartEvent extends Event<MessageObject> {
         return model.services.get(id).get(i);
     }
 
+    /**
+     * The <code>eventRoutine</code> of the <code>StartEvent</code> which selects a microservice instance on which to
+     * perfom this <code>Operation</code>, creates a <code>Thread</code> on that instance for the <code>Operation</code>
+     * and schedules the <code>StopEvent</code> of that <code>Operation</code>
+     *
+     * @param messageObject MessageObject
+     * @throws SuspendExecution
+     */
     @Override
     public void eventRoutine(MessageObject messageObject) throws SuspendExecution {
 
@@ -123,9 +143,7 @@ public class StartEvent extends Event<MessageObject> {
             } else {
                 msEndEvent.schedule(msEntity, thread, messageObject);
             }
-        }
-        else
-        {
+        } else {
             // Circuit Breaker
             double last = 0;
             List<Double> values = model.circuitBreakerStatistics.get(id).getDataValues();

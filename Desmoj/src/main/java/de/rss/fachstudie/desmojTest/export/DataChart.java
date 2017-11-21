@@ -4,6 +4,9 @@ import de.rss.fachstudie.desmojTest.models.MainModelClass;
 
 import java.util.TreeMap;
 
+/**
+ * A <code>DataChart</code> is a chart with x and y values.
+ */
 public class DataChart {
     private String chartId = "";
     private String options = "";
@@ -11,9 +14,10 @@ public class DataChart {
 
     /**
      * A Chart with x and y values
-     * @param model     Desmoj model
-     * @param chartId   id of the chart
-     * @param series    data that will be plotted
+     *
+     * @param model     Model: The model that owns this dataChart
+     * @param chartId   String: The ID of this chart
+     * @param series    ThreeMap<String, TreeMap<Double, Double>>: The data that will be plotted
      */
     public DataChart(MainModelClass model, String chartId, TreeMap<String, TreeMap<Double, Double>> series) {
         this.chartId = chartId;
@@ -54,6 +58,11 @@ public class DataChart {
             options += "]";
     }
 
+    /**
+     * Creates the div embedding the chart.
+     *
+     * @return String
+     */
     public String printDiv() {
         if (!empty)
             return "document.getElementById('chart-container').innerHTML += \"<div id='" + chartId.replace(" ", "_") + "' class='stat-chart'></div>"
@@ -65,7 +74,8 @@ public class DataChart {
 
     /**
      * A standart chart plots lines for each series
-     * @return js code for the chart
+     *
+     * @return String: js code for the chart
      */
     public String printChart() {
         if (!empty)
@@ -75,7 +85,7 @@ public class DataChart {
 
     /**
      * A stock chart is able to compare multiple values and has a scrollbar
-     * @return js code for the chart
+     * @return String: js code for the chart
      */
     public String printStockChart() {
         if (!empty)

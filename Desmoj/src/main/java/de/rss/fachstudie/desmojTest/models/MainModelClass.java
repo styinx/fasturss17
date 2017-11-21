@@ -372,6 +372,7 @@ public class MainModelClass extends Model {
             exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
             exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
 
+
             long setupTime = System.nanoTime() - startTime;
             long tempTime = System.nanoTime();
 

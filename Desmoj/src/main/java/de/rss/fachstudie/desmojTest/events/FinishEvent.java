@@ -5,6 +5,9 @@ import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 
+/**
+ * A <code>FinishEvent</code> is an <code>ExternalEvent</code> that is called
+ */
 public class FinishEvent extends ExternalEvent {
     private MainModelClass model;
 

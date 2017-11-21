@@ -1,11 +1,10 @@
 package de.rss.fachstudie.desmojTest.entities;
 
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
-import de.rss.fachstudie.desmojTest.resources.Thread;
-import desmoj.core.simulator.*;
+import desmoj.core.simulator.Entity;
+import desmoj.core.simulator.Model;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A Microservice represents a collection of services.
@@ -76,6 +75,13 @@ public class Microservice extends Entity{
         this.patterns = patterns;
     }
 
+    /**
+     * Check if the <code>Microservice</code> implements the passed pattern.
+     *
+     * @param name String: The name of the pattern
+     * @return boolean: True if the pattern is implemented
+     * False if the pattern isn't implemented
+     */
     public boolean hasPattern(String name) {
         if(patterns != null){
             for(HashMap<String, Integer> pattern : patterns) {
@@ -87,6 +93,7 @@ public class Microservice extends Entity{
 
         return false;
     }
+
 
     public int getPattern(String name) {
         for(HashMap<String, Integer> pattern : patterns) {

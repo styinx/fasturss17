@@ -5,12 +5,22 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.*;
 
+/**
+ * The <code>Table</code> class is used to display data in the report that has been collected during
+ * the simulation.
+ */
 public class Table {
 
     private TreeMap<String, List<Double>> values;
     private String header;
     private boolean empty = true;
 
+    /**
+     * Instantiate <code>Table</code>.
+     *
+     * @param header String: header of the table
+     * @param series TreeMap<String, TreeMap<Double, Double>>
+     */
     public Table(String header, TreeMap<String, TreeMap<Double, Double>> series) {
         values = new TreeMap<>();
         this.header = header;
@@ -43,6 +53,11 @@ public class Table {
         }
     }
 
+    /**
+     * Create the html code of the table
+     *
+     * @return String: html code of the table
+     */
     public String printTable() {
         String html = "";
         NumberFormat nf = new DecimalFormat("##.##", new DecimalFormatSymbols(Locale.ENGLISH));
