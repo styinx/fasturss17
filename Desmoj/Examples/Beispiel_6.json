@@ -24,7 +24,7 @@
         {
           "name": "login",
           "patterns": [],
-          "demand": 100,
+          "demand": 400,
           "dependencies": [
             {
               "operation": "save",
@@ -38,6 +38,7 @@
     {
       "name": "Server",
       "instances": 1,
+      "patterns": [],
       "capacity": 1000,
       "operations": [
         {
@@ -57,6 +58,7 @@
     {
       "name": "Database",
       "instances": 1,
+      "patterns": [],
       "capacity": 1000,
       "operations": [
         {
@@ -71,6 +73,21 @@
   "generators": [
     {
       "time": 0.1,
+      "microservice": "Frontend",
+      "operation": "login"
+    },
+    {
+      "time": 0.6,
+      "microservice": "Frontend",
+      "operation": "login"
+    },
+    {
+      "time": 0.6,
+      "microservice": "Frontend",
+      "operation": "login"
+    },
+    {
+      "time": 0.6,
       "microservice": "Frontend",
       "operation": "login"
     }

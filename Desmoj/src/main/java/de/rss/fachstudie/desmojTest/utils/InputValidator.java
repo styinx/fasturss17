@@ -86,13 +86,59 @@ public class InputValidator {
 
         /*
         Verify microservice graph architekture
+        and dependencie probability
          */
         //Walk over all micro services
         for(int microService = 0; microService < parser.microservices.length; microService++){
+
+
+            /*
+            Verify patterns in a microservice
+             */
+            for (int patterns = 0; patterns < parser.microservices[microService].getPatterns().length; patterns++) {
+                if (!parser.microservices[microService].getPatterns()[patterns].containsKey("Thread Pool") &&
+                        !parser.microservices[microService].getPatterns()[patterns].keySet().isEmpty()) {
+                    System.out.println("ERROR MICROSERVICE: Currently only Thread Pool Pattern in a microservices allowed. " +
+                            parser.microservices[microService].getName() + " has a different pattern.");
+                    errorCounter++;
+                }
+            }
+
+
+
             //walk over all operations
             for(int operation = 0; operation < parser.microservices[microService].getOperations().length; operation++){
                 //walk over all dependencies
                 for(int dependencie = 0; dependencie < parser.microservices[microService].getOperations()[operation].getDependencies().length; dependencie ++ ) {
+
+                    /*
+                    Validate probability in each dependencie
+                     */
+                    if (1 < Double.parseDouble(parser.microservices[microService].getOperations()[operation].getDependencies()[dependencie].get("probability")) ||
+                            0 > Double.parseDouble(parser.microservices[microService].getOperations()[operation].getDependencies()[dependencie].get("probability"))) {
+                        System.out.println("ERROR MICROSERVICES: Microservice: " + parser.microservices[microService].getName() + " operation: " +
+                                parser.microservices[microService].getOperations()[operation].getName() +
+                                " -- Probability is not in range (0.0 - 1.0 are possible values)");
+                        errorCounter++;
+                    }
+
+                    /*
+                    Verify patterns in operations
+                     */
+                    for (int patterns = 0; patterns < parser.microservices[microService].getOperations()[operation].getPatterns().length; patterns++) {
+
+                        if (!parser.microservices[microService].getOperations()[operation].getPatterns()[patterns].equals("Circuit Breaker")
+                                && !parser.microservices[microService].getOperations()[operation].getPatterns()[patterns].isEmpty()) {
+                            System.out.println("ERROR MICROSERVICES: Microservice: " + parser.microservices[microService].getName() + "operation: " +
+                                    parser.microservices[microService].getOperations()[operation].getName() + " -- uses a not verified pattern. " +
+                                    "Currently only \"Circuit Breaker\" is allowed");
+                            errorCounter++;
+                        }
+
+
+                    }
+
+
                     //get targeted micro service
                     String tempMicroserviceName = parser.microservices[microService].getOperations()[operation].getDependencies()[dependencie].get("service");
                     //get targeted operation name

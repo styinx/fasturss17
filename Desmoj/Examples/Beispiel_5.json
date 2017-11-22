@@ -35,6 +35,7 @@
     {
       "name": "Server",
       "instances": 1,
+      "patterns": [],
       "capacity": 1000,
       "operations": [
         {
@@ -54,6 +55,7 @@
     {
       "name": "Database",
       "instances": 1,
+      "patterns": [],
       "capacity": 1000,
       "operations": [
         {

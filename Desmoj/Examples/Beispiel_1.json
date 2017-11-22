@@ -16,13 +16,15 @@
       "operations": [
         {
           "name": "login",
-          "patterns": [],
+          "patterns": [
+            ""
+          ],
           "demand": 5001,
           "dependencies": [
             {
               "operation": "save",
               "service": "Server",
-              "probability": 0.0
+              "probability": 0.5
             }
           ]
         }
@@ -31,11 +33,14 @@
     {
       "name": "Server",
       "instances": 1,
+      "patterns": [],
       "capacity": 1000,
       "operations": [
         {
           "name": "save",
-          "patterns": [],
+          "patterns": [
+            ""
+          ],
           "demand": 100,
           "dependencies": [
             {
@@ -50,6 +55,7 @@
     {
       "name": "Database",
       "instances": 1,
+      "patterns": [],
       "capacity": 1000,
       "operations": [
         {
