@@ -142,3 +142,9 @@ textarea
     max-width: 400px;
     outline: 0;
 }
+
+.center
+{
+    vertical-align: middle;
+    text-align: center;
+}

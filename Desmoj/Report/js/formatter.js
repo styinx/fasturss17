@@ -6,7 +6,8 @@ var pat_array = /^([0-9]+(\.[0-9]+)?)+(\,[0-9]+(\.[0-9]+)?)*$/;
 
 var service_counter = 0;
 var operation_counter = [];
-var pattern_counter = [];
+var dependency_counter = {};
+var pattern_counter = {};
 var generator_counter = 0;
 var chaosmonkey_counter = 0;
 
@@ -85,14 +86,23 @@ function createJson()
         {
             var opname = document.getElementById('operation-' + index + "-" + opindex + '-name').value;
             var opdemand = document.getElementById('operation-' + index + "-" + opindex + '-demand').value;
-            var oppatterns = selectValues(document.getElementById('operation-' + index + "-" + opindex + '-patterns'));
+
+            var oppatterns = [];
+
+            for(var patindex = 0; patindex < 0; ++patindex)
+            {
+                //selectValues(document.getElementById('operation-' + index + "-" + opindex + '-patterns'));
+            }
 
             var opdependencies = [];
-            var opdependentService = document.getElementById('operation-' + index + "-" + opindex + '-dependentService').value;
-            var opdependentOperation = document.getElementById('operation-' + index + "-" + opindex + '-dependentOperation').value;
-            var opdependentProbability = document.getElementById('operation-' + index + "-" + opindex + '-dependentProbability').value;
 
-            opdependencies.push({"service" : opdependentService, "operation" : opdependentOperation, "probability" : opdependentProbability});
+            for(depindex = 0; depindex < dependency_counter[index][opindex]; ++depindex)
+            {
+                var opdependentService = document.getElementById('operation-dependency-' + index + "-" + opindex + "-" + depindex + '-dependent-service').value;
+                var opdependentOperation = document.getElementById('operation-dependency-' + index + "-" + opindex + "-" + depindex + '-dependent-operation').value;
+                var opdependentProbability = document.getElementById('operation-dependency-' + index + "-" + opindex + "-" + depindex + '-dependent-probability').value;
+                opdependencies.push({"service" : opdependentService, "operation" : opdependentOperation, "probability" : opdependentProbability});
+            }
 
             operations.push({"name" : opname, "demand" : opdemand, "patterns" : oppatterns, "dependencies" : opdependencies});
         }
@@ -236,6 +246,7 @@ function makeMicroservice(id)
 {
     var html = ""
          + "<table id='microservice-" + id + "-table' class='microservice-table microservice-color'>"
+           + "<tr><td colspan='100%' class='center'><b>Microservice #" + id + "</b></td></tr>"
            + "<tr>"
              + "<td>"
                + "Name:"
@@ -306,7 +317,7 @@ function makeMicroservice(id)
     html += "<div id='microservice-" + (id+1) + "-container'></div>";
 
     document.getElementById('microservice-' + id + '-container').innerHTML += html;
-    makePattern(0, id, null);
+    dependency_counter[service_counter] = [];
     makeOperation(0, id);
     pattern_counter[service_counter] = 0;
     operation_counter[service_counter] = 1;
@@ -380,6 +391,7 @@ function makeOperation(id, service)
 {
     var html = ""
          + "<table id='operation-" + service + "-" + id + "-table' class='operation-table operation-color'>"
+           + "<tr><td colspan='100%' class='center'><b>Operation #" + id + "</b></td></tr>"
            + "<tr>"
              + "<td>"
                + "Name:"
@@ -401,10 +413,7 @@ function makeOperation(id, service)
                + "Patterns:"
              + "</td>"
              + "<td>"
-               + "<select multiple id='operation-" + service + "-" + id + "-patterns' onchange=\"createJson();\">"
-                 + "<option value='Circuit Breaker'>Circuit Breaker</option>"
-               + "</select>"
-               + "<br><button>Add Pattern</button>"
+               + "<button>Add Pattern</button>"
              + "</td>"
            + "</tr>"
            + "<tr>"
@@ -412,9 +421,8 @@ function makeOperation(id, service)
                + "Dependencies:"
              + "</td>"
              + "<td>"
-               + "<select class='microservice-names' id='operation-" + service + "-" + id + "-dependentService' onchange=\"fillOperationSelect(this, 'operation-" + service + "-" + id + "-dependentOperation');createJson();\"></select>"
-               + "<select class='operation-names' id='operation-" + service + "-" + id + "-dependentOperation'></select>"
-               + "<input id='operation-" + service + "-" + id + "-dependentProbability' type='number' oninput=\"checkPattern(this, pat_prob);createJson();\"/>"
+               + "<div id='operation-dependency-" + service + "-" + id + "-0-container'></div>"
+               + "<button id='operation-dependency-" + service + "-" + id + "--1-button-add' onclick=\"makeDependency(0, " + service + ", " + id + ");fillServiceSelects();createJson();\">Add Dependency</button>"
              + "</td>"
            + "</tr>"
          + "</table>"
@@ -437,6 +445,7 @@ function makeOperation(id, service)
     html += "<div id='operation-" + service + "-" + (id+1) + "-container'></div>";
 
     document.getElementById('operation-' + service + '-' + id + '-container').innerHTML += html;
+    dependency_counter[service][id] = 0;
     operation_counter[service]++;
 }
 
@@ -453,13 +462,57 @@ function removeOperation(id, service)
     }
 
     document.getElementById('operation-' + service + '-' + id + '-container').innerHTML = "";
+    dependency_counter[service][id] = 0;
     operation_counter[service]--;
+}
+
+function makeDependency(id, service, operation)
+{
+    var html = ""
+        + "<select id='operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-service' class='microservice-names' onchange=\"createJson();fillOperationSelect(this, 'operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-operation');\"></select>"
+        + "<select id='operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-operation'></select>"
+        + "<input id='operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-probability' type='number' oninput=\"checkPattern(this, pat_prob);createJson();\">"
+        + "<button id='operation-dependency-" + service + "-" + operation + "-" + id + "-button-add' onclick=\"makeDependency(" + (id+1) + ", " + service + ", " + operation + ");fillServiceSelects();createJson();\">Add Dependency</button>"
+        + "<button id='operation-dependency-" + service + "-" + operation + "-" + id + "-button-remove' onclick=\"removeDependency(" + id + ", " + service + ", " + operation + ");createJson();\">Remove Dependency</button>";
+
+    if(dependency_counter[service][operation] == 0)
+    {
+        document.getElementById('operation-dependency-' + service + "-" + operation + '-' + (id-1) + '-button-add').style.display = "none";
+    }
+    else if(dependency_counter[service][operation] > 0)
+    {
+        document.getElementById('operation-dependency-' + service + "-" + operation + "-" + (id-1) + '-button-add').style.display = "none";
+        document.getElementById('operation-dependency-' + service + "-" + operation + "-" + (id-1) + '-button-remove').style.display = "none";
+    }
+
+    html += "<div id='operation-dependency-" + service + "-" + operation + "-" + (id+1) + "-container'></div>";
+
+    document.getElementById('operation-dependency-' + service + '-' + operation + '-' + id + '-container').innerHTML += html;
+    dependency_counter[service][operation]++;
+}
+
+function removeDependency(id, service, operation)
+{
+    if(dependency_counter[service][operation] == 1)
+    {
+        document.getElementById('operation-dependency-' + service + '-' + operation + '-' + (id-1) + '-button-add').style.display = "";
+    }
+    else if(dependency_counter[service][operation] > 1)
+    {
+        document.getElementById('operation-dependency-' + service + '-' + operation + '-' + (id-1) + '-button-add').style.display = "";
+        document.getElementById('operation-dependency-' + service + '-' + operation + '-' + (id-1) + '-button-remove').style.display = "";
+    }
+
+    document.getElementById('operation-dependency-' + service + '-' + operation + '-' + id + '-container').innerHTML = "";
+
+    dependency_counter[service][operation]--;
 }
 
 function makeGenerator(id)
 {
     var html = ""
          + "<table id='generator-" + id + "-table' class='generator-table generator-color'>"
+          + "<tr><td colspan='100%' class='center'><b>Generator #" + id + "</b></td></tr>"
            + "<tr>"
              + "<td>"
                + "Service:"
@@ -527,6 +580,7 @@ function makeChaosmonkey(id)
 {
     var html = ""
          + "<table id='chaosmonkey-" + id + "-table' class='chaosmonkey-table chaosmonkey-color'>"
+           + "<tr><td colspan='100%' class='center'><b>Chaosmonkey #" + id + "</b></td></tr>"
            + "<tr>"
              + "<td>"
                + "Service:"
