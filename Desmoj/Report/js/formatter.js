@@ -1,10 +1,12 @@
 var pat_name =  /^[A-Za-z0-9_.-]+$/;
 var pat_int =  /^[0-9]+$/;
 var pat_double = /^[0-9]+(\.[0-9]+)?$/;
-var pat_prob = /^(0(\.\d+)?|1(\.0+)?)$/
+var pat_prob = /^(0(\.\d+)?|1(\.0+)?)$/;
+var pat_array = /^([0-9]+(\.[0-9]+)?)+(\,[0-9]+(\.[0-9]+)?)*$/;
 
 var service_counter = 0;
 var operation_counter = [];
+var pattern_counter = [];
 var generator_counter = 0;
 var chaosmonkey_counter = 0;
 
@@ -64,12 +66,19 @@ function createJson()
         var capacity = document.getElementById('microservice-' + index + '-capacity').value;
 
         var patterns = [];
-        var pattern = {};
-        var patternName = document.getElementById('microservice-' + index + '-patternName').value;
-        var patternValue = document.getElementById('microservice-' + index + '-patternValue').value;
 
-        pattern[patternName] = patternValue;
-        patterns.push(pattern);
+        for(var service_pattern_index = 0; service_pattern_index < pattern_counter[service_counter]; service_pattern_index++)
+        {
+
+        }
+
+//        var pattern = {};
+//        var patternName = document.getElementById('microservice-' + index + '-patternName').value;
+//        var patternValue = document.getElementById('microservice-' + index + '-patternValue').value;
+//
+//        pattern[patternName] = patternValue;
+//        if(pattern[patternName] !== "")
+//            patterns.push(pattern);
 
         var operations = [];
         for(var opindex = 0; opindex < operation_counter[index]; ++opindex)
@@ -193,7 +202,8 @@ function fillServiceSelects()
     var selects = document.getElementsByClassName('microservice-names');
     for(var index = 0; index < selects.length; ++index)
     {
-        fillSelect(selects[index], getServiceNames());
+        var service_names = getServiceNames();
+        fillSelect(selects[index], service_names);
     }
 }
 
@@ -255,12 +265,8 @@ function makeMicroservice(id)
                + "Patterns:"
              + "</td>"
              + "<td>"
-               + "<select id='microservice-" + id + "-patternName' onchange=\"createJson();\">"
-                 + "<option value=''></option>"
-                 + "<option value='Thread Pool'>Thread Pool</option>"
-                 + "<option value='Thread Queue'>Thread Queue</option>"
-               + "</select>"
-               + "<input id='microservice-" + id + "-patternValue' type='number' oninput=\"checkPattern(this, pat_int);createJson();\"/>"
+               + "<div id='microservice-" + id + "-pattern-0'></div>"
+               + "<button>Add Pattern</button>"
              + "</td>"
            + "</tr>"
            + "<tr>"
@@ -300,7 +306,9 @@ function makeMicroservice(id)
     html += "<div id='microservice-" + (id+1) + "-container'></div>";
 
     document.getElementById('microservice-' + id + '-container').innerHTML += html;
+    makePattern(0, id, null);
     makeOperation(0, id);
+    pattern_counter[service_counter] = 0;
     operation_counter[service_counter] = 1;
     service_counter++;
 }
@@ -320,6 +328,52 @@ function removeMicroservice(id)
     document.getElementById('microservice-' + id + '-container').innerHTML = "";
     service_counter--;
     operation_counter.splice(-1, 1);
+}
+
+function makePattern(id, service, operation)
+{
+    var html = "";
+    if(operation === null)
+    {
+        html = ""
+            + "<select id='microservice-" + service + "-pattern-" + id + "'>"
+                + "<option value=''></option>"
+                + "<option value='Thread Pool'>Thread Pool</option>"
+                + "<option value='Thread Queue'>Thread Queue</option>"
+            + "</select>"
+            + "<div id='microservice-" + service + "-pattern-" + (id+1) + "'></div>";
+
+        document.getElementById('microservice-' + service + '-pattern-' + id).innerHTML = html;
+        pattern_counter[service]++;
+    }
+    else
+    {
+        html = ""
+            + "<select id='operation-" + service + "-" + operation + "-pattern-" + id + "'>"
+                + "<option value=''></option>"
+                + "<option value='Circuit Breaker'>Circuit Breaker</option>"
+            + "</select>"
+            + "<div id='operation-" + service + "-" + operation + "-pattern-" + (id+1) + "'></div>";
+        document.getElementById('operation-' + service + '-' + operation + '-pattern-' + id).innerHTML = html;
+        pattern_counter[service][operation]++;
+    }
+}
+
+function removePattern(id, service, operation)
+{
+    if(pattern_counter[service][operation] == 1)
+    {
+        document.getElementById('microservice-' + service + "-" + operation + "-" + (id-1) + '-button-add').style.display = "";
+        pattern_counter[service]--;
+    }
+    else if(pattern_counter[service][operation] > 1)
+    {
+        document.getElementById('microservice-' + service + "-" + operation + "-" + (id-1) + '-button-add').style.display = "";
+        document.getElementById('microservice-' + service + "-" + operation + "-" + (id-1) + '-button-remove').style.display = "";
+        pattern_counter[service][operation]--;
+    }
+
+    document.getElementById('microservice-' + service + "-" + operation + "-" + (id-1) + '-container').innerHTML = "";
 }
 
 function makeOperation(id, service)
@@ -350,6 +404,7 @@ function makeOperation(id, service)
                + "<select multiple id='operation-" + service + "-" + id + "-patterns' onchange=\"createJson();\">"
                  + "<option value='Circuit Breaker'>Circuit Breaker</option>"
                + "</select>"
+               + "<br><button>Add Pattern</button>"
              + "</td>"
            + "</tr>"
            + "<tr>"
