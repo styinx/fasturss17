@@ -154,7 +154,8 @@ public class StartEvent extends Event<MessageObject> {
 
         // Statistics
         // CPU
-        model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getUsage());
+        model.serviceCPU.get(id).get(msEntity.getSid()).collectUsage();
+        model.cpuStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getMeanUsage(5));
         // Thread
         model.threadStatistics.get(id).get(msEntity.getSid()).update(model.serviceCPU.get(id).get(msEntity.getSid()).getActiveThreads().size());
         // Task Queue

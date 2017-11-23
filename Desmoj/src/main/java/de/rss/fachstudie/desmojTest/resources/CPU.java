@@ -1,10 +1,10 @@
 package de.rss.fachstudie.desmojTest.resources;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.entities.MessageObject;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CPU extends Event<Thread> {
@@ -13,9 +13,9 @@ public class CPU extends Event<Thread> {
     private int capacity = 0;
     private double robinTime = 10;
     private double cycleTime = 0;
-    private double doneWork = 0;
     private double lastThreadEntry;
     private double smallestThread = 0.0;
+    private List<Double> cpuUsageMean;
 
     private Queue<Thread> activeThreads;
     private Queue<Thread> waitingThreads;
@@ -33,6 +33,7 @@ public class CPU extends Event<Thread> {
         this.id = id;
         this.capacity = capacity;
         lastThreadEntry = 0;
+        cpuUsageMean = new ArrayList<>();
         existingThreads = new Queue<Thread>(owner, "", false, false);
 
         if(model.allMicroservices.get(id).hasPattern("Thread Pool")) {
@@ -54,7 +55,6 @@ public class CPU extends Event<Thread> {
     public void eventRoutine(Thread threadToEnd) throws SuspendExecution {
         for(Thread thread : activeThreads) {
             thread.subtractDemand((int) smallestThread);
-            doneWork += smallestThread;
             if(thread.getDemand() == 0 || thread == threadToEnd) {
                 thread.scheduleEndEvent();
                 activeThreads.remove(thread);
@@ -64,7 +64,6 @@ public class CPU extends Event<Thread> {
     }
 
     public void addThread(Thread thread) {
-        doneWork = 0;
         // update all threads that are currently in the active queue
         int robins = (int) Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) * 1000 / robinTime);
         for (int i = 0; i < robins; i++) {
@@ -80,7 +79,6 @@ public class CPU extends Event<Thread> {
         }
 
         lastThreadEntry = this.model.presentTime().getTimeAsDouble();
-        doneWork = robins * robinTime;
 
         // check for patterns
         if(!hasThreadPool || activeThreads.size() < threadPoolSize) {
@@ -179,6 +177,22 @@ public class CPU extends Event<Thread> {
         return capacity;
     }
 
+    public void collectUsage() {
+        cpuUsageMean.add(getUsage());
+    }
+
+    public double getMeanUsage(int values) {
+        double collected = 0;
+        double usage = 0;
+
+        for (int i = cpuUsageMean.size() - 1; i > 0 && values > 0; --i) {
+            usage += cpuUsageMean.get(i);
+            collected++;
+            values--;
+        }
+        return usage / collected;
+    }
+
     public double getUsage() {
         double timeSinceLastAdd = model.presentTime().getTimeAsDouble() - lastThreadEntry;
         double availPower = capacity * timeSinceLastAdd;
@@ -186,9 +200,5 @@ public class CPU extends Event<Thread> {
             return 1.0;
         else
             return 0.0;
-//        if(doneWork > 0 && availPower > 0)
-//            return (doneWork / availPower);
-//        else
-//            return 0;
     }
 }

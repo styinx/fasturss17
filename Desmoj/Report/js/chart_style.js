@@ -49,7 +49,7 @@ function timeFormat(seconds)
 
         Highcharts.theme = {
             chart: {
-                type: 'line',
+                type: 'spline',
                 backgroundColor: null,
                 style: {
                     fontFamily: 'Verdana, sans-serif'
@@ -141,8 +141,10 @@ function timeFormat(seconds)
                 }
             },
             plotOptions: {
-                series: {
-                    dataGrouping : 'high',
+                spline: {
+                    marker: {
+                        enabled: true
+                    }
                 },
                 candlestick: {
                     lineColor: 'rgba(50,50,50,0.8)'

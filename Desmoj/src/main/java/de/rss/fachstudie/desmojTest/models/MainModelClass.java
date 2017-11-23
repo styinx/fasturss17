@@ -312,6 +312,9 @@ public class MainModelClass extends Model {
             initMonkey.schedule(new TimeSpan(0, timeUnit));
         }
 
+//        StatisticEvent statisticEvent = new StatisticEvent(this, "", false, 1);
+//        statisticEvent.schedule(new TimeSpan(0, timeUnit));
+
         //Fire off the finish event which is called during at the end of the simulation
         FinishEvent event = new FinishEvent(this, "", false);
         event.schedule(new TimeSpan(simulationTime - 1, timeUnit));
