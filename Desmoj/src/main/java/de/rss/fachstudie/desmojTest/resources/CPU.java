@@ -1,6 +1,7 @@
 package de.rss.fachstudie.desmojTest.resources;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import de.rss.fachstudie.desmojTest.entities.Operation;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.*;
 
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CPU extends Event<Thread> {
+    enum CB_STATE  {OPEN, HALFOPEN, CLOSED};
+
     private MainModelClass model;
     private int id = -1;
     private int capacity = 0;
@@ -25,6 +28,14 @@ public class CPU extends Event<Thread> {
     private boolean hasThreadQueue = false;
     private int threadQueueSize = 0;
 
+    private boolean hasCircuitBreaker = false;
+    private CB_STATE cbState = CB_STATE.OPEN;
+    private boolean trialSent = false;
+    private Thread trialThread = null;
+    private double circuitBreakerTriggered = 0;
+    private double retryTime = 1;
+    private double responseTimelimit = 10;
+    private double maxResponseTime = 0;
 
     public CPU (Model owner, String name, boolean showInTrace, int id, int capacity) {
         super(owner, name, showInTrace);
@@ -63,7 +74,7 @@ public class CPU extends Event<Thread> {
         calculateMin();
     }
 
-    public void addThread(Thread thread) {
+    public void addThread(Thread thread, Operation operation) {
         // update all threads that are currently in the active queue
         int robins = (int) Math.round((model.presentTime().getTimeAsDouble() - lastThreadEntry) * 1000 / robinTime);
         for (int i = 0; i < robins; i++) {
@@ -79,40 +90,87 @@ public class CPU extends Event<Thread> {
         }
 
         lastThreadEntry = this.model.presentTime().getTimeAsDouble();
+        hasCircuitBreaker = operation.hasPattern("Circuit Breaker");
 
-        // check for patterns
-        if(!hasThreadPool || activeThreads.size() < threadPoolSize) {
-            // cpu has no thread pool, or the size of the thread pool is big enough
-            activeThreads.insert(thread);
-        } else {
-            if(hasThreadQueue) {
-                if(waitingThreads.size() < threadQueueSize) {
+        for(Thread activeThread : activeThreads) {
+            if(activeThread.getCreationTime() > circuitBreakerTriggered) {
+                if(model.presentTime().getTimeAsDouble() - activeThread.getCreationTime() > maxResponseTime) {
+                    maxResponseTime = model.presentTime().getTimeAsDouble() - activeThread.getCreationTime();
+                }
+            }
+        }
 
-                    // a thread queue exists and the size is big enough
-                    waitingThreads.insert(thread);
+
+        if(maxResponseTime > responseTimelimit && cbState == CB_STATE.OPEN) {
+            cbState = CB_STATE.CLOSED;
+            maxResponseTime = 0;
+            circuitBreakerTriggered = model.presentTime().getTimeAsDouble();
+        }
+
+        model.log(circuitBreakerTriggered + "");
+
+        if(cbState == CB_STATE.CLOSED && model.presentTime().getTimeAsDouble() > (circuitBreakerTriggered  + retryTime)) {
+            //cbState = CB_STATE.OPEN;
+            cbState = CB_STATE.HALFOPEN;
+        }
+
+        if(cbState == CB_STATE.HALFOPEN && trialThread != null && trialThread.getDemand() == 0) {
+            trialSent = false;
+            model.log("trail thread fertig: " + (model.presentTime().getTimeAsDouble() - trialThread.getCreationTime()));
+            if(model.presentTime().getTimeAsDouble() - trialThread.getCreationTime() < responseTimelimit) {
+                //model.log("trial thread ist fertig und liegt im limit");
+                cbState = CB_STATE.OPEN;
+            } else {
+                cbState = CB_STATE.HALFOPEN;
+                //model.log("trial thread ist fertig und liegt nicht im limit");
+            }
+        }
+
+        if(!hasCircuitBreaker || (cbState == CB_STATE.OPEN || (cbState == CB_STATE.HALFOPEN && !trialSent) )) {
+            //model.log("first");
+            if(!trialSent && cbState == CB_STATE.HALFOPEN) {
+                trialThread = thread;
+                model.log(trialThread + " trial thread was started");
+                trialSent = true;
+            }
+
+            // check for patterns
+            if (!hasThreadPool || activeThreads.size() < threadPoolSize) {
+                // cpu has no thread pool, or the size of the thread pool is big enough
+                activeThreads.insert(thread);
+            } else {
+                if (hasThreadQueue) {
+                    if (waitingThreads.size() < threadQueueSize) {
+
+                        // a thread queue exists and the size is big enough
+                        waitingThreads.insert(thread);
+                    } else {
+
+                        // thread waiting queue is too big, send default response
+                        thread.scheduleEndEvent();
+
+                        // statistics
+                        double last = 0;
+                        List<Double> values = model.threadQueueStatistics.get(thread.getId()).get(thread.getSid()).getDataValues();
+                        if (values != null)
+                            last = values.get(values.size() - 1);
+                        model.threadQueueStatistics.get(thread.getId()).get(thread.getSid()).update(last + 1);
+                    }
                 } else {
-
-                    // thread waiting queue is too big, send default response
+                    // thread pool is too big, send default response
                     thread.scheduleEndEvent();
 
                     // statistics
                     double last = 0;
-                    List<Double> values = model.threadQueueStatistics.get(thread.getId()).get(thread.getSid()).getDataValues();
-                    if(values != null)
+                    List<Double> values = model.threadPoolStatistics.get(thread.getId()).get(thread.getSid()).getDataValues();
+                    if (values != null)
                         last = values.get(values.size() - 1);
-                    model.threadQueueStatistics.get(thread.getId()).get(thread.getSid()).update(last + 1);
+                    model.threadPoolStatistics.get(thread.getId()).get(thread.getSid()).update(last + 1);
                 }
-            } else {
-                // thread pool is too big, send default response
-                thread.scheduleEndEvent();
-
-                // statistics
-                double last = 0;
-                List<Double> values = model.threadPoolStatistics.get(thread.getId()).get(thread.getSid()).getDataValues();
-                if(values != null)
-                    last = values.get(values.size() - 1);
-                model.threadPoolStatistics.get(thread.getId()).get(thread.getSid()).update(last + 1);
             }
+        } else {
+            //model.log("second");
+            thread.scheduleEndEvent();
         }
 
         // Shift from waiting queue to the active queue

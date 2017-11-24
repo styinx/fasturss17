@@ -79,7 +79,7 @@ public class StartEvent extends Event<MessageObject> {
         StopEvent msEndEvent = new StopEvent(model, "", model.getShowStopEvent(), id, operation);
         Thread thread = new Thread(model, "", false, op.getDemand(), msEndEvent, msEntity, messageObject);
 
-        boolean hasCircuitBreaker = op.hasPattern("Circuit Breaker");
+        boolean hasPerformanceBreaker = op.hasPattern("Performance Breaker");
         int circuitBreakerLimit = Integer.MAX_VALUE;
         double ratio = (model.services.get(id).get(0).getCapacity() / model.services.get(id).get(0).getOperation(operation).getDemand());
 
@@ -90,7 +90,7 @@ public class StartEvent extends Event<MessageObject> {
             circuitBreakerLimit = model.services.get(id).size();
         }
 
-        if(!hasCircuitBreaker || model.taskQueues.get(id).size() < circuitBreakerLimit) {
+        if(!hasPerformanceBreaker || model.taskQueues.get(id).size() < circuitBreakerLimit) {
 
             model.taskQueues.get(id).insert(messageObject);
 
@@ -132,13 +132,13 @@ public class StartEvent extends Event<MessageObject> {
                             nextEvent.schedule(messageObject, new TimeSpan(0, model.getTimeUnit()));
                         } else {
                             // add thread to cpu
-                            model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
+                            model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread, op);
                         }
                     }
                 } else {
 
                     // add thread to cpu
-                    model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread);
+                    model.serviceCPU.get(id).get(msEntity.getSid()).addThread(thread, op);
                 }
             } else {
                 msEndEvent.schedule(msEntity, thread, messageObject);

@@ -277,8 +277,8 @@ function makeMicroservice(id)
                + "Patterns:"
              + "</td>"
              + "<td>"
-               + "<div id='microservice-pattern-" + id + "-0'></div>"
-               + "<button id='microservice-pattern-" + id + "--1' onclick=\"makePattern(0, " + id + ");createJson();\">Add Pattern</button>"
+               + "<div id='microservice-pattern-" + id + "-0-container'></div>"
+               + "<button id='microservice-pattern-" + id + "--1-button-add' onclick=\"makePattern(0, " + id + ");createJson();\">Add Pattern</button>"
              + "</td>"
            + "</tr>"
            + "<tr>"
@@ -370,7 +370,8 @@ function makeOperation(id, service)
                + "Patterns:"
              + "</td>"
              + "<td>"
-               + "<button>Add Pattern</button>"
+               + "<div id='operation-pattern-" + service + "-" + id + "-0-container'></div>"
+               + "<button id='operation-pattern-" + service + "-" + id + "--1-button-add' onclick=\"makePattern(0, " + service + ", " + id + ");createJson();\">Add Pattern</button>"
              + "</td>"
            + "</tr>"
            + "<tr>"
@@ -432,27 +433,27 @@ function makePattern(id, service, operation = null)
     if(operation === null)
     {
         html = ""
-            + "<select id='microservice-pattern" + service + "-" + id + "'>"
+            + "<select id='microservice-pattern-" + service + "-" + id + "'>"
                 + "<option value=''></option>"
                 + "<option value='Thread Pool'>Thread Pool</option>"
                 + "<option value='Thread Queue'>Thread Queue</option>"
             + "</select>"
             + "<input type='number' oninput=\"checkPattern(this, pat_array);\"/>"
-            + "<div id='microservice-pattern" + service + "-" + (id+1) + "-container'></div>"
-            + "<button id='microservice-pattern" + service + "-" + id + "-button-add' onclick=\"makePattern(" + (id+1) + ", " + service + ");createJson();\">Add Pattern</button"
-            + "<button id='microservice-pattern" + service + "-" + id + "-button-remove' onclick=\"removePattern(" + id + ", " + service + ");createJson();\">Remove Pattern</button";
+            + "<div id='microservice-pattern-" + service + "-" + (id+1) + "-container'></div>"
+            + "<button id='microservice-pattern-" + service + "-" + id + "-button-add' onclick=\"makePattern(" + (id+1) + ", " + service + ");createJson();\">Add Pattern</button>"
+            + "<button id='microservice-pattern-" + service + "-" + id + "-button-remove' onclick=\"removePattern(" + id + ", " + service + ");createJson();\">Remove Pattern</button>";
 
         if(spattern_counter[service] == 0)
         {
             document.getElementById('microservice-pattern-' + service + '-' + (id-1) + '-button-add').style.display = "none";
         }
-        else if(dependency_counter[service][operation] > 0)
+        else if(spattern_counter[service] > 0)
         {
             document.getElementById('microservice-pattern-' + service + '-' + (id-1) + '-button-add').style.display = "none";
             document.getElementById('microservice-pattern-' + service + '-' + (id-1) + '-button-remove').style.display = "none";
         }
 
-        document.getElementById('microservice-pattern' + service + '-' + id + '-container').innerHTML = html;
+        document.getElementById('microservice-pattern-' + service + '-' + id + '-container').innerHTML = html;
         spattern_counter[service]++;
     }
     else
@@ -462,56 +463,56 @@ function makePattern(id, service, operation = null)
                 + "<option value=''></option>"
                 + "<option value='Circuit Breaker'>Circuit Breaker</option>"
             + "</select>"
-            + "<div id='operation-pattern" + service + "-" + operation + "-" + (id+1) + "-container'></div>"
-            + "<button id='operation-pattern" + service + "-" + operation + "-" + (id+1) + "-button-add' onclick=\"makePattern(" + (id+1) + ", " + service + ", " + operation + ")\">Add Pattern</button>"
-            + "<button id='operation-pattern" + service + "-" + operation + "-" + (id+1) + "-button-remove' onclick=\"remove Pattern(" + id + ", " + serivce + ", " + operation + ");\">Remove Pattern</button>";
+            + "<div id='operation-pattern-" + service + "-" + operation + "-" + (id+1) + "-container'></div>"
+            + "<button id='operation-pattern-" + service + "-" + operation + "-" + (id+1) + "-button-add' onclick=\"makePattern(" + (id+1) + ", " + service + ", " + operation + ")\">Add Pattern</button>"
+            + "<button id='operation-pattern-" + service + "-" + operation + "-" + (id+1) + "-button-remove' onclick=\"remove Pattern(" + id + ", " + service + ", " + operation + ");\">Remove Pattern</button>";
 
-        if(spattern_counter[service] == 0)
+        if(opattern_counter[service][operation] == 0)
         {
             document.getElementById('operation-pattern-' + service + '-' + operation + '-' + (id-1) + '-button-add').style.display = "none";
         }
-        else if(dependency_counter[service][operation] > 0)
+        else if(opattern_counter[service][operation] > 0)
         {
             document.getElementById('operation-pattern-' + service + '-' + operation + '-' + (id-1) + '-button-add').style.display = "none";
             document.getElementById('operation-pattern-' + service + '-' + operation + '-' + (id-1) + '-button-remove').style.display = "none";
         }
 
-        document.getElementById('operation-pattern' + service + '-' + operation + '-' + id + '-container').innerHTML = html;
+        document.getElementById('operation-pattern-' + service + '-' + operation + '-' + id + '-container').innerHTML = html;
         opattern_counter[service][operation]++;
     }
 }
 
 function removePattern(id, service, operation)
 {
-    if(operation == null)
+    if(operation === null)
     {
         if(spattern_counter[service] == 1)
         {
-            document.getElementById('microservice-pattern' + service + "-" + (id-1) + '-button-add').style.display = "";
+            document.getElementById('microservice-pattern-' + service + "-" + (id-1) + '-button-add').style.display = "";
         }
         else if(spattern_counter[service] > 1)
         {
-            document.getElementById('microservice-pattern' + service + "-" + (id-1) + '-button-add').style.display = "";
-            document.getElementById('microservice-pattern' + service + "-" + (id-1) + '-button-remove').style.display = "";
+            document.getElementById('microservice-pattern-' + service + "-" + (id-1) + '-button-add').style.display = "";
+            document.getElementById('microservice-pattern-' + service + "-" + (id-1) + '-button-remove').style.display = "";
         }
 
+        document.getElementById('microservice-pattern-' + service + "-" + id + '-container').innerHTML = "";
         spattern_counter[service]--;
-        document.getElementById('microservice-pattern' + service + "-" + (id-1) + '-container').innerHTML = "";
     }
     else
     {
         if(opattern_counter[service][operation] == 1)
         {
-            document.getElementById('operation-pattern' + service + "-" + operation + "-" + (id-1) + '-button-add').style.display = "";
+            document.getElementById('operation-pattern-' + service + "-" + operation + "-" + (id-1) + '-button-add').style.display = "";
         }
         else if(opattern_counter[service][operation] > 1)
         {
-            document.getElementById('operation-pattern' + service + "-" + operation + "-" + (id-1) + '-button-add').style.display = "";
-            document.getElementById('operation-pattern' + service + "-" + operation + "-" + (id-1) + '-button-remove').style.display = "";
+            document.getElementById('operation-pattern-' + service + "-" + operation + "-" + (id-1) + '-button-add').style.display = "";
+            document.getElementById('operation-pattern-' + service + "-" + operation + "-" + (id-1) + '-button-remove').style.display = "";
         }
 
+        document.getElementById('operation-pattern-' + service + "-" + operation + "-" + id + '-container').innerHTML = "";
         opattern_counter[service][operation]--;
-        document.getElementById('operation-pattern' + service + "-" + operation + "-" + (id-1) + '-container').innerHTML = "";
     }
 }
 
