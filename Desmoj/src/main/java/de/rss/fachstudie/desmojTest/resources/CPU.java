@@ -7,6 +7,8 @@ import desmoj.core.simulator.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class CPU extends Event<Thread> {
     enum CB_STATE  {OPEN, HALFOPEN, CLOSED};
@@ -18,7 +20,7 @@ public class CPU extends Event<Thread> {
     private double cycleTime = 0;
     private double lastThreadEntry;
     private double smallestThread = 0.0;
-    private List<Double> cpuUsageMean;
+    private Map<Double, Double> cpuUsageMean;
 
     private Queue<Thread> activeThreads;
     private Queue<Thread> waitingThreads;
@@ -44,7 +46,7 @@ public class CPU extends Event<Thread> {
         this.id = id;
         this.capacity = capacity;
         lastThreadEntry = 0;
-        cpuUsageMean = new ArrayList<>();
+        cpuUsageMean = new TreeMap<>();
         existingThreads = new Queue<Thread>(owner, "", false, false);
 
         if(model.allMicroservices.get(id).hasPattern("Thread Pool")) {
@@ -91,46 +93,11 @@ public class CPU extends Event<Thread> {
 
         lastThreadEntry = this.model.presentTime().getTimeAsDouble();
         hasCircuitBreaker = operation.hasPattern("Circuit Breaker");
+        checkForCircuitBreaker();
 
-        for(Thread activeThread : activeThreads) {
-            if(activeThread.getCreationTime() > circuitBreakerTriggered) {
-                if(model.presentTime().getTimeAsDouble() - activeThread.getCreationTime() > maxResponseTime) {
-                    maxResponseTime = model.presentTime().getTimeAsDouble() - activeThread.getCreationTime();
-                }
-            }
-        }
-
-
-        if(maxResponseTime > responseTimelimit && cbState == CB_STATE.OPEN) {
-            cbState = CB_STATE.CLOSED;
-            maxResponseTime = 0;
-            circuitBreakerTriggered = model.presentTime().getTimeAsDouble();
-        }
-
-        model.log(circuitBreakerTriggered + "");
-
-        if(cbState == CB_STATE.CLOSED && model.presentTime().getTimeAsDouble() > (circuitBreakerTriggered  + retryTime)) {
-            //cbState = CB_STATE.OPEN;
-            cbState = CB_STATE.HALFOPEN;
-        }
-
-        if(cbState == CB_STATE.HALFOPEN && trialThread != null && trialThread.getDemand() == 0) {
-            trialSent = false;
-            model.log("trail thread fertig: " + (model.presentTime().getTimeAsDouble() - trialThread.getCreationTime()));
-            if(model.presentTime().getTimeAsDouble() - trialThread.getCreationTime() < responseTimelimit) {
-                //model.log("trial thread ist fertig und liegt im limit");
-                cbState = CB_STATE.OPEN;
-            } else {
-                cbState = CB_STATE.HALFOPEN;
-                //model.log("trial thread ist fertig und liegt nicht im limit");
-            }
-        }
-
-        if(!hasCircuitBreaker || (cbState == CB_STATE.OPEN || (cbState == CB_STATE.HALFOPEN && !trialSent) )) {
-            //model.log("first");
+        if (!hasCircuitBreaker || (cbState == CB_STATE.CLOSED || (cbState == CB_STATE.HALFOPEN && !trialSent))) {
             if(!trialSent && cbState == CB_STATE.HALFOPEN) {
                 trialThread = thread;
-                model.log(trialThread + " trial thread was started");
                 trialSent = true;
             }
 
@@ -169,7 +136,6 @@ public class CPU extends Event<Thread> {
                 }
             }
         } else {
-            //model.log("second");
             thread.scheduleEndEvent();
         }
 
@@ -209,6 +175,35 @@ public class CPU extends Event<Thread> {
         }
     }
 
+    private void checkForCircuitBreaker() {
+        for (Thread activeThread : activeThreads) {
+            if (activeThread.getCreationTime() > circuitBreakerTriggered) {
+                if (model.presentTime().getTimeAsDouble() - activeThread.getCreationTime() > maxResponseTime) {
+                    maxResponseTime = model.presentTime().getTimeAsDouble() - activeThread.getCreationTime();
+                }
+            }
+        }
+
+        if (maxResponseTime > responseTimelimit && cbState == CB_STATE.CLOSED) {
+            cbState = CB_STATE.OPEN;
+            maxResponseTime = 0;
+            circuitBreakerTriggered = model.presentTime().getTimeAsDouble();
+        }
+
+        if (cbState == CB_STATE.OPEN && model.presentTime().getTimeAsDouble() > (circuitBreakerTriggered + retryTime)) {
+            cbState = CB_STATE.HALFOPEN;
+        }
+
+        if (cbState == CB_STATE.HALFOPEN && trialThread != null && trialThread.getDemand() == 0) {
+            trialSent = false;
+            if (model.presentTime().getTimeAsDouble() - trialThread.getCreationTime() < responseTimelimit) {
+                cbState = CB_STATE.CLOSED;
+            } else {
+                cbState = CB_STATE.HALFOPEN;
+            }
+        }
+    }
+
     public void releaseUnfinishedThreads() {
         for (int thread = activeThreads.size() - 1; thread >= 0; thread--) {
             activeThreads.get(thread).scheduleEndEvent();
@@ -236,24 +231,25 @@ public class CPU extends Event<Thread> {
     }
 
     public void collectUsage() {
-        cpuUsageMean.add(getUsage());
+        cpuUsageMean.put(model.presentTime().getTimeAsDouble(), getUsage());
     }
 
     public double getMeanUsage(int values) {
-        double collected = 0;
+        int collected = 0;
         double usage = 0;
-
-        for (int i = cpuUsageMean.size() - 1; i > 0 && values > 0; --i) {
-            usage += cpuUsageMean.get(i);
+        List<Double> vals = new ArrayList<Double>(cpuUsageMean.keySet());
+        for (int i = vals.size() - 1; i > 0; --i) {
+            model.log(vals.get(i) + " " + cpuUsageMean.get(vals.get(i)));
+            if (vals.get(i) < model.presentTime().getTimeAsDouble() - values)
+                break;
+            usage += cpuUsageMean.get(vals.get(i));
             collected++;
-            values--;
         }
+        model.log(" --- ");
         return usage / collected;
     }
 
-    public double getUsage() {
-        double timeSinceLastAdd = model.presentTime().getTimeAsDouble() - lastThreadEntry;
-        double availPower = capacity * timeSinceLastAdd;
+    private double getUsage() {
         if (activeThreads.size() > 0)
             return 1.0;
         else

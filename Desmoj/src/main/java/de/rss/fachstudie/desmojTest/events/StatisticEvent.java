@@ -4,6 +4,7 @@ import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
+import desmoj.core.simulator.TimeSpan;
 
 public class StatisticEvent extends ExternalEvent {
     private MainModelClass model;
@@ -18,12 +19,12 @@ public class StatisticEvent extends ExternalEvent {
 
     @Override
     public void eventRoutine() throws SuspendExecution {
-//        for(int id = 0; id < model.serviceCPU.size(); ++id) {
-//            for(int instance = 0; instance < model.serviceCPU.get(id).size(); ++instance) {
-//                model.serviceCPU.get(id).get(instance).collectUsage();
-//                model.cpuStatistics.get(id).get(instance).update(model.serviceCPU.get(id).get(instance).getMeanUsage(5));
-//            }
-//        }
-//        schedule(new TimeSpan(timeInterval, model.getTimeUnit()));
+        for (int id = 0; id < model.serviceCPU.size(); ++id) {
+            for (int instance = 0; instance < model.serviceCPU.get(id).size(); ++instance) {
+                model.cpuStatistics.get(id).get(instance).update(model.serviceCPU.get(id).get(instance).getMeanUsage(model.getStatisitcChunks()));
+                model.serviceCPU.get(id).get(instance).collectUsage();
+            }
+        }
+        schedule(new TimeSpan(timeInterval, model.getTimeUnit()));
     }
 }

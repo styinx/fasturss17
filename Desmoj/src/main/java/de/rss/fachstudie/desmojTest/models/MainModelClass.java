@@ -5,6 +5,7 @@ import de.rss.fachstudie.desmojTest.entities.Microservice;
 import de.rss.fachstudie.desmojTest.events.FinishEvent;
 import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
 import de.rss.fachstudie.desmojTest.events.InitialEvent;
+import de.rss.fachstudie.desmojTest.events.StatisticEvent;
 import de.rss.fachstudie.desmojTest.export.ExportReport;
 import de.rss.fachstudie.desmojTest.resources.CPU;
 import de.rss.fachstudie.desmojTest.utils.InputParser;
@@ -31,6 +32,7 @@ public class MainModelClass extends Model {
     private String report           = "";
     private int datapoints          = -1;
     private double precision        = 100000;
+    private int statisitcChunks = 3;
     private int seed                = 0;
     private String resourcePath = "./Report/resources/";
     private boolean showInitEvent   = true;
@@ -88,6 +90,10 @@ public class MainModelClass extends Model {
 
     public double getPrecision() {
         return precision;
+    }
+
+    public int getStatisitcChunks() {
+        return this.statisitcChunks;
     }
 
     public int getSeed() {
@@ -312,8 +318,9 @@ public class MainModelClass extends Model {
             initMonkey.schedule(new TimeSpan(0, timeUnit));
         }
 
-//        StatisticEvent statisticEvent = new StatisticEvent(this, "", false, 1);
-//        statisticEvent.schedule(new TimeSpan(0, timeUnit));
+        // Trigger Event every second to collect data
+        StatisticEvent statisticEvent = new StatisticEvent(this, "", false, simulationTime / datapoints);
+        statisticEvent.schedule(new TimeSpan(0, timeUnit));
 
         //Fire off the finish event which is called during at the end of the simulation
         FinishEvent event = new FinishEvent(this, "", false);

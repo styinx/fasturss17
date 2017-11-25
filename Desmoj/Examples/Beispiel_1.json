@@ -11,20 +11,20 @@
     {
       "name": "Frontend",
       "instances": 1,
-      "patterns": [{"Thread Pool" : 1}],
+      "patterns": [],
       "capacity": 1000,
       "operations": [
         {
           "name": "login",
           "patterns": [
-            ""
+            "Circuit Breaker"
           ],
-          "demand": 5001,
+          "demand": 1000,
           "dependencies": [
             {
               "operation": "save",
               "service": "Server",
-              "probability": 0.5
+              "probability": 0.0
             }
           ]
         }
@@ -32,7 +32,7 @@
     },
     {
       "name": "Server",
-      "instances": 1,
+      "instances": 5,
       "patterns": [],
       "capacity": 1000,
       "operations": [
@@ -41,12 +41,12 @@
           "patterns": [
             ""
           ],
-          "demand": 100,
+          "demand": 800,
           "dependencies": [
             {
               "operation": "update",
               "service": "Database",
-              "probability": 0.5
+              "probability": 0.0
             }
           ]
         }
@@ -54,14 +54,14 @@
     },
     {
       "name": "Database",
-      "instances": 1,
+      "instances": 5,
       "patterns": [],
       "capacity": 1000,
       "operations": [
         {
           "name": "update",
           "patterns": [],
-          "demand": 100,
+          "demand": 10000,
           "dependencies": []
         }
       ]
@@ -69,7 +69,7 @@
   ],
   "generators": [
     {
-      "time": 1.1,
+      "time": 5,
       "microservice": "Frontend",
       "operation": "login"
     }
