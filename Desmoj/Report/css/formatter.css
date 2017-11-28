@@ -2,6 +2,11 @@
  *
  */
 
+body
+{
+    margin: 0px;
+}
+
 #json
 {
     height: 100%;
@@ -147,4 +152,9 @@ textarea
 {
     vertical-align: middle;
     text-align: center;
+}
+
+.np
+{
+    padding: 0px;
 }
