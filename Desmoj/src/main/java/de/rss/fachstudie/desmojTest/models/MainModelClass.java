@@ -32,7 +32,7 @@ public class MainModelClass extends Model {
     private String report           = "";
     private int datapoints          = -1;
     private double precision        = 100000;
-    private int statisitcChunks = 3;
+    private double statisitcChunks = 20;
     private int seed                = 0;
     private String resourcePath = "./Report/resources/";
     private boolean showInitEvent   = true;
@@ -92,7 +92,7 @@ public class MainModelClass extends Model {
         return precision;
     }
 
-    public int getStatisitcChunks() {
+    public double getStatisitcChunks() {
         return this.statisitcChunks;
     }
 
@@ -320,6 +320,8 @@ public class MainModelClass extends Model {
 
         // Trigger Event every second to collect data
         StatisticEvent statisticEvent = new StatisticEvent(this, "", false, simulationTime / datapoints);
+
+        this.log(simulationTime / datapoints + "");
         statisticEvent.schedule(new TimeSpan(0, timeUnit));
 
         //Fire off the finish event which is called during at the end of the simulation
