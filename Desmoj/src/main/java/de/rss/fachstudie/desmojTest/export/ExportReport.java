@@ -117,7 +117,7 @@ public class ExportReport {
         fillDatapoints(activeInstances, true);
         fillDatapoints(taskQueueWork, true);
         fillDatapoints(usedCPU, true);
-        fillDatapoints(responseTime, true);
+        fillDatapoints(responseTime, false);
         fillDatapoints(circuitBreaker, true);
         fillDatapoints(threadPool, true);
         fillDatapoints(threadQueue, true);
