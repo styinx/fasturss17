@@ -33,6 +33,15 @@ The following is a simple example for the _json_ input:
     {
       "name": "frontend",
       "instances": "3",
+      "patterns": [
+      	{
+      		"name": "Circuit Breaker",
+		"arguments": [
+			1,
+			2
+		]
+      	}
+      ],
       "capacity": "2000",
       "operations": [
         {
@@ -106,7 +115,9 @@ The _microservices_ array holds objects which contain information about respecti
 - ___name___: Name of the microservice
 - ___instances___: Number of instances of this microservice
 - ___capacity___: CPU capacity of _each_ instance in Mhz
-- ___patterns___: Array of resilience patterns that are implemented in this microservices. For now the simulator can simulate the _Thread Pool_ and _Thread Queue_ patterns
+- ___patterns___: Array of resilience patterns that are implemented in this microservice. The array contains objects which hold information about the respective resilience pattern
+	- ___name___: The name of the pattern. As of now the only supported pattern is _thread pool_
+	- ___arguments___: An array which contains parameters about the pattern
 - ___operations___: Array which holds objects which contain information about the different operations that this microservice can perform
 	- ___name___: Name of the operation
 	- ___demand___: CPU demand of this operation in Mhz
