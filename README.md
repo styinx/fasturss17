@@ -35,7 +35,7 @@ The following is a simple example for the _json_ input:
       "instances": "3",
       "patterns": [
       	{
-      		"name": "Circuit Breaker",
+      		"name": "Resource Limiter",
 		"arguments": [
 			1,
 			2
@@ -116,7 +116,7 @@ The _microservices_ array holds objects which contain information about respecti
 - ___instances___: Number of instances of this microservice
 - ___capacity___: CPU capacity of _each_ instance in Mhz
 - ___patterns___: Array of resilience patterns that are implemented in this microservice. The array contains objects which hold information about the respective resilience pattern
-	- ___name___: The name of the pattern. As of now the only supported pattern is _thread pool_
+	- ___name___: The name of the pattern. As of now the only supported pattern is _Resource Limiter_
 	- ___arguments___: An array which contains parameters about the pattern
 - ___operations___: Array which holds objects which contain information about the different operations that this microservice can perform
 	- ___name___: Name of the operation
