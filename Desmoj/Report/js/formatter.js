@@ -1,4 +1,4 @@
-var pat_name =  /^[A-Za-z0-9_.-]+$/;
+var pat_name =  /^[A-Za-z0-9\_\.\-\/]+$/;
 var pat_int =  /^[0-9]+$/;
 var pat_double = /^[0-9]+(\.[0-9]+)?$/;
 var pat_prob = /^(0(\.\d+)?|1(\.0+)?)$/;

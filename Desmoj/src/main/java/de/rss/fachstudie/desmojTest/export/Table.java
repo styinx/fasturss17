@@ -60,6 +60,7 @@ public class Table {
      */
     public String printTable() {
         String html = "";
+        StringBuilder buffer = new StringBuilder();
         NumberFormat nf = new DecimalFormat("##.##", new DecimalFormatSymbols(Locale.ENGLISH));
 
         String id = "table-" + header.replace(" ", "_");
@@ -87,11 +88,17 @@ public class Table {
             if (mmm.get(4) != Double.NEGATIVE_INFINITY)
                 end = nf.format(mmm.get(4));
 
-            html += "<tr><td align='left'>" + entry + "</td><td>" + start + "</td><td>" + min + "</td>"
-                    + "<td>" + mean + "</td><td>" + max + "</td><td>" + end + "</td></tr>";
+            buffer.append("<tr><td align='left'>")
+                    .append(entry).append("</td><td>")
+                    .append(start).append("</td><td>")
+                    .append(min).append("</td><td>")
+                    .append(mean).append("</td><td>")
+                    .append(max).append("</td><td>")
+                    .append(end).append("</td></tr>");
         }
 
-        html += "</tbody>"
+        html += buffer.toString()
+                + "</tbody>"
                 + "</table>";
 
         if (!empty)

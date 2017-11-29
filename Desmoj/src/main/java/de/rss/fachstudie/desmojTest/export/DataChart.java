@@ -22,11 +22,9 @@ public class DataChart {
     public DataChart(MainModelClass model, String chartId, TreeMap<String, TreeMap<Double, Double>> series) {
         StringBuilder buffer = new StringBuilder();
         this.chartId = chartId;
-        this.options = "title:{text:'" + chartId + "'},"
-                + "legend:{enabled:true},"
-                + "xAxis:{min:0,max:" + model.getSimulationTime() + "},"
-                + "colors:colors(" + series.keySet().size() + "),"
-                + "series:[ ";
+        this.options = "title:{text:'" + chartId
+                + "'},legend:{enabled:true},xAxis:{min:0,max:" + model.getSimulationTime()
+                + "},colors:colors(" + series.keySet().size() + "),series:[ ";
         int index = 0;
 
         for (String mapkey : series.keySet()) {

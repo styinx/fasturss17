@@ -66,13 +66,13 @@ public class DependecyGraph {
      * @return String: js code for the nodes of the graph
      */
     private String printNodes() {
-        String json = "";
+        StringBuilder json = new StringBuilder();
         nodes = new ArrayList<>();
         for(Integer id : microservices.keySet()) {
             if(!nodes.contains(id)) {
-                String labels = "";
+                StringBuilder labels = new StringBuilder();
                 for (Operation op : microservices.get(id).getOperations()) {
-                    labels += "'" + op.getName() + "', ";
+                    labels.append("'").append(op.getName()).append("',");
                 }
                 nodes.add(id);
 
@@ -81,14 +81,17 @@ public class DependecyGraph {
                     instanceLimit = (microservices.get(id).getInstances() < 10) ? microservices.get(id).getInstances() : 10;
                 }
                 for(int i = 0; i < instanceLimit; ++i) {
-                    json += "{ name: '" + microservices.get(id).getName() +
-                            "', id: " + (id + microservices.get(id).getInstances() + microservices.keySet().size() * i) +
-                            ", labels : [" + labels.substring(0, labels.length() - 2) + "]" +
-                            ", group: " + id + "}, ";
+                    json.append("{name:'").append(microservices.get(id).getName())
+                            .append("',id:")
+                            .append(id + microservices.get(id).getInstances() + microservices.keySet().size() * i)
+                            .append(",labels:[")
+                            .append(labels.substring(0, labels.length() - 2))
+                            .append("],group: ")
+                            .append(id).append("},");
                 }
             }
         }
-        return json;
+        return json.toString();
     }
 
     /**
@@ -97,7 +100,7 @@ public class DependecyGraph {
      * @return String: js code for links in the graphs
      */
     private String printLinks() {
-        String json = "";
+        StringBuilder json = new StringBuilder();
         nodes = new ArrayList<>();
         for(Integer id : microservices.keySet()) {
 
@@ -108,18 +111,19 @@ public class DependecyGraph {
 
             if(!nodes.contains(id)) {
                 nodes.add(id);
-                String labels = "";
+                StringBuilder labels = new StringBuilder();
                 for (Operation op : microservices.get(id).getOperations()) {
-                    labels += "'" + op.getName() + "', ";
+                    labels.append("'").append(op.getName()).append("',");
                     for(SortedMap<String, String> depService : op.getDependencies()) {
                         int depId = getIdByName(depService.get("service"));
-                        json += "{ source: " + id
-                                + ", target : " + depId
-                                + ", value : " + instanceLimit + "}, ";
+                        json.append("{source:").append(id)
+                                .append(",target:").append(depId)
+                                .append(",value:").append(instanceLimit)
+                                .append("},");
                     }
                 }
             }
         }
-        return json;
+        return json.toString();
     }
 }
