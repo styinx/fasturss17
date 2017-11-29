@@ -20,24 +20,20 @@ public class DataChart {
      * @param series    ThreeMap<String, TreeMap<Double, Double>>: The data that will be plotted
      */
     public DataChart(MainModelClass model, String chartId, TreeMap<String, TreeMap<Double, Double>> series) {
+        StringBuilder buffer = new StringBuilder();
         this.chartId = chartId;
-        this.options = "title : {text : '" + chartId + "'}, "
-                + "legend: {enabled : true}, "
-                + "xAxis: {min: 0, max:" + model.getSimulationTime() + "}, "
-                + "colors : colors(" + series.keySet().size() + "), "
-                + "series : "
-                + "[ ";
+        this.options = "title:{text:'" + chartId + "'},"
+                + "legend:{enabled:true},"
+                + "xAxis:{min:0,max:" + model.getSimulationTime() + "},"
+                + "colors:colors(" + series.keySet().size() + "),"
+                + "series:[ ";
         int index = 0;
 
         for (String mapkey : series.keySet()) {
             if (series.get(mapkey).size() > 1)
                 empty = false;
 
-            options += "{"
-                    + "name : '" + mapkey + "', "
-                    + "index : " + index + ", "
-                    + "dataGrouping: {enabled: false}, "
-                    + "data : [ ";
+            buffer.append("{name:'").append(mapkey).append("',index:").append(index).append(",dataGrouping:{enabled: false},data:[");
 
             TreeMap<Double, Double> map = series.get(mapkey);
 
@@ -46,14 +42,14 @@ public class DataChart {
 
             for(double x : map.keySet()) {
                 double key = Math.round(x * model.getPrecision()) / model.getPrecision();
-
-                options += "[" + key + ", " + Math.round(map.get(x) * model.getPrecision()) / model.getPrecision() + "], ";
+                String value = "[" + key + "," + Math.round(map.get(x) * model.getPrecision()) / model.getPrecision() + "],";
+                buffer.append(value);
             }
-            options = options.substring(0, options.length() - 2) + "]}, ";
+            buffer = buffer.delete(buffer.length() - 1, buffer.length()).append("]},");
             index++;
         }
         if(series.keySet().size() > 0)
-            options = options.substring(0, options.length() - 2) + "]";
+            options += buffer.delete(buffer.length() - 1, buffer.length()) + "]";
         else
             options += "]";
     }

@@ -50,6 +50,7 @@ function timeFormat(seconds)
         Highcharts.theme = {
             chart: {
                 type: 'spline',
+                zoomType: 'x',
                 backgroundColor: null,
                 style: {
                     fontFamily: 'Verdana, sans-serif'
@@ -143,7 +144,7 @@ function timeFormat(seconds)
             plotOptions: {
                 spline: {
                     marker: {
-                        enabled: true
+                        enabled: false
                     }
                 },
                 candlestick: {
