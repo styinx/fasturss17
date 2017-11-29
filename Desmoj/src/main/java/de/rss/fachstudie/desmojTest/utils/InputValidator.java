@@ -95,6 +95,7 @@ public class InputValidator {
             /*
             Verify patterns in a microservice
              */
+            /*
             for (int patterns = 0; patterns < parser.microservices[microService].getPatterns().length; patterns++) {
                 if (!parser.microservices[microService].getPatterns()[patterns].containsKey("Thread Pool") &&
                         !parser.microservices[microService].getPatterns()[patterns].keySet().isEmpty()) {
@@ -103,7 +104,7 @@ public class InputValidator {
                     errorCounter++;
                 }
             }
-
+            */
 
 
             //walk over all operations
@@ -125,6 +126,7 @@ public class InputValidator {
                     /*
                     Verify patterns in operations
                      */
+                    /*
                     for (int patterns = 0; patterns < parser.microservices[microService].getOperations()[operation].getPatterns().length; patterns++) {
 
                         if (!parser.microservices[microService].getOperations()[operation].getPatterns()[patterns].equals("Circuit Breaker")
@@ -137,7 +139,7 @@ public class InputValidator {
 
 
                     }
-
+                    */
 
                     //get targeted micro service
                     String tempMicroserviceName = parser.microservices[microService].getOperations()[operation].getDependencies()[dependencie].get("service");

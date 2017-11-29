@@ -33,6 +33,15 @@ function selectValues(select)
     return vals;
 }
 
+function parseArray(value)
+{
+    if(value[0] === ",")
+        value = value.substr(1, value.length - 1);
+    if(value[value.length - 1] === ",")
+        value = value.substr(0, value.length - 1);
+    return value.split(",");
+}
+
 function checkPattern(element, pattern, callback)
 {
     if(pattern.test(element.value))
@@ -67,20 +76,14 @@ function createJson()
         var instances = document.getElementById('microservice-' + index + '-instances').value;
         var capacity = document.getElementById('microservice-' + index + '-capacity').value;
 
-        var patterns = [];
+        var spatterns = [];
 
-        for(var spat_index = 0; spat_index < spattern_counter[service_counter]; spat_index++)
+        for(var spat_index = 0; spat_index < spattern_counter[index]; spat_index++)
         {
-
+            var spattern_type = document.getElementById('microservice-pattern-' + index + '-' + spat_index + '-type').value;
+            var spattern_arguments = parseArray(document.getElementById('microservice-pattern-' + index + '-' + spat_index + '-arguments').value);
+            spatterns.push({"name" : spattern_type, "arguments" : spattern_arguments});
         }
-
-//        var pattern = {};
-//        var patternName = document.getElementById('microservice-' + index + '-patternName').value;
-//        var patternValue = document.getElementById('microservice-' + index + '-patternValue').value;
-//
-//        pattern[patternName] = patternValue;
-//        if(pattern[patternName] !== "")
-//            patterns.push(pattern);
 
         var operations = [];
         for(var opindex = 0; opindex < operation_counter[index]; ++opindex)
@@ -92,7 +95,9 @@ function createJson()
 
             for(var opat_index = 0; opat_index < opattern_counter[index][opindex]; ++opat_index)
             {
-                //selectValues(document.getElementById('operation-' + index + "-" + opindex + '-patterns'));
+                var opattern_type = document.getElementById('operation-pattern-' + index + '-' + opindex + '-' + opat_index + '-type').value;
+                var opattern_arguments = parseArray(document.getElementById('operation-pattern-' + index + '-' + opindex + '-' + opat_index + '-arguments').value);
+                oppatterns.push({"name" : opattern_type, "arguments" : opattern_arguments});
             }
 
             var opdependencies = [];
@@ -108,7 +113,7 @@ function createJson()
             operations.push({"name" : opname, "demand" : opdemand, "patterns" : oppatterns, "dependencies" : opdependencies});
         }
 
-        architecture["microservices"][index] = {"name" : name, "instances" : instances, "capacity" : capacity, "patterns" : patterns, "operations" : operations};
+        architecture["microservices"][index] = {"name" : name, "instances" : instances, "capacity" : capacity, "patterns" : spatterns, "operations" : operations};
     }
 
     architecture["generators"] = [];
@@ -293,7 +298,7 @@ function makeMicroservice(id)
              + "<td>"
                + "&nbsp;"
              + "</td>"
-             + "<td>"
+             + "<td class='np'>"
                + "<div id='operation-" + id + "-0-container'></div>"
              + "</td>"
            + "</tr>"
@@ -433,12 +438,11 @@ function makePattern(id, service, operation = null)
     if(operation === null)
     {
         html = ""
-            + "<select id='microservice-pattern-" + service + "-" + id + "'>"
-                + "<option value=''></option>"
+            + "<select id='microservice-pattern-" + service + "-" + id + "-type' onchange=\"createJson();\">"
                 + "<option value='Thread Pool'>Thread Pool</option>"
                 + "<option value='Thread Queue'>Thread Queue</option>"
             + "</select>"
-            + "<input type='number' oninput=\"checkPattern(this, pat_array);\"/>"
+            + "<input id='microservice-pattern-" + service + "-" + id + "-arguments' type='text' oninput=\"checkPattern(this, pat_array);createJson();\"/>"
             + "<div id='microservice-pattern-" + service + "-" + (id+1) + "-container'></div>"
             + "<button id='microservice-pattern-" + service + "-" + id + "-button-add' onclick=\"makePattern(" + (id+1) + ", " + service + ");createJson();\">Add Pattern</button>"
             + "<button id='microservice-pattern-" + service + "-" + id + "-button-remove' onclick=\"removePattern(" + id + ", " + service + ");createJson();\">Remove Pattern</button>";
@@ -459,13 +463,14 @@ function makePattern(id, service, operation = null)
     else
     {
         html = ""
-            + "<select id='operation-pattern-" + service + "-" + operation + "-" + id + "'>"
-                + "<option value=''></option>"
+            + "<select id='operation-pattern-" + service + "-" + operation + "-" + id + "-type' onchange=\"createJson();\">"
                 + "<option value='Circuit Breaker'>Circuit Breaker</option>"
+                + "<option value='Performance Breaker'>Performance Breaker</option>"
             + "</select>"
+            + "<input id='operation-pattern-" + service + "-" + operation + "-" + id + "-arguments' type='text' oninput=\"checkPattern(this, pat_array);createJson();\"/>"
             + "<div id='operation-pattern-" + service + "-" + operation + "-" + (id+1) + "-container'></div>"
-            + "<button id='operation-pattern-" + service + "-" + operation + "-" + (id+1) + "-button-add' onclick=\"makePattern(" + (id+1) + ", " + service + ", " + operation + ")\">Add Pattern</button>"
-            + "<button id='operation-pattern-" + service + "-" + operation + "-" + (id+1) + "-button-remove' onclick=\"remove Pattern(" + id + ", " + service + ", " + operation + ");\">Remove Pattern</button>";
+            + "<button id='operation-pattern-" + service + "-" + operation + "-" + id + "-button-add' onclick=\"makePattern(" + (id+1) + ", " + service + ", " + operation + ");createJson();\">Add Pattern</button>"
+            + "<button id='operation-pattern-" + service + "-" + operation + "-" + id + "-button-remove' onclick=\"removePattern(" + id + ", " + service + ", " + operation + ");createJson();\">Remove Pattern</button>";
 
         if(opattern_counter[service][operation] == 0)
         {
@@ -484,7 +489,7 @@ function makePattern(id, service, operation = null)
 
 function removePattern(id, service, operation)
 {
-    if(operation === null)
+    if(operation == null)
     {
         if(spattern_counter[service] == 1)
         {
@@ -519,7 +524,8 @@ function removePattern(id, service, operation)
 function makeDependency(id, service, operation)
 {
     var html = ""
-        + "<select id='operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-service' class='microservice-names' onchange=\"createJson();fillOperationSelect(this, 'operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-operation');\"></select>"
+        + "<select id='operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-service' class='microservice-names' "
+            + "onclick=\"fillOperationSelect(this, 'operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-operation');\" onchange=\"createJson();fillOperationSelect(this, 'operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-operation');\"></select>"
         + "<select id='operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-operation'></select>"
         + "<input id='operation-dependency-" + service + "-" + operation + "-" + id + "-dependent-probability' type='number' oninput=\"checkPattern(this, pat_prob);createJson();\">"
         + "<button id='operation-dependency-" + service + "-" + operation + "-" + id + "-button-add' onclick=\"makeDependency(" + (id+1) + ", " + service + ", " + operation + ");fillServiceSelects();createJson();\">Add Dependency</button>"
@@ -568,7 +574,8 @@ function makeGenerator(id)
                + "Service:"
              + "</td>"
              + "<td>"
-               + "<select class='microservice-names' id='generator-" + id + "-service' onchange=\"createJson();fillOperationSelect(this,'generator-" + id + "-operation');\"></select>"
+               + "<select class='microservice-names' id='generator-" + id + "-service'"
+                    + "onclick=\"fillOperationSelect(this,'generator-" + id + "-operation');\" onchange=\"createJson();fillOperationSelect(this,'generator-" + id + "-operation');\"></select>"
              + "</td>"
            + "</tr>"
            + "<tr>"

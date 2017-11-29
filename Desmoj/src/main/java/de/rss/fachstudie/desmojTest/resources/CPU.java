@@ -234,18 +234,16 @@ public class CPU extends Event<Thread> {
         cpuUsageMean.put(model.presentTime().getTimeAsDouble(), getUsage());
     }
 
-    public double getMeanUsage(int values) {
+    public double getMeanUsage(double values) {
         int collected = 0;
         double usage = 0;
         List<Double> vals = new ArrayList<Double>(cpuUsageMean.keySet());
         for (int i = vals.size() - 1; i > 0; --i) {
-            model.log(vals.get(i) + " " + cpuUsageMean.get(vals.get(i)));
             if (vals.get(i) < model.presentTime().getTimeAsDouble() - values)
                 break;
             usage += cpuUsageMean.get(vals.get(i));
             collected++;
         }
-        model.log(" --- ");
         return usage / collected;
     }
 
