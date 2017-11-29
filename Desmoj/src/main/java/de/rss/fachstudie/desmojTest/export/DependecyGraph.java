@@ -85,7 +85,7 @@ public class DependecyGraph {
                             .append("',id:")
                             .append(id + microservices.get(id).getInstances() + microservices.keySet().size() * i)
                             .append(",labels:[")
-                            .append(labels.substring(0, labels.length() - 2))
+                            .append(labels.substring(0, labels.length() - 1))
                             .append("],group: ")
                             .append(id).append("},");
                 }
