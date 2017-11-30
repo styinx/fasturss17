@@ -110,10 +110,10 @@ function createJson()
                 opdependencies.push({"service" : opdependentService, "operation" : opdependentOperation, "probability" : opdependentProbability});
             }
 
-            operations.push({"name" : opname, "demand" : opdemand, "patterns" : oppatterns, "dependencies" : opdependencies});
+            operations.push({"name" : opname, "demand" : opdemand, "opatterns" : oppatterns, "dependencies" : opdependencies});
         }
 
-        architecture["microservices"][index] = {"name" : name, "instances" : instances, "capacity" : capacity, "patterns" : spatterns, "operations" : operations};
+        architecture["microservices"][index] = {"name" : name, "instances" : instances, "capacity" : capacity, "spatterns" : spatterns, "operations" : operations};
     }
 
     architecture["generators"] = [];

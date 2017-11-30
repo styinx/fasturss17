@@ -50,11 +50,11 @@ public class DependecyGraph {
         String links = printLinks();
         String html = "var graphMinimalistic = '" + model.getReport() + "';\n" + "var graph = {nodes:[";
         if(nodes.length() > 2)
-            html += nodes.substring(0, nodes.length() - 2) + "], ";
+            html += nodes.substring(0, nodes.length() - 1) + "], ";
         else
             html += "], ";
         if(links.length() > 2)
-            html += "links:[" + links.substring(0, links.length() - 2) + "]};";
+            html += "links:[" + links.substring(0, links.length() - 1) + "]};";
         else
             html += "]};";
         return html;
@@ -86,7 +86,7 @@ public class DependecyGraph {
                             .append(id + microservices.get(id).getInstances() + microservices.keySet().size() * i)
                             .append(",labels:[")
                             .append(labels.substring(0, labels.length() - 1))
-                            .append("],group: ")
+                            .append("],group:")
                             .append(id).append("},");
                 }
             }

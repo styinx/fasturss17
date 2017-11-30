@@ -2,6 +2,7 @@ package de.rss.fachstudie.desmojTest.resources;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.entities.Operation;
+import de.rss.fachstudie.desmojTest.entities.Pattern;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.*;
 
@@ -35,8 +36,8 @@ public class CPU extends Event<Thread> {
     private boolean trialSent = false;
     private Thread trialThread = null;
     private double circuitBreakerTriggered = 0;
-    private double retryTime = 1;
-    private double responseTimelimit = 10;
+    private double retryTime = 0;
+    private double responseTimelimit = 0;
     private double maxResponseTime = 0;
 
     public CPU (Model owner, String name, boolean showInTrace, int id, int capacity) {
@@ -50,17 +51,19 @@ public class CPU extends Event<Thread> {
         existingThreads = new Queue<Thread>(owner, "", false, false);
 
         if(model.allMicroservices.get(id).hasPattern("Thread Pool")) {
-            threadPoolSize = model.allMicroservices.get(id).getPattern("Thread Pool");
-            activeThreads = new Queue<>(owner, "", QueueBased.FIFO, 0, false, false);
-            hasThreadPool = true;
+            Pattern threadPool = model.allMicroservices.get(id).getPattern("Thread Pool");
+            if (threadPool.getArguments().length > 0) {
+                threadPoolSize = threadPool.getArgument(0);
+                activeThreads = new Queue<>(owner, "", QueueBased.FIFO, threadPoolSize, false, false);
+                hasThreadPool = true;
+            }
+            if (threadPool.getArguments().length > 1) {
+                threadQueueSize = threadPool.getArgument(1);
+                waitingThreads = new Queue<>(owner, "", QueueBased.FIFO, threadQueueSize, false, false);
+                hasThreadQueue = true;
+            }
         } else {
             activeThreads = new Queue<>(owner, "", false, false);
-        }
-
-        if(model.allMicroservices.get(id).hasPattern("Thread Queue")) {
-            threadQueueSize = model.allMicroservices.get(id).getPattern("Thread Queue");
-            waitingThreads = new Queue<>(owner, "", QueueBased.FIFO, threadQueueSize, false, false);
-            hasThreadQueue = true;
         }
     }
 
@@ -93,7 +96,22 @@ public class CPU extends Event<Thread> {
 
         lastThreadEntry = this.model.presentTime().getTimeAsDouble();
         hasCircuitBreaker = operation.hasPattern("Circuit Breaker");
-        checkForCircuitBreaker();
+        if (hasCircuitBreaker) {
+            Pattern circuitBreaker = operation.getPattern("Circuit Breaker");
+            if (responseTimelimit == 0) {
+                if (circuitBreaker.getArguments().length > 0) {
+                    responseTimelimit = circuitBreaker.getArguments()[0];
+                } else {
+                    responseTimelimit = 10;
+                }
+                if (circuitBreaker.getArguments().length > 1) {
+                    retryTime = circuitBreaker.getArguments()[1];
+                } else {
+                    retryTime = 1;
+                }
+            }
+            checkForCircuitBreaker();
+        }
 
         if (!hasCircuitBreaker || (cbState == CB_STATE.CLOSED || (cbState == CB_STATE.HALFOPEN && !trialSent))) {
             if(!trialSent && cbState == CB_STATE.HALFOPEN) {

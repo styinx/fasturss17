@@ -4,8 +4,6 @@ import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 
-import java.util.HashMap;
-
 /**
  * A Microservice represents a collection of services.
  * Each instance is able to call operations to another service instance.
@@ -24,15 +22,16 @@ public class Microservice extends Entity{
     private int id;
     private int sid;
     private String name = "";
-    private HashMap<String, Integer>[] patterns;
     private int capacity = 0;
     private int instances = 0;
+    private Pattern[] spatterns = null;
     private Operation[] operations;
 
     public Microservice(Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
 
         this.model = (MainModelClass) owner;
+        spatterns = new Pattern[]{};
     }
 
     public boolean isKilled() {
@@ -67,12 +66,18 @@ public class Microservice extends Entity{
         this.name = name;
     }
 
-    public HashMap<String, Integer>[] getPatterns() {
-        return patterns;
+    public Pattern[] getPatterns() {
+        if (spatterns == null) {
+            spatterns = new Pattern[]{};
+        }
+        return spatterns;
     }
 
-    public void setPatterns(HashMap<String, Integer>[] patterns) {
-        this.patterns = patterns;
+    public void setPatterns(Pattern[] patterns) {
+        if (spatterns == null) {
+            spatterns = new Pattern[]{};
+        }
+        this.spatterns = patterns;
     }
 
     /**
@@ -83,24 +88,26 @@ public class Microservice extends Entity{
      * False if the pattern isn't implemented
      */
     public boolean hasPattern(String name) {
-        if(patterns != null){
-            for(HashMap<String, Integer> pattern : patterns) {
-                if(pattern.containsKey(name)) {
-                    return true;
-                }
+        if (spatterns == null) {
+            spatterns = new Pattern[]{};
+        }
+        for (Pattern pattern : spatterns) {
+            if (pattern.getName().equals(name)) {
+                return true;
             }
         }
-
         return false;
     }
 
-
-    public int getPattern(String name) {
-        for(HashMap<String, Integer> pattern : patterns) {
-            if(pattern.containsKey(name))
-                return pattern.get(name);
+    public Pattern getPattern(String name) {
+        if (spatterns == null) {
+            spatterns = new Pattern[]{};
         }
-        return -1;
+        for (Pattern pattern : spatterns) {
+            if (pattern.getName().equals(name))
+                return pattern;
+        }
+        return null;
     }
 
     public int getCapacity() {

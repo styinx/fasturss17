@@ -1,10 +1,8 @@
 package de.rss.fachstudie.desmojTest.entities;
 
-import co.paralleluniverse.fibers.SuspendExecution;
 import de.rss.fachstudie.desmojTest.models.MainModelClass;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
-import desmoj.core.simulator.SimProcess;
 
 import java.util.SortedMap;
 
@@ -24,10 +22,8 @@ import java.util.SortedMap;
 public class Operation extends Entity {
     private MainModelClass model;
     private String name = "";
-    private String service = "";
-    private String[] patterns = {};
     private int demand = 0;
-    private double probability = 0;
+    private Pattern[] opatterns = null;
     private SortedMap<String, String>[] dependencies;
 
     public Operation(Model model, String s, boolean b) {
@@ -44,25 +40,38 @@ public class Operation extends Entity {
         this.name = name;
     }
 
-    public String getService() {
-        return service;
+
+    public Pattern[] getPatterns() {
+        if (opatterns == null) {
+            opatterns = new Pattern[]{};
+        }
+        return opatterns;
     }
 
-    public void setService(String service) {
-        this.service = service;
+    public void setPatterns(Pattern[] patterns) {
+        if (opatterns == null) {
+            opatterns = new Pattern[]{};
+        }
+        this.opatterns = patterns;
     }
 
-    public String[] getPatterns() {
-        return patterns;
-    }
-
-    public void setPatterns(String[] patterns) {
-        this.patterns = patterns;
+    public Pattern getPattern(String name) {
+        if (opatterns == null) {
+            opatterns = new Pattern[]{};
+        }
+        for (Pattern pattern : opatterns) {
+            if (pattern.getName().equals(name))
+                return pattern;
+        }
+        return null;
     }
 
     public boolean hasPattern(String name) {
-        for(String pattern : patterns) {
-            if(name.equals(pattern))
+        if (opatterns == null) {
+            opatterns = new Pattern[]{};
+        }
+        for (Pattern pattern : opatterns) {
+            if (pattern.getName().equals(name))
                 return true;
         }
         return false;
@@ -82,13 +91,5 @@ public class Operation extends Entity {
 
     public void setDemand(int demand) {
         this.demand = demand;
-    }
-
-    public double getProbability() {
-        return probability;
-    }
-
-    public void setProbability(double probability) {
-        this.probability = probability;
     }
 }
