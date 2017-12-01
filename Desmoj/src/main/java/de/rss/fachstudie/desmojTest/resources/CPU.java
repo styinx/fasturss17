@@ -54,14 +54,20 @@ public class CPU extends Event<Thread> {
             Pattern threadPool = model.allMicroservices.get(id).getPattern("Thread Pool");
             if (threadPool.getArguments().length > 0) {
                 threadPoolSize = threadPool.getArgument(0);
-                activeThreads = new Queue<>(owner, "", QueueBased.FIFO, threadPoolSize, false, false);
-                hasThreadPool = true;
+            } else {
+                // Default
+                threadPoolSize = 10;
             }
+            activeThreads = new Queue<>(owner, "", QueueBased.FIFO, threadPoolSize, false, false);
+            hasThreadPool = true;
             if (threadPool.getArguments().length > 1) {
                 threadQueueSize = threadPool.getArgument(1);
-                waitingThreads = new Queue<>(owner, "", QueueBased.FIFO, threadQueueSize, false, false);
-                hasThreadQueue = true;
+            } else {
+                // Default
+                threadQueueSize = 10;
             }
+            waitingThreads = new Queue<>(owner, "", QueueBased.FIFO, threadQueueSize, false, false);
+            hasThreadQueue = true;
         } else {
             activeThreads = new Queue<>(owner, "", false, false);
         }

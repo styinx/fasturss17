@@ -79,7 +79,7 @@ public class StartEvent extends Event<MessageObject> {
         StopEvent msEndEvent = new StopEvent(model, "", model.getShowStopEvent(), id, operation);
         Thread thread = new Thread(model, "", false, op.getDemand(), msEndEvent, msEntity, messageObject);
 
-        boolean hasResourceLimiter = op.hasPattern("Resource Limiter");
+        boolean hasResourceLimiter = msEntity.hasPattern("Resource Limiter");
         int resourceLimit = Integer.MAX_VALUE;
         double ratio = (model.services.get(id).get(0).getCapacity() / model.services.get(id).get(0).getOperation(operation).getDemand());
 
