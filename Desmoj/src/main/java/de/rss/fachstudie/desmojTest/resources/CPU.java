@@ -16,6 +16,7 @@ public class CPU extends Event<Thread> {
 
     private MainModelClass model;
     private int id = -1;
+    private int sid = -1;
     private int capacity = 0;
     private double robinTime = 10;
     private double cycleTime = 0;
@@ -40,11 +41,12 @@ public class CPU extends Event<Thread> {
     private double responseTimelimit = 0;
     private double maxResponseTime = 0;
 
-    public CPU (Model owner, String name, boolean showInTrace, int id, int capacity) {
+    public CPU(Model owner, String name, boolean showInTrace, int id, int sid, int capacity) {
         super(owner, name, showInTrace);
 
         model = (MainModelClass) owner;
         this.id = id;
+        this.sid = sid;
         this.capacity = capacity;
         lastThreadEntry = 0;
         cpuUsageMean = new TreeMap<>();
@@ -163,10 +165,10 @@ public class CPU extends Event<Thread> {
             }
         } else {
             double last = 0;
-            List<Double> values = model.circuitBreakerStatistics.get(id).getDataValues();
+            List<Double> values = model.circuitBreakerStatistics.get(id).get(sid).getDataValues();
             if (values != null)
                 last = values.get(values.size() - 1);
-            model.circuitBreakerStatistics.get(id).update(last + 1);
+            model.circuitBreakerStatistics.get(id).get(sid).update(last + 1);
             thread.scheduleEndEvent();
         }
 

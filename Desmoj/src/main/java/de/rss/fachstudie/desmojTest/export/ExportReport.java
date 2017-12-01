@@ -80,6 +80,7 @@ public class ExportReport {
 
     private void chartReport() {
         TreeMap<String, TreeMap<Double, Double>> activeInstances = new TreeMap<>();
+        TreeMap<String, TreeMap<Double, Double>> existingInstances = new TreeMap<>();
         TreeMap<String, TreeMap<Double, Double>> taskQueueWork = new TreeMap<>();
         TreeMap<String, TreeMap<Double, Double>> usedCPU = new TreeMap<>();
         TreeMap<String, TreeMap<Double, Double>> responseTime = new TreeMap<>();
@@ -103,8 +104,9 @@ public class ExportReport {
                 
                 Microservice ms = model.services.get(id).get(instance);
                 String file = ms.getName() + "_" + instance + ".txt";
-                
-                activeInstances.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "Threads_" + file));
+
+                activeInstances.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "ThreadActives_" + file));
+                existingInstances.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "ExistingActives_" + file));
                 usedCPU.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "CPU_" + file));
                 responseTime.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "ResponseTime_" + file));
                 resourceLimiter.put(ms.getName() + " #" + instance, this.getTimeSeriesWithKeys(resourcePath + "ResourceLimiter_" + file));
@@ -116,6 +118,7 @@ public class ExportReport {
         }
 
         fillDatapoints(activeInstances, true);
+        fillDatapoints(existingInstances, true);
         fillDatapoints(taskQueueWork, true);
         fillDatapoints(usedCPU, true);
         fillDatapoints(responseTime, false);
@@ -124,23 +127,25 @@ public class ExportReport {
         fillDatapoints(threadPool, true);
         fillDatapoints(threadQueue, true);
 
-        DataChart chart1 = new DataChart(model, "Active Microservice Threads", activeInstances);
-        DataChart chart2 = new DataChart(model, "Task Queue per Service", taskQueueWork);
-        DataChart chart3 = new DataChart(model, "Used CPU in percent", usedCPU);
-        DataChart chart4 = new DataChart(model, "Thread Response Time", responseTime);
-        DataChart chart5 = new DataChart(model, "Tasks refused by Resource Limiter", resourceLimiter);
-        DataChart chart6 = new DataChart(model, "Tasks refused by Circuit Breaker", circuitBreaker);
-        DataChart chart7 = new DataChart(model, "Tasks refused by Thread Pool", threadPool);
-        DataChart chart8 = new DataChart(model, "Tasks refused by Thread Queue", threadQueue);
+        DataChart chart1 = new DataChart(model, "spline", "Active Microservice Threads", activeInstances, "");
+        DataChart chart2 = new DataChart(model, "spline", "Existing Microservice Threads", activeInstances, "");
+        DataChart chart3 = new DataChart(model, "spline", "Task Queue per Service", taskQueueWork, "");
+        DataChart chart4 = new DataChart(model, "spline", "Used CPU in percent", usedCPU, "");
+        DataChart chart5 = new DataChart(model, "scatter", "Thread Response Time", responseTime, "");
+        DataChart chart6 = new DataChart(model, "spline", "Tasks refused by Resource Limiter", resourceLimiter, "");
+        DataChart chart7 = new DataChart(model, "spline", "Tasks refused by Circuit Breaker", circuitBreaker, "");
+        DataChart chart8 = new DataChart(model, "spline", "Tasks refused by Thread Pool", threadPool, "");
+        DataChart chart9 = new DataChart(model, "spline", "Tasks refused by Thread Queue", threadQueue, "");
 
         Table table1 = new Table("Active Microservice Threads", activeInstances);
-        Table table2 = new Table("Task Queue per Service", taskQueueWork);
-        Table table3 = new Table("Used CPU in percent", usedCPU);
-        Table table4 = new Table("Thread Response Time", responseTime);
-        Table table5 = new Table("Tasks refused by Resource Limiter", resourceLimiter);
-        Table table6 = new Table("Tasks refused by Circuit Breaker", circuitBreaker);
-        Table table7 = new Table("Tasks refused by Thread Pool", threadPool);
-        Table table8 = new Table("Tasks refused by Thread Queue", threadQueue);
+        Table table2 = new Table("Existing Microservice Threads", activeInstances);
+        Table table3 = new Table("Task Queue per Service", taskQueueWork);
+        Table table4 = new Table("Used CPU in percent", usedCPU);
+        Table table5 = new Table("Thread Response Time", responseTime);
+        Table table6 = new Table("Tasks refused by Resource Limiter", resourceLimiter);
+        Table table7 = new Table("Tasks refused by Circuit Breaker", circuitBreaker);
+        Table table8 = new Table("Tasks refused by Thread Pool", threadPool);
+        Table table9 = new Table("Tasks refused by Thread Queue", threadQueue);
 
         String divs = chart1.printDiv() + table1.printTable()
                 + chart2.printDiv() + table2.printTable()
@@ -149,7 +154,8 @@ public class ExportReport {
                 + chart5.printDiv() + table5.printTable()
                 + chart6.printDiv() + table6.printTable()
                 + chart7.printDiv() + table7.printTable()
-                + chart8.printDiv() + table8.printTable();
+                + chart8.printDiv() + table8.printTable()
+                + chart9.printDiv() + table9.printTable();
 
         String charts = chart1.printStockChart()
                 + chart2.printStockChart()
@@ -158,7 +164,7 @@ public class ExportReport {
                 + chart5.printStockChart()
                 + chart6.printStockChart()
                 + chart7.printStockChart()
-                + chart8.printStockChart();
+                + chart9.printStockChart();
 
         String contents = divs + charts;
 

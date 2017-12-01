@@ -19,11 +19,11 @@ public class DataChart {
      * @param chartId   String: The ID of this chart
      * @param series    ThreeMap<String, TreeMap<Double, Double>>: The data that will be plotted
      */
-    public DataChart(MainModelClass model, String chartId, TreeMap<String, TreeMap<Double, Double>> series) {
+    public DataChart(MainModelClass model, String chartType, String chartId, TreeMap<String, TreeMap<Double, Double>> series, String legendPrefix) {
         StringBuilder buffer = new StringBuilder();
         this.chartId = chartId;
-        this.options = "title:{text:'" + chartId
-                + "'},legend:{enabled:true},xAxis:{min:0,max:" + model.getSimulationTime()
+        this.options = "chart:{type:'" + chartType + "'},title:{text:'" + chartId + "'}"
+                + ",legend:{enabled:true},xAxis:{min:0,max:" + model.getSimulationTime()
                 + "},colors:colors(" + series.keySet().size() + "),series:[ ";
         int index = 0;
 
