@@ -2,27 +2,29 @@
   "simulation": {
     "experiment": "Desmoj_Microservice_Experiment",
     "model": "Simple microservice model",
-    "duration": 200,
+    "duration": 500,
     "report": "",
-    "datapoints": 200,
+    "datapoints": 500,
     "seed": 1234
   },
   "microservices": [
     {
       "name": "Frontend",
-      "instances": 1,
-      "patterns": [],
+      "instances": 2,
+      "spatterns": [
+      ],
       "capacity": 1000,
       "operations": [
         {
           "name": "login",
-          "patterns": [],
-          "demand": 100,
+          "opatterns": [
+          ],
+          "demand": 400,
           "dependencies": [
             {
               "operation": "save",
               "service": "Server",
-              "probability": 0.1
+              "probability": 0.7
             }
           ]
         }
@@ -30,19 +32,20 @@
     },
     {
       "name": "Server",
-      "instances": 1,
-      "patterns": [],
-      "capacity": 1000,
+      "instances": 5,
+      "spatterns": [],
+      "capacity": 300,
       "operations": [
         {
           "name": "save",
-          "patterns": [],
-          "demand": 100,
+          "opatterns": [
+          ],
+          "demand": 400,
           "dependencies": [
             {
               "operation": "update",
               "service": "Database",
-              "probability": 0.5
+              "probability": 0.0
             }
           ]
         }
@@ -50,14 +53,14 @@
     },
     {
       "name": "Database",
-      "instances": 1,
-      "patterns": [],
-      "capacity": 1000,
+      "instances": 10,
+      "spatterns": [],
+      "capacity": 1500,
       "operations": [
         {
           "name": "update",
-          "patterns": [],
-          "demand": 100,
+          "opatterns": [],
+          "demand": 10000,
           "dependencies": []
         }
       ]
@@ -65,16 +68,26 @@
   ],
   "generators": [
     {
-      "time": 0.1,
+      "time": 0.5,
+      "microservice": "Frontend",
+      "operation": "login"
+    },
+    {
+      "time": 1.5,
+      "microservice": "Frontend",
+      "operation": "login"
+    },
+    {
+      "time": 1,
+      "microservice": "Frontend",
+      "operation": "login"
+    },
+    {
+      "time": 1,
       "microservice": "Frontend",
       "operation": "login"
     }
   ],
   "chaosmonkeys": [
-    //    {
-    //      "microservice" : "Server",
-    //      "instances" : 5,
-    //      "time" : 50
-    //    }
   ]
 }

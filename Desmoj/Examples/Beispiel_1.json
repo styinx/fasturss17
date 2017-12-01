@@ -2,15 +2,15 @@
   "simulation": {
     "experiment": "Desmoj_Microservice_Experiment",
     "model": "Simple microservice model",
-    "duration": 50,
+    "duration": 1000,
     "report": "",
-    "datapoints": 50,
+    "datapoints": 1000,
     "seed": 1234
   },
   "microservices": [
     {
       "name": "Frontend",
-      "instances": 1,
+      "instances": 2,
       "spatterns": [
 
       ],
@@ -19,14 +19,13 @@
         {
           "name": "login",
           "opatterns": [
-
           ],
-          "demand": 10000,
+          "demand": 400,
           "dependencies": [
             {
               "operation": "save",
               "service": "Server",
-              "probability": 0.0
+              "probability": 0.7
             }
           ]
         }
@@ -35,20 +34,20 @@
     {
       "name": "Server",
       "instances": 5,
-      "patterns": [],
-      "capacity": 1000,
+      "spatterns": [],
+      "capacity": 300,
       "operations": [
         {
           "name": "save",
-          "patterns": [
-            ""
+          "opatterns": [
+
           ],
-          "demand": 800,
+          "demand": 400,
           "dependencies": [
             {
               "operation": "update",
               "service": "Database",
-              "probability": 0.0
+              "probability": 0.5
             }
           ]
         }
@@ -56,13 +55,22 @@
     },
     {
       "name": "Database",
-      "instances": 5,
-      "patterns": [],
-      "capacity": 1000,
+      "instances": 10,
+      "spatterns": [
+        {
+          "name": "Thread Pool",
+          "arguments": [
+            10,
+            0
+          ]
+        }
+      ],
+      "capacity": 1500,
       "operations": [
         {
           "name": "update",
-          "patterns": [],
+          "opatterns": [
+          ],
           "demand": 10000,
           "dependencies": []
         }
@@ -71,7 +79,22 @@
   ],
   "generators": [
     {
-      "time": 0.1,
+      "time": 0.5,
+      "microservice": "Frontend",
+      "operation": "login"
+    },
+    {
+      "time": 1.5,
+      "microservice": "Frontend",
+      "operation": "login"
+    },
+    {
+      "time": 1,
+      "microservice": "Frontend",
+      "operation": "login"
+    },
+    {
+      "time": 1,
       "microservice": "Frontend",
       "operation": "login"
     }
