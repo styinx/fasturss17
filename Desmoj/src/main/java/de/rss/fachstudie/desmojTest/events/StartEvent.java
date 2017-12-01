@@ -79,18 +79,18 @@ public class StartEvent extends Event<MessageObject> {
         StopEvent msEndEvent = new StopEvent(model, "", model.getShowStopEvent(), id, operation);
         Thread thread = new Thread(model, "", false, op.getDemand(), msEndEvent, msEntity, messageObject);
 
-        boolean hasPerformanceBreaker = op.hasPattern("Performance Breaker");
-        int circuitBreakerLimit = Integer.MAX_VALUE;
+        boolean hasResourceLimiter = op.hasPattern("Resource Limiter");
+        int resourceLimit = Integer.MAX_VALUE;
         double ratio = (model.services.get(id).get(0).getCapacity() / model.services.get(id).get(0).getOperation(operation).getDemand());
 
         if(ratio >= 1) {
-            circuitBreakerLimit = model.services.get(id).size() *
+            resourceLimit = model.services.get(id).size() *
                     (model.services.get(id).get(0).getCapacity() / model.services.get(id).get(0).getOperation(operation).getDemand());
         } else {
-            circuitBreakerLimit = model.services.get(id).size();
+            resourceLimit = model.services.get(id).size();
         }
 
-        if(!hasPerformanceBreaker || model.taskQueues.get(id).size() < circuitBreakerLimit) {
+        if (!hasResourceLimiter || model.taskQueues.get(id).size() < resourceLimit) {
 
             model.taskQueues.get(id).insert(messageObject);
 
@@ -144,12 +144,12 @@ public class StartEvent extends Event<MessageObject> {
                 msEndEvent.schedule(msEntity, thread, messageObject);
             }
         } else {
-            // Circuit Breaker
+            // Resource Limiter
             double last = 0;
-            List<Double> values = model.circuitBreakerStatistics.get(id).getDataValues();
+            List<Double> values = model.resourceLimiterStatistics.get(id).get(msEntity.getSid()).getDataValues();
             if(values != null)
                 last = values.get(values.size() - 1);
-            model.circuitBreakerStatistics.get(id).update(last + 1);
+            model.resourceLimiterStatistics.get(id).get(msEntity.getSid()).update(last + 1);
         }
 
         // Statistics

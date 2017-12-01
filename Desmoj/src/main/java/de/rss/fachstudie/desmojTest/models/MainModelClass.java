@@ -56,6 +56,7 @@ public class MainModelClass extends Model {
     public HashMap<Integer, TimeSeries> circuitBreakerStatistics;
     public HashMap<Integer, HashMap<Integer, TimeSeries>> threadPoolStatistics;
     public HashMap<Integer, HashMap<Integer, TimeSeries>> threadQueueStatistics;
+    public HashMap<Integer, HashMap<Integer, TimeSeries>> resourceLimiterStatistics;
     public HashMap<Integer, TimeSeries> taskQueueStatistics;
 
     public void  setSimulationTime(double simTime) {
@@ -262,6 +263,7 @@ public class MainModelClass extends Model {
         circuitBreakerStatistics    = new HashMap<>();
         threadPoolStatistics        = new HashMap<>();
         threadQueueStatistics       = new HashMap<>();
+        resourceLimiterStatistics = new HashMap<>();
         taskQueueStatistics         = new HashMap<>();
 
         // Create folder for statistics file
@@ -288,12 +290,12 @@ public class MainModelClass extends Model {
             HashMap<Integer, TimeSeries> threadStats = new HashMap<>();
             HashMap<Integer, TimeSeries> cpuStats = new HashMap<>();
             HashMap<Integer, TimeSeries> responseStats = new HashMap<>();
+            HashMap<Integer, TimeSeries> threadPoolStats = new HashMap<>();
+            HashMap<Integer, TimeSeries> threadQueueStats = new HashMap<>();
+            HashMap<Integer, TimeSeries> resourceLimiterStats = new HashMap<>();
             TimeSeries circuitBreakerStats = new TimeSeries(this, "Tasks refused by Circuit Breaker: " + serviceName,
                     resourcePath + "CircuitBreaker_" + serviceName + ".txt",
                     new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
-            HashMap<Integer, TimeSeries> threadPoolStats = new HashMap<>();
-            HashMap<Integer, TimeSeries> threadQueueStats = new HashMap<>();
-
             TimeSeries taskQueueWork = new TimeSeries(this, "Task Queue: " + serviceName,
                     resourcePath + "TaskQueue_" + serviceName + ".txt",
                     new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
@@ -336,11 +338,16 @@ public class MainModelClass extends Model {
                         resourcePath + "ThreadQueue_" + serviceName + "_" + msEntity.getSid() + ".txt",
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
+                TimeSeries resourceLimiter = new TimeSeries(this, "Tasks refused by Resource Limiter: " + serviceName,
+                        resourcePath + "ResourceLimiter_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                        new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
+
                 threadStats.put(instance, activeInstances);
                 cpuStats.put(instance, activeCPU);
                 responseStats.put(instance, responseTime);
                 threadPoolStats.put(instance, threadPool);
                 threadQueueStats.put(instance, threadQueue);
+                resourceLimiterStats.put(instance, resourceLimiter);
             }
             // Queues
             taskQueues.put(id, taskQueue);
@@ -356,6 +363,7 @@ public class MainModelClass extends Model {
             circuitBreakerStatistics.put(id, circuitBreakerStats);
             threadPoolStatistics.put(id, threadPoolStats);
             threadQueueStatistics.put(id, threadQueueStats);
+            resourceLimiterStatistics.put(id, resourceLimiterStats);
             taskQueueStatistics.put(id, taskQueueWork);
         }
     }

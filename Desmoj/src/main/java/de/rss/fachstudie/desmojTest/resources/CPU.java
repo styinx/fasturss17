@@ -102,11 +102,13 @@ public class CPU extends Event<Thread> {
                 if (circuitBreaker.getArguments().length > 0) {
                     responseTimelimit = circuitBreaker.getArguments()[0];
                 } else {
+                    // Default 10s
                     responseTimelimit = 10;
                 }
                 if (circuitBreaker.getArguments().length > 1) {
                     retryTime = circuitBreaker.getArguments()[1];
                 } else {
+                    // Default 1s
                     retryTime = 1;
                 }
             }
@@ -154,6 +156,11 @@ public class CPU extends Event<Thread> {
                 }
             }
         } else {
+            double last = 0;
+            List<Double> values = model.circuitBreakerStatistics.get(id).getDataValues();
+            if (values != null)
+                last = values.get(values.size() - 1);
+            model.circuitBreakerStatistics.get(id).update(last + 1);
             thread.scheduleEndEvent();
         }
 
