@@ -64,23 +64,6 @@ function timeFormat(seconds)
                     textDecoration: 'underline'
                 }
             },
-            tooltip: {
-                formatter: function () {
-                    var s = 'Time: <b>' + timeFormat(this.x) + " / " + Math.round(this.x * 100000) / 100000 + 's</b><br>';
-                    for(var p in this.points) {
-                        s += '<br/><span style="color:' + this.points[p].color + '">\u25CF</span> ' + this.points[p].series.name + ': ' + Math.floor(this.points[p].y * 100)/100;
-                    }
-                    return s;
-                },
-                shared: true,
-                borderWidth: 1,
-                shadow: false,
-                backgroundColor: 'rgba(50,50,50,0.8)',
-                style : {
-                    border: '1px solid white',
-                    color: '#FFFFFF'
-                }
-            },
             rangeSelector: {
                 selected: 4,
                 inputEnabled: false,
@@ -141,10 +124,30 @@ function timeFormat(seconds)
                     }
                 }
             },
+            tooltip: {
+                shared: true,
+                borderWidth: 1,
+                shadow: false,
+                backgroundColor: 'rgba(50,50,50,0.8)',
+                style : {
+                    border: '1px solid white',
+                    color: '#FFFFFF'
+                }
+            },
             plotOptions: {
                 spline: {
                     marker: {
                         enabled: false
+                    },
+                    tooltip: {
+                        headerFormat: 'Time: <b>{point.x} s</b><br/>',
+                        pointFormat: '<br/><span style="color:{series.color};">\u25CF</span> {series.name}: <b>{point.y}</b>'
+                    }
+                },
+                scatter: {
+                    tooltip: {
+                        headerFormat: 'Time: <b>{point.x} s</b><br/>',
+                        pointFormat: '<br/><span style="color:{series.color};">\u25CF</span> {series.name}: <b>{point.y}</b>'
                     }
                 },
                 candlestick: {

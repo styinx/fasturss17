@@ -77,10 +77,6 @@ public class MainModelClass extends Model {
         input.setRequired(true);
         options.addOption(input);
 
-//        Option output = new Option("r", "report", true, "report type");
-//        output.setRequired(false);
-//        options.addOption(output);
-
         CommandLineParser cmdparser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd = null;
@@ -316,38 +312,40 @@ public class MainModelClass extends Model {
                 // Resources
                 CPU msCPU = new CPU(this, "", false, id, instance, msEntity.getCapacity());
                 cpu.put(instance, msCPU);
+                String postfix = serviceName + " #" + instance;
+                String file = serviceName + "_" + instance + ".txt";
 
                 // Statistics
-                TimeSeries activeInstances = new TimeSeries(this, "Active Threads: " + serviceName + " #" + instance,
-                        resourcePath + "ActiveThreads_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                TimeSeries activeInstances = new TimeSeries(this, "Active Threads: " + postfix,
+                        resourcePath + "ActiveThreads_" + file,
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
-                TimeSeries existingInstances = new TimeSeries(this, "Existing Threads: " + serviceName + " #" + instance,
-                        resourcePath + "ExistingThreads_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                TimeSeries existingInstances = new TimeSeries(this, "Existing Threads: " + postfix,
+                        resourcePath + "ExistingThreads_" + file,
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
-                TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + serviceName + " #" + instance,
-                        resourcePath + "CPU_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                TimeSeries activeCPU = new TimeSeries(this, "Used CPU: " + postfix,
+                        resourcePath + "CPU_" + file,
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
-                TimeSeries responseTime = new TimeSeries(this, "Response Time: " + serviceName + " #" + instance,
-                        resourcePath + "ResponseTime_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                TimeSeries responseTime = new TimeSeries(this, "Response Time: " + postfix,
+                        resourcePath + "ResponseTime_" + file,
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
-                TimeSeries threadPool = new TimeSeries(this, "Tasks refused by Thread Pool: " + serviceName,
-                        resourcePath + "ThreadPool_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                TimeSeries threadPool = new TimeSeries(this, "Tasks refused by Thread Pool: " + postfix,
+                        resourcePath + "ThreadPool_" + file,
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
-                TimeSeries threadQueue = new TimeSeries(this, "Tasks refused by Thread Queue: " + serviceName,
-                        resourcePath + "ThreadQueue_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                TimeSeries threadQueue = new TimeSeries(this, "Tasks refused by Thread Queue: " + postfix,
+                        resourcePath + "ThreadQueue_" + file,
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
-                TimeSeries resourceLimiter = new TimeSeries(this, "Tasks refused by Resource Limiter: " + serviceName,
-                        resourcePath + "ResourceLimiter_" + serviceName + "_" + msEntity.getSid() + ".txt",
+                TimeSeries resourceLimiter = new TimeSeries(this, "Tasks refused by Resource Limiter: " + postfix,
+                        resourcePath + "ResourceLimiter_" + file,
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
-                TimeSeries circuitBreaker = new TimeSeries(this, "Tasks refused by Circuit Breaker: " + serviceName,
-                        resourcePath + "CircuitBreaker_" + serviceName + msEntity.getSid() + ".txt",
+                TimeSeries circuitBreaker = new TimeSeries(this, "Tasks refused by Circuit Breaker: " + postfix,
+                        resourcePath + "CircuitBreaker_" + file,
                         new TimeInstant(0.0, timeUnit), new TimeInstant(simulationTime, timeUnit), false, false);
 
                 activeThreadStats.put(instance, activeInstances);
