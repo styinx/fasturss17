@@ -79,21 +79,16 @@ public class MainModelClass extends Model {
 
         CommandLineParser cmdparser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
-        CommandLine cmd = null;
+        CommandLine cmd;
 
         try {
             cmd = cmdparser.parse(options, args);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             formatter.printHelp("Simulator", options);
-//            System.exit(1);
-//            return;
+            System.exit(1);
+            return;
         }
-
-        if (cmd != null)
-            arch = (cmd.getOptionValue("arch").equals("")) ? "example_simple.json" : cmd.getOptionValue("arch");
-        if (arch == "")
-            arch = "Examples/Beispiel_1.json";
 
         InputParser parser = new InputParser(arch);
         InputValidator validator = new InputValidator();
