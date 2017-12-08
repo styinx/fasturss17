@@ -55,8 +55,10 @@ public class DependecyGraph {
             html += "], ";
         if(links.length() > 2)
             html += "links:[" + links.substring(0, links.length() - 1) + "]};";
+        else if(links.length() == 0)
+            html += "};";
         else
-            html += "]};";
+            html += "]}";
         return html;
     }
 

@@ -90,6 +90,8 @@ public class MainModelClass extends Model {
             return;
         }
 
+        arch = cmd.getOptionValue("a");
+
         InputParser parser = new InputParser(arch);
         InputValidator validator = new InputValidator();
 

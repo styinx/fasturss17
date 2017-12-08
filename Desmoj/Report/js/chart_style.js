@@ -145,6 +145,9 @@ function timeFormat(seconds)
                     }
                 },
                 scatter: {
+                    marker: {
+                        radius: 2
+                    },
                     tooltip: {
                         headerFormat: 'Time: <b>{point.x} s</b><br/>',
                         pointFormat: '<br/><span style="color:{series.color};">\u25CF</span> {series.name}: <b>{point.y}</b>'

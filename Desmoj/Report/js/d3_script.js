@@ -107,13 +107,16 @@ function renameLinks(graph)
 {
     var links = [];
     var i = 0;
-    graph.links.forEach(function(l)
+    if(graph.hasOwnProperty('links'))
     {
-        var sourceNode = graph.nodes.filter(function(n) { return n.group === l.source; })[0];
-        var targetNode = graph.nodes.filter(function(n) { return n.group === l.target; })[0];
+        graph.links.forEach(function(l)
+        {
+            var sourceNode = graph.nodes.filter(function(n) { return n.group === l.source; })[0];
+            var targetNode = graph.nodes.filter(function(n) { return n.group === l.target; })[0];
 
-        links.push({source: sourceNode.group, target: targetNode.group, value: l.value, label : l.label});
-    });
+            links.push({source: sourceNode.group, target: targetNode.group, value: l.value, label : l.label});
+        });
+    }
     graph.links = links;
     return graph;
 }

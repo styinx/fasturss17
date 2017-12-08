@@ -2,15 +2,15 @@
   "simulation": {
     "experiment": "Desmoj_Microservice_Experiment",
     "model": "Simple microservice model",
-    "duration": 1000,
+    "duration": 100,
     "report": "",
-    "datapoints": 1000,
+    "datapoints": 100,
     "seed": 1234
   },
   "microservices": [
     {
       "name": "Frontend",
-      "instances": 2,
+      "instances": 15,
       "spatterns": [
 
       ],
@@ -19,13 +19,14 @@
         {
           "name": "login",
           "opatterns": [
+            {"name" : "Circuit Breaker", "arguments" : [1, 2]}
           ],
-          "demand": 400,
+          "demand": 1000,
           "dependencies": [
             {
               "operation": "save",
               "service": "Server",
-              "probability": 0.7
+              "probability": 1.0
             }
           ]
         }
@@ -33,21 +34,21 @@
     },
     {
       "name": "Server",
-      "instances": 5,
+      "instances": 25,
       "spatterns": [],
-      "capacity": 300,
+      "capacity": 3000,
       "operations": [
         {
           "name": "save",
           "opatterns": [
-
+            {"name" : "Circuit Breaker", "arguments" : [1, 2]}
           ],
-          "demand": 400,
+          "demand": 3000,
           "dependencies": [
             {
               "operation": "update",
               "service": "Database",
-              "probability": 0.5
+              "probability": 0.0
             }
           ]
         }
@@ -55,7 +56,7 @@
     },
     {
       "name": "Database",
-      "instances": 10,
+      "instances": 5,
       "spatterns": [
         {
           "name": "Thread Pool",
@@ -70,6 +71,7 @@
         {
           "name": "update",
           "opatterns": [
+
           ],
           "demand": 10000,
           "dependencies": []
