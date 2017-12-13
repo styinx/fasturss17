@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Desmoj:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="c1559c2e-0d81-447f-8daa-233839b7a9ab" name="Default" comment="circuit breaker is now functioning, task queue is collected in statisitcs, graph improvements">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Examples/Pres_1.json" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Report/index.html" afterPath="$PROJECT_DIR$/Report/report.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Examples/Beispiel_1.json" afterPath="$PROJECT_DIR$/Examples/Beispiel_1.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Examples/example_advanced.json" afterPath="$PROJECT_DIR$/Examples/example_advanced.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Report/js/chart.js" afterPath="$PROJECT_DIR$/Report/js/chart.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Report/js/chart_style.js" afterPath="$PROJECT_DIR$/Report/js/chart_style.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Report/js/graph.js" afterPath="$PROJECT_DIR$/Report/js/graph.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/models/MainModelClass.java" afterPath="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/models/MainModelClass.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -14,18 +28,96 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="625">
-              <caret line="25" column="21" lean-forward="false" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.40638977">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="MainModelClass.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/models/MainModelClass.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="577">
+                  <caret line="95" column="33" lean-forward="false" selection-start-line="95" selection-start-column="33" selection-end-line="95" selection-end-column="33" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="example_advanced.json" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Examples/example_advanced.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="541">
+                  <caret line="139" column="9" lean-forward="false" selection-start-line="139" selection-start-column="9" selection-end-line="139" selection-end-column="9" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="chart_style.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Report/js/chart_style.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="2516">
+                  <caret line="148" column="33" lean-forward="false" selection-start-line="148" selection-start-column="33" selection-end-line="148" selection-end-column="33" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="Beispiel_1.json" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Examples/Beispiel_1.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="255">
+                  <caret line="41" column="25" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="105" selection-end-column="1" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Pres_1.json" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Examples/Pres_1.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="306">
+                  <caret line="21" column="29" lean-forward="false" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="DependecyGraph.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/export/DependecyGraph.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="473">
+                  <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="StartEvent.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/StartEvent.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="218">
+                  <caret line="79" column="0" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="InputValidator.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/utils/InputValidator.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="210">
+                  <caret line="112" column="0" lean-forward="false" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -43,6 +135,25 @@
       <find>Prop</find>
       <find>propability</find>
       <find>Sys</find>
+      <find>]},</find>
+      <find>Circuit</find>
+      <find>Thread Pool</find>
+      <find>model.log</find>
+      <find>simple</find>
+      <find>eventRoutine</find>
+      <find>model.lo</find>
+      <find>ablehnungen</find>
+      <find>circuitBreakerTriggered</find>
+      <find>trialSent</find>
+      <find>asdasdsadsa</find>
+      <find>asda</find>
+      <find>asd</find>
+      <find>asdasd</find>
+      <find>trial thread</find>
+      <find>as</find>
+      <find>mic</find>
+      <find>serviceName + &quot;_&quot; + msEntity.getSid() + &quot;.txt&quot;</find>
+      <find>50</find>
     </findStrings>
     <replaceStrings>
       <replace>microservices</replace>
@@ -50,12 +161,13 @@
       <replace>Double.parseDouble</replace>
       <replace>Prob</replace>
       <replace>probability</replace>
+      <replace>file</replace>
+      <replace>500</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
-        <option value="Samuel Beck &lt;sammy_13@gmx.net&gt;" />
         <option value="styinx" />
         <option value="Christoph Zorn &lt;zornchrisjo@googlemail.com&gt;" />
       </list>
@@ -75,22 +187,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Shipping.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/RequestGeneratorEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InstanceEndEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/RequestArrivalEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ProcessingRequestArrivalEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/OrderEndEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ShippingRequestArrivalEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ShippingEndEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ProcessingEndEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/utils/Node.java" />
-        <option value="$PROJECT_DIR$/Report/js/graph.js" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/ErrorMonkeyEntity.java" />
-        <option value="$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/simulator/Queue.class" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitalErrorMonkeyEvent.java" />
-        <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialErrorMonkeyEvent.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ErrorMonkeyEvent.java" />
         <option value="$PROJECT_DIR$/example_4.json" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/ChaosMonkeyEvent.java" />
@@ -110,15 +206,12 @@
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/DesmojTest.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StopMicroserviceEvent.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceEntity.java" />
-        <option value="$PROJECT_DIR$/example_simple.json" />
         <option value="$PROJECT_DIR$/example_basic.json" />
-        <option value="$PROJECT_DIR$/Report/js/chart_style.js" />
         <option value="$PROJECT_DIR$/Report/js/chart.js" />
         <option value="$PROJECT_DIR$/Report/index.html" />
         <option value="$PROJECT_DIR$/Report/css/style.css" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StartMicroserviceEvent.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StatisticCollectorEvent.java" />
-        <option value="$PROJECT_DIR$/example_advanced.json" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/ExportReport.java" />
         <option value="$PROJECT_DIR$/Report/js/chart_script.js" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/export/DataChart.java" />
@@ -126,6 +219,25 @@
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/MainModelClass.java" />
         <option value="$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StartEvent.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/ChaosMonkeyEvent.java" />
+        <option value="$PROJECT_DIR$/example_simple.json" />
+        <option value="$PROJECT_DIR$/example_advanced.json" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/resources/Thread.java" />
+        <option value="$PROJECT_DIR$/Report/js/formatter.js" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/export/DataChart.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/utils/InputValidator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/Pattern.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/Operation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/Microservice.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/StopEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/StartEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/resources/CPU.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/export/ExportReport.java" />
+        <option value="$PROJECT_DIR$/Examples/Beispiel_1.json" />
+        <option value="$PROJECT_DIR$/Report/js/chart_style.js" />
+        <option value="$PROJECT_DIR$/Examples/example_advanced.json" />
+        <option value="$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/models/MainModelClass.java" />
+        <option value="$PROJECT_DIR$/Examples/Pres_1.json" />
       </list>
     </option>
   </component>
@@ -166,6 +278,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
       <pane id="PackagesPane">
         <subPane>
           <expand>
@@ -182,9 +296,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -192,19 +303,80 @@
               <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
               <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="Examples" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+              <item name="Desmoj_jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="Report" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="Report" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Desmoj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Desmoj" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="desmojTest" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Java" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/" />
     <property name="nodejs_interpreter_path" value="D:/Program Files (x86)/nodejs/node" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="last.edited.regexp" value=" " />
@@ -340,8 +512,7 @@
       <workItem from="1502377047597" duration="14722000" />
       <workItem from="1506591857420" duration="177000" />
       <workItem from="1510302683729" duration="1783000" />
-      <workItem from="1510304770636" duration="3135000" />
-      <workItem from="1510315813065" duration="146000" />
+      <workItem from="1510304770636" duration="1300000" />
     </task>
     <task id="LOCAL-00001" summary="dependency graph shows now whole architecture, added Report directory, outsourced js html and css files">
       <created>1506110540912</created>
@@ -539,49 +710,127 @@
       <option name="project" value="LOCAL" />
       <updated>1509628497759</updated>
     </task>
-    <task id="LOCAL-00029" summary="Added gson and apache commons cli dependencies to maven.">
-      <created>1510306143148</created>
+    <task id="LOCAL-00029" summary="add check for resource path">
+      <created>1510307343525</created>
       <option name="number" value="00029" />
       <option name="presentableId" value="LOCAL-00029" />
       <option name="project" value="LOCAL" />
-      <updated>1510306143148</updated>
+      <updated>1510307343525</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="fix bug in datachart export">
+      <created>1510320792148</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1510320792148</updated>
+    </task>
+    <task id="LOCAL-00031" summary="resolve issue for instance threads">
+      <created>1510658974249</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1510658974249</updated>
+    </task>
+    <task id="LOCAL-00032" summary="add examples, repaired circuit breaker, fixed thread selection, started with thread pool issue">
+      <created>1510669775917</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1510669775917</updated>
+    </task>
+    <task id="LOCAL-00033" summary="change collected threads from existing threads to active threads">
+      <created>1511255184851</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1511255184851</updated>
+    </task>
+    <task id="LOCAL-00034" summary="add decimal precision to charts">
+      <created>1511265069020</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1511265069020</updated>
+    </task>
+    <task id="LOCAL-00035" summary="fixed bug with reschedule thread to next time instance">
+      <created>1511272101748</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1511272101748</updated>
+    </task>
+    <task id="LOCAL-00036" summary="remove unnecessary stuff">
+      <created>1511274735556</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1511274735556</updated>
+    </task>
+    <task id="LOCAL-00037" summary="circuit breaker implemented">
+      <created>1511535236678</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1511535236679</updated>
+    </task>
+    <task id="LOCAL-00038" summary="formatter creates now patterns for services (was missing in json)">
+      <created>1511860405677</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1511860405677</updated>
+    </task>
+    <task id="LOCAL-00039" summary="add default values to patterns, add resource limiter table">
+      <created>1512122004477</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1512122004477</updated>
+    </task>
+    <task id="LOCAL-00040" summary="made final adjustments to charts and statistics">
+      <created>1512470797808</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1512470797809</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22308000" />
+    <option name="totallyTimeSpent" value="20327000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
+    <frame x="-8" y="-8" width="1922" height="1173" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="PlantUML" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3269781" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929105" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31267875" sideWeight="0.50319487" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21070234" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23186682" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.349857" sideWeight="0.4968051" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21067683" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42040038" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28324324" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16666667" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32699168" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -590,7 +839,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929105" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31267875" sideWeight="0.50319487" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -600,17 +849,18 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936507" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3269781" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17257462" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2108209" sideWeight="0.49791667" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17239584" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936507" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.349857" sideWeight="0.4968051" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21067683" sideWeight="0.49791667" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42040038" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18903089" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
@@ -626,17 +876,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add flags for tracing events, add default errormonkey, which kills all instances of a ms, add 2 new uml diagrams" />
-    <MESSAGE value="create new class initalerrormonkeyevent, monkey works now for all time periods" />
-    <MESSAGE value="operations can be read from the new json format (dependencies not working yet), monkeys and inital events can be read from json as well" />
-    <MESSAGE value="update latest json (example_4.json sorry :-))" />
-    <MESSAGE value="made adjustments to json input, all events get initialized at start, operations are now supported and shown at report (but need some further testing)" />
-    <MESSAGE value="add operations as labels to graph" />
-    <MESSAGE value="Report generates now graphs and charts together" />
-    <MESSAGE value="change 3rd example to new architecture, all dependant operations are called from predecessors, adjust graph export" />
-    <MESSAGE value="Simulator collects now statisitcs (currently used instances over time), Statistics are shown in first diagram of the report (in our custom report as well as DesmoJ Report), Distribution titles need rework" />
-    <MESSAGE value="multiple time series can be collected from each service (Report takes some time to collect daa from written files), CPU is stored as Number (resources were not working properly) and is now shown in report (negativ numbers possible!)" />
-    <MESSAGE value="add new section json for global settings, cpu usage graph gets plotted in the correct way" />
     <MESSAGE value="fix wrong resource assignment, small style changes" />
     <MESSAGE value="expand documentation, fix typo in json" />
     <MESSAGE value="add scrollarea to charts for more convenient scrolling" />
@@ -650,10 +889,19 @@
     <MESSAGE value="fix problem with instance selection" />
     <MESSAGE value="create custom color generator, move circuit breaker to start event, problem: effects of circuit breaker not visible" />
     <MESSAGE value="circuit breaker is now functioning, task queue is collected in statisitcs, graph improvements" />
-    <MESSAGE value="Added gson and apache commons cli dependencies to maven." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added gson and apache commons cli dependencies to maven." />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <MESSAGE value="add check for resource path" />
+    <MESSAGE value="fix bug in datachart export" />
+    <MESSAGE value="resolve issue for instance threads" />
+    <MESSAGE value="add examples, repaired circuit breaker, fixed thread selection, started with thread pool issue" />
+    <MESSAGE value="change collected threads from existing threads to active threads" />
+    <MESSAGE value="add decimal precision to charts" />
+    <MESSAGE value="fixed bug with reschedule thread to next time instance" />
+    <MESSAGE value="remove unnecessary stuff" />
+    <MESSAGE value="circuit breaker implemented" />
+    <MESSAGE value="formatter creates now patterns for services (was missing in json)" />
+    <MESSAGE value="add default values to patterns, add resource limiter table" />
+    <MESSAGE value="made final adjustments to charts and statistics" />
+    <option name="LAST_COMMIT_MESSAGE" value="made final adjustments to charts and statistics" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -662,62 +910,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/InitialEvent.java" />
-    <entry file="file://$USER_HOME$/LeergutVerwaltung/php/source/chart.php" />
-    <entry file="file://$USER_HOME$/SysMonitor/src/SysMonitor.py" />
-    <entry file="file://$PROJECT_DIR$/new_format.json" />
-    <entry file="file://$PROJECT_DIR$/Report/js/highcharts_script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_4.json" />
-    <entry file="jar://$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/report/Reporter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="11" column="22" lean-forward="false" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/simulator/Experiment.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-423">
-          <caret line="812" column="25" lean-forward="false" selection-start-line="812" selection-start-column="25" selection-end-line="812" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/desmoj-2.5.1e-bin.jar!/desmoj/core/simulator/SimProcess.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Report/css/d3.css" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/export/DependecyGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="50" column="17" lean-forward="true" selection-start-line="50" selection-start-column="17" selection-end-line="50" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/ChaosMonkeyEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="20" column="5" lean-forward="false" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_3.json" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/Operation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="22" column="78" lean-forward="false" selection-start-line="22" selection-start-column="78" selection-end-line="22" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/example_2.png" />
     <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/InitialChaosMonkeyEvent.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -740,48 +932,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/example_advanced.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example_advanced_clear.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/example_advanced.png" />
+    <entry file="file://$PROJECT_DIR$/example_advanced_clear.png" />
     <entry file="file://$PROJECT_DIR$/pattern.json" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/Predecessor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="51" lean-forward="false" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/MessageObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceThread.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/utils/InputParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="16" column="103" lean-forward="false" selection-start-line="16" selection-start-column="103" selection-end-line="16" selection-end-column="103" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/models/DesmojTest.java" />
     <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/MicroserviceEntity.java" />
-    <entry file="file://$PROJECT_DIR$/example_simple.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="815">
-          <caret line="63" column="25" lean-forward="false" selection-start-line="63" selection-start-column="25" selection-end-line="63" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StopMicroserviceEvent.java" />
     <entry file="file://$PROJECT_DIR$/Report/js/highcharts.min.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -790,7 +946,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Report/index.html">
+    <entry file="file://$PROJECT_DIR$/Report/report.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="484">
           <caret line="32" column="42" lean-forward="false" selection-start-line="32" selection-start-column="42" selection-end-line="32" selection-end-column="42" />
@@ -804,36 +960,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/example_basic.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/example_basic.json" />
     <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StartMicroserviceEvent.java" />
     <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/StatisticCollectorEvent.java" />
-    <entry file="file://$PROJECT_DIR$/example_advanced.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="19" column="24" lean-forward="false" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Report/js/chart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="67" lean-forward="true" selection-start-line="3" selection-start-column="67" selection-end-line="3" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Report/js/chart_style.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Report/js/chart_script.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1054">
@@ -841,81 +970,198 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialMicroserviceEvent.java" />
+    <entry file="file://$USER_HOME$/Downloads/desmoj-2.5.1e-src/desmoj/core/simulator/Scheduler.java" />
+    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Thread.java" />
+    <entry file="file://$PROJECT_DIR$/Diagrams/ClassDiagram.uml" />
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="18" lean-forward="false" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/modellingFeatures/CustomRes.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/ChaosMonkeyEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="50" column="51" lean-forward="false" selection-start-line="50" selection-start-column="51" selection-end-line="50" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example_simple.json" />
+    <entry file="file://$PROJECT_DIR$/example_advanced.json" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/InitialEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="76" column="40" lean-forward="false" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/resources/Thread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="28" column="111" lean-forward="false" selection-start-line="28" selection-start-column="111" selection-end-line="28" selection-end-column="111" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/MessageObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="8" column="21" lean-forward="false" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/Predecessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Report/js/formatter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="584" column="21" lean-forward="true" selection-start-line="584" selection-start-column="21" selection-end-line="584" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/export/DataChart.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="44" lean-forward="true" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
+        <state relative-caret-position="425">
+          <caret line="35" column="23" lean-forward="false" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/events/InitialMicroserviceEvent.java" />
-    <entry file="file://$USER_HOME$/Downloads/desmoj-2.5.1e-src/desmoj/core/simulator/Scheduler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/utils/InputParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="1839" column="10" lean-forward="false" selection-start-line="1839" selection-start-column="10" selection-end-line="1839" selection-end-column="10" />
+        <state relative-caret-position="85">
+          <caret line="15" column="69" lean-forward="false" selection-start-line="15" selection-start-column="69" selection-end-line="15" selection-end-column="69" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/modellingFeatures/CustomRes.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/Pattern.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="279" column="19" lean-forward="false" selection-start-line="279" selection-start-column="19" selection-end-line="279" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/rss/fachstudie/desmojTest/entities/Thread.java" />
-    <entry file="file://$PROJECT_DIR$/Diagrams/ClassDiagram.uml">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>JAVA</ID>
-          <OriginalElement />
-          <nodes>
-            <node x="" y="">de.rss.fachstudie.desmojTest.entities.MessageObject</node>
-            <node x="" y="">de.rss.fachstudie.desmojTest.utils.InputParser</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="0.9" x="184.0" y="157.0" />
-          <SelectedNodes />
-          <Categories />
-          <SCOPE>All</SCOPE>
-          <VISIBILITY>private</VISIBILITY>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/export/ExportReport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="40" column="80" lean-forward="false" selection-start-line="40" selection-start-column="80" selection-end-line="40" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/StartEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="120" column="0" lean-forward="false" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Desmoj_Microservice_Experiment_debug.html" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/models/MainModelClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state relative-caret-position="170">
+          <caret line="10" column="29" lean-forward="false" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/Microservice.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+        <state relative-caret-position="-337">
+          <caret line="26" column="23" lean-forward="false" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/StatisticEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="625">
-          <caret line="25" column="21" lean-forward="false" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
+        <state relative-caret-position="391">
+          <caret line="27" column="34" lean-forward="false" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/entities/Operation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="65" column="20" lean-forward="true" selection-start-line="65" selection-start-column="20" selection-end-line="65" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Report/js/chart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="879">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/export/ExportReport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="186" column="52" lean-forward="true" selection-start-line="186" selection-start-column="52" selection-end-line="186" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/StopEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="74" column="32" lean-forward="false" selection-start-line="74" selection-start-column="32" selection-end-line="74" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/resources/CPU.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="169" column="53" lean-forward="false" selection-start-line="169" selection-start-column="53" selection-end-line="169" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/example_advanced.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Report/js/chart_style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2516">
+          <caret line="148" column="33" lean-forward="false" selection-start-line="148" selection-start-column="33" selection-end-line="148" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/example_advanced.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="541">
+          <caret line="139" column="9" lean-forward="false" selection-start-line="139" selection-start-column="9" selection-end-line="139" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/Beispiel_1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="41" column="25" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="105" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/models/MainModelClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="577">
+          <caret line="95" column="33" lean-forward="false" selection-start-line="95" selection-start-column="33" selection-end-line="95" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/events/StartEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="79" column="0" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/utils/InputValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="112" column="0" lean-forward="false" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/rss/fachstudie/desmojTest/export/DependecyGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/Pres_1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="21" column="29" lean-forward="false" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
           <folding />
         </state>
       </provider>
@@ -926,10 +1172,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>Desmoj:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -960,7 +1208,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.8 (1)</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

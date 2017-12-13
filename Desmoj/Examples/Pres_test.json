@@ -1,0 +1,52 @@
+{
+  "simulation": {
+    "experiment": "Desmoj_Microservice_Experiment",
+    "model": "Simple microservice model",
+    "duration": 1000,
+    "report": "",
+    "datapoints": 1000,
+    "seed": 1234
+  },
+  "microservices": [
+    {
+      "name": "Load Balancer",
+      "instances": 2,
+      "capacity": 1000,
+      "operations": [
+        {
+          "name" : "distribute Task",
+          "demand" : 1600,
+          "dependencies" : [
+			
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Frontend",
+      "instances": 1,
+      "capacity": 1000,
+      "operations": [
+        {
+          "name" : "login User",
+          "demand" : 100,
+          "dependencies" : []
+        }
+      ]
+    }
+  ],
+  "generators": [
+	{
+		"microservice" : "Load Balancer",
+		"operation" : "distribute Task",
+		"time" : 1.0
+	},
+	{
+		"microservice" : "Load Balancer",
+		"operation" : "distribute Task",
+		"time" : 1.0
+	}
+  ],
+  "chaosmonkeys": [
+  ]
+}
