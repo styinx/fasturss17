@@ -1,8 +1,8 @@
-package de.rss.fachstudie.desmojTest.events;
+package de.rss.fachstudie.MiSim.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.entities.Microservice;
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.MiSim.entities.Microservice;
+import de.rss.fachstudie.MiSim.models.MainModel;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
@@ -13,7 +13,7 @@ import desmoj.core.simulator.TimeSpan;
  * in its <code>eventRoutine</code> method.
  */
 public class ChaosMonkeyEvent extends ExternalEvent {
-    private MainModelClass model;
+    private MainModel model;
     private int instances = 0;
     private int msId = 0;
     private double nextReschedule = 1;
@@ -30,7 +30,7 @@ public class ChaosMonkeyEvent extends ExternalEvent {
     public ChaosMonkeyEvent(Model owner, String name, boolean showInTrace, int msId, int instances) {
         super(owner, name, showInTrace);
 
-        model = (MainModelClass) getModel();
+        model = (MainModel) getModel();
         this.msId = msId;
         this.instances = instances;
     }

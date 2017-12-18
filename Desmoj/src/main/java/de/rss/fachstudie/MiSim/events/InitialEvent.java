@@ -1,8 +1,8 @@
-package de.rss.fachstudie.desmojTest.events;
+package de.rss.fachstudie.MiSim.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.entities.MessageObject;
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.MiSim.entities.MessageObject;
+import de.rss.fachstudie.MiSim.models.MainModel;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
@@ -13,7 +13,7 @@ import desmoj.core.simulator.TimeSpan;
  * that is called in <code>doInitalSchedule</code> in the <code>Model</code>.
  */
 public class InitialEvent extends ExternalEvent {
-    private MainModelClass model;
+    private MainModel model;
     private double time;
     private ContDistUniform timeToCreate;
     private String microservice = "";
@@ -34,7 +34,7 @@ public class InitialEvent extends ExternalEvent {
     public InitialEvent(Model owner, String name, boolean showInTrace, double time, int msId, String op) {
         super(owner, name, showInTrace);
 
-        model = (MainModelClass) owner;
+        model = (MainModel) owner;
         timeToCreate = new ContDistUniform(model, name, time, time, model.getShowInitEvent(), true);
         this.msId = msId;
         this.microservice = model.allMicroservices.get(msId).getName();

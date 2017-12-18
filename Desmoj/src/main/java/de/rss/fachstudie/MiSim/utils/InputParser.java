@@ -1,12 +1,12 @@
-package de.rss.fachstudie.desmojTest.utils;
+package de.rss.fachstudie.MiSim.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import de.rss.fachstudie.desmojTest.entities.Microservice;
-import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
-import de.rss.fachstudie.desmojTest.events.InitialEvent;
+import de.rss.fachstudie.MiSim.entities.Microservice;
+import de.rss.fachstudie.MiSim.events.InitialChaosMonkeyEvent;
+import de.rss.fachstudie.MiSim.events.InitialEvent;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

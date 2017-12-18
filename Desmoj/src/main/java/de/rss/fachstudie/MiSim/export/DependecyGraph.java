@@ -1,8 +1,8 @@
-package de.rss.fachstudie.desmojTest.export;
+package de.rss.fachstudie.MiSim.export;
 
-import de.rss.fachstudie.desmojTest.entities.Microservice;
-import de.rss.fachstudie.desmojTest.entities.Operation;
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.MiSim.entities.Microservice;
+import de.rss.fachstudie.MiSim.entities.Operation;
+import de.rss.fachstudie.MiSim.models.MainModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,18 +14,18 @@ import java.util.SortedMap;
  * all of the systems microservice instances.
  */
 public class DependecyGraph {
-    private MainModelClass model;
+    private MainModel model;
     private List<Integer> nodes;
     private HashMap<Integer, Microservice> microservices;
 
     /**
      * Instantiates <code>DependencyGraph</code>.
      *
-     * @param model         MainModelClass: The model which owns this DependencyGraph
+     * @param model         MainModel: The model which owns this DependencyGraph
      * @param microservices HashMap<Integer, Microservice>
      * @param id            int: The ID of this DependencyGraph
      */
-    public DependecyGraph(MainModelClass model, HashMap<Integer, Microservice> microservices, int id) {
+    public DependecyGraph(MainModel model, HashMap<Integer, Microservice> microservices, int id) {
         this.model = model;
         this.microservices = microservices;
         this.nodes = new ArrayList<>();

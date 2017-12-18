@@ -1,6 +1,6 @@
-package de.rss.fachstudie.desmojTest.export;
+package de.rss.fachstudie.MiSim.export;
 
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.MiSim.models.MainModel;
 
 import java.util.TreeMap;
 
@@ -19,7 +19,7 @@ public class DataChart {
      * @param chartId   String: The ID of this chart
      * @param series    ThreeMap<String, TreeMap<Double, Double>>: The data that will be plotted
      */
-    public DataChart(MainModelClass model, String chartType, String chartId, TreeMap<String, TreeMap<Double, Double>> series, String legendPrefix) {
+    public DataChart(MainModel model, String chartType, String chartId, TreeMap<String, TreeMap<Double, Double>> series, String legendPrefix) {
         StringBuilder buffer = new StringBuilder();
         this.chartId = chartId;
         this.options = "chart:{type:'" + chartType + "'},title:{text:'" + chartId + "'}"

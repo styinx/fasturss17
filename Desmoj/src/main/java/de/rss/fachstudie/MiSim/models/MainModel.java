@@ -1,15 +1,15 @@
-package de.rss.fachstudie.desmojTest.models;
+package de.rss.fachstudie.MiSim.models;
 
-import de.rss.fachstudie.desmojTest.entities.MessageObject;
-import de.rss.fachstudie.desmojTest.entities.Microservice;
-import de.rss.fachstudie.desmojTest.events.FinishEvent;
-import de.rss.fachstudie.desmojTest.events.InitialChaosMonkeyEvent;
-import de.rss.fachstudie.desmojTest.events.InitialEvent;
-import de.rss.fachstudie.desmojTest.events.StatisticEvent;
-import de.rss.fachstudie.desmojTest.export.ExportReport;
-import de.rss.fachstudie.desmojTest.resources.CPU;
-import de.rss.fachstudie.desmojTest.utils.InputParser;
-import de.rss.fachstudie.desmojTest.utils.InputValidator;
+import de.rss.fachstudie.MiSim.entities.MessageObject;
+import de.rss.fachstudie.MiSim.entities.Microservice;
+import de.rss.fachstudie.MiSim.events.FinishEvent;
+import de.rss.fachstudie.MiSim.events.InitialChaosMonkeyEvent;
+import de.rss.fachstudie.MiSim.events.InitialEvent;
+import de.rss.fachstudie.MiSim.events.StatisticEvent;
+import de.rss.fachstudie.MiSim.export.ExportReport;
+import de.rss.fachstudie.MiSim.resources.CPU;
+import de.rss.fachstudie.MiSim.utils.InputParser;
+import de.rss.fachstudie.MiSim.utils.InputValidator;
 import desmoj.core.simulator.*;
 import desmoj.core.simulator.Queue;
 import desmoj.core.statistic.TimeSeries;
@@ -20,14 +20,12 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-//import org.apache.commons.cli.*;
-
 /**
  * Main class to start the experiment. This class will load the input file and create a model out of it.
  * doInitialSchedules Starts the inital event.
  * init Gets called at the start of the experiment and loads all relevant experiment resources.
  */
-public class MainModelClass extends Model {
+public class MainModel extends Model {
     private TimeUnit timeUnit       = TimeUnit.SECONDS;
     private double simulationTime   = 0;
     private String report           = "";
@@ -68,14 +66,17 @@ public class MainModelClass extends Model {
     };
 
     public static void main(String[] args) {
-        String arch = "";
+        String arch;
 
-        /* Command Line parser uncomment to call from command line */
         Options options = new Options();
 
         Option input = new Option("a", "arch", true, "input file path");
         input.setRequired(true);
         options.addOption(input);
+
+        Option progressbar = new Option("p", "progress-bar", false, "show progress bar during simulation");
+        progressbar.setRequired(false);
+        options.addOption(progressbar);
 
         CommandLineParser cmdparser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
@@ -92,13 +93,27 @@ public class MainModelClass extends Model {
 
         arch = cmd.getOptionValue("a");
 
+        if(arch.equals("")) {
+            System.out.println("No architecture was specified");
+            System.exit(1);
+            return;
+        } else {
+            File f = new File(arch);
+            if(!f.exists() || f.isDirectory()) {
+                System.out.println("No valid architecture file was given");
+                System.exit(1);
+                return;
+            }
+
+        }
+
         InputParser parser = new InputParser(arch);
         InputValidator validator = new InputValidator();
 
         if (validator.valideInput(parser)) {
             long startTime = System.nanoTime();
 
-            MainModelClass model = new MainModelClass(null, InputParser.simulation.get("model"), true, true);
+            MainModel model = new MainModel(null, InputParser.simulation.get("model"), true, true);
             model.setSimulationTime(Double.parseDouble(InputParser.simulation.get("duration")));
             model.setChunkSize((int) (model.getSimulationTime() * 0.05));
             model.setReport(InputParser.simulation.get("report"));
@@ -109,6 +124,7 @@ public class MainModelClass extends Model {
             model.connectToExperiment(exp);
             exp.setSeedGenerator(model.getSeed());
             exp.setShowProgressBarAutoclose(true);
+            exp.setShowProgressBar(cmd.hasOption("p"));
             exp.stop(new TimeInstant(model.getSimulationTime(), model.getTimeUnit()));
             exp.tracePeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
             exp.debugPeriod(new TimeInstant(0, model.getTimeUnit()), new TimeInstant(50, model.getTimeUnit()));
@@ -221,7 +237,7 @@ public class MainModelClass extends Model {
         return -1;
     }
 
-    public MainModelClass(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
+    public MainModel(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
         super(owner, modelName, showInReport, showInTrace);
     }
 

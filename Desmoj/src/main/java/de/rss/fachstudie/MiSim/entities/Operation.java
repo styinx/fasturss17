@@ -1,6 +1,6 @@
-package de.rss.fachstudie.desmojTest.entities;
+package de.rss.fachstudie.MiSim.entities;
 
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.MiSim.models.MainModel;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 
@@ -20,7 +20,7 @@ import java.util.SortedMap;
  * dependencies:    an array containing dependant operations of other services
  */
 public class Operation extends Entity {
-    private MainModelClass model;
+    private MainModel model;
     private String name = "";
     private int demand = 0;
     private Pattern[] opatterns = null;
@@ -29,7 +29,7 @@ public class Operation extends Entity {
     public Operation(Model model, String s, boolean b) {
         super(model, s, b);
 
-        this.model = (MainModelClass) model;
+        this.model = (MainModel) model;
     }
 
     public String getName() {

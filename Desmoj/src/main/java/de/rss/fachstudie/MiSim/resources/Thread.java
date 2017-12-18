@@ -1,9 +1,9 @@
-package de.rss.fachstudie.desmojTest.resources;
+package de.rss.fachstudie.MiSim.resources;
 
-import de.rss.fachstudie.desmojTest.entities.MessageObject;
-import de.rss.fachstudie.desmojTest.entities.Microservice;
-import de.rss.fachstudie.desmojTest.events.StopEvent;
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.MiSim.entities.MessageObject;
+import de.rss.fachstudie.MiSim.entities.Microservice;
+import de.rss.fachstudie.MiSim.events.StopEvent;
+import de.rss.fachstudie.MiSim.models.MainModel;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 
@@ -15,7 +15,7 @@ import desmoj.core.simulator.Model;
  * tid: the thread id (map to the number of existing threads in the service)
  */
 public class Thread extends Entity {
-    MainModelClass model;
+    MainModel model;
     private int id;
     private int sid;
     private int tid;
@@ -29,7 +29,7 @@ public class Thread extends Entity {
     public Thread(Model owner, String name, boolean b, int demand, StopEvent end, Microservice service, MessageObject mo) {
         super(owner, name, b);
 
-        model = (MainModelClass) owner;
+        model = (MainModel) owner;
         this.id = service.getId();
         this.sid = service.getSid();
         this.tid = model.serviceCPU.get(service.getId()).get(service.getSid()).getExistingThreads().size();

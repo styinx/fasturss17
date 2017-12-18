@@ -1,7 +1,7 @@
-package de.rss.fachstudie.desmojTest.entities;
+package de.rss.fachstudie.MiSim.entities;
 
-import de.rss.fachstudie.desmojTest.events.StopEvent;
-import de.rss.fachstudie.desmojTest.resources.Thread;
+import de.rss.fachstudie.MiSim.events.StopEvent;
+import de.rss.fachstudie.MiSim.resources.Thread;
 
 /**
  * A class to save a triplet of previous operations

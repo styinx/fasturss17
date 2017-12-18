@@ -1,7 +1,7 @@
-package de.rss.fachstudie.desmojTest.events;
+package de.rss.fachstudie.MiSim.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.MiSim.models.MainModel;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 
@@ -9,12 +9,12 @@ import desmoj.core.simulator.Model;
  * A <code>FinishEvent</code> is an <code>ExternalEvent</code> that is called
  */
 public class FinishEvent extends ExternalEvent {
-    private MainModelClass model;
+    private MainModel model;
 
     public FinishEvent(Model owner, String s, boolean b) {
         super(owner, s, b);
 
-        model = (MainModelClass) owner;
+        model = (MainModel) owner;
     }
 
     @Override

@@ -1,12 +1,12 @@
-package de.rss.fachstudie.desmojTest.events;
+package de.rss.fachstudie.MiSim.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.entities.MessageObject;
-import de.rss.fachstudie.desmojTest.entities.Microservice;
-import de.rss.fachstudie.desmojTest.entities.Operation;
-import de.rss.fachstudie.desmojTest.entities.Predecessor;
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
-import de.rss.fachstudie.desmojTest.resources.Thread;
+import de.rss.fachstudie.MiSim.entities.MessageObject;
+import de.rss.fachstudie.MiSim.entities.Microservice;
+import de.rss.fachstudie.MiSim.entities.Operation;
+import de.rss.fachstudie.MiSim.entities.Predecessor;
+import de.rss.fachstudie.MiSim.models.MainModel;
+import de.rss.fachstudie.MiSim.resources.Thread;
 import desmoj.core.dist.ContDistUniform;
 import desmoj.core.simulator.Event;
 import desmoj.core.simulator.Model;
@@ -20,7 +20,7 @@ import java.util.SortedMap;
  * during which an operation of a microservice is performed on one of that microservices instances.
  */
 public class StartEvent extends Event<MessageObject> {
-    private MainModelClass model;
+    private MainModel model;
     private int id;
     private String operation;
 
@@ -39,7 +39,7 @@ public class StartEvent extends Event<MessageObject> {
 
         this.id = id;
         this.operation = operation;
-        model = (MainModelClass) owner;
+        model = (MainModel) owner;
     }
 
     /**

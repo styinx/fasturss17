@@ -1,6 +1,6 @@
-package de.rss.fachstudie.desmojTest.entities;
+package de.rss.fachstudie.MiSim.entities;
 
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.MiSim.models.MainModel;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 
@@ -17,7 +17,7 @@ import desmoj.core.simulator.Model;
  * operations:  an array of dependent operations
  */
 public class Microservice extends Entity{
-    private MainModelClass model;
+    private MainModel model;
     private boolean killed = false;
     private int id;
     private int sid;
@@ -30,7 +30,7 @@ public class Microservice extends Entity{
     public Microservice(Model owner, String name, boolean showInTrace){
         super(owner, name , showInTrace);
 
-        this.model = (MainModelClass) owner;
+        this.model = (MainModel) owner;
         spatterns = new Pattern[]{};
     }
 

@@ -1,19 +1,19 @@
-package de.rss.fachstudie.desmojTest.events;
+package de.rss.fachstudie.MiSim.events;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.MiSim.models.MainModel;
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeSpan;
 
 public class StatisticEvent extends ExternalEvent {
-    private MainModelClass model;
+    private MainModel model;
     private double timeInterval = 0;
 
     public StatisticEvent(Model owner, String s, boolean b, double interval) {
         super(owner, s, b);
 
-        model = (MainModelClass) owner;
+        model = (MainModel) owner;
         timeInterval = interval;
     }
 

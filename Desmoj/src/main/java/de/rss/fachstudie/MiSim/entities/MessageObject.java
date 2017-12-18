@@ -1,4 +1,4 @@
-package de.rss.fachstudie.desmojTest.entities;
+package de.rss.fachstudie.MiSim.entities;
 
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;

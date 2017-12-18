@@ -1,9 +1,9 @@
-package de.rss.fachstudie.desmojTest.resources;
+package de.rss.fachstudie.MiSim.resources;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import de.rss.fachstudie.desmojTest.entities.Operation;
-import de.rss.fachstudie.desmojTest.entities.Pattern;
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
+import de.rss.fachstudie.MiSim.entities.Operation;
+import de.rss.fachstudie.MiSim.entities.Pattern;
+import de.rss.fachstudie.MiSim.models.MainModel;
 import desmoj.core.simulator.*;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.TreeMap;
 public class CPU extends Event<Thread> {
     enum CB_STATE  {OPEN, HALFOPEN, CLOSED};
 
-    private MainModelClass model;
+    private MainModel model;
     private int id = -1;
     private int sid = -1;
     private int capacity = 0;
@@ -44,7 +44,7 @@ public class CPU extends Event<Thread> {
     public CPU(Model owner, String name, boolean showInTrace, int id, int sid, int capacity) {
         super(owner, name, showInTrace);
 
-        model = (MainModelClass) owner;
+        model = (MainModel) owner;
         this.id = id;
         this.sid = sid;
         this.capacity = capacity;

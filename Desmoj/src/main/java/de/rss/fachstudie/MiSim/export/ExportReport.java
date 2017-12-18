@@ -1,9 +1,8 @@
-package de.rss.fachstudie.desmojTest.export;
+package de.rss.fachstudie.MiSim.export;
 
-import de.rss.fachstudie.desmojTest.entities.Microservice;
-import de.rss.fachstudie.desmojTest.entities.Operation;
-import de.rss.fachstudie.desmojTest.models.MainModelClass;
-import de.rss.fachstudie.desmojTest.utils.InputParser;
+import de.rss.fachstudie.MiSim.entities.Microservice;
+import de.rss.fachstudie.MiSim.models.MainModel;
+import de.rss.fachstudie.MiSim.utils.InputParser;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,10 +13,10 @@ import java.nio.file.Paths;
 import java.util.TreeMap;
 
 public class ExportReport {
-    private MainModelClass model;
+    private MainModel model;
     private String resourcePath = "Report/resources/";
 
-    public ExportReport(MainModelClass model) {
+    public ExportReport(MainModel model) {
         this.model = model;
         this.graphReport();
         this.chartReport();
@@ -129,9 +128,7 @@ public class ExportReport {
         fillDatapoints(threadQueue, true);
 
         DataChart chart1 = new DataChart(model, "spline", "Active Microservice Threads", activeInstances, "");
-        //DataChart chart2 = new DataChart(model, "spline", "Existing Microservice Threads", activeInstances, "");
         DataChart chart2 = new DataChart(model, "spline", "Existing Microservice Threads", taskQueueWork, "");
-        //DataChart chart3 = new DataChart(model, "spline", "Task Queue per Service", taskQueueWork, "");
         DataChart chart4 = new DataChart(model, "spline", "Used CPU in percent", usedCPU, "");
         DataChart chart5 = new DataChart(model, "scatter", "Thread Response Time", responseTime, "");
         DataChart chart6 = new DataChart(model, "spline", "Tasks refused by Resource Limiter", resourceLimiter, "");
@@ -140,9 +137,7 @@ public class ExportReport {
         DataChart chart9 = new DataChart(model, "spline", "Tasks refused by Thread Queue", threadQueue, "");
 
         Table table1 = new Table("Active Microservice Threads", activeInstances);
-        //Table table2 = new Table("Existing Microservice Threads", activeInstances);
         Table table2 = new Table("Existing Microservice Threads", taskQueueWork);
-        //Table table3 = new Table("Task Queue per Service", taskQueueWork);
         Table table4 = new Table("Used CPU in percent", usedCPU);
         Table table5 = new Table("Thread Response Time", responseTime);
         Table table6 = new Table("Tasks refused by Resource Limiter", resourceLimiter);
@@ -152,7 +147,6 @@ public class ExportReport {
 
         String divs = chart1.printDiv() + table1.printTable()
                 + chart2.printDiv() + table2.printTable()
-                //+ chart3.printDiv() + table3.printTable()
                 + chart4.printDiv() + table4.printTable()
                 + chart5.printDiv() + table5.printTable()
                 + chart6.printDiv() + table6.printTable()
@@ -162,7 +156,6 @@ public class ExportReport {
 
         String charts = chart1.printStockChart()
                 + chart2.printStockChart()
-                //+ chart3.printStockChart()
                 + chart4.printStockChart()
                 + chart5.printStockChart()
                 + chart6.printStockChart()
