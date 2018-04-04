@@ -4,6 +4,8 @@ import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 import java.util.Stack;
 
+//empty line
+
 public class MessageObject extends Entity {
     private String name;
     private Stack<Predecessor> dependency;
