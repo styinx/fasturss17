@@ -149,6 +149,8 @@ What do i need for use ...
 
 The most important thing to have is an existing microservice architecture. In order to use the simulator you will need to encode the architecture into the simulators own json format. 
 
+![Example Report](https://github.com/styinx/fasturss17/blob/master/example.png)
+
 ## <a name="Sim-Doc"></a>Documentation
 
 What does the tool ...
